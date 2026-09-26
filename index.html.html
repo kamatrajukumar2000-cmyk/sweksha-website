@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sweksha Fondation Club | CVD Diamond Machine Service, Defects & Troubleshooting</title>
+  <meta name="description" content="Sweksha Fondation Club provides CVD diamond machine service, defect diagnosis, troubleshooting, machine setup, process review and online technical consulting from Surat, Gujarat, India.">
+  <meta name="keywords" content="CVD diamond machine service, CVD diamond machine defects, CVD troubleshooting, microwave CVD service, plasma instability, vacuum defect, MFC problem, diamond growth defects, diamond machine setup, Surat CVD consultant, lab grown diamond consulting India">
+  <meta name="author" content="Mr.Raju Kamat - Sweksha Fondation Club">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Sweksha Fondation Club | Lab Grown Diamond Machine Consulting">
+  <meta property="og:description" content="Online consulting and service support for lab grown diamond machine setup, troubleshooting and process optimization.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_IN">
+  <link rel="canonical" href="https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/">
+
+  <style>
+    :root{
+      --dark:#07111f; --dark2:#0d1b2d; --accent:#23c7b7; --accent2:#8be7dc;
+      --white:#fff; --text:#182333; --muted:#657184; --light:#f4f8fb;
+      --border:#dfe7ef; --shadow:0 14px 40px rgba(7,17,31,.10);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Inter,Arial,sans-serif;color:var(--text);line-height:1.65;background:#fff}
+    a{text-decoration:none;color:inherit}
+    .container{width:min(1120px,92%);margin:auto}
+    .topbar{background:#050d18;color:#d8e4ef;font-size:14px;padding:8px 0}
+    .topbar .container{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    header{position:sticky;top:0;z-index:20;background:rgba(7,17,31,.96);backdrop-filter:blur(10px);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
+    nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{font-weight:800;font-size:19px;letter-spacing:.2px}
+    .brand span{color:var(--accent)}
+    .navlinks{display:flex;gap:23px;align-items:center}
+    .navlinks a{font-size:14px;color:#d8e2ec}
+    .navlinks a:hover{color:var(--accent)}
+    .menu{display:none;background:none;border:0;color:#fff;font-size:27px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:9px;font-weight:700;border:1px solid transparent;cursor:pointer}
+    .btn-primary{background:var(--accent);color:#041116}
+    .btn-primary:hover{background:#63d9cd}
+    .btn-outline{border-color:#7890a8;color:#fff}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+    .hero{background:radial-gradient(circle at 75% 30%,rgba(35,199,183,.23),transparent 35%),linear-gradient(135deg,#06101d,#10263b);color:#fff;padding:92px 0 82px}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:50px;align-items:center}
+    .eyebrow{display:inline-block;color:var(--accent2);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;font-size:12px;margin-bottom:16px}
+    h1{font-size:clamp(38px,5vw,64px);line-height:1.08;margin-bottom:20px}
+    .hero p{color:#c9d6e3;font-size:18px;max-width:680px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+    .hero-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);padding:28px;border-radius:18px;box-shadow:0 20px 55px rgba(0,0,0,.18)}
+    .hero-card h3{font-size:20px;margin-bottom:15px}
+    .check{display:flex;gap:10px;margin:12px 0;color:#d8e4ef}
+    .check b{color:var(--accent)}
+    section{padding:80px 0}
+    .section-head{max-width:720px;margin-bottom:38px}
+    .section-head h2{font-size:38px;line-height:1.15;margin:8px 0 12px}
+    .section-head p{color:var(--muted)}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .card{border:1px solid var(--border);padding:26px;border-radius:15px;background:#fff;box-shadow:var(--shadow)}
+    .card .icon{width:44px;height:44px;border-radius:11px;background:#e5faf7;color:#078b7d;display:grid;place-items:center;font-weight:900;margin-bottom:18px}
+    .card h3{font-size:20px;margin-bottom:8px}
+    .card p{color:var(--muted);font-size:15px}
+    .band{background:var(--light)}
+    .about{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+    .about-box{background:linear-gradient(145deg,#07111f,#16334a);color:#fff;border-radius:20px;padding:34px}
+    .about-box .big{font-size:54px;font-weight:900;color:var(--accent);line-height:1}
+    .steps{counter-reset:step;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    .step{position:relative;border-top:3px solid var(--accent);padding:22px;background:#fff;border-radius:0 0 14px 14px;box-shadow:var(--shadow)}
+    .step:before{counter-increment:step;content:counter(step);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--dark);color:#fff;font-weight:800;margin-bottom:14px}
+    .form-wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:35px;align-items:start}
+    .contact-panel{background:var(--dark);color:#fff;border-radius:18px;padding:30px}
+    .contact-panel p{color:#cbd7e4;margin:8px 0 22px}
+    .contact-line{padding:14px 0;border-top:1px solid rgba(255,255,255,.12)}
+    form{border:1px solid var(--border);padding:28px;border-radius:18px;box-shadow:var(--shadow)}
+    label{display:block;font-size:13px;font-weight:700;margin:0 0 6px}
+    input,textarea,select{width:100%;padding:13px 14px;border:1px solid #cfd9e3;border-radius:8px;font:inherit;margin-bottom:16px;outline:none}
+    input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(35,199,183,.12)}
+    textarea{min-height:125px;resize:vertical}
+    footer{background:#050d18;color:#b9c7d6;padding:38px 0}
+    .footer-grid{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+    footer h3{color:#fff;margin-bottom:8px}
+    .small{font-size:13px;color:#8798aa;margin-top:22px}
+    .float-wa{position:fixed;right:20px;bottom:20px;background:#20b86b;color:#fff;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-weight:900;box-shadow:0 10px 25px rgba(0,0,0,.22);z-index:30}
+    .notice{font-size:13px;color:var(--muted);margin-top:12px}
+    @media(max-width:850px){
+      .navlinks{display:none;position:absolute;top:72px;left:0;right:0;background:var(--dark);padding:20px;flex-direction:column;align-items:flex-start}
+      .navlinks.open{display:flex}.menu{display:block}
+      .hero-grid,.about,.form-wrap{grid-template-columns:1fr}
+      .grid3{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:560px){
+      section{padding:60px 0}.grid3,.steps{grid-template-columns:1fr}
+      .topbar .container{justify-content:center}.hero{padding:70px 0}
+      .hero p{font-size:16px}.section-head h2{font-size:31px}
+    }
+  
+
+    /* ===== REVIEWS / FEEDBACK ===== */
+    #reviews{background:#f4f8fb}
+    .review-summary{display:grid;grid-template-columns:.7fr 1.3fr;gap:22px;align-items:stretch;margin-bottom:28px}
+    .rating-box{background:linear-gradient(145deg,#07111f,#16334a);color:#fff;border-radius:18px;padding:28px;text-align:center}
+    .rating-number{font-size:48px;font-weight:900;line-height:1;color:var(--accent)}
+    .stars{letter-spacing:3px;color:#ffbf69;font-size:22px;margin:8px 0}
+    .review-list{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .review-card{background:#fff;border:1px solid var(--border);border-radius:15px;padding:22px;box-shadow:var(--shadow)}
+    .review-card .review-stars{color:#f2a900;letter-spacing:2px;font-size:18px}
+    .review-card p{color:var(--muted);margin:10px 0 14px}
+    .review-name{font-weight:800}
+    .review-company{font-size:13px;color:var(--muted)}
+    .review-form-wrap{margin-top:28px;background:#fff;border:1px solid var(--border);padding:28px;border-radius:18px;box-shadow:var(--shadow)}
+    .review-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+    .review-form-grid .full{grid-column:1/-1}
+    .review-status{margin-top:12px;font-size:14px;font-weight:700}
+    .review-status.success{color:#087f6e}.review-status.error{color:#b42318}
+    .review-empty{color:var(--muted);padding:12px 0}
+    @media(max-width:700px){.review-summary,.review-list{grid-template-columns:1fr}.review-form-grid{grid-template-columns:1fr}.review-form-grid .full{grid-column:auto}}
+
+    /* ===== CVD DEFECT KNOWLEDGE BASE ===== */
+    #defects{background:#07111f;color:#eef6ff}
+    #defects .section-head p,#diamond-defects .section-head p{color:#a9bfd4}
+    .defect-tools{max-width:780px;margin:0 auto 30px}
+    .defect-search{width:100%;padding:15px 17px;border-radius:12px;border:1px solid #294762;background:#0c1c2e;color:#fff;font:inherit;outline:none}
+    .defect-search:focus{border-color:#23c7b7;box-shadow:0 0 0 3px rgba(35,199,183,.12)}
+    .defect-filters{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+    .defect-filter{border:1px solid #294762;background:#0d2136;color:#d9e9f7;border-radius:999px;padding:8px 13px;cursor:pointer;font:inherit}
+    .defect-filter.active,.defect-filter:hover{background:#153c4a;border-color:#23c7b7;color:#23c7b7}
+    .defect-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .defect-card{background:linear-gradient(145deg,#10233a,#0b1a2c);border:1px solid #24415f;border-radius:16px;padding:21px;box-shadow:0 12px 30px rgba(0,0,0,.18);color:#eef6ff}
+    .defect-card h3{margin:8px 0;color:#fff}
+    .defect-card p{color:#a9bfd4;font-size:14px;margin:0}
+    .defect-icon{font-size:28px}
+    .defect-tag{display:inline-block;margin-top:12px;color:#23c7b7;font-size:11px;text-transform:uppercase;letter-spacing:1px}
+    .defect-hidden{display:none!important}
+    .defect-table-wrap{overflow:auto;border:1px solid #24415f;border-radius:15px}
+    .defect-table{width:100%;min-width:760px;border-collapse:collapse;background:#0c1c2e;color:#d7e6f2}
+    .defect-table th,.defect-table td{padding:14px;border-bottom:1px solid #24415f;text-align:left;vertical-align:top}
+    .defect-table th{background:#112b44;color:#23c7b7}
+    .defect-note{border-left:4px solid #ffbf69;background:#211b10;color:#ead9bd;padding:15px 17px;border-radius:9px;margin-top:20px;font-size:14px}
+    .defect-note.danger{border-left-color:#ff6b6b;background:#241314;color:#f2cccc}
+    .diag-steps{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+    .diag-step{background:#0d2034;border:1px solid #24415f;border-radius:13px;padding:15px;text-align:center;color:#d9e9f7}
+    .diag-step .n{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#173d51;color:#23c7b7;font-weight:800;margin:0 auto 9px}
+    #defects a,#diamond-defects a{color:#23c7b7}
+    @media(max-width:950px){.defect-grid{grid-template-columns:1fr 1fr}.diag-steps{grid-template-columns:repeat(4,1fr)}}
+    @media(max-width:560px){.defect-grid{grid-template-columns:1fr}.diag-steps{grid-template-columns:1fr 1fr}}
+
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ProfessionalService",
+    "name":"Sweksha Fondation Club",
+    "description":"Online consulting and service support for lab grown diamond machine setup, troubleshooting and process optimization.",
+    "telephone":"+91 7827474249",
+    "email":"kamatrajukumar2000@gmail.com",
+    "founder":{"@type":"Person","name":"Raju Kamat"},
+    "address":{"@type":"PostalAddress","addressLocality":"Surat","addressRegion":"Gujarat","addressCountry":"IN"},
+    "areaServed":"India",
+    "serviceType":["Lab Grown Diamond Machine Consulting","Machine Setup Support","Troubleshooting","Process Optimization"]
+  }
+  </script>
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RR0TN11ECY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RR0TN11ECY');
+
+  function trackEvent(name, params) {
+    if (typeof gtag === 'function') gtag('event', name, params || {});
+  }
+</script>
+
+</head>
+<body>
+  <div class="topbar">
+    <div class="container">
+      <span>Lab Grown Diamond Machine Consulting & Service Support</span>
+      <span>Surat, Gujarat • Online Service Available</span>
+    </div>
+  </div>
+
+  <header>
+    <div class="container">
+      <nav>
+        <a class="brand" href="#home">Sweksha <span>Fondation Club</span></a>
+        <button class="menu" aria-label="Open menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">☰</button>
+        <div class="navlinks">
+          <a href="#home">Home</a><a href="#services">Services</a><a href="#about">About</a>
+          <a href="#process">Process</a><a href="#reviews">Reviews</a><a href="#defects">Machine Defects</a><a href="#diamond-defects">Diamond Defects</a><a href="#request">Service Request</a><a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Diamond Machine Support • Surat, India</span>
+          <h1>Keep Your Lab Grown Diamond Machine Ready for Production.</h1>
+          <p>Practical online consulting and service support for machine setup, troubleshooting, process improvement and color optimization — so your team can work toward stable, repeatable production.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#request">Request a Service</a>
+            <a class="btn btn-outline" onclick="trackEvent('whatsapp_click', {method: 'whatsapp'});" href="https://wa.me/917827474249?text=Hello%20Sweksha%20Fondation%20Club,%20I%20need%20help%20with%20my%20lab%20grown%20diamond%20machine." target="_blank" rel="noopener">WhatsApp Now</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <h3>What We Help With</h3>
+          <div class="check"><b>✓</b><span>Machine setup & commissioning guidance</span></div>
+          <div class="check"><b>✓</b><span>Fault finding & troubleshooting support</span></div>
+          <div class="check"><b>✓</b><span>Process and parameter review</span></div>
+          <div class="check"><b>✓</b><span>Color optimization consulting</span></div>
+          <div class="check"><b>✓</b><span>Online consultation for India & remote teams</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Our Services</span>
+          <h2>Technical support focused on your production goals.</h2>
+          <p>Share your machine issue, setup requirement or production target. We review the situation and recommend the next practical steps.</p>
+        </div>
+        <div class="grid3">
+          <div class="card"><div class="icon">01</div><h3>Machine Setup</h3><p>Guidance for preparing and checking a lab grown diamond machine before production, including setup review and operating readiness.</p></div>
+          <div class="card"><div class="icon">02</div><h3>Troubleshooting</h3><p>Remote problem diagnosis for common machine, process and operating issues, with a structured service approach.</p></div>
+          <div class="card"><div class="icon">03</div><h3>Color Optimization</h3><p>Process consulting aimed at improving consistency and moving production toward the desired diamond color range, subject to machine and material conditions.</p></div>
+          <div class="card"><div class="icon">04</div><h3>Process Review</h3><p>Review of available machine data, production observations and process settings to identify areas for improvement.</p></div>
+          <div class="card"><div class="icon">05</div><h3>Online Consulting</h3><p>Convenient consultation through phone and WhatsApp so you can get support without waiting for an in-person visit.</p></div>
+          <div class="card"><div class="icon">06</div><h3>Service Planning</h3><p>Discuss your machine, problem and target first. We help define the right service scope before work begins.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="band">
+      <div class="container about">
+        <div>
+          <span class="eyebrow">About Us</span>
+          <h2>Sweksha Fondation Club</h2>
+          <p style="margin-top:15px;color:var(--muted)">Sweksha Fondation Club, led by <strong>Raju Kamat</strong> in Surat, Gujarat, provides online consulting and service support for lab grown diamond machine setup and process-related requirements.</p>
+          <p style="margin-top:13px;color:var(--muted)">Our goal is simple: understand the machine problem, understand the production requirement, and provide practical guidance for the next step.</p>
+        </div>
+        <div class="about-box">
+          <div class="big">01</div>
+          <h3 style="font-size:28px;margin:15px 0 8px">One clear service channel.</h3>
+          <p>Tell us what machine you have, what problem you are facing and what production result you want to achieve. We will guide you on the suitable service process.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">How It Works</span>
+          <h2>Simple 4-step service process.</h2>
+          <p>No complicated process. Start with a service request and give us enough technical information to understand the issue.</p>
+        </div>
+        <div class="steps">
+          <div class="step"><h3>Send Request</h3><p>Submit your machine details and problem through the form or WhatsApp.</p></div>
+          <div class="step"><h3>Initial Review</h3><p>We discuss the symptoms, machine type, process and production requirement.</p></div>
+          <div class="step"><h3>Service Plan</h3><p>We define the consultation or troubleshooting scope and required next steps.</p></div>
+          <div class="step"><h3>Support</h3><p>Get practical online guidance and follow-up based on the agreed service scope.</p></div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section id="defects">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">CVD Machine Defect Knowledge Base</span>
+          <h2 style="color:#fff">Find the Machine Defect & Troubleshoot the Cause.</h2>
+          <p>Search and filter common CVD diamond manufacturing machine problems across vacuum, gas, microwave/RF, plasma, cooling, electrical and sensor systems.</p>
+        </div>
+
+        <div class="defect-tools">
+          <input class="defect-search" id="defectSearch" type="search" placeholder="Search defect... e.g. plasma, MFC, vacuum, cooling">
+          <div class="defect-filters" id="defectFilters">
+            <button class="defect-filter active" data-filter="all">All</button>
+            <button class="defect-filter" data-filter="vacuum">Vacuum</button>
+            <button class="defect-filter" data-filter="gas">Gas</button>
+            <button class="defect-filter" data-filter="microwave">Microwave / RF</button>
+            <button class="defect-filter" data-filter="plasma">Plasma</button>
+            <button class="defect-filter" data-filter="cooling">Cooling</button>
+            <button class="defect-filter" data-filter="electrical">Electrical</button>
+            <button class="defect-filter" data-filter="sensor">Sensors</button>
+          </div>
+        </div>
+
+        <div class="defect-grid" id="defectGrid">
+          <article class="defect-card" data-category="vacuum" data-text="vacuum leak pressure pump down slow base pressure">
+            <div class="defect-icon">🌀</div><h3>Vacuum Leak</h3>
+            <p>Pressure does not reach the expected base pressure or rises after isolation. Check seals, flanges, valves, feedthroughs and chamber condition.</p><span class="defect-tag">Vacuum</span>
+          </article>
+          <article class="defect-card" data-category="vacuum" data-text="vacuum pump low pumping speed oil contamination overheating">
+            <div class="defect-icon">🔧</div><h3>Vacuum Pump Problem</h3>
+            <p>Slow pump-down, poor pumping capacity, contamination or abnormal temperature. Inspect pump condition, oil, exhaust and valve configuration.</p><span class="defect-tag">Vacuum</span>
+          </article>
+          <article class="defect-card" data-category="gas" data-text="mfc mass flow controller gas flow incorrect calibration valve">
+            <div class="defect-icon">💨</div><h3>MFC Flow Error</h3>
+            <p>Displayed and actual gas flow may differ because of calibration drift, valve faults, contamination or control/communication problems.</p><span class="defect-tag">Gas</span>
+          </article>
+          <article class="defect-card" data-category="gas" data-text="gas leak blockage regulator purifier contamination moisture">
+            <div class="defect-icon">🧪</div><h3>Gas Line / Purity Problem</h3>
+            <p>Leakage, blockage, moisture or contamination can change plasma chemistry and diamond growth. Check regulators, fittings, purging and purification.</p><span class="defect-tag">Gas</span>
+          </article>
+          <article class="defect-card" data-category="microwave" data-text="microwave reflected power tuning cavity waveguide magnetron source">
+            <div class="defect-icon">⚡</div><h3>Microwave / RF Power Fault</h3>
+            <p>Unstable forward power, high reflected power, poor tuning or source instability can prevent stable plasma operation.</p><span class="defect-tag">Microwave / RF</span>
+          </article>
+          <article class="defect-card" data-category="microwave" data-text="quartz window carbon coating crack thermal damage">
+            <div class="defect-icon">🪟</div><h3>Quartz Window Problem</h3>
+            <p>Carbon deposition, cracking or thermal damage can disturb microwave coupling and change plasma behavior.</p><span class="defect-tag">Microwave / RF</span>
+          </article>
+          <article class="defect-card" data-category="plasma" data-text="plasma ignition failure extinguish unstable">
+            <div class="defect-icon">🔥</div><h3>Plasma Ignition Failure</h3>
+            <p>Plasma does not ignite, ignites and disappears, or requires abnormal conditions. Check pressure, gas, power, tuning and chamber condition.</p><span class="defect-tag">Plasma</span>
+          </article>
+          <article class="defect-card" data-category="plasma" data-text="plasma instability flicker move oscillate position">
+            <div class="defect-icon">☄️</div><h3>Plasma Instability</h3>
+            <p>Flickering, movement, oscillation or sudden extinction may indicate pressure, flow, power, geometry, temperature or contamination problems.</p><span class="defect-tag">Plasma</span>
+          </article>
+          <article class="defect-card" data-category="cooling" data-text="cooling chiller water flow pump heat exchanger overheating">
+            <div class="defect-icon">❄️</div><h3>Cooling Failure</h3>
+            <p>Low coolant flow, high temperature, pump failure or heat-exchanger restriction can cause overheating and machine trips.</p><span class="defect-tag">Cooling</span>
+          </article>
+          <article class="defect-card" data-category="electrical" data-text="electrical power supply voltage current plc hmi relay interlock">
+            <div class="defect-icon">🔌</div><h3>Electrical / PLC Fault</h3>
+            <p>Power instability, relay failure, PLC I/O faults, HMI communication problems and interlock errors can stop the machine.</p><span class="defect-tag">Electrical</span>
+          </article>
+          <article class="defect-card" data-category="sensor" data-text="sensor pressure temperature pyrometer flow calibration drift">
+            <div class="defect-icon">📡</div><h3>Sensor / Measurement Error</h3>
+            <p>Incorrect calibration, drift, signal noise, open circuits or communication failure can create false process readings.</p><span class="defect-tag">Sensors</span>
+          </article>
+          <article class="defect-card" data-category="plasma" data-text="chamber carbon deposition contamination particles">
+            <div class="defect-icon">🧱</div><h3>Chamber Carbon Deposition</h3>
+            <p>Deposits can alter plasma behavior, create particles and reduce process repeatability. Inspect chamber, holder and quartz surfaces.</p><span class="defect-tag">Chamber</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="diamond-defects" class="band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Diamond Growth Defects</span>
+          <h2>Common CVD Diamond Quality Problems.</h2>
+          <p>Use the machine and process checks together when investigating growth quality.</p>
+        </div>
+
+        <div class="defect-grid">
+          <article class="card"><div class="icon">🧊</div><h3>Non-Uniform Thickness</h3><p>Investigate temperature distribution, plasma position, gas distribution, substrate placement and chamber geometry.</p></article>
+          <article class="card"><div class="icon">〰️</div><h3>Surface Roughness</h3><p>Review nucleation, temperature, growth conditions, process stability and substrate preparation.</p></article>
+          <article class="card"><div class="icon">⚫</div><h3>Non-Diamond Carbon</h3><p>Check process chemistry, contamination, chamber condition and plasma stability when undesirable carbon appears.</p></article>
+          <article class="card"><div class="icon">🕳️</div><h3>Pinholes / Voids</h3><p>Look for particles, poor nucleation, surface contamination and non-uniform growth.</p></article>
+          <article class="card"><div class="icon">💥</div><h3>Cracking</h3><p>Investigate residual stress, thermal gradients, thickness, thermal cycling and substrate mismatch.</p></article>
+          <article class="card"><div class="icon">↗️</div><h3>Delamination</h3><p>Check adhesion, substrate preparation, stress and thermal expansion effects.</p></article>
+          <article class="card"><div class="icon">🔬</div><h3>Inclusions</h3><p>Possible sources include particles, chamber deposits, substrate material and process contamination.</p></article>
+          <article class="card"><div class="icon">🌡️</div><h3>Temperature-Related Defects</h3><p>Temperature gradients can affect growth rate, morphology, stress and uniformity.</p></article>
+          <article class="card"><div class="icon">🧬</div><h3>Impurity / Defect Variation</h3><p>Gas purity, leaks and process chemistry can influence impurity-related optical and material properties.</p></article>
+        </div>
+
+        <div class="defect-note"><strong>Diagnostic rule:</strong> Do not change many process parameters at the same time. Record pressure, gas flow, temperature, forward/reflected power and relevant alarms first.</div>
+        <div class="defect-note danger"><strong>Safety:</strong> Microwave/RF power, high voltage, vacuum, pressurized gases and hot chambers can be hazardous. Only trained personnel should service equipment. Never bypass safety interlocks.</div>
+      </div>
+    </section>
+
+    <section id="defect-troubleshooting">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Defect Troubleshooting</span>
+          <h2>Problem → First Checks → Possible Area</h2>
+          <p>A quick reference before changing the process recipe.</p>
+        </div>
+
+        <div class="defect-table-wrap">
+          <table class="defect-table">
+            <thead><tr><th>Problem</th><th>First Checks</th><th>Possible Areas</th></tr></thead>
+            <tbody>
+              <tr><td>Plasma won't ignite</td><td>Pressure, gas flow, power and tuning</td><td>Vacuum, MFC, microwave/RF, chamber</td></tr>
+              <tr><td>Plasma suddenly disappears</td><td>Pressure trend, MFC output, power and interlocks</td><td>Gas, vacuum, power, sensors</td></tr>
+              <tr><td>High reflected power</td><td>Tuning, cavity condition, window and plasma position</td><td>Microwave/RF system</td></tr>
+              <tr><td>Growth rate is low</td><td>Temperature, gas composition and plasma condition</td><td>Process, gas, plasma, temperature</td></tr>
+              <tr><td>Growth rate is unstable</td><td>Flow, pressure, power and plasma stability</td><td>MFC, valves, pump, source</td></tr>
+              <tr><td>Diamond becomes dark</td><td>Contamination and process chemistry</td><td>Gas purity, chamber, plasma, recipe</td></tr>
+              <tr><td>Surface becomes rough</td><td>Nucleation, temperature and growth condition</td><td>Substrate, process, plasma</td></tr>
+              <tr><td>Diamond cracks</td><td>Stress, thickness and temperature gradient</td><td>Growth process, substrate</td></tr>
+              <tr><td>Vacuum is slow</td><td>Leak test, pump condition and valve position</td><td>Chamber, seals, pump, valves</td></tr>
+              <tr><td>Machine overheats</td><td>Coolant flow, temperature and pump operation</td><td>Chiller, pump, heat exchanger</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="diagnostic-process" class="band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Diagnostic Workflow</span>
+          <h2>7-Step CVD Machine Diagnosis</h2>
+          <p>Follow a consistent sequence so you don't change multiple variables without knowing which one caused the result.</p>
+        </div>
+        <div class="diag-steps">
+          <div class="diag-step"><div class="n">1</div><b>Machine</b><br><small>Alarms & condition</small></div>
+          <div class="diag-step"><div class="n">2</div><b>Vacuum</b><br><small>Leak & pump-down</small></div>
+          <div class="diag-step"><div class="n">3</div><b>Gas</b><br><small>Flow & purity</small></div>
+          <div class="diag-step"><div class="n">4</div><b>Power</b><br><small>Forward/reflected</small></div>
+          <div class="diag-step"><div class="n">5</div><b>Plasma</b><br><small>Position & stability</small></div>
+          <div class="diag-step"><div class="n">6</div><b>Temperature</b><br><small>Uniformity & sensor</small></div>
+          <div class="diag-step"><div class="n">7</div><b>Diamond</b><br><small>Inspect & characterize</small></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="reviews">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Customer Feedback</span>
+          <h2>Reviews & Suggestions</h2>
+          <p>Tell us about your experience, what worked well, and what our team can improve. Reviews are published after approval so the feedback area stays useful and respectful.</p>
+        </div>
+
+        <div class="review-summary">
+          <div class="rating-box">
+            <div class="rating-number" id="reviewAverage">—</div>
+            <div class="stars" id="reviewAverageStars">★★★★★</div>
+            <div><span id="reviewCount">0</span> published reviews</div>
+          </div>
+          <div class="card">
+            <h3>How your feedback helps</h3>
+            <p>We use customer feedback to understand recurring service problems, improve explanations, identify gaps in our troubleshooting process and make the website more useful for machine operators and technical teams.</p>
+            <p class="notice">Please do not post passwords, confidential production data, proprietary formulas or other sensitive information.</p>
+          </div>
+        </div>
+
+        <div id="reviewList" class="review-list">
+          <div class="review-empty">Loading published reviews...</div>
+        </div>
+
+        <div class="review-form-wrap">
+          <h3>Share Your Experience</h3>
+          <p class="notice" style="margin:6px 0 20px">Your review will be submitted for approval before it appears publicly.</p>
+          <form id="reviewForm">
+            <div class="review-form-grid">
+              <div>
+                <label for="reviewName">Your Name *</label>
+                <input id="reviewName" maxlength="80" required placeholder="Your name">
+              </div>
+              <div>
+                <label for="reviewCompany">Company / Business</label>
+                <input id="reviewCompany" maxlength="120" placeholder="Optional">
+              </div>
+              <div>
+                <label for="reviewRating">Rating *</label>
+                <select id="reviewRating" required>
+                  <option value="">Select rating</option>
+                  <option value="5">★★★★★ — Excellent</option>
+                  <option value="4">★★★★☆ — Very good</option>
+                  <option value="3">★★★☆☆ — Good</option>
+                  <option value="2">★★☆☆☆ — Needs improvement</option>
+                  <option value="1">★☆☆☆☆ — Poor</option>
+                </select>
+              </div>
+              <div>
+                <label for="reviewTitle">Review Title</label>
+                <input id="reviewTitle" maxlength="120" placeholder="Short summary">
+              </div>
+              <div class="full">
+                <label for="reviewText">Your Feedback *</label>
+                <textarea id="reviewText" maxlength="1200" required placeholder="What was your experience? What should we improve?"></textarea>
+              </div>
+              <div class="full">
+                <button class="btn btn-primary" type="submit">Submit Review</button>
+                <div id="reviewStatus" class="review-status" role="status" aria-live="polite"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+<section id="request" class="band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Service Request</span>
+          <h2>Tell us about your machine.</h2>
+          <p>After submitting, WhatsApp will open with your request details so you can send them directly.</p>
+        </div>
+        <div class="form-wrap">
+          <div class="contact-panel">
+            <h3>Need quick support?</h3>
+            <p>For urgent machine problems, send the machine model, issue description, recent changes and any available photos/screenshots on WhatsApp.</p>
+            <div class="contact-line"><strong>Phone / WhatsApp</strong><br>+91 78274 74249</div>
+            <div class="contact-line"><strong>Email</strong><br>kamatrajukumar2000@gmail.com</div>
+            <div class="contact-line"><strong>Location</strong><br>Surat, Gujarat, India</div>
+          </div>
+
+          <form id="serviceForm">
+            <label for="name">Your Name *</label>
+            <input id="name" required placeholder="Enter your name">
+            <label for="company">Company / Business</label>
+            <input id="company" placeholder="Company name">
+            <label for="machine">Machine Type / Model *</label>
+            <input id="machine" required placeholder="Example: CVD / HPHT / machine model">
+            <label for="service">Service Required *</label>
+            <select id="service" required>
+              <option value="">Select service</option>
+              <option>Machine Setup</option>
+              <option>Machine Troubleshooting</option>
+              <option>Process Review</option>
+              <option>Color Optimization Consulting</option>
+              <option>Online Consultation</option>
+              <option>Other</option>
+            </select>
+            <label for="problem">Problem / Requirement *</label>
+            <textarea id="problem" required placeholder="Describe the problem or production requirement..."></textarea>
+            <label for="contact">Your Contact Number *</label>
+            <input id="serviceContact" required type="tel" placeholder="Your phone / WhatsApp number">
+            <button class="btn btn-primary" type="submit">Send Request on WhatsApp</button>
+            <div class="notice">Please do not send passwords, confidential credentials or sensitive personal information.</div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Contact</span>
+          <h2>Let's discuss your machine requirement.</h2>
+          <p>Online service consulting available from Surat, Gujarat for clients across India and remote locations.</p>
+        </div>
+        <div class="grid3">
+          <div class="card"><div class="icon">☎</div><h3>Call / WhatsApp</h3><p><a onclick="trackEvent('phone_click', {method: 'phone'});" href="tel:+917827474249">+91 78274 74249</a></p></div>
+          <div class="card"><div class="icon">@</div><h3>Email</h3><p><a onclick="trackEvent('email_click', {method: 'email'});" href="mailto:kamatrajukumar2000@gmail.com">kamatrajukumar2000@gmail.com</a></p></div>
+          <div class="card"><div class="icon">⌖</div><h3>Based In</h3><p>Surat, Gujarat, India</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div><h3>Sweksha Fondation Club</h3><p>Lab grown diamond machine service & online consulting.</p></div>
+      <div><p>Owner: Raju Kamat</p><p>Surat, Gujarat, India</p></div>
+    </div>
+    <div class="container small">© <span id="year"></span> Sweksha Fondation Club. All rights reserved. • Service outcomes can vary by machine, material and process conditions.</div>
+  </footer>
+
+  <a class="float-wa" onclick="trackEvent('whatsapp_click', {method: 'whatsapp'});" href="https://wa.me/917827474249?text=Hello%20Sweksha%20Fondation%20Club,%20I%20need%20lab%20grown%20diamond%20machine%20service%20consulting." target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
+
+  <script>
+
+    // ===== CVD defect search & category filters =====
+    (function(){
+      const search = document.getElementById('defectSearch');
+      const cards = Array.from(document.querySelectorAll('#defectGrid .defect-card'));
+      const buttons = Array.from(document.querySelectorAll('.defect-filter'));
+      let active = 'all';
+
+      function updateDefects(){
+        const q = (search.value || '').toLowerCase().trim();
+        cards.forEach(card => {
+          const categoryOK = active === 'all' || card.dataset.category === active;
+          const textOK = !q || (card.dataset.text || '').toLowerCase().includes(q);
+          card.classList.toggle('defect-hidden', !(categoryOK && textOK));
+        });
+      }
+
+      buttons.forEach(btn => btn.addEventListener('click', function(){
+        buttons.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        active = this.dataset.filter;
+        updateDefects();
+        trackEvent('defect_filter_used', {category: active});
+      }));
+
+      search.addEventListener('input', updateDefects);
+    })();
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.getElementById('serviceForm').addEventListener('submit', function(e){
+      trackEvent('service_request_submit', {method: 'whatsapp_form'});
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const company = document.getElementById('company').value.trim();
+      const machine = document.getElementById('machine').value.trim();
+      const service = document.getElementById('service').value;
+       const defectSearchValue = document.getElementById('defectSearch') ? document.getElementById('defectSearch').value.trim() : '';
+      const problem = document.getElementById('problem').value.trim();
+      const contact = document.getElementById('serviceContact').value.trim();
+
+      const msg =
+`Hello Sweksha Fondation Club,
+
+I want lab grown diamond machine service/consulting.
+
+Name: ${name}
+Company: ${company || 'Not provided'}
+Machine Type / Model: ${machine}
+Service Required: ${service}
+Defect Search / Reference: ${defectSearchValue || 'Not specified'}
+Problem / Requirement: ${problem}
+My Contact Number: ${contact}
+
+Please contact me regarding the service.`;
+
+      window.open('https://wa.me/917827474249?text=' + encodeURIComponent(msg), '_blank');
+    });
+
+    // ===== Customer Reviews =====
+    // 1) Create a Supabase project.
+    // 2) Run the SQL from README.md.
+    // 3) Paste your Project URL and anon/publishable key below.
+    const REVIEW_CONFIG = {
+      supabaseUrl: 'YOUR_SUPABASE_URL',
+      supabaseAnonKey: 'YOUR_SUPABASE_ANON_KEY'
+    };
+
+    const reviewStars = n => '★'.repeat(Number(n)) + '☆'.repeat(5 - Number(n));
+
+    function setReviewStatus(message, type=''){
+      const el = document.getElementById('reviewStatus');
+      el.textContent = message;
+      el.className = 'review-status ' + type;
+    }
+
+    function renderReviews(reviews){
+      const list = document.getElementById('reviewList');
+      const count = document.getElementById('reviewCount');
+      const avg = document.getElementById('reviewAverage');
+      const avgStars = document.getElementById('reviewAverageStars');
+
+      count.textContent = reviews.length;
+      if (!reviews.length){
+        avg.textContent = '—';
+        avgStars.textContent = '★★★★★';
+        list.innerHTML = '<div class="review-empty">No published reviews yet. Be the first to share your experience.</div>';
+        return;
+      }
+
+      const average = reviews.reduce((sum, r) => sum + Number(r.rating), 0) / reviews.length;
+      avg.textContent = average.toFixed(1);
+      avgStars.textContent = reviewStars(Math.round(average));
+
+      list.innerHTML = reviews.map(r => `
+        <article class="review-card">
+          <div class="review-stars">${reviewStars(r.rating)}</div>
+          ${r.title ? `<h3 style="margin-top:8px">${escapeHtml(r.title)}</h3>` : ''}
+          <p>${escapeHtml(r.review_text)}</p>
+          <div class="review-name">${escapeHtml(r.name)}</div>
+          ${r.company ? `<div class="review-company">${escapeHtml(r.company)}</div>` : ''}
+        </article>
+      `).join('');
+    }
+
+    function escapeHtml(value){
+      return String(value || '').replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+      }[c]));
+    }
+
+    async function loadReviews(){
+      if (REVIEW_CONFIG.supabaseUrl.startsWith('YOUR_') || REVIEW_CONFIG.supabaseAnonKey.startsWith('YOUR_')){
+        renderReviews([]);
+        return;
+      }
+      try{
+        const res = await fetch(
+          REVIEW_CONFIG.supabaseUrl + '/rest/v1/reviews?select=name,company,rating,title,review_text,created_at&approved=eq.true&order=created_at.desc',
+          {headers:{'apikey':REVIEW_CONFIG.supabaseAnonKey,'Authorization':'Bearer '+REVIEW_CONFIG.supabaseAnonKey}}
+        );
+        if(!res.ok) throw new Error('Could not load reviews');
+        renderReviews(await res.json());
+      }catch(err){
+        document.getElementById('reviewList').innerHTML =
+          '<div class="review-empty">Reviews are temporarily unavailable. Please try again later.</div>';
+      }
+    }
+
+    document.getElementById('reviewForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const name = document.getElementById('reviewName').value.trim();
+      const company = document.getElementById('reviewCompany').value.trim();
+      const rating = Number(document.getElementById('reviewRating').value);
+      const title = document.getElementById('reviewTitle').value.trim();
+      const review_text = document.getElementById('reviewText').value.trim();
+
+      if(!name || !rating || !review_text) return;
+      if(REVIEW_CONFIG.supabaseUrl.startsWith('YOUR_') || REVIEW_CONFIG.supabaseAnonKey.startsWith('YOUR_')){
+        setReviewStatus('Review system is not connected yet. Add the Supabase settings from README.md before publishing.', 'error');
+        return;
+      }
+
+      setReviewStatus('Submitting your review...');
+      try{
+        const res = await fetch(REVIEW_CONFIG.supabaseUrl + '/rest/v1/reviews', {
+          method:'POST',
+          headers:{
+            'apikey':REVIEW_CONFIG.supabaseAnonKey,
+            'Authorization':'Bearer '+REVIEW_CONFIG.supabaseAnonKey,
+            'Content-Type':'application/json',
+            'Prefer':'return=minimal'
+          },
+          body:JSON.stringify({name,company,rating,title,review_text,approved:false})
+        });
+        if(!res.ok) throw new Error('Submit failed');
+        this.reset();
+        setReviewStatus('Thank you. Your review has been received and will appear after approval.', 'success');
+        trackEvent('review_submitted', {rating});
+      }catch(err){
+        setReviewStatus('We could not submit the review right now. Please try again.', 'error');
+      }
+    });
+
+    loadReviews();
+
+  </script>
+</body>
+</html>
