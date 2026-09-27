@@ -709,7 +709,12 @@ Please contact me regarding the service.`;
             'Content-Type':'application/json',
             'Prefer':'return=minimal'
           },
-          body:JSON.stringify({name,company,rating,title,review_text,approved:false})
+          body:JSON.stringify({
+  name,
+  rating,
+  review: review_text,
+  approved: false
+})
         });
         if(!res.ok) throw new Error('Submit failed');
         this.reset();
