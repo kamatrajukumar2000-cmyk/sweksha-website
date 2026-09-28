@@ -632,33 +632,33 @@ Please contact me regarding the service.`;
       el.className = 'review-status ' + type;
     }
 
-    function renderReviews(reviews){
-      const list = document.getElementById('reviewList');
-      const count = document.getElementById('reviewCount');
-      const avg = document.getElementById('reviewAverage');
-      const avgStars = document.getElementById('reviewAverageStars');
+function renderReviews(reviews){
+  const list = document.getElementById('reviewList');
+  const count = document.getElementById('reviewCount');
+  const avg = document.getElementById('reviewAverage');
+  const avgStars = document.getElementById('reviewAverageStars');
 
-      count.textContent = reviews.length;
-      if (!reviews.length){
-        avg.textContent = '—';
-        avgStars.textContent = '★★★★★';
-        list.innerHTML = '<div class="review-empty">No published reviews yet. Be the first to share your experience.</div>';
-        return;
-      }
+  count.textContent = reviews.length;
 
-      const average = reviews.reduce((sum, r) => sum + Number(r.rating), 0) / reviews.length;
-      avg.textContent = average.toFixed(1);
-      avgStars.textContent = reviewStars(Math.round(average));
+  if (!reviews.length){
+    avg.textContent = '—';
+    avgStars.textContent = '★★★★★';
+    list.innerHTML = '<div class="review-empty">No published reviews yet. Be the first to share your experience.</div>';
+    return;
+  }
 
-      list.innerHTML = reviews.map(r => `
-        <article class="review-card">
-          <div class="review-stars">${reviewStars(r.rating)}</div>
-          ${r.title ? `<h3 style="margin-top:8px">${escapeHtml(r.title)}</h3>` : ''}
-          <p>${escapeHtml(r.review_text)}</p>
-          <div class="review-name">${escapeHtml(r.name)}</div>
-          ${r.company ? `<div class="review-company">${escapeHtml(r.company)}</div>` : ''}
-        </article>
-      `).join('');
+  const average = reviews.reduce((sum, r) => sum + Number(r.rating), 0) / reviews.length;
+  avg.textContent = average.toFixed(1);
+  avgStars.textContent = reviewStars(Math.round(average));
+
+  list.innerHTML = reviews.map(r => `
+    <article class="review-card">
+      <div class="review-stars">${reviewStars(r.rating)}</div>
+      <p>${escapeHtml(r.review)}</p>
+      <div class="review-name">${escapeHtml(r.name)}</div>
+    </article>
+  `).join('');
+}
     }
 
     function escapeHtml(value){
@@ -674,7 +674,7 @@ Please contact me regarding the service.`;
       }
       try{
         const res = await fetch(
-          REVIEW_CONFIG.supabaseUrl + '/rest/v1/reviews?select=name,company,rating,title,review_text,created_at&approved=eq.true&order=created_at.desc',
+          REVIEW_CONFIG.supabaseUrl + ''/rest/v1/reviews?select=name,rating,review,created_at&approved=eq.true&order=created_at.desc'
           {headers:{'apikey':REVIEW_CONFIG.supabaseAnonKey,'Authorization':'Bearer '+REVIEW_CONFIG.supabaseAnonKey}}
         );
         if(!res.ok) throw new Error('Could not load reviews');
