@@ -674,7 +674,7 @@ function renderReviews(reviews){
       }
       try{
         const res = await fetch(
-          REVIEW_CONFIG.supabaseUrl + ''/rest/v1/reviews?select=name,rating,review,created_at&approved=eq.true&order=created_at.desc'
+          REVIEW_CONFIG.supabaseUrl + /rest/v1/reviews?select=name,rating,review,created_at&approved=eq.true&order=created_at.desc'
           {headers:{'apikey':REVIEW_CONFIG.supabaseAnonKey,'Authorization':'Bearer '+REVIEW_CONFIG.supabaseAnonKey}}
         );
         if(!res.ok) throw new Error('Could not load reviews');
