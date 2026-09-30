@@ -70,6 +70,7 @@
     .contact-panel{background:var(--dark);color:#fff;border-radius:18px;padding:30px}
     .contact-panel p{color:#cbd7e4;margin:8px 0 22px}
     .contact-line{padding:14px 0;border-top:1px solid rgba(255,255,255,.12)}
+    .map-link{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
     form{border:1px solid var(--border);padding:28px;border-radius:18px;box-shadow:var(--shadow)}
     label{display:block;font-size:13px;font-weight:700;margin:0 0 6px}
     input,textarea,select{width:100%;padding:13px 14px;border:1px solid #cfd9e3;border-radius:8px;font:inherit;margin-bottom:16px;outline:none}
@@ -100,8 +101,10 @@
     .rating-box{background:linear-gradient(145deg,#07111f,#16334a);color:#fff;border-radius:18px;padding:28px;text-align:center}
     .rating-number{font-size:48px;font-weight:900;line-height:1;color:var(--accent)}
     .stars{letter-spacing:3px;color:#ffbf69;font-size:22px;margin:8px 0}
-    .review-list{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-    .review-card{background:#fff;border:1px solid var(--border);border-radius:15px;padding:22px;box-shadow:var(--shadow)}
+    .review-list{overflow:hidden}
+    .review-track{display:flex;align-items:stretch;gap:18px;transition:transform .55s ease;will-change:transform}
+    .review-track.single-review .review-card{flex-basis:100%}
+    .review-card{flex:0 0 calc((100% - 18px)/2);min-width:0;background:#fff;border:1px solid var(--border);border-radius:15px;padding:22px;box-shadow:var(--shadow)}
     .review-card .review-stars{color:#f2a900;letter-spacing:2px;font-size:18px}
     .review-card p{color:var(--muted);margin:10px 0 14px}
     .review-name{font-weight:800}
@@ -112,7 +115,8 @@
     .review-status{margin-top:12px;font-size:14px;font-weight:700}
     .review-status.success{color:#087f6e}.review-status.error{color:#b42318}
     .review-empty{color:var(--muted);padding:12px 0}
-    @media(max-width:700px){.review-summary,.review-list{grid-template-columns:1fr}.review-form-grid{grid-template-columns:1fr}.review-form-grid .full{grid-column:auto}}
+    @media(max-width:700px){.review-summary{grid-template-columns:1fr}.review-track .review-card{flex-basis:100%}.review-form-grid{grid-template-columns:1fr}.review-form-grid .full{grid-column:auto}}
+    @media(prefers-reduced-motion:reduce){.review-track{transition:none}}
 
     /* ===== CVD DEFECT KNOWLEDGE BASE ===== */
     #defects{background:#07111f;color:#eef6ff}
@@ -154,7 +158,7 @@
     "telephone":"+91 7827474249",
     "email":"kamatrajukumar2000@gmail.com",
     "founder":{"@type":"Person","name":"Raju Kamat"},
-    "address":{"@type":"PostalAddress","addressLocality":"Surat","addressRegion":"Gujarat","addressCountry":"IN"},
+    "address":{"@type":"PostalAddress","streetAddress":"43-44, Nilkanth, Industrial Areas","addressLocality":"Surat","addressRegion":"Gujarat","postalCode":"395004","addressCountry":"IN"},
     "areaServed":"India",
     "serviceType":["Lab Grown Diamond Machine Consulting","Machine Setup Support","Troubleshooting","Process Optimization"]
   }
@@ -179,7 +183,7 @@
   <div class="topbar">
     <div class="container">
       <span>Lab Grown Diamond Machine Consulting & Service Support</span>
-      <span>Surat, Gujarat • Online Service Available</span>
+      <span>Surat, Gujarat &#8226; Online Service Available</span>
     </div>
   </div>
 
@@ -187,7 +191,7 @@
     <div class="container">
       <nav>
         <a class="brand" href="#home">Sweksha <span>Fondation Club</span></a>
-        <button class="menu" aria-label="Open menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">☰</button>
+        <button class="menu" aria-label="Open menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">&#9776;</button>
         <div class="navlinks">
           <a href="#home">Home</a><a href="#services">Services</a><a href="#about">About</a>
           <a href="#process">Process</a><a href="#reviews">Reviews</a><a href="#defects">Machine Defects</a><a href="#diamond-defects">Diamond Defects</a><a href="#request">Service Request</a><a href="#contact">Contact</a>
@@ -200,9 +204,9 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <span class="eyebrow">Diamond Machine Support • Surat, India</span>
+          <span class="eyebrow">Diamond Machine Support &#8226; Surat, India</span>
           <h1>Keep Your Lab Grown Diamond Machine Ready for Production.</h1>
-          <p>Practical online consulting and service support for machine setup, troubleshooting, process improvement and color optimization — so your team can work toward stable, repeatable production.</p>
+          <p>Practical online consulting and service support for machine setup, troubleshooting, process improvement and color optimization &#8212; so your team can work toward stable, repeatable production.</p>
           <div class="actions">
             <a class="btn btn-primary" href="#request">Request a Service</a>
             <a class="btn btn-outline" onclick="trackEvent('whatsapp_click', {method: 'whatsapp'});" href="https://wa.me/917827474249?text=Hello%20Sweksha%20Fondation%20Club,%20I%20need%20help%20with%20my%20lab%20grown%20diamond%20machine." target="_blank" rel="noopener">WhatsApp Now</a>
@@ -210,11 +214,11 @@
         </div>
         <div class="hero-card">
           <h3>What We Help With</h3>
-          <div class="check"><b>✓</b><span>Machine setup & commissioning guidance</span></div>
-          <div class="check"><b>✓</b><span>Fault finding & troubleshooting support</span></div>
-          <div class="check"><b>✓</b><span>Process and parameter review</span></div>
-          <div class="check"><b>✓</b><span>Color optimization consulting</span></div>
-          <div class="check"><b>✓</b><span>Online consultation for India & remote teams</span></div>
+          <div class="check"><b>&#10003;</b><span>Machine setup & commissioning guidance</span></div>
+          <div class="check"><b>&#10003;</b><span>Fault finding & troubleshooting support</span></div>
+          <div class="check"><b>&#10003;</b><span>Process and parameter review</span></div>
+          <div class="check"><b>&#10003;</b><span>Color optimization consulting</span></div>
+          <div class="check"><b>&#10003;</b><span>Online consultation for India & remote teams</span></div>
         </div>
       </div>
     </section>
@@ -294,51 +298,51 @@
 
         <div class="defect-grid" id="defectGrid">
           <article class="defect-card" data-category="vacuum" data-text="vacuum leak pressure pump down slow base pressure">
-            <div class="defect-icon">🌀</div><h3>Vacuum Leak</h3>
+            <div class="defect-icon">&#127744;</div><h3>Vacuum Leak</h3>
             <p>Pressure does not reach the expected base pressure or rises after isolation. Check seals, flanges, valves, feedthroughs and chamber condition.</p><span class="defect-tag">Vacuum</span>
           </article>
           <article class="defect-card" data-category="vacuum" data-text="vacuum pump low pumping speed oil contamination overheating">
-            <div class="defect-icon">🔧</div><h3>Vacuum Pump Problem</h3>
+            <div class="defect-icon">&#128295;</div><h3>Vacuum Pump Problem</h3>
             <p>Slow pump-down, poor pumping capacity, contamination or abnormal temperature. Inspect pump condition, oil, exhaust and valve configuration.</p><span class="defect-tag">Vacuum</span>
           </article>
           <article class="defect-card" data-category="gas" data-text="mfc mass flow controller gas flow incorrect calibration valve">
-            <div class="defect-icon">💨</div><h3>MFC Flow Error</h3>
+            <div class="defect-icon">&#128168;</div><h3>MFC Flow Error</h3>
             <p>Displayed and actual gas flow may differ because of calibration drift, valve faults, contamination or control/communication problems.</p><span class="defect-tag">Gas</span>
           </article>
           <article class="defect-card" data-category="gas" data-text="gas leak blockage regulator purifier contamination moisture">
-            <div class="defect-icon">🧪</div><h3>Gas Line / Purity Problem</h3>
+            <div class="defect-icon">&#129514;</div><h3>Gas Line / Purity Problem</h3>
             <p>Leakage, blockage, moisture or contamination can change plasma chemistry and diamond growth. Check regulators, fittings, purging and purification.</p><span class="defect-tag">Gas</span>
           </article>
           <article class="defect-card" data-category="microwave" data-text="microwave reflected power tuning cavity waveguide magnetron source">
-            <div class="defect-icon">⚡</div><h3>Microwave / RF Power Fault</h3>
+            <div class="defect-icon">&#9889;</div><h3>Microwave / RF Power Fault</h3>
             <p>Unstable forward power, high reflected power, poor tuning or source instability can prevent stable plasma operation.</p><span class="defect-tag">Microwave / RF</span>
           </article>
           <article class="defect-card" data-category="microwave" data-text="quartz window carbon coating crack thermal damage">
-            <div class="defect-icon">🪟</div><h3>Quartz Window Problem</h3>
+            <div class="defect-icon">&#129695;</div><h3>Quartz Window Problem</h3>
             <p>Carbon deposition, cracking or thermal damage can disturb microwave coupling and change plasma behavior.</p><span class="defect-tag">Microwave / RF</span>
           </article>
           <article class="defect-card" data-category="plasma" data-text="plasma ignition failure extinguish unstable">
-            <div class="defect-icon">🔥</div><h3>Plasma Ignition Failure</h3>
+            <div class="defect-icon">&#128293;</div><h3>Plasma Ignition Failure</h3>
             <p>Plasma does not ignite, ignites and disappears, or requires abnormal conditions. Check pressure, gas, power, tuning and chamber condition.</p><span class="defect-tag">Plasma</span>
           </article>
           <article class="defect-card" data-category="plasma" data-text="plasma instability flicker move oscillate position">
-            <div class="defect-icon">☄️</div><h3>Plasma Instability</h3>
+            <div class="defect-icon">&#9732;&#65039;</div><h3>Plasma Instability</h3>
             <p>Flickering, movement, oscillation or sudden extinction may indicate pressure, flow, power, geometry, temperature or contamination problems.</p><span class="defect-tag">Plasma</span>
           </article>
           <article class="defect-card" data-category="cooling" data-text="cooling chiller water flow pump heat exchanger overheating">
-            <div class="defect-icon">❄️</div><h3>Cooling Failure</h3>
+            <div class="defect-icon">&#10052;&#65039;</div><h3>Cooling Failure</h3>
             <p>Low coolant flow, high temperature, pump failure or heat-exchanger restriction can cause overheating and machine trips.</p><span class="defect-tag">Cooling</span>
           </article>
           <article class="defect-card" data-category="electrical" data-text="electrical power supply voltage current plc hmi relay interlock">
-            <div class="defect-icon">🔌</div><h3>Electrical / PLC Fault</h3>
+            <div class="defect-icon">&#128268;</div><h3>Electrical / PLC Fault</h3>
             <p>Power instability, relay failure, PLC I/O faults, HMI communication problems and interlock errors can stop the machine.</p><span class="defect-tag">Electrical</span>
           </article>
           <article class="defect-card" data-category="sensor" data-text="sensor pressure temperature pyrometer flow calibration drift">
-            <div class="defect-icon">📡</div><h3>Sensor / Measurement Error</h3>
+            <div class="defect-icon">&#128225;</div><h3>Sensor / Measurement Error</h3>
             <p>Incorrect calibration, drift, signal noise, open circuits or communication failure can create false process readings.</p><span class="defect-tag">Sensors</span>
           </article>
           <article class="defect-card" data-category="plasma" data-text="chamber carbon deposition contamination particles">
-            <div class="defect-icon">🧱</div><h3>Chamber Carbon Deposition</h3>
+            <div class="defect-icon">&#129521;</div><h3>Chamber Carbon Deposition</h3>
             <p>Deposits can alter plasma behavior, create particles and reduce process repeatability. Inspect chamber, holder and quartz surfaces.</p><span class="defect-tag">Chamber</span>
           </article>
         </div>
@@ -354,15 +358,15 @@
         </div>
 
         <div class="defect-grid">
-          <article class="card"><div class="icon">🧊</div><h3>Non-Uniform Thickness</h3><p>Investigate temperature distribution, plasma position, gas distribution, substrate placement and chamber geometry.</p></article>
-          <article class="card"><div class="icon">〰️</div><h3>Surface Roughness</h3><p>Review nucleation, temperature, growth conditions, process stability and substrate preparation.</p></article>
-          <article class="card"><div class="icon">⚫</div><h3>Non-Diamond Carbon</h3><p>Check process chemistry, contamination, chamber condition and plasma stability when undesirable carbon appears.</p></article>
-          <article class="card"><div class="icon">🕳️</div><h3>Pinholes / Voids</h3><p>Look for particles, poor nucleation, surface contamination and non-uniform growth.</p></article>
-          <article class="card"><div class="icon">💥</div><h3>Cracking</h3><p>Investigate residual stress, thermal gradients, thickness, thermal cycling and substrate mismatch.</p></article>
-          <article class="card"><div class="icon">↗️</div><h3>Delamination</h3><p>Check adhesion, substrate preparation, stress and thermal expansion effects.</p></article>
-          <article class="card"><div class="icon">🔬</div><h3>Inclusions</h3><p>Possible sources include particles, chamber deposits, substrate material and process contamination.</p></article>
-          <article class="card"><div class="icon">🌡️</div><h3>Temperature-Related Defects</h3><p>Temperature gradients can affect growth rate, morphology, stress and uniformity.</p></article>
-          <article class="card"><div class="icon">🧬</div><h3>Impurity / Defect Variation</h3><p>Gas purity, leaks and process chemistry can influence impurity-related optical and material properties.</p></article>
+          <article class="card"><div class="icon">&#129482;</div><h3>Non-Uniform Thickness</h3><p>Investigate temperature distribution, plasma position, gas distribution, substrate placement and chamber geometry.</p></article>
+          <article class="card"><div class="icon">&#12336;&#65039;</div><h3>Surface Roughness</h3><p>Review nucleation, temperature, growth conditions, process stability and substrate preparation.</p></article>
+          <article class="card"><div class="icon">&#9899;</div><h3>Non-Diamond Carbon</h3><p>Check process chemistry, contamination, chamber condition and plasma stability when undesirable carbon appears.</p></article>
+          <article class="card"><div class="icon">&#128371;&#65039;</div><h3>Pinholes / Voids</h3><p>Look for particles, poor nucleation, surface contamination and non-uniform growth.</p></article>
+          <article class="card"><div class="icon">&#128165;</div><h3>Cracking</h3><p>Investigate residual stress, thermal gradients, thickness, thermal cycling and substrate mismatch.</p></article>
+          <article class="card"><div class="icon">&#8599;&#65039;</div><h3>Delamination</h3><p>Check adhesion, substrate preparation, stress and thermal expansion effects.</p></article>
+          <article class="card"><div class="icon">&#128300;</div><h3>Inclusions</h3><p>Possible sources include particles, chamber deposits, substrate material and process contamination.</p></article>
+          <article class="card"><div class="icon">&#127777;&#65039;</div><h3>Temperature-Related Defects</h3><p>Temperature gradients can affect growth rate, morphology, stress and uniformity.</p></article>
+          <article class="card"><div class="icon">&#129516;</div><h3>Impurity / Defect Variation</h3><p>Gas purity, leaks and process chemistry can influence impurity-related optical and material properties.</p></article>
         </div>
 
         <div class="defect-note"><strong>Diagnostic rule:</strong> Do not change many process parameters at the same time. Record pressure, gas flow, temperature, forward/reflected power and relevant alarms first.</div>
@@ -374,7 +378,7 @@
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Defect Troubleshooting</span>
-          <h2>Problem → First Checks → Possible Area</h2>
+          <h2>Problem &#8594; First Checks &#8594; Possible Area</h2>
           <p>A quick reference before changing the process recipe.</p>
         </div>
 
@@ -423,13 +427,13 @@
         <div class="section-head">
           <span class="eyebrow">Customer Feedback</span>
           <h2>Reviews & Suggestions</h2>
-          <p>Tell us about your experience, what worked well, and what our team can improve. Reviews are published after approval so the feedback area stays useful and respectful.</p>
+          <p>Tell us about your experience, what worked well, and what our team can improve. Submitted reviews are published immediately.</p>
         </div>
 
         <div class="review-summary">
           <div class="rating-box">
-            <div class="rating-number" id="reviewAverage">—</div>
-            <div class="stars" id="reviewAverageStars">★★★★★</div>
+            <div class="rating-number" id="reviewAverage">&#8212;</div>
+            <div class="stars" id="reviewAverageStars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <div><span id="reviewCount">0</span> published reviews</div>
           </div>
           <div class="card">
@@ -439,13 +443,13 @@
           </div>
         </div>
 
-        <div id="reviewList" class="review-list">
+        <div id="reviewList" class="review-list" role="region" aria-label="Customer reviews" aria-roledescription="carousel" tabindex="0">
           <div class="review-empty">Loading published reviews...</div>
         </div>
 
         <div class="review-form-wrap">
           <h3>Share Your Experience</h3>
-          <p class="notice" style="margin:6px 0 20px">Your review will be submitted for approval before it appears publicly.</p>
+          <p class="notice" style="margin:6px 0 20px">Your review is added to the website after you submit it. Do not include private or confidential information.</p>
           <form id="reviewForm">
             <div class="review-form-grid">
               <div>
@@ -460,11 +464,11 @@
                 <label for="reviewRating">Rating *</label>
                 <select id="reviewRating" required>
                   <option value="">Select rating</option>
-                  <option value="5">★★★★★ — Excellent</option>
-                  <option value="4">★★★★☆ — Very good</option>
-                  <option value="3">★★★☆☆ — Good</option>
-                  <option value="2">★★☆☆☆ — Needs improvement</option>
-                  <option value="1">★☆☆☆☆ — Poor</option>
+                  <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733; &#8212; Excellent</option>
+                  <option value="4">&#9733;&#9733;&#9733;&#9733;&#9734; &#8212; Very good</option>
+                  <option value="3">&#9733;&#9733;&#9733;&#9734;&#9734; &#8212; Good</option>
+                  <option value="2">&#9733;&#9733;&#9734;&#9734;&#9734; &#8212; Needs improvement</option>
+                  <option value="1">&#9733;&#9734;&#9734;&#9734;&#9734; &#8212; Poor</option>
                 </select>
               </div>
               <div>
@@ -498,7 +502,7 @@
             <p>For urgent machine problems, send the machine model, issue description, recent changes and any available photos/screenshots on WhatsApp.</p>
             <div class="contact-line"><strong>Phone / WhatsApp</strong><br>+91 78274 74249</div>
             <div class="contact-line"><strong>Email</strong><br>kamatrajukumar2000@gmail.com</div>
-            <div class="contact-line"><strong>Location</strong><br>Surat, Gujarat, India</div>
+            <div class="contact-line"><strong>Office</strong><br><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=43-44%2C%20Nilkanth%2C%20Industrial%20Areas%2C%20Surat%2C%20Gujarat%20395004" target="_blank" rel="noopener noreferrer">43&#8211;44, Nilkanth, Industrial Areas, Surat, Gujarat 395004</a></div>
           </div>
 
           <form id="serviceForm">
@@ -537,9 +541,9 @@
           <p>Online service consulting available from Surat, Gujarat for clients across India and remote locations.</p>
         </div>
         <div class="grid3">
-          <div class="card"><div class="icon">☎</div><h3>Call / WhatsApp</h3><p><a onclick="trackEvent('phone_click', {method: 'phone'});" href="tel:+917827474249">+91 78274 74249</a></p></div>
+          <div class="card"><div class="icon">&#9742;</div><h3>Call / WhatsApp</h3><p><a onclick="trackEvent('phone_click', {method: 'phone'});" href="tel:+917827474249">+91 78274 74249</a></p></div>
           <div class="card"><div class="icon">@</div><h3>Email</h3><p><a onclick="trackEvent('email_click', {method: 'email'});" href="mailto:kamatrajukumar2000@gmail.com">kamatrajukumar2000@gmail.com</a></p></div>
-          <div class="card"><div class="icon">⌖</div><h3>Based In</h3><p>Surat, Gujarat, India</p></div>
+          <div class="card"><div class="icon">&#8982;</div><h3>Based In</h3><p><a class="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=43-44%2C%20Nilkanth%2C%20Industrial%20Areas%2C%20Surat%2C%20Gujarat%20395004" target="_blank" rel="noopener noreferrer">43&#8211;44, Nilkanth, Industrial Areas, Surat, Gujarat 395004</a></p></div>
         </div>
       </div>
     </section>
@@ -550,7 +554,7 @@
       <div><h3>Sweksha Fondation Club</h3><p>Lab grown diamond machine service & online consulting.</p></div>
       <div><p>Owner: Raju Kamat</p><p>Surat, Gujarat, India</p></div>
     </div>
-    <div class="container small">© <span id="year"></span> Sweksha Fondation Club. All rights reserved. • Service outcomes can vary by machine, material and process conditions.</div>
+    <div class="container small">&#169; <span id="year"></span> Sweksha Fondation Club. All rights reserved. &#8226; Service outcomes can vary by machine, material and process conditions.</div>
   </footer>
 
   <a class="float-wa" onclick="trackEvent('whatsapp_click', {method: 'whatsapp'});" href="https://wa.me/917827474249?text=Hello%20Sweksha%20Fondation%20Club,%20I%20need%20lab%20grown%20diamond%20machine%20service%20consulting." target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
@@ -616,15 +620,7 @@ Please contact me regarding the service.`;
     });
 
     // ===== Customer Reviews =====
-    // 1) Create a Supabase project.
-    // 2) Run the SQL from README.md.
-    // 3) Paste your Project URL and anon/publishable key below.
-    const REVIEW_CONFIG = {
-  supabaseUrl: 'https://ftvfumhxcpakskhbcuup.supabase.co',
-  supabaseAnonKey: 'sb_publishable_miWhfp7apqC8DSAwfI6kXQ_ZO_CcKe0'
-};
-
-    const reviewStars = n => '★'.repeat(Number(n)) + '☆'.repeat(5 - Number(n));
+    const reviewStars = n => '\u2605'.repeat(Number(n)) + '\u2606'.repeat(5 - Number(n));
 
     function setReviewStatus(message, type=''){
       const el = document.getElementById('reviewStatus');
@@ -641,8 +637,8 @@ function renderReviews(reviews){
   count.textContent = reviews.length;
 
   if (!reviews.length){
-    avg.textContent = '—';
-    avgStars.textContent = '★★★★★';
+    avg.textContent = '\u2014';
+    avgStars.textContent = '\u2605'.repeat(5);
     list.innerHTML = '<div class="review-empty">No published reviews yet. Be the first to share your experience.</div>';
     return;
   }
@@ -651,15 +647,63 @@ function renderReviews(reviews){
   avg.textContent = average.toFixed(1);
   avgStars.textContent = reviewStars(Math.round(average));
 
-  list.innerHTML = reviews.map(r => `
-    <article class="review-card">
+  list.innerHTML = `<div class="review-track" id="reviewTrack" aria-live="off">${reviews.map((r, index) => `
+    <article class="review-card" role="group" aria-roledescription="slide" aria-label="Review ${index + 1} of ${reviews.length}">
       <div class="review-stars">${reviewStars(r.rating)}</div>
-      <p>${escapeHtml(r.review)}</p>
+      ${r.title ? `<h3>${escapeHtml(r.title)}</h3>` : ''}
+      <p>${escapeHtml(r.review_text)}</p>
       <div class="review-name">${escapeHtml(r.name)}</div>
+      ${r.company ? `<div class="review-company">${escapeHtml(r.company)}</div>` : ''}
     </article>
-  `).join('');
+  `).join('')}</div>`;
+  startReviewSlider();
 }
+
+    let reviewSliderTimer = null;
+
+    function startReviewSlider(){
+      clearInterval(reviewSliderTimer);
+      reviewSliderTimer = null;
+      const viewport = document.getElementById('reviewList');
+      const track = document.getElementById('reviewTrack');
+      if(!viewport || !track) return;
+
+      const cards = Array.from(track.children);
+      const visibleCards = window.matchMedia('(max-width:700px)').matches ? 1 : 2;
+      const lastStart = cards.length - visibleCards;
+      let currentStart = 0;
+      track.style.transform = 'translateX(0)';
+      track.classList.toggle('single-review', cards.length === 1);
+      if(lastStart <= 0 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const pause = () => {
+        clearInterval(reviewSliderTimer);
+        reviewSliderTimer = null;
+      };
+      const resume = () => {
+        if(reviewSliderTimer) return;
+        reviewSliderTimer = setInterval(() => {
+          currentStart = currentStart >= lastStart ? 0 : currentStart + 1;
+          const gap = parseFloat(getComputedStyle(track).gap) || 0;
+          const step = cards[0].getBoundingClientRect().width + gap;
+          track.style.transform = `translateX(-${currentStart * step}px)`;
+        }, 4000);
+      };
+
+      viewport.onmouseenter = pause;
+      viewport.onmouseleave = resume;
+      viewport.onfocusin = pause;
+      viewport.onfocusout = event => {
+        if(!viewport.contains(event.relatedTarget)) resume();
+      };
+      resume();
     }
+
+    window.addEventListener('resize', () => {
+      clearInterval(reviewSliderTimer);
+      reviewSliderTimer = null;
+      startReviewSlider();
+    });
 
     function escapeHtml(value){
       return String(value || '').replace(/[&<>"']/g, c => ({
@@ -667,25 +711,24 @@ function renderReviews(reviews){
       }[c]));
     }
 
+    function flattenReviewData(data){
+      if(!Array.isArray(data)) return [];
+      return data.flatMap(item => Array.isArray(item.value) ? flattenReviewData(item.value) : [item]);
+    }
+
     async function loadReviews(){
-      if (REVIEW_CONFIG.supabaseUrl.startsWith('YOUR_') || REVIEW_CONFIG.supabaseAnonKey.startsWith('YOUR_')){
-        renderReviews([]);
-        return;
-      }
       try{
-        const res = await fetch(
-          REVIEW_CONFIG.supabaseUrl + /rest/v1/reviews?select=name,rating,review,created_at&approved=eq.true&order=created_at.desc'
-          {headers:{'apikey':REVIEW_CONFIG.supabaseAnonKey,'Authorization':'Bearer '+REVIEW_CONFIG.supabaseAnonKey}}
-        );
+        const res = await fetch('/api/reviews', {cache:'no-store'});
         if(!res.ok) throw new Error('Could not load reviews');
-        renderReviews(await res.json());
+        const reviews = flattenReviewData(await res.json());
+        renderReviews(reviews.filter(review => review.approved === true));
       }catch(err){
         document.getElementById('reviewList').innerHTML =
-          '<div class="review-empty">Reviews are temporarily unavailable. Please try again later.</div>';
+          '<div class="review-empty">Could not load reviews.json. Open this website through its web address or a local web server; browsers block loading the JSON when index.html is opened directly as a file.</div>';
       }
     }
 
-    document.getElementById('reviewForm').addEventListener('submit', async function(e){
+    document.getElementById('reviewForm').addEventListener('submit', function(e){
       e.preventDefault();
       const name = document.getElementById('reviewName').value.trim();
       const company = document.getElementById('reviewCompany').value.trim();
@@ -694,35 +737,36 @@ function renderReviews(reviews){
       const review_text = document.getElementById('reviewText').value.trim();
 
       if(!name || !rating || !review_text) return;
-      if(REVIEW_CONFIG.supabaseUrl.startsWith('YOUR_') || REVIEW_CONFIG.supabaseAnonKey.startsWith('YOUR_')){
-        setReviewStatus('Review system is not connected yet. Add the Supabase settings from README.md before publishing.', 'error');
-        return;
-      }
-
-      setReviewStatus('Submitting your review...');
-      try{
-        const res = await fetch(REVIEW_CONFIG.supabaseUrl + '/rest/v1/reviews', {
-          method:'POST',
-          headers:{
-            'apikey':REVIEW_CONFIG.supabaseAnonKey,
-            'Authorization':'Bearer '+REVIEW_CONFIG.supabaseAnonKey,
-            'Content-Type':'application/json',
-            'Prefer':'return=minimal'
-          },
-          body:JSON.stringify({
-  name,
-  rating,
-  review: review_text,
-  approved: false
-})
+      const submission = {
+        name,
+        company: company || null,
+        rating,
+        title: title || null,
+        review_text
+      };
+      const form = this;
+      const submitButton = form.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      setReviewStatus('Saving your review...');
+      fetch('/api/reviews', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(submission)
+      })
+        .then(async res => {
+          const result = await res.json();
+          if(!res.ok) throw new Error(result.error || 'Could not save review');
+          await loadReviews();
+          form.reset();
+          setReviewStatus('Thank you. Your review has been published.', 'success');
+          trackEvent('review_submitted', {rating});
+        })
+        .catch(error => {
+          setReviewStatus(error.message || 'Could not save your review. Please try again.', 'error');
+        })
+        .finally(() => {
+          submitButton.disabled = false;
         });
-        if(!res.ok) throw new Error('Submit failed');
-        this.reset();
-        setReviewStatus('Thank you. Your review has been received and will appear after approval.', 'success');
-        trackEvent('review_submitted', {rating});
-      }catch(err){
-        setReviewStatus('We could not submit the review right now. Please try again.', 'error');
-      }
     });
 
     loadReviews();
