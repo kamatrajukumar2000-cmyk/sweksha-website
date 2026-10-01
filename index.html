@@ -559,6 +559,7 @@
 
   <a class="float-wa" onclick="trackEvent('whatsapp_click', {method: 'whatsapp'});" href="https://wa.me/917827474249?text=Hello%20Sweksha%20Fondation%20Club,%20I%20need%20lab%20grown%20diamond%20machine%20service%20consulting." target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
 
+  <script id="initialReviews" type="application/json">[]</script>
   <script>
 
     // ===== CVD defect search & category filters =====
@@ -621,6 +622,8 @@ Please contact me regarding the service.`;
 
     // ===== Customer Reviews =====
     const reviewStars = n => '\u2605'.repeat(Number(n)) + '\u2606'.repeat(5 - Number(n));
+    const reviewStorageKey = 'sweksha-reviews';
+    const initialReviews = JSON.parse(document.getElementById('initialReviews').textContent);
 
     function setReviewStatus(message, type=''){
       const el = document.getElementById('reviewStatus');
@@ -711,20 +714,19 @@ function renderReviews(reviews){
       }[c]));
     }
 
-    function flattenReviewData(data){
-      if(!Array.isArray(data)) return [];
-      return data.flatMap(item => Array.isArray(item.value) ? flattenReviewData(item.value) : [item]);
+    function getReviews(){
+      const savedReviews = localStorage.getItem(reviewStorageKey);
+      if(savedReviews === null) return initialReviews;
+      const reviews = JSON.parse(savedReviews);
+      return Array.isArray(reviews) ? reviews : initialReviews;
     }
 
-    async function loadReviews(){
+    function loadReviews(){
       try{
-        const res = await fetch('/api/reviews', {cache:'no-store'});
-        if(!res.ok) throw new Error('Could not load reviews');
-        const reviews = flattenReviewData(await res.json());
-        renderReviews(reviews.filter(review => review.approved === true));
+        renderReviews(getReviews().filter(review => review.approved === true));
       }catch(err){
-        document.getElementById('reviewList').innerHTML =
-          '<div class="review-empty">Could not load reviews.json. Open this website through its web address or a local web server; browsers block loading the JSON when index.html is opened directly as a file.</div>';
+        renderReviews(initialReviews.filter(review => review.approved === true));
+        setReviewStatus('This browser could not access saved reviews.');
       }
     }
 
@@ -742,31 +744,27 @@ function renderReviews(reviews){
         company: company || null,
         rating,
         title: title || null,
-        review_text
+        review_text,
+        approved: true,
+        created_at: new Date().toISOString()
       };
       const form = this;
       const submitButton = form.querySelector('button[type="submit"]');
       submitButton.disabled = true;
       setReviewStatus('Saving your review...');
-      fetch('/api/reviews', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(submission)
-      })
-        .then(async res => {
-          const result = await res.json();
-          if(!res.ok) throw new Error(result.error || 'Could not save review');
-          await loadReviews();
-          form.reset();
-          setReviewStatus('Thank you. Your review has been published.', 'success');
-          trackEvent('review_submitted', {rating});
-        })
-        .catch(error => {
-          setReviewStatus(error.message || 'Could not save your review. Please try again.', 'error');
-        })
-        .finally(() => {
-          submitButton.disabled = false;
-        });
+      try{
+        const reviews = getReviews();
+        reviews.push(submission);
+        localStorage.setItem(reviewStorageKey, JSON.stringify(reviews));
+        loadReviews();
+        form.reset();
+        setReviewStatus('Thank you. Your review has been published.', 'success');
+        trackEvent('review_submitted', {rating});
+      }catch(error){
+        setReviewStatus('Could not save your review in this browser. Check browser storage settings and try again.', 'error');
+      }finally{
+        submitButton.disabled = false;
+      }
     });
 
     loadReviews();
