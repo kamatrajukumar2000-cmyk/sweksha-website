@@ -40,7 +40,13 @@
     .btn-primary:hover{background:#63d9cd}
     .btn-outline{border-color:#7890a8;color:#fff}
     .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
-    .hero{background:radial-gradient(circle at 75% 30%,rgba(35,199,183,.23),transparent 35%),linear-gradient(135deg,#06101d,#10263b);color:#fff;padding:92px 0 82px}
+    .hero{position:relative;overflow:hidden;padding:0;background:#06101d;color:#fff}
+    .hero-carousel{display:grid;position:relative}
+    .hero-slide{grid-area:1/1;padding:92px 0 112px;background:radial-gradient(circle at 75% 30%,rgba(35,199,183,.23),transparent 35%),linear-gradient(135deg,#06101d,#10263b);opacity:0;visibility:hidden;transition:opacity .6s ease,visibility .6s}
+    .hero-slide.is-active{z-index:1;opacity:1;visibility:visible}
+    .hero-slide-setup{background:radial-gradient(circle at 78% 24%,rgba(93,137,255,.27),transparent 35%),linear-gradient(135deg,#07111f,#183454)}
+    .hero-slide-troubleshooting{background:radial-gradient(circle at 75% 28%,rgba(255,172,91,.2),transparent 35%),linear-gradient(135deg,#10151f,#353047)}
+    .hero-slide-process{background:radial-gradient(circle at 76% 25%,rgba(35,199,183,.23),transparent 35%),linear-gradient(135deg,#071b20,#153c45)}
     .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:50px;align-items:center}
     .eyebrow{display:inline-block;color:var(--accent2);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;font-size:12px;margin-bottom:16px}
     h1{font-size:clamp(38px,5vw,64px);line-height:1.08;margin-bottom:20px}
@@ -50,6 +56,14 @@
     .hero-card h3{font-size:20px;margin-bottom:15px}
     .check{display:flex;gap:10px;margin:12px 0;color:#d8e4ef}
     .check b{color:var(--accent)}
+    .hero-controls{position:absolute;z-index:2;left:50%;bottom:27px;transform:translateX(-50%);display:flex;align-items:center;gap:12px}
+    .hero-arrow,.hero-dot{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.08);color:#fff;cursor:pointer}
+    .hero-arrow{width:38px;height:38px;border-radius:50%;font-size:22px;line-height:1}
+    .hero-arrow:hover,.hero-arrow:focus-visible{border-color:var(--accent);color:var(--accent)}
+    .hero-dots{display:flex;align-items:center;gap:8px}
+    .hero-dot{width:10px;height:10px;padding:0;border-radius:10px;transition:width .2s ease,background .2s ease}
+    .hero-dot[aria-current="true"]{width:26px;border-color:var(--accent);background:var(--accent)}
+    @media(prefers-reduced-motion:reduce){.hero-slide,.hero-dot{transition:none}}
     section{padding:80px 0}
     .section-head{max-width:720px;margin-bottom:38px}
     .section-head h2{font-size:38px;line-height:1.15;margin:8px 0 12px}
@@ -90,8 +104,9 @@
     }
     @media(max-width:560px){
       section{padding:60px 0}.grid3,.steps{grid-template-columns:1fr}
-      .topbar .container{justify-content:center}.hero{padding:70px 0}
+      .topbar .container{justify-content:center}.hero-slide{padding:60px 0 100px}
       .hero p{font-size:16px}.section-head h2{font-size:31px}
+      .hero-grid{gap:28px}.hero-card{padding:22px}
     }
   
 
@@ -158,7 +173,7 @@
     "telephone":"+91 7827474249",
     "email":"kamatrajukumar2000@gmail.com",
     "founder":{"@type":"Person","name":"Raju Kamat"},
-    "address":{"@type":"PostalAddress","streetAddress":"5th Floor, Sy No. 430/1, Plot 29/6, Near Torrent Power, Gotalawadi, Wadi","addressLocality":"Surat","addressRegion":"Gujarat","postalCode":"395008","addressCountry":"IN"},
+    "address":{"@type":"PostalAddress","streetAddress":"1st Floor, Sy No. 430/1, Plot 29/6, Near Torrent Power, Gotalawadi, Wadi","addressLocality":"Surat","addressRegion":"Gujarat","postalCode":"395008","addressCountry":"IN"},
     "areaServed":"India",
     "serviceType":["Lab Grown Diamond Machine Consulting","Machine Setup Support","Troubleshooting","Process Optimization"]
   }
@@ -202,23 +217,97 @@
 
   <main id="home">
     <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <span class="eyebrow">Diamond Machine Support &#8226; Surat, India</span>
-          <h1>Keep Your Lab Grown Diamond Machine Ready for Production.</h1>
-          <p>Practical online consulting and service support for machine setup, troubleshooting, process improvement and color optimization &#8212; so your team can work toward stable, repeatable production.</p>
-          <div class="actions">
-            <a class="btn btn-primary" href="#request">Request a Service</a>
-            <a class="btn btn-outline" onclick="trackEvent('whatsapp_click', {method: 'whatsapp'});" href="https://wa.me/917827474249?text=Hello%20Sweksha%20Fondation%20Club,%20I%20need%20help%20with%20my%20lab%20grown%20diamond%20machine." target="_blank" rel="noopener">WhatsApp Now</a>
+      <div class="hero-carousel" role="region" aria-label="Featured services" aria-roledescription="carousel">
+        <article class="hero-slide is-active" role="group" aria-roledescription="slide" aria-label="1 of 4" aria-hidden="false">
+          <div class="container hero-grid">
+            <div>
+              <span class="eyebrow">Diamond Machine Support &#8226; Surat, India</span>
+              <h1>Keep Your Lab Grown Diamond Machine Ready for Production.</h1>
+              <p>Practical online consulting and service support for machine setup, troubleshooting, process improvement and color optimization &#8212; so your team can work toward stable, repeatable production.</p>
+              <div class="actions">
+                <a class="btn btn-primary" href="#request">Request a Service</a>
+                <a class="btn btn-outline" onclick="trackEvent('whatsapp_click', {method: 'whatsapp'});" href="https://wa.me/917827474249?text=Hello%20Sweksha%20Fondation%20Club,%20I%20need%20help%20with%20my%20lab%20grown%20diamond%20machine." target="_blank" rel="noopener">WhatsApp Now</a>
+              </div>
+            </div>
+            <div class="hero-card">
+              <h3>What We Help With</h3>
+              <div class="check"><b>&#10003;</b><span>Machine setup & commissioning guidance</span></div>
+              <div class="check"><b>&#10003;</b><span>Fault finding & troubleshooting support</span></div>
+              <div class="check"><b>&#10003;</b><span>Process and parameter review</span></div>
+              <div class="check"><b>&#10003;</b><span>Color optimization consulting</span></div>
+              <div class="check"><b>&#10003;</b><span>Online consultation for India & remote teams</span></div>
+            </div>
           </div>
-        </div>
-        <div class="hero-card">
-          <h3>What We Help With</h3>
-          <div class="check"><b>&#10003;</b><span>Machine setup & commissioning guidance</span></div>
-          <div class="check"><b>&#10003;</b><span>Fault finding & troubleshooting support</span></div>
-          <div class="check"><b>&#10003;</b><span>Process and parameter review</span></div>
-          <div class="check"><b>&#10003;</b><span>Color optimization consulting</span></div>
-          <div class="check"><b>&#10003;</b><span>Online consultation for India & remote teams</span></div>
+        </article>
+        <article class="hero-slide hero-slide-setup" role="group" aria-roledescription="slide" aria-label="2 of 4" aria-hidden="true">
+          <div class="container hero-grid">
+            <div>
+              <span class="eyebrow">Setup &amp; Commissioning</span>
+              <h1>Start Production with Confidence.</h1>
+              <p>Get practical guidance for lab grown diamond machine setup, commissioning and operating readiness, with remote support tailored to your equipment and goals.</p>
+              <div class="actions">
+                <a class="btn btn-primary" href="#request">Get Setup Support</a>
+                <a class="btn btn-outline" href="#services">Explore Services</a>
+              </div>
+            </div>
+            <div class="hero-card">
+              <h3>Setup Support</h3>
+              <div class="check"><b>&#10003;</b><span>Pre-production readiness review</span></div>
+              <div class="check"><b>&#10003;</b><span>Machine setup and commissioning guidance</span></div>
+              <div class="check"><b>&#10003;</b><span>Operating parameter review</span></div>
+              <div class="check"><b>&#10003;</b><span>Practical next steps for your team</span></div>
+            </div>
+          </div>
+        </article>
+        <article class="hero-slide hero-slide-troubleshooting" role="group" aria-roledescription="slide" aria-label="3 of 4" aria-hidden="true">
+          <div class="container hero-grid">
+            <div>
+              <span class="eyebrow">Machine Troubleshooting</span>
+              <h1>Find the Cause. Get Back on Track.</h1>
+              <p>Work through machine and process problems with structured remote troubleshooting focused on symptoms, recent changes and useful checks.</p>
+              <div class="actions">
+                <a class="btn btn-primary" href="#request">Request Troubleshooting</a>
+                <a class="btn btn-outline" href="#defects">Browse Common Defects</a>
+              </div>
+            </div>
+            <div class="hero-card">
+              <h3>A Clear Troubleshooting Path</h3>
+              <div class="check"><b>&#10003;</b><span>Describe the fault and operating conditions</span></div>
+              <div class="check"><b>&#10003;</b><span>Review recent changes and available readings</span></div>
+              <div class="check"><b>&#10003;</b><span>Identify likely causes and checks</span></div>
+              <div class="check"><b>&#10003;</b><span>Plan practical corrective steps</span></div>
+            </div>
+          </div>
+        </article>
+        <article class="hero-slide hero-slide-process" role="group" aria-roledescription="slide" aria-label="4 of 4" aria-hidden="true">
+          <div class="container hero-grid">
+            <div>
+              <span class="eyebrow">Process Review &amp; Optimization</span>
+              <h1>Improve Process Stability and Diamond Color.</h1>
+              <p>Review process conditions and production challenges with an experienced technical consultant, and identify opportunities to improve consistency.</p>
+              <div class="actions">
+                <a class="btn btn-primary" href="#request">Discuss Your Process</a>
+                <a class="btn btn-outline" href="#about">Learn About Us</a>
+              </div>
+            </div>
+            <div class="hero-card">
+              <h3>Focused Process Guidance</h3>
+              <div class="check"><b>&#10003;</b><span>Process and parameter review</span></div>
+              <div class="check"><b>&#10003;</b><span>Diamond defect diagnosis</span></div>
+              <div class="check"><b>&#10003;</b><span>Color optimization consulting</span></div>
+              <div class="check"><b>&#10003;</b><span>Recommendations aligned with production goals</span></div>
+            </div>
+          </div>
+        </article>
+        <div class="hero-controls" aria-label="Banner controls">
+          <button class="hero-arrow" type="button" data-hero-direction="-1" aria-label="Previous banner">&#8249;</button>
+          <div class="hero-dots">
+            <button class="hero-dot" type="button" data-hero-slide="0" aria-label="Show banner 1" aria-current="true"></button>
+            <button class="hero-dot" type="button" data-hero-slide="1" aria-label="Show banner 2" aria-current="false"></button>
+            <button class="hero-dot" type="button" data-hero-slide="2" aria-label="Show banner 3" aria-current="false"></button>
+            <button class="hero-dot" type="button" data-hero-slide="3" aria-label="Show banner 4" aria-current="false"></button>
+          </div>
+          <button class="hero-arrow" type="button" data-hero-direction="1" aria-label="Next banner">&#8250;</button>
         </div>
       </div>
     </section>
@@ -502,7 +591,7 @@
             <p>For urgent machine problems, send the machine model, issue description, recent changes and any available photos/screenshots on WhatsApp.</p>
             <div class="contact-line"><strong>Phone / WhatsApp</strong><br>+91 78274 74249</div>
             <div class="contact-line"><strong>Email</strong><br>kamatrajukumar2000@gmail.com</div>
-            <div class="contact-line"><strong>Office</strong><br><a class="map-link" href="https://www.google.com/maps/place/AeroDion+TechEngineering/@21.211851,72.8324349,21z/data=!3m1!5s0x3be04eedf5d533f7:0xda652d76460c2637!4m16!1m9!3m8!1s0x3be04f4d95f7eb8d:0x3029d4bf856fecdb!2sAeroDion+TechEngineering!8m2!3d21.2118915!4d72.8325776!9m1!1b1!16s%2Fg%2F11z9v9sl0v!3m5!1s0x3be04f4d95f7eb8d:0x3029d4bf856fecdb!8m2!3d21.2118915!4d72.8325776!16s%2Fg%2F11z9v9sl0v?entry=ttu&g_ep=EgoyMDI2MTAwNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer">5th Floor, Sy No. 430/1, Plot 29/6, Near Torrent Power, Gotalawadi, Wadi, Surat, Gujarat 395008</a></div>
+            <div class="contact-line"><strong>Office</strong><br><a class="map-link" href="https://maps.app.goo.gl/AugPRawiNhoPN4fw7?g_st=iw" target="_blank" rel="noopener noreferrer">1st Floor, Sy No. 430/1, Plot 29/6, Near Torrent Power, Gotalawadi, Wadi, Surat, Gujarat 395008</a></div>
           </div>
 
           <form id="serviceForm">
@@ -543,7 +632,7 @@
         <div class="grid3">
           <div class="card"><div class="icon">&#9742;</div><h3>Call / WhatsApp</h3><p><a onclick="trackEvent('phone_click', {method: 'phone'});" href="tel:+917827474249">+91 78274 74249</a></p></div>
           <div class="card"><div class="icon">@</div><h3>Email</h3><p><a onclick="trackEvent('email_click', {method: 'email'});" href="mailto:kamatrajukumar2000@gmail.com">kamatrajukumar2000@gmail.com</a></p></div>
-          <div class="card"><div class="icon">&#8982;</div><h3>Based In</h3><p><a class="map-link" href="https://www.google.com/maps/place/AeroDion+TechEngineering/@21.211851,72.8324349,21z/data=!3m1!5s0x3be04eedf5d533f7:0xda652d76460c2637!4m16!1m9!3m8!1s0x3be04f4d95f7eb8d:0x3029d4bf856fecdb!2sAeroDion+TechEngineering!8m2!3d21.2118915!4d72.8325776!9m1!1b1!16s%2Fg%2F11z9v9sl0v!3m5!1s0x3be04f4d95f7eb8d:0x3029d4bf856fecdb!8m2!3d21.2118915!4d72.8325776!16s%2Fg%2F11z9v9sl0v?entry=ttu&g_ep=EgoyMDI2MTAwNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer">5th Floor, Sy No. 430/1, Plot 29/6, Near Torrent Power, Gotalawadi, Wadi, Surat, Gujarat 395008</a></p></div>
+          <div class="card"><div class="icon">&#8982;</div><h3>Based In</h3><p><a class="map-link" href="https://maps.app.goo.gl/AugPRawiNhoPN4fw7?g_st=iw" target="_blank" rel="noopener noreferrer">1st Floor, Sy No. 430/1, Plot 29/6, Near Torrent Power, Gotalawadi, Wadi, Surat, Gujarat 395008</a></p></div>
         </div>
       </div>
     </section>
@@ -555,7 +644,7 @@
       <div>
         <p>Owner: Raju Kamat</p>
         <p>Surat, Gujarat, India</p>
-        <p>&#8226; Office: <a class="map-link" href="https://www.google.com/maps/place/AeroDion+TechEngineering/@21.211851,72.8324349,21z/data=!3m1!5s0x3be04eedf5d533f7:0xda652d76460c2637!4m16!1m9!3m8!1s0x3be04f4d95f7eb8d:0x3029d4bf856fecdb!2sAeroDion+TechEngineering!8m2!3d21.2118915!4d72.8325776!9m1!1b1!16s%2Fg%2F11z9v9sl0v!3m5!1s0x3be04f4d95f7eb8d:0x3029d4bf856fecdb!8m2!3d21.2118915!4d72.8325776!16s%2Fg%2F11z9v9sl0v?entry=ttu&g_ep=EgoyMDI2MTAwNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer">5th Floor, Sy No. 430/1, Plot 29/6, Near Torrent Power, Gotalawadi, Wadi, Surat, Gujarat 395008</a></p>
+        <p>&#8226; Office: <a class="map-link" href="https://maps.app.goo.gl/AugPRawiNhoPN4fw7?g_st=iw" target="_blank" rel="noopener noreferrer">1st Floor, Sy No. 430/1, Plot 29/6, Near Torrent Power, Gotalawadi, Wadi, Surat, Gujarat 395008</a></p>
       </div>
     </div>
     <div class="container small">&#169; <span id="year"></span> Sweksha Fondation Club. All rights reserved. &#8226; Service outcomes can vary by machine, material and process conditions.</div>
@@ -565,6 +654,58 @@
 
   <script id="initialReviews" type="application/json">[]</script>
   <script>
+
+    // ===== Homepage hero slider =====
+    (function(){
+      const carousel = document.querySelector('.hero-carousel');
+      const slides = Array.from(carousel.querySelectorAll('.hero-slide'));
+      const dots = Array.from(carousel.querySelectorAll('.hero-dot'));
+      const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let activeSlide = 0;
+      let sliderTimer = null;
+
+      function showSlide(index){
+        activeSlide = (index + slides.length) % slides.length;
+        slides.forEach((slide, slideIndex) => {
+          const isActive = slideIndex === activeSlide;
+          slide.classList.toggle('is-active', isActive);
+          slide.setAttribute('aria-hidden', String(!isActive));
+          dots[slideIndex].setAttribute('aria-current', String(isActive));
+        });
+      }
+
+      function pause(){
+        clearInterval(sliderTimer);
+        sliderTimer = null;
+      }
+
+      function resume(){
+        if(sliderTimer || motionPreference.matches) return;
+        sliderTimer = setInterval(() => showSlide(activeSlide + 1), 5000);
+      }
+
+      carousel.querySelectorAll('[data-hero-direction]').forEach(button => {
+        button.addEventListener('click', () => {
+          showSlide(activeSlide + Number(button.dataset.heroDirection));
+          pause();
+        });
+      });
+      dots.forEach((dot, index) => dot.addEventListener('click', () => {
+        showSlide(index);
+        pause();
+      }));
+      carousel.addEventListener('mouseenter', pause);
+      carousel.addEventListener('mouseleave', resume);
+      carousel.addEventListener('focusin', pause);
+      carousel.addEventListener('focusout', event => {
+        if(!carousel.contains(event.relatedTarget)) resume();
+      });
+      motionPreference.addEventListener('change', () => {
+        pause();
+        resume();
+      });
+      resume();
+    })();
 
     // ===== CVD defect search & category filters =====
     (function(){
