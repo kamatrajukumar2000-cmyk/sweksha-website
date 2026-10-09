@@ -681,7 +681,7 @@
 
       function resume(){
         if(sliderTimer || motionPreference.matches) return;
-        sliderTimer = setInterval(() => showSlide(activeSlide + 1), 5000);
+        sliderTimer = setInterval(() => showSlide(activeSlide + 1), 3000);
       }
 
       carousel.querySelectorAll('[data-hero-direction]').forEach(button => {
