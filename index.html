@@ -916,5 +916,68 @@ function renderReviews(reviews){
     loadReviews();
 
   </script>
+
+  <!-- Sweksha quick service assistant -->
+  <style>
+    #sweksha-assist-toggle{position:fixed;right:20px;bottom:88px;z-index:50;border:0;border-radius:999px;background:#23c7b7;color:#07111f;padding:14px 18px;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.22);cursor:pointer}
+    #sweksha-assist-panel{position:fixed;right:20px;bottom:150px;width:min(360px,calc(100vw - 32px));z-index:50;background:#fff;border:1px solid #dfe7ef;border-radius:16px;box-shadow:0 18px 50px rgba(7,17,31,.25);overflow:hidden;color:#182333}
+    #sweksha-assist-panel[hidden]{display:none}
+    .sweksha-assist-head{background:#07111f;color:#fff;padding:15px 18px;font-weight:800}
+    .sweksha-assist-body{padding:16px}
+    .sweksha-assist-body p{font-size:14px;color:#657184;margin-bottom:12px}
+    .sweksha-assist-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .sweksha-assist-options button{background:#f4f8fb;border:1px solid #dfe7ef;border-radius:9px;padding:10px;font:inherit;font-size:13px;cursor:pointer;color:#182333}
+    .sweksha-assist-options button:hover{border-color:#23c7b7}
+    #sweksha-assist-form{display:flex;gap:8px;margin-top:12px}
+    #sweksha-assist-input{min-width:0;flex:1;margin:0;padding:10px;border:1px solid #cfd9e3;border-radius:8px}
+    #sweksha-assist-form button{border:0;border-radius:8px;background:#23c7b7;color:#07111f;font-weight:800;padding:10px 12px;cursor:pointer}
+    @media(max-width:480px){#sweksha-assist-toggle{right:14px;bottom:84px}#sweksha-assist-panel{right:12px;bottom:145px}}
+  </style>
+  <button id="sweksha-assist-toggle" type="button" aria-expanded="false" aria-controls="sweksha-assist-panel">Service Help</button>
+  <section id="sweksha-assist-panel" hidden aria-label="Sweksha service help">
+    <div class="sweksha-assist-head">Sweksha Service Help</div>
+    <div class="sweksha-assist-body">
+      <p>Choose a service or write a short message. This helper prepares a WhatsApp enquiry for our team; it is not an automated AI diagnosis.</p>
+      <div class="sweksha-assist-options">
+        <button type="button" data-sweksha-topic="Vacuum pump maintenance">Vacuum Pump</button>
+        <button type="button" data-sweksha-topic="CVD machine plant setup">Plant Setup</button>
+        <button type="button" data-sweksha-topic="Power supply / magnetron troubleshooting">Power / Magnetron</button>
+        <button type="button" data-sweksha-topic="Gas and water line fitting">Gas / Water Lines</button>
+      </div>
+      <form id="sweksha-assist-form">
+        <input id="sweksha-assist-input" maxlength="500" placeholder="Describe your requirement..." aria-label="Describe your service requirement">
+        <button type="submit">WhatsApp</button>
+      </form>
+    </div>
+  </section>
+  <script>
+    (function(){
+      const toggle = document.getElementById('sweksha-assist-toggle');
+      const panel = document.getElementById('sweksha-assist-panel');
+      const input = document.getElementById('sweksha-assist-input');
+      function openPanel(open){
+        panel.hidden = !open;
+        toggle.setAttribute('aria-expanded', String(open));
+        if(open) input.focus();
+      }
+      toggle.addEventListener('click', function(){
+        openPanel(panel.hidden);
+      });
+      document.querySelectorAll('[data-sweksha-topic]').forEach(function(button){
+        button.addEventListener('click', function(){
+          input.value = button.getAttribute('data-sweksha-topic');
+          input.focus();
+        });
+      });
+      document.getElementById('sweksha-assist-form').addEventListener('submit', function(event){
+        event.preventDefault();
+        const request = input.value.trim();
+        if(!request) { input.focus(); return; }
+        const message = 'Hello Sweksha CVD Diamond Machine Service & Consulting, I need help with: ' + request;
+        window.open('https://wa.me/917827474249?text=' + encodeURIComponent(message), '_blank', 'noopener');
+      });
+    })();
+  </script>
+
 </body>
 </html>
