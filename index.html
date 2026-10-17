@@ -95,6 +95,15 @@
     .footer-grid{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
     footer h3{color:#fff;margin-bottom:8px}
     .small{font-size:13px;color:#8798aa;margin-top:22px}
+    .visitor-counter{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:28px;margin-bottom:20px}
+    .visitor-stat-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:22px;border:1px solid #24415f;border-radius:14px;background:linear-gradient(145deg,#0d1b2d,#102b40);color:#fff}
+    .visitor-stat-label{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#b9c7d6}
+    .visitor-counter-link{display:inline-flex;align-items:center;justify-content:center;min-height:28px}
+    .visitor-counter-link img{display:block;max-width:100%;height:auto}
+    .visitor-stat-card p{font-size:12px;color:#a9bfd4;margin:0}
+    .visitor-stat-unavailable{font-size:24px;color:#23c7b7}
+    @media(max-width:560px){.visitor-counter{grid-template-columns:1fr}}
+
     .float-wa{position:fixed;right:20px;bottom:20px;background:#20b86b;color:#fff;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-weight:900;box-shadow:0 10px 25px rgba(0,0,0,.22);z-index:30}
     .notice{font-size:13px;color:var(--muted);margin-top:12px}
     /* ===== SERVICE FAQ ===== */
@@ -685,12 +694,19 @@
         <p>&#8226; Office: <a class="map-link" href="https://maps.app.goo.gl/AugPRawiNhoPN4fw7?g_st=iw" target="_blank" rel="noopener noreferrer">1st Floor, Sy No. 430/1, Plot 29/6, Near Torrent Power, Gotalawadi, Wadi, Surat, Gujarat 395008</a></p>
       </div>
     </div>
-    <div class="container visitor-counter" aria-label="Website visitor count">
-      <span>Website visits:</span>
-      <a href="https://visitor-badge.laobi.icu/badge?page_id=kamatrajukumar2000-cmyk.sweksha-website" target="_blank" rel="noopener noreferrer" aria-label="Open the website visit counter">
-        <img src="https://visitor-badge.laobi.icu/badge?page_id=kamatrajukumar2000-cmyk.sweksha-website" alt="Website visit counter" loading="lazy">
-      </a>
-      <span class="visitor-counter-note">This counter shows website visits. The same visitor may be counted more than once.</span>
+    <div class="container visitor-counter" aria-label="Website visitor statistics">
+      <div class="visitor-stat-card">
+        <span class="visitor-stat-label">Total Visits</span>
+        <a class="visitor-counter-link" href="https://visitor-badge.laobi.icu/badge?page_id=kamatrajukumar2000-cmyk.sweksha-website" target="_blank" rel="noopener noreferrer" aria-label="Open the total website visits counter">
+          <img src="https://visitor-badge.laobi.icu/badge?page_id=kamatrajukumar2000-cmyk.sweksha-website" alt="Total website visits" loading="lazy">
+        </a>
+        <p>Counts how many times this website has been visited.</p>
+      </div>
+      <div class="visitor-stat-card">
+        <span class="visitor-stat-label">Unique Visitors</span>
+        <strong class="visitor-stat-unavailable">Not Available</strong>
+        <p>This counter does not provide a reliable unique visitor total.</p>
+      </div>
     </div>
     <div class="container small">&#169; <span id="year"></span> Sweksha Fondation Club. All rights reserved. &#8226; Service outcomes can vary by machine, material and process conditions.</div>
   </footer>
