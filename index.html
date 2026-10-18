@@ -405,9 +405,10 @@
         </div>
 
         <div class="defect-grid" id="defectGrid">
-          <article class="defect-card" data-category="vacuum" data-text="vacuum leak pressure pump down slow base pressure">
+          <article class="defect-card" data-category="vacuum" data-text="vacuum leak pressure pump down slow base pressure seals flanges valves feedthrough helium detection repair">
             <div class="defect-icon">&#127744;</div><h3>Vacuum Leak</h3>
             <p>Pressure does not reach the expected base pressure or rises after isolation. Check seals, flanges, valves, feedthroughs and chamber condition.</p><span class="defect-tag">Vacuum</span>
+            <p style="margin-top:14px"><a class="btn btn-primary" href="#vacuum-leak-detail">View Troubleshooting Details &#8595;</a></p>
           </article>
           <article class="defect-card" data-category="vacuum" data-text="vacuum pump low pumping speed oil contamination overheating">
             <div class="defect-icon">&#128295;</div><h3>Vacuum Pump Problem</h3>
@@ -454,6 +455,70 @@
             <p>Deposits can alter plasma behavior, create particles and reduce process repeatability. Inspect chamber, holder and quartz surfaces.</p><span class="defect-tag">Chamber</span>
           </article>
         </div>
+
+        <details id="vacuum-leak-detail" class="faq-item" style="margin-top:24px;background:#0c1c2e;color:#eef6ff;border-color:#24415f">
+          <summary style="color:#23c7b7">Vacuum Leak Troubleshooting — Causes, Detection, Repair &amp; Prevention</summary>
+          <div style="padding-top:16px;color:#d7e6f2">
+            <h3>What Is a Vacuum Leak?</h3>
+            <p>A vacuum leak occurs when unwanted gas or atmospheric air enters a vacuum chamber, pipeline, or vacuum system through a damaged seal, loose connection, faulty valve, or other defective component. In a CVD (Chemical Vapor Deposition) diamond machine, maintaining the required chamber pressure and controlled gas environment is essential for stable diamond growth. Unwanted air can cause pressure instability, longer pump-down times and process disturbances, affecting the performance and reliability of the plant.</p>
+
+            <h3>Common Causes of Vacuum Leaks</h3>
+            <h4>A. Damaged O-Rings and Seals</h4>
+            <p>O-rings and vacuum seals are installed on chamber doors, flanges and other vacuum connections. Leaks may occur when an O-ring is cut, cracked, damaged, hardened, displaced or incorrectly installed; when dust, diamond powder or other contamination is present on sealing surfaces; or when the wrong seal size or material is used.</p>
+            <h4>B. Vacuum Pipeline and Hose Leakage</h4>
+            <p>Possible causes include cracked or damaged hoses, loose flange connections, improperly tightened clamps, damaged pipe joints or fittings, corrosion and mechanical damage. Even a small connection leak can affect chamber pressure and pumping performance.</p>
+            <h4>C. Vacuum Pump Problems</h4>
+            <p>Poor vacuum may be caused by pump performance rather than a chamber leak. Check for contaminated or degraded oil in oil-sealed pumps, worn internal seals or valves, blocked inlet or exhaust, reduced pumping capacity, incorrect operation or inadequate maintenance. Pump performance and chamber leakage should be evaluated separately.</p>
+            <h4>D. Vacuum Valve Leakage</h4>
+            <p>Isolation, throttle or other vacuum control valves may not close completely because of a damaged seat or seal, contamination, actuator problems or incorrect control signals. A faulty valve can cause pressure fluctuations, unwanted gas flow or difficulty maintaining chamber pressure.</p>
+            <h4>E. Chamber Feedthrough and Fitting Leakage</h4>
+            <p>Electrical feedthroughs, gas fittings and chamber-wall connections may leak because of damaged seals, loose or defective fittings, incorrect installation, damaged sealing surfaces or worn connection components.</p>
+
+            <h3>Symptoms and Possible Causes</h3>
+            <ul>
+              <li><strong>Chamber does not reach required vacuum:</strong> leak, pump problem or excessive gas load.</li>
+              <li><strong>Pressure increases unexpectedly:</strong> air ingress, outgassing or valve leakage.</li>
+              <li><strong>Pressure fluctuates continuously:</strong> leak, unstable gas flow or pressure-control problem.</li>
+              <li><strong>Pump-down time becomes longer:</strong> leak, pump degradation or contamination.</li>
+              <li><strong>CVD process becomes unstable:</strong> pressure variation or gas-control disturbance.</li>
+              <li><strong>Pump operates longer than usual:</strong> increased gas load or reduced pumping performance.</li>
+            </ul>
+            <p>If a chamber previously reached its specified vacuum in 30 minutes but now takes 60 minutes, inspect the vacuum system. These times are illustrative; actual pump-down time depends on chamber volume, pump capacity, system condition and operating requirements.</p>
+
+            <h3>How to Detect a Vacuum Leak</h3>
+            <h4>1. Check the Pressure Reading</h4>
+            <p>Inspect the vacuum gauge or pressure sensor. Record current chamber pressure, whether pressure decreases after pump startup, whether it remains stable and whether it increases unexpectedly. Confirm that the sensor reading is reliable; a faulty sensor can lead to incorrect diagnosis.</p>
+            <h4>2. Perform a Visual Inspection</h4>
+            <p>Inspect chamber doors and flanges, O-rings and sealing surfaces, vacuum pipes and flexible hoses, valve connections, fittings, feedthroughs and other chamber connections. Look for cracks, damaged seals, contamination and loose or defective connections.</p>
+            <h4>3. Perform a Pump-Down Test</h4>
+            <ol><li>Place the machine in the appropriate safe condition.</li><li>Start the pump according to the machine procedure.</li><li>Record chamber pressure at regular intervals.</li><li>Compare results with machine specifications or previous records.</li></ol>
+            <p>A slow pump-down does not automatically confirm a leak. Outgassing, contamination and pump performance can also affect the result.</p>
+            <h4>4. Perform a Pressure-Rise Test</h4>
+            <ol><li>Pump the chamber down to the specified test pressure.</li><li>Isolate it from the pump using the approved procedure.</li><li>Record pressure over a defined period.</li><li>Compare or calculate the pressure increase rate.</li></ol>
+            <p>A pressure rise beyond the acceptable limit indicates that further investigation is required, but does not always identify the exact leak location.</p>
+
+            <h3>How to Repair a Vacuum Leak</h3>
+            <h4>A. Replace Damaged O-Rings and Seals</h4>
+            <ol><li>Shut down the machine safely.</li><li>Bring the chamber to atmospheric pressure using the approved procedure.</li><li>Remove the damaged seal and clean the groove and mating surfaces.</li><li>Inspect for scratches, contamination or damage.</li><li>Install the correct replacement seal specified for the machine.</li><li>Close the chamber and perform a vacuum test.</li></ol>
+            <h4>B. Repair Vacuum Pipelines and Fittings</h4>
+            <ol><li>Identify the defective pipe, hose or connection.</li><li>Isolate and depressurize the system safely.</li><li>Replace damaged hoses or defective fittings.</li><li>Inspect flange surfaces and sealing components.</li><li>Tighten connections to manufacturer's specifications.</li><li>Perform a vacuum test after repair.</li></ol>
+            <p>Ordinary adhesive or general-purpose tape should not be used as a permanent vacuum-pipeline repair.</p>
+            <h4>C. Repair Vacuum Valves</h4>
+            <ol><li>Inspect the valve seat and internal seals.</li><li>Check for contamination or damage.</li><li>Replace defective sealing components.</li><li>Inspect actuator and control signals.</li><li>Verify opening and closing operation.</li><li>Test the valve and vacuum system again, following the manufacturer's instructions.</li></ol>
+            <h4>D. Perform Vacuum Pump Maintenance</h4>
+            <p>Check pump oil where applicable, inlet and exhaust, internal seals and valves, contamination or blockage, and pump performance. Service or repair as required. Pump maintenance and chamber leak repair are separate activities; evaluate both before identifying the final cause.</p>
+
+            <h3>Helium Leak Detection</h3>
+            <p>Helium leak detection is a professional method for locating small vacuum leaks. A helium leak detector identifies helium entering the system and helps locate the defective sealing point.</p>
+            <ol><li>Prepare the system under an approved test procedure.</li><li>Set up the detector according to its manufacturer's instructions.</li><li>Inspect potential leak locations, including chamber seals, flanges, valves and feedthroughs.</li><li>Use the detector response to locate the leak.</li><li>Repair the defective component and repeat the test to verify the repair.</li></ol>
+
+            <h3>Verification After Repair</h3>
+            <ul><li>Confirm the chamber reaches the specified base pressure.</li><li>Check pump-down time against acceptable limits.</li><li>Confirm pressure-rise results meet required limits.</li><li>Verify normal vacuum-pump operation and reliable sensor readings.</li><li>Confirm gas flow and chamber-pressure control are stable.</li><li>Check machine safety interlocks.</li></ul>
+            <p>Keep a service record of the leak location, repaired components, test conditions and final pressure readings.</p>
+
+            <div class="defect-note danger"><strong>Important Safety Precautions:</strong> Shut down the process according to machine procedure, isolate relevant gas supplies, safely manage hydrogen, methane and other process gases, and allow high-voltage power supplies and microwave systems to reach a safe condition. Confirm the chamber is at atmospheric pressure before opening it. Never loosen a vacuum fitting or chamber connection while the system is under vacuum. Helium testing requires suitable equipment, controlled gas supply and an approved procedure. Safely isolate and purge process gases before testing; do not introduce helium into an operating process without approval. Follow the manufacturer's maintenance instructions and applicable site safety procedures.</div>
+          </div>
+        </details>
       </div>
     </section>
 
