@@ -418,6 +418,7 @@
           <article class="defect-card" data-category="gas" data-text="mfc mass flow controller gas flow incorrect calibration valve">
             <div class="defect-icon">&#128168;</div><h3>MFC Flow Error</h3>
             <p>Displayed and actual gas flow may differ because of calibration drift, valve faults, contamination or control/communication problems.</p><span class="defect-tag">Gas</span>
+            <p style="margin-top:14px"><a class="btn btn-primary" href="#mfc-flow-detail">View Troubleshooting Guide &#8595;</a></p>
           </article>
           <article class="defect-card" data-category="gas" data-text="gas leak blockage regulator purifier contamination moisture">
             <div class="defect-icon">&#129514;</div><h3>Gas Line / Purity Problem</h3>
@@ -457,6 +458,85 @@
           </article>
         </div>
 
+        <details id="mfc-flow-detail" class="faq-item" style="margin-top:24px;background:#0c1c2e;color:#eef6ff;border-color:#24415f">
+          <summary style="color:#23c7b7">MFC Flow Error — Causes, Working Principle, Troubleshooting &amp; Solutions</summary>
+          <div style="padding-top:16px;color:#d7e6f2">
+            <h3>MFC Flow Error in CVD Diamond Machine</h3>
+            <p>In a CVD (Chemical Vapor Deposition) diamond machine, an MFC (Mass Flow Controller) controls how much gas enters the reactor chamber. If an MFC flow error occurs, actual gas flow may not match the machine controller or HMI setpoint. This can contribute to unstable chamber pressure, incorrect gas composition, plasma instability, poor diamond-growth conditions or an automatic shutdown. A flow error does not automatically mean the MFC itself is defective.</p>
+
+            <h3>1. What Is an MFC?</h3>
+            <p>An MFC is installed in a gas supply line to measure and regulate a gas such as Hydrogen (H₂), Methane (CH₄), Argon (Ar), Nitrogen (N₂) or Oxygen (O₂), where used. An MFC generally contains a flow sensor, control valve and electronic control circuitry.</p>
+            <p>The machine controller sends a flow setpoint; the MFC adjusts its valve to approach that requested flow. For example, if methane is set to 20 sccm and actual flow is 12 sccm, the difference is 8 sccm. If that deviation exceeds the machine's permitted tolerance for the specified time, a flow error may appear. The alarm wording and tolerance vary by MFC manufacturer and machine software.</p>
+
+            <h3>2. How Does an MFC Work?</h3>
+            <figure style="margin:0 0 22px;padding:16px;border:1px solid #24415f;border-radius:14px;background:#071522">
+              <svg viewBox="0 0 760 210" role="img" aria-labelledby="mfc-flow-title mfc-flow-desc" style="display:block;width:100%;height:auto;max-height:250px">
+                <title id="mfc-flow-title">Gas supply through MFC to CVD reactor</title>
+                <desc id="mfc-flow-desc">A gas cylinder and regulator feed a gas line, then an MFC, and finally the CVD reactor chamber.</desc>
+                <defs><marker id="mfc-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#23c7b7"/></marker></defs>
+                <g stroke="#23c7b7" stroke-width="5" fill="none" marker-end="url(#mfc-arrow)"><path d="M145 90 H205"/><path d="M355 90 H415"/><path d="M565 90 H625"/></g>
+                <g fill="#102b40" stroke="#7890a8" stroke-width="3"><rect x="25" y="45" width="120" height="95" rx="14"/><rect x="205" y="45" width="150" height="95" rx="14"/><rect x="415" y="35" width="150" height="115" rx="14" stroke="#23c7b7"/><rect x="625" y="45" width="110" height="95" rx="14"/></g>
+                <g fill="#eef6ff" font-size="17" text-anchor="middle"><text x="85" y="83">Gas supply</text><text x="85" y="108" font-size="14">Cylinder</text><text x="280" y="83">Regulator</text><text x="280" y="108" font-size="14">Pressure</text><text x="490" y="78">MFC</text><text x="490" y="103" font-size="14">Sensor + valve</text><text x="680" y="83">CVD reactor</text><text x="680" y="108" font-size="14">Chamber</text></g>
+                <text x="380" y="185" fill="#a9bfd4" font-size="14" text-anchor="middle">Setpoint → flow measurement and valve control → actual-flow feedback</text>
+              </svg>
+              <figcaption style="color:#a9bfd4;font-size:13px;text-align:center;margin-top:8px">Illustrative gas-flow path; actual machine arrangement and controls vary.</figcaption>
+            </figure>
+            <ol><li>Operator enters a gas-flow setpoint.</li><li>Controller sends it to the MFC through its electrical or communication interface.</li><li>Gas enters the MFC from the upstream supply.</li><li>MFC sensor measures flow; its control circuit compares actual flow with the requested value.</li><li>The valve adjusts to reduce the difference, and actual flow is reported to the controller.</li></ol>
+            <p>If the MFC cannot achieve the requested flow, the machine may report a flow deviation, low-flow or high-flow alarm, or communication error.</p>
+
+            <h3>3. Symptoms and What They May Indicate</h3>
+            <div class="defect-table-wrap"><table class="defect-table"><thead><tr><th>Error / symptom</th><th>Possible indication</th></tr></thead><tbody>
+              <tr><td>Actual flow below setpoint</td><td>Supply restriction, insufficient pressure, valve issue or sensor problem</td></tr>
+              <tr><td>Actual flow above setpoint</td><td>Valve not regulating, incorrect signal or sensor issue</td></tr>
+              <tr><td>Flow remains at zero</td><td>No gas supply, closed valve, electrical fault or MFC not enabled</td></tr>
+              <tr><td>Flow fluctuates</td><td>Unstable gas pressure, regulator issue, control instability or intermittent signal</td></tr>
+              <tr><td>Flow does not respond to setpoint</td><td>Stuck valve, communication problem or control-signal fault</td></tr>
+              <tr><td>MFC communication error</td><td>Wiring, power, communication bus or controller configuration</td></tr>
+              <tr><td>Error only during plasma</td><td>Changing gas demand or chamber pressure; verify process and pressure-control system</td></tr>
+            </tbody></table></div>
+
+            <h3>4. Why Does an MFC Flow Error Occur?</h3>
+            <h4>A. Gas supply pressure is too low</h4><p>An MFC needs suitable upstream pressure and pressure difference across its control valve. If inlet pressure is too low, the valve may open fully and still not deliver the requested flow. Possible causes include low cylinder pressure, regulator fault, restricted supply, partly closed isolation valve, pressure drop under simultaneous demand or gas-cabinet fault. Compare pressure with the MFC manufacturer's specification and check whether it drops when flow is demanded. Do not increase regulator pressure blindly.</p>
+            <h4>B. Gas line blockage or restriction</h4><p>Filters, tubing, fittings, valves, regulators, manifolds or MFC passages may be restricted by contamination, particles, damaged tubing, incorrect fittings or a partly closed valve. If several MFCs on one supply show low flow, check the common supply/manifold; if only one is affected, the restriction may be local. Never open or remove pressurized gas fittings or filters; follow the manufacturer's safe isolation procedure.</p>
+            <h4>C. MFC control-valve problem</h4><p>Mechanical sticking, contamination, internal damage, actuator/electrical fault, incorrect command or configuration can cause zero flow, poor response, a valve near full opening with low flow, or flow above setpoint. Do not force the valve open or adjust it outside the approved manufacturer procedure. Professional inspection, repair or replacement may be required.</p>
+            <h4>D. Incorrect gas type or MFC configuration</h4><p>MFCs may be calibrated for a particular gas or mixture. An argon-configured device may not accurately measure methane unless properly configured/calibrated for it. Verify model, gas calibration, full-scale range, correction factor, analog scaling and communication settings against original documentation. Do not apply a generic correction factor.</p>
+            <h4>E. Electrical connection or communication failure</h4><p>Loose connectors, damaged cable, incorrect power, interface faults, analog scaling, address or configuration mismatch can cause missing, zero or unrealistic readings, blank displays or intermittent operation. A qualified technician should check power, wiring and diagnostics using the manufacturer's diagram. Do not reconnect energized wiring unless specifically permitted.</p>
+            <h4>F. Sensor malfunction or calibration drift</h4><p>Contamination, sensor damage, drift, wrong gas configuration or operation outside rated pressure, temperature or flow range can make the reported flow inaccurate. Compare with a suitable gas-compatible reference instrument using an approved procedure. Arrange authorized calibration or repair if outside tolerance. Setpoint and actual flow can differ temporarily while the MFC is adjusting; that alone is not proof of a fault.</p>
+
+            <h3>5. Where Does the Fault Originate?</h3>
+            <div class="defect-table-wrap"><table class="defect-table"><thead><tr><th>Observation</th><th>Possible fault location</th></tr></thead><tbody>
+              <tr><td>All gas flows low</td><td>Common gas supply, regulator or manifold</td></tr>
+              <tr><td>Only one gas flow low</td><td>Individual line, MFC or configuration</td></tr>
+              <tr><td>Flow normal before plasma, unstable during plasma</td><td>Process conditions, gas-supply capacity or interaction with chamber pressure control</td></tr>
+              <tr><td>MFC actual flow correct, chamber pressure unstable</td><td>Throttle valve, vacuum pump, pressure sensor or chamber leakage</td></tr>
+              <tr><td>No display or communication</td><td>Power, wiring, communication bus or MFC electronics</td></tr>
+              <tr><td>Flow reading normal but process results abnormal</td><td>Gas composition, calibration accuracy, gas distribution, chamber conditions or other process variables</td></tr>
+            </tbody></table></div>
+            <p><strong>Important:</strong> MFC flow control and chamber-pressure control are different. The MFC controls gas entering the chamber; the throttle valve and pumping system regulate gas removal and chamber pressure. A chamber-pressure problem does not automatically mean the MFC has failed.</p>
+
+            <h3>6. Step-by-Step Troubleshooting</h3>
+            <ol><li><strong>Safety first:</strong> Record the exact alarm, affected gas, MFC model, setpoint, actual flow and when the error occurs (standby, gas admission, plasma ignition or process). If there is a gas leak, abnormal pressure, unsafe chamber condition or gas-cabinet alarm, follow the facility emergency shutdown procedure.</li><li><strong>Check supply:</strong> Verify gas availability, regulator status, supply alarms and inlet pressure against manufacturer specifications. Investigate insufficient pressure before replacing the MFC.</li><li><strong>Compare flow values:</strong> Determine whether actual flow is zero, low, high, fluctuating or slow to reach setpoint; check controller tolerance and whether the MFC responds.</li><li><strong>Isolate location:</strong> Compare other gas lines and controller signals. One affected line suggests an individual line/MFC; several affected lines suggest common supply or controller.</li><li><strong>Professional testing:</strong> Once safe, a qualified technician can inspect gas lines, connections, configuration, calibration and controller signals under manufacturer procedures. Replace or recalibrate only after identifying the cause.</li></ol>
+
+            <h3>7. MFC Troubleshooting Checklist</h3>
+            <ul><li>Record exact MFC alarm code and affected gas.</li><li>Record flow setpoint and actual reading.</li><li>Verify gas supply pressure against MFC specification.</li><li>Check whether other MFCs on the same supply are affected.</li><li>Check MFC power, communication and controller diagnostics.</li><li>Verify gas selection and MFC configuration.</li><li>Check calibration status and maintenance history.</li><li>Note whether the fault coincides with chamber pressure or plasma changes.</li><li>Inspect for leaks using the approved gas-safety procedure.</li><li>Document fault, corrective action and final test results.</li></ul>
+            <p><button class="btn btn-primary" type="button" onclick="(function(){const t=this.closest('details').querySelector('ul');const text=Array.from(t.querySelectorAll('li')).map(x=>'☐ '+x.textContent).join('\n');const area=document.createElement('textarea');area.value=text;area.style.cssText='width:100%;min-height:220px;margin-top:12px';t.after(area);area.select();document.execCommand('copy');area.setAttribute('aria-label','Copied checklist; select and copy if automatic copying is unavailable');})">Copy checklist</button></p>
+
+            <h3>8. Emergency Safety Stop — When Is It Necessary?</h3>
+            <p>Stop the process and follow the facility emergency procedure if a gas leak alarm activates; hydrogen or another hazardous gas is suspected to leak; gas-cabinet ventilation/exhaust monitoring is unsafe; pressure is outside permitted limits; a safety interlock or emergency shutdown activates; or abnormal gas flow cannot be controlled safely.</p>
+            <p>Evacuate when required by the facility alarm procedure and notify safety or gas-system personnel. Do not repair a leak, override an interlock, bypass an MFC alarm or open pressurized gas lines. Hydrogen and methane are flammable; some process gases may be toxic or otherwise hazardous. Gas-specific procedures are essential.</p>
+
+            <h3>9. How to Prevent MFC Flow Errors</h3>
+            <div class="defect-table-wrap"><table class="defect-table"><thead><tr><th>Maintenance activity</th><th>Purpose</th></tr></thead><tbody><tr><td>Monitor supply pressure</td><td>Prevent insufficient or unstable inlet pressure</td></tr><tr><td>Maintain regulators and filters</td><td>Reduce contamination and restrictions</td></tr><tr><td>Inspect connectors and communication cables</td><td>Prevent intermittent signals and communication errors</td></tr><tr><td>Verify gas configuration</td><td>Avoid incorrect flow measurements</td></tr><tr><td>Follow calibration schedules</td><td>Maintain measurement accuracy</td></tr><tr><td>Record flow-deviation trends</td><td>Identify deterioration early</td></tr><tr><td>Maintain vacuum and pressure-control systems</td><td>Reduce process-related pressure instability</td></tr></tbody></table></div>
+            <p>Maintenance intervals should follow the MFC manufacturer's recommendations and the machine's operating conditions.</p>
+
+            <h3>10. Frequently Asked Questions</h3>
+            <h4>Why is my MFC flow showing zero?</h4><p>Possible causes include no gas supply, insufficient inlet pressure, closed or faulty valve, electrical issue or communication problem. Check alarms and supply condition before concluding the MFC is defective.</p>
+            <h4>Why does actual flow remain below setpoint?</h4><p>The MFC may lack inlet pressure or available gas flow. A restricted line, faulty valve, incorrect gas configuration or sensor malfunction may also cause it.</p>
+            <h4>Can a vacuum pump problem cause an MFC flow error?</h4><p>A pump problem can affect chamber pressure and process conditions and may indirectly contribute to unstable flow behavior or related alarms. The vacuum pump does not directly control the MFC setpoint; use gas-flow and pressure diagnostics to establish the cause.</p>
+            <h4>Should I replace the MFC whenever a flow error appears?</h4><p>No. First check gas supply, regulator, line restriction, communication, configuration and the MFC itself. Replacing a functioning MFC will not fix an upstream supply fault.</p>
+            <p style="margin-top:18px">For service support, share the machine model, exact alarm, affected gas, setpoint/actual-flow readings, recent changes and relevant photos or screenshots through the service request or WhatsApp contact on this website.</p>
+          </div>
+        </details>
         <details id="vacuum-leak-detail" class="faq-item" style="margin-top:24px;background:#0c1c2e;color:#eef6ff;border-color:#24415f">
           <summary style="color:#23c7b7">Vacuum Leak Troubleshooting — Causes, Detection, Repair &amp; Prevention</summary>
           <div style="padding-top:16px;color:#d7e6f2">
