@@ -425,6 +425,11 @@
             <p>Leakage, blockage, moisture or contamination can change plasma chemistry and diamond growth. Check regulators, fittings, purging and purification.</p><span class="defect-tag">Gas</span>
             <p style="margin-top:14px"><a class="btn btn-primary" href="#gas-line-purity-detail">View Troubleshooting Guide &#8595;</a></p>
           </article>
+          <article class="defect-card" data-category="microwave" data-text="microwave RF power fault magnetron reflected power generator plasma troubleshooting">
+            <div class="defect-icon">&#9889;</div><h3>Microwave / RF Power Fault</h3>
+            <p>Diagnose generator output, reflected power, plasma ignition, cooling, waveguide and RF matching problems.</p><span class="defect-tag">Microwave / RF</span>
+            <p style="margin-top:14px"><a class="btn btn-primary" href="#microwave-rf-power-detail">View Troubleshooting Guide &#8595;</a></p>
+          </article>
           <article class="defect-card" data-category="microwave" data-text="microwave reflected power tuning cavity waveguide magnetron source">
             <div class="defect-icon">&#9889;</div><h3>Microwave / RF Power Fault</h3>
             <p>Unstable forward power, high reflected power, poor tuning or source instability can prevent stable plasma operation.</p><span class="defect-tag">Microwave / RF</span>
@@ -1370,6 +1375,111 @@ function renderReviews(reviews){
       });
     })();
   </script>
+
+
+<section id="microwave-rf-power-detail" class="band">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Microwave / RF Power</span>
+      <h2>Microwave / RF Power Fault in CVD Diamond Machines</h2>
+      <p>Causes, working principle, fault locations, troubleshooting, and solutions.</p>
+    </div>
+    <div class="card" style="max-width:100%">
+      <p>A microwave or RF power system provides the energy needed to create and maintain plasma inside a CVD reactor chamber. A fault may prevent plasma ignition, cause instability, or shut down deposition, affecting gas dissociation, process temperature, growth rate, and machine performance.</p>
+      <p><strong>Important safety warning:</strong> Microwave and RF systems can contain lethal high voltage, stored electrical energy, and hazardous electromagnetic radiation. Internal power supply, magnetron, RF amplifier, waveguide, and matching-network repairs must be performed by trained technicians under the manufacturer's procedures. Never operate with covers, shielding, interlocks, or waveguide connections removed.</p>
+
+      <h3>1. What is a microwave / RF power fault?</h3>
+      <p>It occurs when the machine cannot generate, deliver, or control the required electromagnetic power. Common examples: generator fails to start; magnetron or RF generator output is absent or low; forward power is below setpoint; reflected power is high; plasma fails to ignite, becomes unstable, or shuts down; power drops during deposition; or a generator alarm appears. The precise diagnosis depends on whether the machine uses microwave, magnetron-based microwave, solid-state microwave, or RF power.</p>
+
+      <h3>2. How does microwave / RF power work?</h3>
+      <p><strong>Microwave system:</strong> Typically includes a microwave generator and power supply, waveguide, a circulator/isolator and reflected-power protection where fitted, tuning or coupling components, and the reactor chamber. A magnetron is one common microwave source; some systems use solid-state sources.</p>
+      <p><strong>RF system:</strong> Commonly includes an RF generator or amplifier, impedance matching network, RF cable and connectors, electrodes or another coupling arrangement, and the reactor chamber. The matching network helps transfer power between the generator and plasma load. Microwave waveguide and RF matching faults are different and require system-specific diagnosis.</p>
+
+      <h3>3. Symptoms and possible indications</h3>
+      <ul>
+        <li><strong>Generator display blank:</strong> electrical supply, power supply, control or interlock issue.</li>
+        <li><strong>Generator starts but output is absent:</strong> generator, power supply or protection condition.</li>
+        <li><strong>Plasma does not ignite:</strong> delivered power, process conditions or coupling problem.</li>
+        <li><strong>Plasma ignites then extinguishes:</strong> power instability, reflected power, gas-flow or pressure variation.</li>
+        <li><strong>Forward power low:</strong> generator output problem, power limit or poor transfer.</li>
+        <li><strong>Reflected power high:</strong> impedance mismatch, coupling or chamber/plasma condition.</li>
+        <li><strong>Power drops after several minutes:</strong> cooling fault, thermal protection or developing electrical issue.</li>
+        <li><strong>Matching cannot tune:</strong> matching network, cable, electrode or unstable plasma load.</li>
+        <li><strong>Arcing or abnormal noise:</strong> possible breakdown, damaged insulation, contamination or poor connection.</li>
+      </ul>
+      <p>A power alarm does not always mean the generator is defective. Gas flow, chamber pressure, cooling, and plasma conditions may also trigger it.</p>
+
+      <h3>4. Common causes and corrective direction</h3>
+      <p><strong>A. Generator or power supply:</strong> possible component failure, overheating, input supply outside specifications, protection activation, damaged electronics, or faulty control signal. Record alarms and history; a qualified technician should check supply, cooling, diagnostics, and control signals using service documentation. Do not attempt internal repairs without training.</p>
+      <p><strong>B. Magnetron problem:</strong> possible magnetron deterioration, magnetron supply fault, protection activation, cooling failure, excessive reflected energy, or damaged microwave connections. Low/absent output, temperature alarms, failed ignition, or unstable power may occur. Have a trained microwave technician evaluate diagnostic readings, output, cooling, and delivery path. Do not replace the magnetron merely because plasma will not ignite.</p>
+      <p><strong>C. High reflected power:</strong> energy not absorbed by the plasma returns toward the source, which may reduce output or shut down. Causes can include poor coupling, abnormal pressure, gas composition/flow changes, plasma position/shape, damaged delivery parts, or tuning/matching faults. Record forward and reflected power, pressure, gas-flow conditions, and whether the fault occurs during ignition or stable deposition. Never bypass reflected-power protection or repeatedly reset a tripping generator.</p>
+      <p><strong>D. Waveguide or microwave delivery:</strong> damage, deformation, incorrect assembly, damaged seals/interfaces, deposits, misalignment, or protective-component damage may reduce coupling. Shut down and make the system safe according to manufacturer procedures before qualified inspection. Shielding and covers must be installed before operation; leakage checks require prescribed equipment and methods.</p>
+      <p><strong>E. RF matching network:</strong> component failure, incorrect tuning condition, damaged cable/connector, contact problems, unstable plasma load, or tuning motor/feedback fault may cause repeated tuning, high reflected RF, low output, or plasma instability. Review matching status, forward/reflected power, plasma conditions, and alarms. Only qualified personnel should inspect or adjust the RF system per approved procedures.</p>
+      <p><strong>F. Cooling:</strong> blocked airflow, fan failure, low coolant flow, high coolant temperature, restriction, or sensor fault may cause overheating and power reduction/shutdown. Compare external cooling indicators with specifications; stop according to procedure if cooling is inadequate. Never defeat a cooling interlock.</p>
+      <p><strong>G. Chamber pressure or gas flow:</strong> incorrect flow, MFC error, supply pressure issue, pressure outside process range, throttle-valve fault, pump deterioration, contamination, or abnormal gas composition can make plasma difficult to ignite or maintain. Compare power alarms with gas, pressure, and vacuum diagnostics before condemning the generator.</p>
+
+      <h3>5. Fault-location guide</h3>
+      <ul>
+        <li>Blank generator display → electrical supply, generator power supply, or control system.</li>
+        <li>Output absent after start → generator, supply, or protection condition.</li>
+        <li>Normal forward power with high reflected power → plasma load, coupling, waveguide, or matching system.</li>
+        <li>Stable power but no ignition → gas flow, pressure, chamber condition, or coupling.</li>
+        <li>Instability during pressure change → vacuum pressure control or gas delivery.</li>
+        <li>Trip after minutes → cooling, thermal protection, or developing electrical fault.</li>
+        <li>Matching cannot complete → matching network, RF delivery, or unstable plasma load.</li>
+        <li>Fault follows MFC alarm → gas supply or flow control may be responsible.</li>
+      </ul>
+      <p>Distinguish commanded power, measured generator output, and power effectively coupled into plasma; these are not necessarily equal.</p>
+
+      <h3>6. Step-by-step troubleshooting</h3>
+      <ol>
+        <li><strong>Record the fault:</strong> exact alarm, generator make/model, operating mode, forward/reflected power, chamber pressure, and whether it occurred at ignition or during deposition. Stop and follow site safety procedure for arcing, burning smell, cooling alarm, suspected leakage, or repeated protection trips.</li>
+        <li><strong>Review interlocks:</strong> check external cooling, chamber, door, and generator status indicators. Do not bypass interlocks.</li>
+        <li><strong>Review power readings:</strong> compare commanded and actual power, forward/reflected power, output status, and alarm history. Determine whether output is absent or protection is reducing it.</li>
+        <li><strong>Compare process conditions:</strong> review MFC readings, gas supply, and chamber pressure at the fault time. If a gas or pressure change coincides, investigate that system too.</li>
+        <li><strong>Arrange professional inspection:</strong> qualified technicians should inspect generator, magnetron/RF amplifier, matching network, waveguide/RF connections, and cooling according to approved diagnostics. Internal work requires proper isolation and safe discharge procedures.</li>
+        <li><strong>Verify repair:</strong> use the manufacturer's commissioning procedure to confirm operation, protection functions, cooling, power stability, and plasma operation within the approved process window.</li>
+      </ol>
+
+      <h3>7. Maintenance checklist</h3>
+      <ul>
+        <li>Record exact generator alarm and operating condition.</li>
+        <li>Identify whether the machine uses microwave or RF power.</li>
+        <li>Record commanded, forward, and reflected power where available.</li>
+        <li>Check external cooling indicators and alarms.</li>
+        <li>Review gas flow and chamber pressure at fault time.</li>
+        <li>Check interlock and generator status indications.</li>
+        <li>Review generator and matching-network maintenance history.</li>
+        <li>Note whether fault occurs during ignition or after stabilization.</li>
+        <li>Arrange qualified inspection of power-delivery components when needed.</li>
+        <li>Document root cause, corrective action, and final test results.</li>
+      </ul>
+
+      <h3>8. Emergency safety stop</h3>
+      <p>Stop the process and follow the facility's emergency procedure for electrical arcing, smoke or burning smell; repeated generator trips; abnormal cooling/overheating; suspected microwave leakage or damaged shielding; damaged waveguide/RF cable/power components; or an activated safety interlock. If there is smoke, fire, or suspected electrical/radiation danger, keep clear and follow emergency response instructions.</p>
+      <p><strong>Never:</strong> open an energized high-voltage enclosure; assume stored energy is discharged merely because power is off; bypass door, cooling, chamber, or reflected-power interlocks; operate with microwave shielding or waveguide covers removed; or repeatedly reset a generator with an unresolved fault.</p>
+
+      <h3>9. Prevention</h3>
+      <ul>
+        <li>Maintain cooling to prevent overheating and thermal shutdown.</li>
+        <li>Monitor forward/reflected power trends to spot abnormal transfer.</li>
+        <li>Maintain waveguide and RF delivery parts to reduce coupling/connection faults.</li>
+        <li>Maintain matching network and follow scheduled generator service.</li>
+        <li>Verify gas flow and chamber pressure for suitable plasma conditions.</li>
+        <li>Keep interlocks and protection functional.</li>
+        <li>Document faults and repairs to identify recurring failures.</li>
+      </ul>
+      <p>Maintenance intervals and acceptable power limits must follow the particular generator and reactor manufacturer's specifications.</p>
+
+      <h3>10. Frequently asked questions</h3>
+      <p><strong>Why does plasma fail to ignite when the generator is working?</strong> Possible causes include insufficient power coupled into plasma, unsuitable gas flow, incorrect pressure, poor coupling, or chamber conditions outside the ignition range. A displayed output does not guarantee effective coupling.</p>
+      <p><strong>Why does reflected power increase?</strong> Plasma load or coupling may have changed due to gas flow, pressure, plasma position, matching, or delivery components. Do not bypass protection.</p>
+      <p><strong>Can a vacuum pump problem cause an RF/microwave fault?</strong> Yes, indirectly. Pump or throttle-valve problems can destabilize pressure and plasma, causing a power or matching alarm. Diagnose both systems when faults coincide with pressure changes.</p>
+      <p><strong>Can a magnetron be repaired?</strong> It depends on generator design and manufacturer service policy. A qualified microwave technician should determine whether replacement or another service is appropriate.</p>
+      <p><strong>Should the generator be replaced whenever plasma stops?</strong> No. Gas flow, pressure control, cooling, interlocks, matching, or generator faults can stop plasma. Identify the cause before replacing expensive power components.</p>
+    </div>
+  </div>
+</section>
 
 </body>
 </html>
