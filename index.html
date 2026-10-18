@@ -523,6 +523,38 @@
       <details id="vacuum-pump-detail" class="faq-item" style="margin-top:24px;background:#0c1c2e;color:#eef6ff;border-color:#24415f">
         <summary style="color:#23c7b7">Vacuum Pump Problems — Causes, Troubleshooting &amp; Solutions</summary>
         <div style="padding-top:16px;color:#d7e6f2">
+          <figure class="vacuum-pump-visual" style="margin:0 0 22px;padding:16px;border:1px solid #24415f;border-radius:14px;background:#071522">
+            <svg viewBox="0 0 760 300" role="img" aria-labelledby="vacuum-pump-svg-title vacuum-pump-svg-desc" style="display:block;width:100%;height:auto;max-height:320px">
+              <title id="vacuum-pump-svg-title">CVD vacuum pump system schematic</title>
+              <desc id="vacuum-pump-svg-desc">A reactor chamber connects through a vacuum line and valve to a vacuum pump, with a pressure gauge shown on the line.</desc>
+              <defs>
+                <linearGradient id="vp-metal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d7e6f2"/><stop offset="1" stop-color="#7890a8"/></linearGradient>
+                <marker id="vp-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#23c7b7"/></marker>
+              </defs>
+              <g fill="none" stroke="#23c7b7" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M185 150 H275 M355 150 H445 M525 150 H595" />
+                <path d="M245 150 H265" marker-end="url(#vp-arrow)"/><path d="M415 150 H435" marker-end="url(#vp-arrow)"/><path d="M565 150 H585" marker-end="url(#vp-arrow)"/>
+              </g>
+              <g>
+                <rect x="28" y="85" width="157" height="130" rx="16" fill="#102b40" stroke="#7890a8" stroke-width="3"/>
+                <rect x="50" y="105" width="113" height="90" rx="10" fill="url(#vp-metal)" opacity=".9"/>
+                <path d="M63 150 H150 M106 112 V188" stroke="#071522" stroke-width="4" opacity=".7"/>
+                <text x="106" y="252" fill="#eef6ff" font-size="18" text-anchor="middle">Reactor chamber</text>
+                <circle cx="315" cy="150" r="40" fill="#173d51" stroke="#23c7b7" stroke-width="4"/>
+                <path d="M315 119 L329 150 L315 181 L301 150 Z" fill="#23c7b7"/>
+                <text x="315" y="252" fill="#eef6ff" font-size="18" text-anchor="middle">Isolation valve</text>
+                <circle cx="485" cy="150" r="34" fill="#102b40" stroke="#d7e6f2" stroke-width="3"/>
+                <path d="M485 150 L505 135" stroke="#23c7b7" stroke-width="5" stroke-linecap="round"/>
+                <text x="485" y="252" fill="#eef6ff" font-size="18" text-anchor="middle">Pressure gauge</text>
+                <rect x="595" y="105" width="135" height="90" rx="18" fill="#173d51" stroke="#23c7b7" stroke-width="3"/>
+                <rect x="610" y="121" width="62" height="58" rx="8" fill="#071522" stroke="#7890a8" stroke-width="2"/>
+                <path d="M622 130 V170 M635 130 V170 M648 130 V170" stroke="#23c7b7" stroke-width="4"/>
+                <circle cx="698" cy="150" r="20" fill="#071522" stroke="#d7e6f2" stroke-width="3"/>
+                <text x="662" y="252" fill="#eef6ff" font-size="18" text-anchor="middle">Vacuum pump</text>
+              </g>
+            </svg>
+            <figcaption style="color:#a9bfd4;font-size:13px;text-align:center;margin-top:8px">Illustrative system layout — actual valve, gauge and pump arrangement varies by machine.</figcaption>
+          </figure>
           <h3>Complete Technical Guide for CVD Diamond Machines</h3>
           <p>A vacuum pump is a key component of a Chemical Vapor Deposition (CVD) diamond machine. It removes air and process gases from the reactor chamber and helps maintain vacuum conditions required for stable operation. Pump faults may cause low vacuum, slow pump-down, unstable chamber pressure, overheating, unusual noise or unexpected shutdown.</p>
           <h3>1. Why Do Vacuum Pump Problems Occur?</h3>
