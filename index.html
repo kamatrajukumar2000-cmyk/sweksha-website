@@ -691,7 +691,31 @@
 <h3>Microwave / RF Power Fault in CVD Diamond Machines</h3>
 <p><strong>Causes, working principle, fault locations, troubleshooting, and solutions</strong></p>
 <p>In a CVD (Chemical Vapor Deposition) diamond machine, the microwave or RF power system provides the energy needed to create and maintain plasma inside the reactor chamber. If the system develops a fault, plasma may fail to ignite, become unstable, or shut down during the process. This can affect gas dissociation, process temperature, diamond growth rate, and overall machine performance.</p>
-<p><strong>Important safety warning:</strong> Microwave and RF power systems can contain lethal high voltage, stored electrical energy, and hazardous electromagnetic radiation. Internal power supply, magnetron, RF amplifier, waveguide, and matching-network repairs must be performed by trained technicians following the equipment manufacturer's procedures. Never operate a microwave or RF system with covers, shielding, interlocks, or waveguide connections removed.</p>
+<div class="defect-note" style="margin:18px 0;padding:14px;background:#071522;border:1px solid #24415f;border-radius:14px">
+<p style="margin:0 0 10px"><strong>Diagram 1 — Microwave power delivery (simplified)</strong></p>
+<svg viewBox="0 0 760 250" role="img" aria-label="Microwave generator feeds waveguide and coupling into reactor plasma; reflected power protection and cooling are monitored" style="width:100%;height:auto;display:block">
+<defs><marker id="mwArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#23c7b7"/></marker></defs>
+<g fill="#102b40" stroke="#23c7b7" stroke-width="2"><rect x="18" y="78" width="132" height="74" rx="10"/><rect x="202" y="78" width="142" height="74" rx="10"/><rect x="396" y="78" width="142" height="74" rx="10"/><rect x="590" y="78" width="150" height="74" rx="10"/></g>
+<g fill="#eef6ff" font-size="16" text-anchor="middle"><text x="84" y="108">Microwave</text><text x="84" y="130">generator</text><text x="273" y="108">Waveguide</text><text x="273" y="130">delivery</text><text x="467" y="108">Coupling /</text><text x="467" y="130">tuning</text><text x="665" y="108">Reactor</text><text x="665" y="130">plasma</text></g>
+<g stroke="#23c7b7" stroke-width="3" fill="none" marker-end="url(#mwArrow)"><path d="M150 115 H198"/><path d="M344 115 H392"/><path d="M538 115 H586"/></g>
+<path d="M665 157 V196 H84 V157" stroke="#f4b860" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+<g fill="#f4b860" font-size="14" text-anchor="middle"><text x="370" y="218">Reflected power / protection monitoring (system-dependent)</text></g>
+<text x="380" y="30" fill="#9db6ca" font-size="13" text-anchor="middle">Conceptual overview — exact components vary by machine</text>
+</svg>
+<p style="margin:10px 0 0"><strong>Cooling and interlocks</strong> protect the generator and should remain active; never bypass them.</p>
+</div>
+<div class="defect-note" style="margin:18px 0;padding:14px;background:#071522;border:1px solid #24415f;border-radius:14px">
+<p style="margin:0 0 10px"><strong>Diagram 2 — RF power delivery (simplified)</strong></p>
+<svg viewBox="0 0 760 230" role="img" aria-label="RF generator connects through matching network and RF cable to electrode and plasma chamber" style="width:100%;height:auto;display:block">
+<defs><marker id="rfArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#23c7b7"/></marker></defs>
+<g fill="#102b40" stroke="#23c7b7" stroke-width="2"><rect x="20" y="72" width="150" height="78" rx="10"/><rect x="225" y="72" width="150" height="78" rx="10"/><rect x="430" y="72" width="120" height="78" rx="10"/><rect x="605" y="52" width="135" height="118" rx="10"/></g>
+<g fill="#eef6ff" font-size="16" text-anchor="middle"><text x="95" y="103">RF generator</text><text x="300" y="103">Matching</text><text x="300" y="125">network</text><text x="490" y="103">RF cable /</text><text x="490" y="125">electrode</text><text x="672" y="96">Reactor</text><text x="672" y="118">chamber +</text><text x="672" y="140">plasma</text></g>
+<g stroke="#23c7b7" stroke-width="3" fill="none" marker-end="url(#rfArrow)"><path d="M170 111 H221"/><path d="M375 111 H426"/><path d="M550 111 H601"/></g>
+<path d="M672 174 V202 H95 V154" stroke="#f4b860" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+<text x="380" y="222" fill="#f4b860" font-size="14" text-anchor="middle">Forward / reflected power and matching status are diagnostic indicators</text>
+</svg>
+<p style="margin:10px 0 0">A matching network helps transfer power to the plasma load. The microwave and RF layouts are not interchangeable.</p>
+</div><p><strong>Important safety warning:</strong> Microwave and RF power systems can contain lethal high voltage, stored electrical energy, and hazardous electromagnetic radiation. Internal power supply, magnetron, RF amplifier, waveguide, and matching-network repairs must be performed by trained technicians following the equipment manufacturer's procedures. Never operate a microwave or RF system with covers, shielding, interlocks, or waveguide connections removed.</p>
 <h3>1. What is a microwave / RF power fault?</h3>
 <p>A fault occurs when the machine cannot generate, deliver, or control the required electromagnetic power. Common examples include:</p>
 <ul><li>Microwave generator does not start.</li><li>Magnetron does not generate required microwave power.</li><li>RF generator fails to produce required output.</li><li>Forward power is lower than setpoint or reflected power is too high.</li><li>Plasma does not ignite, ignites but becomes unstable, or shuts down.</li><li>Power drops during deposition or a generator alarm appears.</li></ul>
