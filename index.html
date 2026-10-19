@@ -6,7 +6,7 @@
   <title>Sweksha CVD Diamond Machine Service | Troubleshooting</title>
   <meta name="description" content="Sweksha CVD Diamond Machine Service & Consulting supports CVD lab-grown diamond machine troubleshooting, including quartz window, microwave/RF, vacuum pump, MFC flow and plasma instability issues in India.">
   <meta name="keywords" content="CVD diamond machine service, CVD lab grown diamond machine troubleshooting, quartz window problem, microwave RF fault, vacuum pump error, MFC flow error, plasma instability, CVD machine repair India, CVD plant setup, lab grown diamond consulting">
-  <meta name="author" content="Mr.Raju Kamat - Sweksha Fondation Club">
+  <meta name="author" content="Mr.Raju Kamat - Sweksha CVD Diamond Machine Service & Consulting">
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Sweksha CVD Diamond Machine Service & Consulting">
   <meta property="og:description" content="CVD lab-grown diamond machine setup and troubleshooting support for quartz window, microwave/RF, vacuum pump, MFC flow and plasma problems.">
@@ -353,8 +353,8 @@
       <div class="container about">
         <div>
           <span class="eyebrow">About Us</span>
-          <h2>Sweksha Fondation Club</h2>
-          <p style="margin-top:15px;color:var(--muted)">Sweksha Fondation Club, led by <strong>Raju Kamat</strong> in Surat, Gujarat, provides online consulting and service support for lab grown diamond machine setup and process-related requirements.</p>
+          <h2>Sweksha CVD Diamond Machine Service & Consulting</h2>
+          <p style="margin-top:15px;color:var(--muted)">Sweksha CVD Diamond Machine Service & Consulting, led by <strong>Raju Kamat</strong> in Surat, Gujarat, provides online consulting and service support for lab grown diamond machine setup and process-related requirements.</p>
           <p style="margin-top:13px;color:var(--muted)">Our goal is simple: understand the machine problem, understand the production requirement, and provide practical guidance for the next step.</p>
         </div>
         <div class="about-box">
@@ -999,7 +999,7 @@
         <div class="section-head">
           <span class="eyebrow">Customer Feedback</span>
           <h2>Reviews & Suggestions</h2>
-          <p>Tell us about your experience, what worked well, and what our team can improve. Submitted reviews are published immediately.</p>
+          <p>Share feedback about your service experience. Feedback is sent directly to our WhatsApp for review; it is not published automatically.</p>
         </div>
 
         <div class="review-summary">
@@ -1021,7 +1021,7 @@
 
         <div class="review-form-wrap">
           <h3>Share Your Experience</h3>
-          <p class="notice" style="margin:6px 0 20px">Your review is added to the website after you submit it. Do not include private or confidential information.</p>
+          <p class="notice" style="margin:6px 0 20px">Your feedback will open in WhatsApp so you can send it to us. It will not be published on this website automatically. Please do not include private or confidential information.</p>
           <form id="reviewForm">
             <div class="review-form-grid">
               <div>
@@ -1052,7 +1052,7 @@
                 <textarea id="reviewText" maxlength="1200" required placeholder="What was your experience? What should we improve?"></textarea>
               </div>
               <div class="full">
-                <button class="btn btn-primary" type="submit">Submit Review</button>
+                <button class="btn btn-primary" type="submit">Send Feedback on WhatsApp</button>
                 <div id="reviewStatus" class="review-status" role="status" aria-live="polite"></div>
               </div>
             </div>
@@ -1175,7 +1175,7 @@
 
   <footer>
     <div class="container footer-grid">
-      <div><h3>Sweksha Fondation Club</h3><p>Lab grown diamond machine service & online consulting.</p></div>
+      <div><h3>Sweksha CVD Diamond Machine Service & Consulting</h3><p>Lab grown diamond machine service & online consulting.</p></div>
       <div>
         <p>Owner: Raju Kamat</p>
         <p>Surat, Gujarat, India</p>
@@ -1196,7 +1196,7 @@
         <p>This counter does not provide a reliable unique visitor total.</p>
       </div>
     </div>
-    <div class="container small">&#169; <span id="year"></span> Sweksha Fondation Club. All rights reserved. &#8226; Service outcomes can vary by machine, material and process conditions.</div>
+    <div class="container small">&#169; <span id="year"></span> Sweksha CVD Diamond Machine Service & Consulting. All rights reserved. &#8226; Service outcomes can vary by machine, material and process conditions.</div>
   </footer>
 
   <a class="float-wa" onclick="trackEvent('whatsapp_click', {method: 'whatsapp'});" href="https://wa.me/917827474249?text=Hello%20Sweksha%20Fondation%20Club,%20I%20need%20lab%20grown%20diamond%20machine%20service%20consulting." target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
@@ -1297,7 +1297,7 @@
       const contact = document.getElementById('serviceContact').value.trim();
 
       const msg =
-`Hello Sweksha Fondation Club,
+`Hello Sweksha CVD Diamond Machine Service & Consulting,
 
 I want lab grown diamond machine service/consulting.
 
@@ -1431,34 +1431,17 @@ function renderReviews(reviews){
       const rating = Number(document.getElementById('reviewRating').value);
       const title = document.getElementById('reviewTitle').value.trim();
       const review_text = document.getElementById('reviewText').value.trim();
-
       if(!name || !rating || !review_text) return;
-      const submission = {
-        name,
-        company: company || null,
-        rating,
-        title: title || null,
-        review_text,
-        approved: true,
-        created_at: new Date().toISOString()
-      };
-      const form = this;
-      const submitButton = form.querySelector('button[type="submit"]');
-      submitButton.disabled = true;
-      setReviewStatus('Saving your review...');
-      try{
-        const reviews = getReviews();
-        reviews.push(submission);
-        localStorage.setItem(reviewStorageKey, JSON.stringify(reviews));
-        loadReviews();
-        form.reset();
-        setReviewStatus('Thank you. Your review has been published.', 'success');
-        trackEvent('review_submitted', {rating});
-      }catch(error){
-        setReviewStatus('Could not save your review in this browser. Check browser storage settings and try again.', 'error');
-      }finally{
-        submitButton.disabled = false;
-      }
+      const msg = 'Hello Sweksha CVD Diamond Machine Service & Consulting,\n\nI would like to share feedback about your service.\n\nName: ' + name +
+        '\nCompany: ' + (company || 'Not provided') +
+        '\nRating: ' + rating + '/5' +
+        '\nTitle: ' + (title || 'Not provided') +
+        '\nFeedback: ' + review_text +
+        '\n\nPlease review my feedback. I understand it will not be published on the website automatically.';
+      const waUrl = 'https://wa.me/917827474249?text=' + encodeURIComponent(msg);
+      window.open(waUrl, '_blank', 'noopener');
+      setReviewStatus('WhatsApp opened with your feedback. Please send the message there.', 'success');
+      trackEvent('review_feedback_whatsapp', {rating});
     });
 
     loadReviews();
