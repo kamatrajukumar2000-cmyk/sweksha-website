@@ -1469,8 +1469,9 @@ function renderReviews(reviews){
   <style>
     #sweksha-assist-toggle{position:fixed;right:20px;bottom:88px;z-index:50;border:0;border-radius:999px;background:#23c7b7;color:#07111f;padding:14px 18px;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.22);cursor:pointer}
     #sweksha-instagram-link{position:fixed;right:20px;bottom:150px;z-index:50;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;background:#e1306c;color:#fff;padding:12px 18px;font-weight:800;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.22)}
-    #sweksha-instagram-link:hover{filter:brightness(1.06)}
-    @media(max-width:480px){#sweksha-instagram-link{right:14px;bottom:145px}}
+    #sweksha-instagram-link:hover,#sweksha-x-link:hover{filter:brightness(1.06)}
+    #sweksha-x-link{position:fixed;right:20px;bottom:205px;z-index:50;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;background:#111;color:#fff;padding:12px 18px;font-weight:800;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+    @media(max-width:480px){#sweksha-instagram-link{right:14px;bottom:145px}#sweksha-x-link{right:14px;bottom:200px}}
     #sweksha-assist-panel{position:fixed;right:20px;bottom:150px;width:min(360px,calc(100vw - 32px));z-index:50;background:#fff;border:1px solid #dfe7ef;border-radius:16px;box-shadow:0 18px 50px rgba(7,17,31,.25);overflow:hidden;color:#182333}
     #sweksha-assist-panel[hidden]{display:none}
     .sweksha-assist-head{background:#07111f;color:#fff;padding:15px 18px;font-weight:800}
@@ -1484,7 +1485,8 @@ function renderReviews(reviews){
     #sweksha-assist-form button{border:0;border-radius:8px;background:#23c7b7;color:#07111f;font-weight:800;padding:10px 12px;cursor:pointer}
     @media(max-width:480px){#sweksha-assist-toggle{right:14px;bottom:84px}#sweksha-assist-panel{right:12px;bottom:145px}}
   </style>
-  <a id="sweksha-instagram-link" href="https://x.com/Rajukamat03zm" target="_blank" rel="noopener noreferrer" aria-label="Open Sweksha on X">X / Twitter</a>
+  <a id="sweksha-instagram-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Open Instagram in a new tab">Instagram</a>
+    <a id="sweksha-x-link" href="https://x.com/Rajukamat03zm" target="_blank" rel="noopener noreferrer" aria-label="Open Sweksha on X">X / Twitter</a>
   <button id="sweksha-assist-toggle" type="button" aria-expanded="false" aria-controls="sweksha-assist-panel">Service Help</button>
   <section id="sweksha-assist-panel" hidden aria-label="Sweksha service help">
     <div class="sweksha-assist-head">Sweksha Service Help</div>
