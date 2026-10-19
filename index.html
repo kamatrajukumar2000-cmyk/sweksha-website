@@ -1161,6 +1161,143 @@
         </div>
       </div>
     </section>
+  
+    <!-- ===== PLASMA IGNITION FAILURE GUIDE ===== -->
+    <section id="plasma-ignition-failure" class="band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">CVD Machine Troubleshooting • Plasma</span>
+          <h2>Plasma Ignition Failure in a CVD Diamond Machine</h2>
+          <p>Causes, working principles, troubleshooting, and corrective actions. This guide is the first topic in the Plasma series: Plasma Ignition Failure, Plasma Instability, and Chamber Carbon Deposition.</p>
+        </div>
+
+        <article class="card">
+          <h3>1. What Is Plasma Ignition Failure?</h3>
+          <p>Plasma Ignition Failure occurs when a CVD (Chemical Vapor Deposition) diamond machine cannot establish plasma inside the reactor chamber after the required gas supply, pressure, and microwave or RF power conditions have been established. In a CVD diamond reactor, plasma activates process gases such as hydrogen (H₂) and methane (CH₄), which participate in diamond growth. If plasma does not ignite, deposition cannot start correctly. If it ignites and immediately disappears, the machine may have a plasma stability problem.</p>
+          <p><strong>Important:</strong> Microwave plasma CVD and RF plasma CVD machines have different ignition systems. Operating pressure, power, gas flow, and ignition sequence must follow the machine manufacturer's specifications.</p>
+
+          <h3>2. How Does Plasma Ignition Work?</h3>
+          <ol>
+            <li><strong>Vacuum system startup:</strong> The vacuum pump removes air and unwanted gases from the reactor chamber.</li>
+            <li><strong>Pressure establishment:</strong> The pressure-control system brings the chamber to the required operating pressure.</li>
+            <li><strong>Gas supply:</strong> Hydrogen and methane are introduced through mass flow controllers (MFCs), according to the approved recipe.</li>
+            <li><strong>Power generation:</strong> The microwave generator or RF power supply produces electromagnetic energy</li>
+            <li><strong>Energy coupling:</strong> Energy enters the reactor through a waveguide, antenna, or RF matching network</li>
+            <li><strong>Gas ionization:</strong> Energetic electrons collide with gas molecules, producing ions and additional electrons</li>
+            <li><strong>Plasma formation:</strong> Sufficient ionization and energy balance establish visible plasma</li>
+            <li><strong>Plasma stabilization:</strong> Plasma remains sustained when pressure, gas flow, and power are balanced</li>
+          </ol>
+          <p>A fault at any stage can prevent plasma ignition.</p>
+
+          <h3>3. Common Symptoms</h3>
+          <div class="defect-table-wrap">
+            <table class="defect-table">
+              <thead><tr><th>Symptom</th><th>Possible cause</th></tr></thead>
+              <tbody>
+                <tr><td>Power supply is ON, but no plasma appears</td><td>Gas supply, pressure, power coupling, or ignition conditions</td></tr>
+                <tr><td>Plasma appears briefly and disappears</td><td>Pressure fluctuation, reflected power, interlock, or unstable coupling</td></tr>
+                <tr><td>Plasma appears on only one side of the chamber</td><td>Power coupling, chamber condition, or plasma distribution</td></tr>
+                <tr><td>Plasma flickers continuously</td><td>Gas flow, pressure, power stability, or cooling issue</td></tr>
+                <tr><td>Plasma ignites but process temperature does not increase</td><td>Plasma location, power coupling, temperature measurement, or cooling issue</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="notice">These symptoms provide initial diagnostic direction; they do not independently confirm a faulty component.</p>
+
+          <h3>4. Causes and Corrective Actions</h3>
+          <h4>A. Vacuum Leak or Incorrect Chamber Pressure</h4>
+          <p><strong>Problem:</strong> The chamber cannot reach the required ignition pressure, or pressure fluctuates.</p>
+          <p><strong>Possible causes:</strong> Damaged quartz-window seal, O-ring or chamber gasket; poorly seated chamber-door seal; loose vacuum pipe, flange or fitting; reduced pump performance; stuck throttle valve or incorrect pressure-controller response; inaccurate pressure sensor.</p>
+          <p><strong>Checks:</strong> Observe the pressure trend during pump operation; perform the approved leak test; compare the controller reading with a reference gauge if available; compare pressure setpoint with actual pressure.</p>
+          <p><strong>Corrective actions:</strong> Inspect seals and gaskets; replace damaged O-rings with the specified parts; repair fittings after safe shutdown and isolation; check pump oil, filters and condition per the maintenance schedule; verify sensor calibration and throttle-valve response. There is no universal ignition pressure—the required value depends on reactor design, gas composition and power system.</p>
+
+          <h4>B. Microwave or RF Power Supply Failure</h4>
+          <p><strong>Problem:</strong> The power supply is ON, but sufficient energy is not transferred into the reactor.</p>
+          <p><strong>Possible causes:</strong> Generator malfunction; improper RF matching; waveguide connection issue; damaged or misaligned coupling components; protection trip; excessive reflected power; cooling failure that reduces or shuts down generator output.</p>
+          <p><strong>Checks:</strong> Review forward power, reflected power, generator-ready/fault status, power command versus actual output, and cooling-flow or temperature alarms on the machine display. A command with zero actual output may point to generator, control, interlock or power-supply status. High reflected power requires qualified inspection of coupling, matching, pressure, gas conditions and reactor components.</p>
+          <p><strong>Corrective actions:</strong> Stop and record the fault code; check cooling alarms and flow; inspect external connections only by the manufacturer's safe procedure; use only the approved automatic matching procedure; arrange qualified microwave/RF service for damaged generators, matching components or waveguides.</p>
+          <p class="defect-note danger"><strong>Safety:</strong> Microwave and RF systems can present serious electrical and radiation hazards. Never open a waveguide, matching network or power supply while energized. Dangerous voltage may remain in capacitors after power is switched OFF.</p>
+
+          <h4>C. Gas Flow or Gas Purity Problems</h4>
+          <p><strong>Problem:</strong> Power may be available, but the gas mixture is unsuitable for plasma formation.</p>
+          <p><strong>Possible causes:</strong> Interrupted hydrogen or methane supply; low cylinder pressure; MFC actual flow differing from setpoint; blocked or contaminated line; poor gas purity; gas-line leak; MFC calibration or control-signal fault.</p>
+          <p><strong>Checks:</strong> Verify supply pressure against the approved range; compare MFC setpoints and actual readings; check alarms or communication errors; review leak-test records; confirm cylinder identification and purity certificates.</p>
+          <p><strong>Corrective actions:</strong> Restore the approved gas supply; resolve MFC or pressure-controller faults; replace contaminated gas sources; clean/purge lines only using the manufacturer's procedure; have MFC calibration checked by a qualified technician.</p>
+          <p class="defect-note danger"><strong>Gas safety:</strong> Hydrogen and methane are flammable. Never use a flame or ignition test to locate a gas leak.</p>
+
+          <h4>D. Quartz Window Problems</h4>
+          <p>The quartz window may affect microwave transmission or the reactor vacuum boundary. Possible causes include diamond deposits, cracks, cooling malfunction, seal leakage, or deposits that alter microwave coupling. Symptoms can include weak or uneven plasma, intermittent ignition, abnormal window temperature, or unstable vacuum.</p>
+          <p><strong>Corrective actions:</strong> Inspect only after shutdown and safe isolation; clean deposits only with an approved method; replace damaged windows; verify cooling flow and seal condition. Do not attempt ignition with a cracked window.</p>
+
+          <h4>E. Reactor Chamber Contamination</h4>
+          <p>Particles, deposits or moisture may remain from previous deposition cycles, incomplete cleaning, contaminated gas lines, moisture ingress, or coating on the window, stage or chamber walls. Inspect and clean according to the approved procedure; dry/condition the chamber as specified; check gas-line purity and vacuum contamination; confirm vacuum stability before restart.</p>
+
+          <h4>F. Cooling System Failure</h4>
+          <p>Generators and some reactor components require controlled cooling. Possible causes include insufficient flow, high water temperature, blocked lines, pump failure or a faulty flow sensor. Symptoms include cooling alarms, automatic output reduction, shutdown after ignition, or abnormal flow/temperature readings.</p>
+          <p><strong>Corrective actions:</strong> Check flow, temperature and pump status; inspect filters and lines; repair leaks or blockages; restart only after alarms are resolved and the manufacturer's startup procedure is followed.</p>
+
+          <h3>5. Operator Troubleshooting Checklist</h3>
+          <p>This checklist is limited to the machine display and external/operator-level inspection. Internal electrical testing is for qualified technicians.</p>
+          <ul>
+            <li>Record the machine alarm or fault code.</li>
+            <li>Verify emergency stop, door interlock and generator-ready status.</li>
+            <li>Check vacuum-pump status and chamber-pressure trend.</li>
+            <li>Compare pressure setpoint with actual pressure.</li>
+            <li>Verify hydrogen/methane supply and MFC readings.</li>
+            <li>Check cooling-water flow and temperature alarms.</li>
+            <li>Record forward and reflected power readings.</li>
+            <li>After safe shutdown, inspect the quartz window, chamber and visible connections.</li>
+          </ul>
+
+          <h3>6. Plasma Ignites but Immediately Turns OFF</h3>
+          <p>This may indicate a plasma stability failure rather than a simple ignition failure.</p>
+          <div class="defect-table-wrap">
+            <table class="defect-table">
+              <thead><tr><th>Observation</th><th>Investigation</th></tr></thead>
+              <tbody>
+                <tr><td>Pressure suddenly changes at ignition</td><td>Throttle valve, gas flow, pressure controller</td></tr>
+                <tr><td>Generator alarm appears after ignition</td><td>Generator protection, reflected power, cooling</td></tr>
+                <tr><td>Plasma repeatedly flickers</td><td>Gas-flow stability, pressure sensor, power stability</td></tr>
+                <tr><td>Chamber temperature becomes abnormal</td><td>Plasma position, cooling, temperature measurement</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Review the event history and compare ignition-command time, chamber pressure, MFC actual flow, forward/reflected power, cooling alarms and the time plasma extinguished. This helps identify which parameter changed before plasma disappeared.</p>
+
+          <h3>7. Emergency Safety Stop</h3>
+          <p>Stop further ignition attempts if there is a suspected hydrogen/methane leak, microwave-leakage alarm or damaged enclosure, abnormal arcing/burning/smoke, cracked quartz window, cooling-water leak near electrical equipment, unusual noise/overheating, or repeated generator protection trips.</p>
+          <ol>
+            <li>Follow the machine's approved emergency shutdown procedure.</li>
+            <li>Isolate gas using the designated emergency system when safe.</li>
+            <li>Have qualified personnel isolate electrical power and apply lockout/tagout.</li>
+            <li>Allow the generator and chamber to reach a safe condition.</li>
+            <li>Do not restart until the fault is identified and repaired.</li>
+          </ol>
+
+          <h3>8. Plasma Ignition Failure Service Report</h3>
+          <div class="defect-table-wrap">
+            <table class="defect-table">
+              <thead><tr><th>Parameter</th><th>Information to record</th></tr></thead>
+              <tbody>
+                <tr><td>Machine identification</td><td>Make, model and serial number</td></tr>
+                <tr><td>Reactor type</td><td>Microwave CVD or RF CVD</td></tr>
+                <tr><td>Alarm</td><td>Error code and description</td></tr>
+                <tr><td>Vacuum</td><td>Pressure before and during ignition</td></tr>
+                <tr><td>Gas supply</td><td>Flow setpoints and actual readings</td></tr>
+                <tr><td>Power</td><td>Forward and reflected power</td></tr>
+                <tr><td>Cooling</td><td>Flow and temperature</td></tr>
+                <tr><td>Plasma condition</td><td>Did it ignite? Was it stable?</td></tr>
+                <tr><td>Repair</td><td>Corrective action and final test result</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>9. Conclusion</h3>
+          <p>Plasma Ignition Failure can result from vacuum/pressure instability, gas-flow or purity problems, microwave/RF coupling faults, quartz-window damage, chamber contamination, or cooling failure. Identify faults from alarms and operating data before changing process settings. Randomly adjusting power, pressure, gas flow or matching parameters can make the problem worse. If ignition repeatedly fails, collect the fault log, pressure trend, gas-flow readings and generator readings, then arrange inspection by a qualified CVD service technician.</p>
+        </article>
+      </div>
+    </section>
+
   </main>
 
   <footer>
