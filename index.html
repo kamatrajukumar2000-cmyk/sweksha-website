@@ -1169,6 +1169,15 @@
           <h2>Let's discuss your machine requirement.</h2>
           <p>Online consulting worldwide and on-site CVD machine and plant service from Surat, Gujarat, for clients across India and internationally. Visit availability and travel are confirmed before scheduling.</p>
         </div>
+        <div class="card" style="grid-column:1/-1;background:#07111f;color:#fff">
+          <h3 style="color:#fff">Online Voice &amp; Video Consultation</h3>
+          <p style="color:#cbd7e4;margin:8px 0 18px">Discuss your CVD diamond machine issue in a live call. Choose voice or video to open the call room here.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <button class="btn btn-primary" type="button" onclick="openSwekshaCall('voice')">Start Voice Call</button>
+            <button class="btn btn-outline" type="button" onclick="openSwekshaCall('video')">Start Video Call</button>
+          </div>
+          <p style="color:#a9bfd4;font-size:12px;margin-top:12px">For the call to connect, Sweksha must also join this same room. Use the room link below to join from another device: <a class="map-link" href="https://meet.jit.si/SwekshaCVDMachineConsultation" target="_blank" rel="noopener noreferrer">Open Sweksha Call Room</a>. This shared room is not private or password-protected.</p>
+        </div>
         <div class="grid3">
           <div class="card"><div class="icon">&#9742;</div><h3>Call / WhatsApp</h3><p><a onclick="trackEvent('phone_click', {method: 'phone'});" href="tel:+917827474249">+91 78274 74249</a></p></div>
           <div class="card"><div class="icon">@</div><h3>Email</h3><p><a onclick="trackEvent('email_click', {method: 'email'});" href="mailto:kamatrajukumar2000@gmail.com">kamatrajukumar2000@gmail.com</a></p></div>
@@ -1443,6 +1452,43 @@ function renderReviews(reviews){
 
     loadReviews();
 
+  </script>
+
+  <!-- Embedded voice/video consultation room -->
+  <div id="sweksha-call-modal" hidden role="dialog" aria-modal="true" aria-label="Sweksha voice and video call" style="position:fixed;inset:0;z-index:1000;background:rgba(2,8,18,.88);padding:clamp(8px,3vw,28px)">
+    <div style="max-width:1100px;height:100%;margin:auto;background:#07111f;border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;color:#fff">
+        <strong id="sweksha-call-title">Sweksha Consultation</strong>
+        <button type="button" class="btn btn-outline" onclick="closeSwekshaCall()" aria-label="Close call" style="padding:8px 14px">Close Call</button>
+      </div>
+      <iframe id="sweksha-call-frame" title="Live consultation call" allow="camera; microphone; fullscreen; display-capture; autoplay" style="width:100%;flex:1;border:0;background:#111" src="about:blank"></iframe>
+    </div>
+  </div>
+  <script>
+    // Shared Jitsi room: the business owner must join this same room separately.
+    const SWEKSHA_CALL_ROOM = 'SwekshaCVDMachineConsultation';
+    function openSwekshaCall(mode){
+      const modal=document.getElementById('sweksha-call-modal');
+      const frame=document.getElementById('sweksha-call-frame');
+      const videoMuted=mode==='voice'?'true':'false';
+      const roomUrl='https://meet.jit.si/'+SWEKSHA_CALL_ROOM+'#config.startWithAudioMuted=false&config.startWithVideoMuted='+videoMuted;
+      document.getElementById('sweksha-call-title').textContent=mode==='voice'?'Sweksha Voice Call':'Sweksha Video Call';
+      frame.src=roomUrl;
+      modal.hidden=false;
+      document.body.style.overflow='hidden';
+      trackEvent('online_call_open',{mode:mode,provider:'jitsi'});
+    }
+    function closeSwekshaCall(){
+      document.getElementById('sweksha-call-modal').hidden=true;
+      document.getElementById('sweksha-call-frame').src='about:blank';
+      document.body.style.overflow='';
+    }
+    document.getElementById('sweksha-call-modal').addEventListener('click',function(event){
+      if(event.target===this) closeSwekshaCall();
+    });
+    document.addEventListener('keydown',function(event){
+      if(event.key==='Escape'&&!document.getElementById('sweksha-call-modal').hidden) closeSwekshaCall();
+    });
   </script>
 
   <!-- Sweksha quick service assistant -->
