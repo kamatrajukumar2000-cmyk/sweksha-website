@@ -1080,12 +1080,14 @@
           </div>
 
           <form id="serviceForm">
+            <h3>Share Machine Details</h3>
+            <p class="notice">Share your machine type or model, symptoms, recent changes and relevant photos or videos to help us understand the issue. You can attach photos/videos after WhatsApp opens.</p>
             <label for="name">Your Name *</label>
             <input id="name" required placeholder="Enter your name">
             <label for="company">Company / Business</label>
             <input id="company" placeholder="Company name">
             <label for="machine">Machine Type / Model *</label>
-            <input id="machine" required placeholder="Example: CVD / HPHT / machine model">
+            <input id="machine" required placeholder="Example: CVD machine model">
             <label for="service">Service Required *</label>
             <select id="service" required>
               <option value="">Select service</option>
@@ -1096,12 +1098,14 @@
               <option>Online Consultation</option>
               <option>Other</option>
             </select>
-            <label for="problem">Problem / Requirement *</label>
-            <textarea id="problem" required placeholder="Describe the problem or production requirement..."></textarea>
+            <label for="problem">Symptoms / Problem / Requirement *</label>
+            <textarea id="problem" required placeholder="What is happening? Include error messages, pressure/power readings or when the issue started..."></textarea>
+            <label for="recentChanges">Recent Changes (optional)</label>
+            <textarea id="recentChanges" placeholder="Any recent maintenance, parts replacement, settings or process changes?"></textarea>
             <label for="contact">Your Contact Number *</label>
             <input id="serviceContact" required type="tel" placeholder="Your phone / WhatsApp number">
             <button class="btn btn-primary" type="submit">Send Request on WhatsApp</button>
-            <div class="notice">Please do not send passwords, confidential credentials or sensitive personal information.</div>
+            <div class="notice">After WhatsApp opens, attach relevant photos/videos if available. Please do not send passwords, confidential credentials or sensitive personal information.</div>
           </form>
         </div>
       </div>
@@ -1279,6 +1283,7 @@
       const service = document.getElementById('service').value;
        const defectSearchValue = document.getElementById('defectSearch') ? document.getElementById('defectSearch').value.trim() : '';
       const problem = document.getElementById('problem').value.trim();
+      const recentChanges = document.getElementById('recentChanges').value.trim();
       const contact = document.getElementById('serviceContact').value.trim();
 
       const msg =
@@ -1291,10 +1296,11 @@ Company: ${company || 'Not provided'}
 Machine Type / Model: ${machine}
 Service Required: ${service}
 Defect Search / Reference: ${defectSearchValue || 'Not specified'}
-Problem / Requirement: ${problem}
+Symptoms / Problem / Requirement: ${problem}
+Recent Changes: ${recentChanges || 'Not provided'}
 My Contact Number: ${contact}
 
-Please contact me regarding the service.`;
+I will attach relevant photos/videos in WhatsApp if available. Please contact me regarding the service.`;
 
       window.open('https://wa.me/917827474249?text=' + encodeURIComponent(msg), '_blank');
     });
