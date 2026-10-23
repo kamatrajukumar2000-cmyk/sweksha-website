@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CVD Machine Parts Marketplace | Sweksha</title>
+  <meta name="description" content="Browse or enquire about new and used CVD diamond machine parts through Sweksha.">
+  <style>
+    :root{--navy:#07111f;--navy2:#10243a;--teal:#23c7b7;--ink:#172536;--muted:#657184;--line:#dce5ed;--soft:#f4f8fb}
+    *{box-sizing:border-box}body{margin:0;font:16px/1.6 Inter,Arial,sans-serif;color:var(--ink);background:#fff}
+    a{color:inherit;text-decoration:none}.wrap{width:min(1120px,92%);margin:auto}
+    header{background:var(--navy);color:#fff;padding:18px 0;border-bottom:1px solid #26394d}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.brand{font-weight:800;font-size:20px}.brand span{color:var(--teal)}
+    .nav a:last-child{border:1px solid #5c7188;border-radius:8px;padding:9px 13px}
+    .hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:58px 0}
+    .eyebrow{color:#8be7dc;text-transform:uppercase;letter-spacing:1.5px;font-size:12px;font-weight:800}
+    h1{font-size:clamp(34px,5vw,54px);line-height:1.1;margin:12px 0}
+    .hero p{color:#d1deea;max-width:720px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+    .btn{display:inline-flex;border:0;border-radius:9px;padding:12px 18px;font-weight:800;cursor:pointer;background:var(--teal);color:#06141c}
+    .btn.secondary{background:transparent;border:1px solid #6b8197;color:#fff}
+    main{padding:48px 0}.notice{background:#fff8e9;border:1px solid #f1d7a8;padding:14px 16px;border-radius:10px;color:#684b18;margin-bottom:26px}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}.tab{border:1px solid var(--line);border-radius:999px;padding:10px 16px;background:#fff;font:inherit;font-weight:700;cursor:pointer}.tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+    .panel{display:none}.panel.active{display:block}.layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+    .card{border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 10px 28px #07111f0d}.card h2{margin:0 0 8px}.muted{color:var(--muted);font-size:14px}
+    label{display:block;font-size:13px;font-weight:800;margin:15px 0 6px}input,select,textarea{width:100%;font:inherit;padding:12px;border:1px solid #cbd6e0;border-radius:8px;background:#fff}
+    textarea{min-height:100px;resize:vertical}input[type=file]{padding:9px}.preview{margin-top:12px;display:none;max-width:100%;max-height:250px;border-radius:10px;border:1px solid var(--line);object-fit:contain}
+    .empty{border:1px dashed #bdcbd8;border-radius:14px;padding:30px;text-align:center;color:var(--muted);background:var(--soft)}
+    .listings{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+    .listing{border:1px solid var(--line);border-radius:14px;padding:18px}.listing h3{margin:0 0 5px}.listing .price{font-weight:800;color:#087f6e}
+    .status{margin-top:12px;font-size:14px;font-weight:700}.footer{background:var(--navy);color:#c7d4e1;padding:30px 0;margin-top:50px}
+    @media(max-width:760px){.layout{grid-template-columns:1fr}.listings{grid-template-columns:1fr 1fr}}
+    @media(max-width:520px){.listings{grid-template-columns:1fr}.hero{padding:42px 0}}
+  </style>
+</head>
+<body>
+<header><div class="wrap nav"><a class="brand" href="index.html">Sweksha <span>Marketplace</span></a><a href="index.html">Back to Main Website</a></div></header>
+<section class="hero"><div class="wrap">
+  <span class="eyebrow">CVD Diamond Machine Parts</span>
+  <h1>Buy and Sell Machine Parts</h1>
+  <p>Find new or used CVD machine parts, request a part you need, or prepare a listing for a part you want to sell. Sweksha will review enquiries before confirming any transaction.</p>
+  <div class="actions"><button class="btn" type="button" data-open="buy">Find a Part</button><button class="btn secondary" type="button" data-open="sell">List a Part for Sale</button></div>
+</div></section>
+<main class="wrap">
+  <div class="notice"><strong>Marketplace preview:</strong> This draft does not publish listings or store uploaded photos online yet. Seller submissions currently open WhatsApp; attach the selected photo in WhatsApp before sending. Shared listings and secure photo storage will be connected in the next build phase.</div>
+  <div class="tabs" role="tablist"><button class="tab active" data-tab="buy" role="tab" aria-selected="true">Browse / Request Parts</button><button class="tab" data-tab="sell" role="tab" aria-selected="false">Sell a Part</button></div>
+  <section class="panel active" id="buy" role="tabpanel">
+    <div class="layout">
+      <div class="card"><h2>Request a Machine Part</h2><p class="muted">Tell us what you need. We will use your request to follow up with you.</p>
+        <form id="requestForm">
+          <label for="needPart">Part name / model *</label><input id="needPart" required placeholder="e.g. Vacuum pump, MFC, magnetron">
+          <label for="needCondition">Preferred condition</label><select id="needCondition"><option>New or used</option><option>New only</option><option>Used only</option></select>
+          <label for="needQty">Quantity *</label><input id="needQty" required type="number" min="1" value="1">
+          <label for="needDetails">Specifications or additional details</label><textarea id="needDetails" placeholder="Machine model, part number, required delivery location..."></textarea>
+          <label for="buyerName">Your name *</label><input id="buyerName" required>
+          <label for="buyerContact">WhatsApp / phone number *</label><input id="buyerContact" required type="tel">
+          <button class="btn" type="submit" style="margin-top:16px">Send Part Request</button><p class="status" id="requestStatus" aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="card"><h2>Available Listings</h2><p class="muted">Verified listings will appear here after the marketplace database and review process are connected.</p><div class="empty">No published listings yet.<br>Use “Request a Machine Part” to tell Sweksha what you are looking for.</div></div>
+    </div>
+  </section>
+  <section class="panel" id="sell" role="tabpanel">
+    <div class="layout">
+      <div class="card"><h2>List a Part for Sale</h2><p class="muted">Prepare your listing details and send them to Sweksha for review.</p>
+        <form id="sellForm">
+          <label for="partName">Product name *</label><input id="partName" required placeholder="e.g. Edwards vacuum pump">
+          <label for="partType">Category *</label><select id="partType" required><option value="">Choose a category</option><option>Vacuum Pump</option><option>Microwave / RF Power</option><option>Magnetron</option><option>Mass Flow Controller (MFC)</option><option>Chamber / Stage</option><option>Power Supply</option><option>Gas / Water / Vacuum Fittings</option><option>Other CVD Machine Part</option></select>
+          <label for="partCondition">Condition *</label><select id="partCondition" required><option value="">Choose condition</option><option>New</option><option>Used - Working</option><option>Used - Needs Repair</option><option>For Parts / As-Is</option></select>
+          <label for="partPrice">Asking price and currency *</label><input id="partPrice" required placeholder="e.g. INR 25,000 or Price on Request">
+          <label for="partQty">Quantity available *</label><input id="partQty" required type="number" min="1" value="1">
+          <label for="partLocation">City / Country *</label><input id="partLocation" required placeholder="e.g. Surat, India">
+          <label for="partPhoto">Product photo *</label><input id="partPhoto" type="file" accept="image/*" required><img class="preview" id="photoPreview" alt="Selected product photo preview">
+          <label for="partDetails">Description / part number / machine compatibility</label><textarea id="partDetails" placeholder="Describe condition, model, serial or part number, and known issues."></textarea>
+          <label for="sellerName">Seller name / company *</label><input id="sellerName" required>
+          <label for="sellerContact">WhatsApp / phone number *</label><input id="sellerContact" required type="tel">
+          <button class="btn" type="submit" style="margin-top:16px">Prepare Listing for Review</button><p class="status" id="sellStatus" aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="card"><h2>Listing Checklist</h2><ul><li>Use your own clear product photos.</li><li>Describe whether the part is new, working, repair-needed, or sold as-is.</li><li>Include the part number and compatible machine model where available.</li><li>Do not include passwords, payment card details, or sensitive personal information.</li><li>Wait for Sweksha to review the details before treating the listing as published.</li></ul><p class="muted" style="margin-top:18px">The selected image is previewed in this browser only. It is not uploaded to a public listing by this draft page.</p></div>
+    </div>
+  </section>
+</main>
+<footer class="footer"><div class="wrap"><strong>Sweksha CVD Diamond Machine Service &amp; Consulting</strong><p>Machine parts marketplace — draft preview</p><p>Contact: <a href="https://wa.me/917827474249" target="_blank" rel="noopener">WhatsApp Sweksha</a></p></div></footer>
+<script>
+  const tabs=[...document.querySelectorAll('[data-tab]')], panels=[...document.querySelectorAll('.panel')];
+  function showTab(name){tabs.forEach(t=>{const on=t.dataset.tab===name;t.classList.toggle('active',on);t.setAttribute('aria-selected',String(on))});panels.forEach(p=>p.classList.toggle('active',p.id===name));}
+  tabs.forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab)));
+  document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.open)));
+  const photo=document.getElementById('partPhoto'), preview=document.getElementById('photoPreview');
+  photo.addEventListener('change',()=>{const file=photo.files[0];if(!file){preview.removeAttribute('src');preview.style.display='none';return;}preview.src=URL.createObjectURL(file);preview.style.display='block';});
+  document.getElementById('requestForm').addEventListener('submit',e=>{
+    e.preventDefault();const msg=`Hello Sweksha, I would like to request a CVD machine part.\n\nPart: ${needPart.value}\nPreferred condition: ${needCondition.value}\nQuantity: ${needQty.value}\nDetails: ${needDetails.value||'Not provided'}\nName: ${buyerName.value}\nContact: ${buyerContact.value}`;
+    window.open('https://wa.me/917827474249?text='+encodeURIComponent(msg),'_blank','noopener');document.getElementById('requestStatus').textContent='WhatsApp opened. Please send the prepared request to Sweksha.';
+  });
+  document.getElementById('sellForm').addEventListener('submit',e=>{
+    e.preventDefault();const file=photo.files[0];const msg=`Hello Sweksha, I want to submit a CVD machine part listing for review.\n\nProduct: ${partName.value}\nCategory: ${partType.value}\nCondition: ${partCondition.value}\nPrice: ${partPrice.value}\nQuantity: ${partQty.value}\nLocation: ${partLocation.value}\nDescription: ${partDetails.value||'Not provided'}\nSeller: ${sellerName.value}\nContact: ${sellerContact.value}\n\nI will attach the product photo in this WhatsApp chat.`;
+    window.open('https://wa.me/917827474249?text='+encodeURIComponent(msg),'_blank','noopener');document.getElementById('sellStatus').textContent='WhatsApp opened. Attach your product photo and send the listing details to Sweksha for review.';
+  });
+</script>
+</body>
+</html>
