@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CVD Diamond Machine Service & Plant Setup India | Sweksha</title>
-  <meta name="description" content="CVD diamond machine service, plant setup and troubleshooting in India. Support for vacuum pumps, microwave/RF faults, MFC flow, quartz windows and plasma stability.">
-  <meta name="keywords" content="CVD diamond machine service, CVD diamond machine repair, CVD diamond machine troubleshooting, CVD vacuum pump maintenance, vacuum pump error, CVD machine MFC flow error, MFC flow error, CVD plasma ignition failure, plasma ignition failure, CVD microwave RF power fault, microwave RF power fault, CVD diamond plant setup service, CVD diamond machine maintenance India, CVD diamond machine technical support, CVD lab grown diamond machine troubleshooting, quartz window problem, plasma instability, CVD plant setup, lab grown diamond consulting">
+  <meta name="description" content="Sweksha provides CVD diamond machine service, plant setup and troubleshooting, plus buyer and seller enquiries for new and used Diamond Laser and Galaxy machines in India and international markets.">
+  <meta name="keywords" content="CVD diamond machine service, CVD diamond machine repair, CVD diamond machine troubleshooting, CVD vacuum pump maintenance, vacuum pump error, CVD machine MFC flow error, MFC flow error, CVD plasma ignition failure, plasma ignition failure, CVD microwave RF power fault, microwave RF power fault, CVD diamond plant setup service, CVD diamond machine maintenance India, CVD diamond machine technical support, CVD lab grown diamond machine troubleshooting, quartz window problem, plasma instability, CVD plant setup, lab grown diamond consulting, diamond laser machine buy sell, used diamond laser machine India, Galaxy machine marketing, new and used industrial machines">
   <meta name="author" content="Mr.Raju Kamat - Sweksha CVD Diamond Machine Service & Consulting">
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Sweksha CVD Diamond Machine Service & Consulting">
@@ -179,6 +179,20 @@
     @media(max-width:950px){.defect-grid{grid-template-columns:1fr 1fr}.diag-steps{grid-template-columns:repeat(4,1fr)}}
     @media(max-width:560px){.defect-grid{grid-template-columns:1fr}.diag-steps{grid-template-columns:1fr 1fr}}
 
+  
+    /* ===== MACHINE BUY & SELL MARKETPLACE ===== */
+    #machine-market{background:linear-gradient(180deg,#f4f8fb 0%,#ffffff 100%)}
+    .machine-market-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+    .machine-market-card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:26px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:100%}
+    .machine-market-icon{width:58px;height:58px;border-radius:15px;background:#e5faf7;color:#087f73;display:grid;place-items:center;font-size:28px;margin-bottom:17px}
+    .machine-market-card h3{font-size:22px;margin-bottom:8px}
+    .machine-market-card p{color:var(--muted);font-size:15px}
+    .machine-market-tags{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0 20px}
+    .machine-market-tags span{font-size:12px;font-weight:700;border:1px solid #cceee8;background:#f0fcfa;color:#12675e;border-radius:999px;padding:5px 10px}
+    .machine-market-card .btn{margin-top:auto;align-self:flex-start}
+    .machine-market-note{margin-top:22px;padding:17px 19px;background:#fff;border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:10px;color:var(--muted);font-size:14px}
+    @media(max-width:700px){.machine-market-grid{grid-template-columns:1fr}.machine-market-card{padding:22px}}
+
   </style>
 
   <script type="application/ld+json">
@@ -225,7 +239,7 @@
         <a class="brand" href="#home">Sweksha <span>Fondation Club</span></a>
         <button class="menu" aria-label="Open menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">&#9776;</button>
         <div class="navlinks">
-          <a href="#home">Home</a><a href="#services">Services</a><a href="marketplace.html">Machine Parts Buy &amp; Sell</a><a href="diamond-trading.html">Diamond Seed &amp; Rough Trading</a><a href="jobs.html">Jobs &amp; Hiring</a><a href="#about">About</a>
+          <a href="#home">Home</a><a href="#services">Services</a><a href="#machine-market">Machine Buy &amp; Sell</a><a href="marketplace.html">Machine Parts Buy &amp; Sell</a><a href="diamond-trading.html">Diamond Seed &amp; Rough Trading</a><a href="jobs.html">Jobs &amp; Hiring</a><a href="#about">About</a>
           <a href="#process">Process</a><a href="#reviews">Reviews</a><a href="#defects">Machine Defects</a><a href="#diamond-defects">Diamond Defects</a><a href="#request">Service Request</a><a href="#contact">Contact</a>
         </div>
       </nav>
@@ -328,6 +342,39 @@
         </div>
       </div>
     </section>
+
+
+    <!-- ===== ADMIN-MANAGED MACHINE MARKETING ===== -->
+    <section id="machine-market" class="band">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow" style="color:#087f73">Sweksha Machine Marketplace</span>
+          <h2>Buy &amp; Sell Laser and Galaxy Machines</h2>
+          <p>Connect with Sweksha for new and used machine enquiries across India and international markets. Machine listings are managed by Sweksha after supplier and availability confirmation.</p>
+        </div>
+        <div class="machine-market-grid">
+          <article class="machine-market-card">
+            <div class="machine-market-icon" aria-hidden="true">⚙</div>
+            <h3>Diamond Laser Machines</h3>
+            <p>Enquire about diamond laser cutting, sawing and related processing machines. Share whether you need a new machine or are looking for a used machine.</p>
+            <div class="machine-market-tags"><span>New Machines</span><span>Used Machines</span><span>Parts &amp; Support</span></div>
+            <a class="btn btn-primary" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20am%20interested%20in%20buying%20or%20selling%20a%20Diamond%20Laser%20Machine.%20Please%20contact%20me." target="_blank" rel="noopener noreferrer" onclick="trackEvent('machine_market_enquiry',{category:'diamond_laser'});">Laser Machine Enquiry</a>
+          </article>
+          <article class="machine-market-card">
+            <div class="machine-market-icon" aria-hidden="true">◆</div>
+            <h3>Galaxy Machines</h3>
+            <p>Ask about new or used Galaxy machines. The exact brand, model, application, condition and availability will be confirmed with the supplier before publication or quotation.</p>
+            <div class="machine-market-tags"><span>New Machines</span><span>Used Machines</span><span>Supplier Confirmation</span></div>
+            <a class="btn btn-primary" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20am%20interested%20in%20buying%20or%20selling%20a%20Galaxy%20Machine.%20Please%20confirm%20the%20available%20models." target="_blank" rel="noopener noreferrer" onclick="trackEvent('machine_market_enquiry',{category:'galaxy_machine'});">Galaxy Machine Enquiry</a>
+          </article>
+        </div>
+        <div class="machine-market-note"><strong>For machine owners and suppliers:</strong> To list a machine, contact Sweksha on WhatsApp with the machine name, model, year, condition, location, expected price and clear photos. Listings are reviewed and published by the Sweksha administrator only. No buyer or seller listing is published automatically.</div>
+        <div class="actions" style="justify-content:center;margin-top:25px">
+          <a class="btn btn-outline" style="background:#07111f" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20want%20to%20list%20a%20new%20or%20used%20machine%20for%20sale.%20Please%20tell%20me%20the%20details%20required." target="_blank" rel="noopener noreferrer" onclick="trackEvent('machine_market_sell_enquiry',{method:'whatsapp'});">List Your Machine with Sweksha</a>
+        </div>
+      </div>
+    </section>
+    <!-- ===== END ADMIN-MANAGED MACHINE MARKETING ===== -->
 
     <section id="services">
       <div class="container">
