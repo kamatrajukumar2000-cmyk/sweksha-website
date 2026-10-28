@@ -193,6 +193,28 @@
     .machine-market-note{margin-top:22px;padding:17px 19px;background:#fff;border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:10px;color:var(--muted);font-size:14px}
     @media(max-width:700px){.machine-market-grid{grid-template-columns:1fr}.machine-market-card{padding:22px}}
 
+
+    /* ===== MOBILE WIDTH / HORIZONTAL OVERFLOW FIX ===== */
+    html, body { width:100%; max-width:100%; }
+    html { overflow-x:clip; }
+    body { overflow-x:clip; overflow-wrap:anywhere; }
+    img, video, iframe, canvas, svg { max-width:100%; }
+    .container, header, main, section, footer, nav,
+    .hero-grid, .about, .form-wrap, .grid3, .steps,
+    .defect-grid, .machine-market-grid, .review-summary,
+    .review-list, .review-track, .card, .defect-card,
+    .machine-market-card, form { min-width:0; }
+    h1, h2, h3, p, a, button, label { overflow-wrap:anywhere; }
+    .actions .btn { max-width:100%; white-space:normal; }
+    .defect-table-wrap { max-width:100%; }
+    @media(max-width:560px) {
+      .container { width:calc(100% - 32px); }
+      .brand { max-width:calc(100vw - 100px); font-size:clamp(14px,4vw,19px); }
+      .topbar { overflow-wrap:anywhere; }
+      .hero-controls { max-width:calc(100% - 24px); }
+      .float-wa { right:12px; }
+    }
+
   </style>
 
   <script type="application/ld+json">
