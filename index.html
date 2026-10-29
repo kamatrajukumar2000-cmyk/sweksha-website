@@ -1238,6 +1238,7 @@
             <input id="serviceContact" required type="tel" placeholder="Your phone / WhatsApp number">
             <button class="btn btn-primary" type="submit">Send Request on WhatsApp</button>
             <div class="notice">After WhatsApp opens, attach relevant photos/videos if available. Please do not send passwords, confidential credentials or sensitive personal information.</div>
+            <p id="serviceRequestStatus" class="notice" role="status" aria-live="polite">Your request will open in WhatsApp. Online database saving requires the website's public Supabase key.</p>
           </form>
         </div>
       </div>
@@ -1434,7 +1435,7 @@
       const company = document.getElementById('company').value.trim();
       const machine = document.getElementById('machine').value.trim();
       const service = document.getElementById('service').value;
-       const defectSearchValue = document.getElementById('defectSearch') ? document.getElementById('defectSearch').value.trim() : '';
+      const defectSearchValue = document.getElementById('defectSearch') ? document.getElementById('defectSearch').value.trim() : '';
       const problem = document.getElementById('problem').value.trim();
       const recentChanges = document.getElementById('recentChanges').value.trim();
       const contact = document.getElementById('serviceContact').value.trim();
@@ -1455,7 +1456,37 @@ My Contact Number: ${contact}
 
 I will attach relevant photos/videos in WhatsApp if available. Please contact me regarding the service.`;
 
-      window.open('https://wa.me/917827474249?text=' + encodeURIComponent(msg), '_blank');
+      // Keep WhatsApp opening immediately; database saving runs in the background.
+      window.open('https://wa.me/917827474249?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+      const status = document.getElementById('serviceRequestStatus');
+      let publicKey = '';
+      try { publicKey = localStorage.getItem('sweksha_supabase_public_key') || ''; } catch (err) {}
+      if (!publicKey) {
+        status.textContent = 'WhatsApp opened. Online database saving still needs the public Supabase key configured on the website.';
+        return;
+      }
+      const record = {
+        name: name,
+        email: null,
+        whatsapp: contact,
+        subject: service + ' — ' + machine + (company ? ' — ' + company : ''),
+        message: 'Problem: ' + problem + '\nRecent changes: ' + (recentChanges || 'Not provided') + '\nDefect reference: ' + (defectSearchValue || 'Not specified')
+      };
+      fetch('https://xotqafgkubodqpirfpfb.supabase.co/rest/v1/enquiries', {
+        method: 'POST',
+        headers: {
+          'apikey': publicKey,
+          'Authorization': 'Bearer ' + publicKey,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(record)
+      }).then(function(response) {
+        if (!response.ok) throw new Error('save failed');
+        status.textContent = 'Request opened in WhatsApp and saved to the enquiry database.';
+      }).catch(function() {
+        status.textContent = 'WhatsApp opened, but database saving failed. Please send the request on WhatsApp.';
+      });
     });
 
     // ===== Customer Reviews =====
