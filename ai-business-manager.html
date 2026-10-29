@@ -14,7 +14,7 @@ header{background:#10264a;color:white;padding:26px 18px}header,main{width:100%}.
 <body>
 <header><div class="wrap"><div class="eyebrow">Sweksha CVD Diamond Service & Marketplace</div><h1>Admin Panel</h1><p>Private workspace for business management</p></div></header>
 <main>
-<div class="notice"><strong>Setup note:</strong> The login interface is prepared. Supabase authentication cannot run until the project's public publishable/anon key is added below. Never enter a service_role key here.</div>
+<div class="notice"><strong>Setup note:</strong> Enter your Supabase public publishable/anon key once in this browser. The public key is saved locally in this browser for convenience. Never enter a secret or service_role key here.</div>
 <section id="loginPanel" class="panel narrow">
 <h2>Admin Login</h2><p class="muted">Sign in with the admin email already registered in your Supabase project.</p>
 <form id="configForm">
@@ -50,18 +50,34 @@ header{background:#10264a;color:white;padding:26px 18px}header,main{width:100%}.
  const keyInput=document.getElementById('publicKey'), loginForm=document.getElementById('loginForm'), configForm=document.getElementById('configForm'), message=document.getElementById('loginMessage');
  let client=null;
  function say(text){message.textContent=text}
+ function showDashboard(user){
+   document.getElementById('signedInEmail').textContent=(user&&user.email)||'Signed in';
+   document.getElementById('loginPanel').classList.add('hidden');
+   document.getElementById('dashboard').classList.remove('hidden');
+ }
  function connect(key){
    if(!window.supabase||!window.supabase.createClient){say('Could not load Supabase client. Check your internet connection and refresh this page.');return false}
-   try{client=window.supabase.createClient(SUPABASE_URL,key);say('Supabase client ready. You can now sign in.');return true}catch(e){say('Could not connect. Check that you copied the public publishable/anon key.');return false}
+   try{
+     client=window.supabase.createClient(SUPABASE_URL,key);
+     try{localStorage.setItem('sweksha_supabase_public_key',key)}catch(e){}
+     say('Supabase client ready. You can now sign in.');
+     client.auth.getSession().then(function(result){
+       if(result.data&&result.data.session)showDashboard(result.data.session.user);
+     }).catch(function(){});
+     return true;
+   }catch(e){say('Could not connect. Check that you copied the public publishable/anon key.');return false}
  }
  configForm.addEventListener('submit',function(e){e.preventDefault();connect(keyInput.value.trim())});
+ try{
+   const savedKey=localStorage.getItem('sweksha_supabase_public_key');
+   if(savedKey){keyInput.value=savedKey;connect(savedKey)}
+ }catch(e){}
  loginForm.addEventListener('submit',async function(e){
    e.preventDefault();if(!client){say('First paste your Supabase public publishable/anon key and click Connect Supabase.');return}
    const button=document.getElementById('loginButton');button.disabled=true;say('Signing in…');
    try{const result=await client.auth.signInWithPassword({email:document.getElementById('email').value.trim(),password:document.getElementById('password').value});
     if(result.error)throw result.error;
-    document.getElementById('signedInEmail').textContent=result.data.user.email||'Signed in';
-    document.getElementById('loginPanel').classList.add('hidden');document.getElementById('dashboard').classList.remove('hidden');
+    showDashboard(result.data.user);
    }catch(err){say(err.message||'Sign-in failed. Check email, password and email confirmation.')}finally{button.disabled=false}
  });
  document.getElementById('resetButton').addEventListener('click',async function(){
