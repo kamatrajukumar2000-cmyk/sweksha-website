@@ -3,29 +3,75 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sweksha AI Business Manager</title>
+<title>Sweksha Admin Panel</title>
 <style>
-:root{color-scheme:light;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--panel:#fff;--bg:#f5f7fb;--blue:#174ea6;--pale:#eaf1ff}
+:root{color-scheme:light;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--blue:#174ea6;--bg:#f4f7fc}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-header{background:#10264a;color:white;padding:28px 20px}header .wrap,main{max-width:1050px;margin:auto}.eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#c6d7ff;font-weight:700}h1{margin:.3rem 0;font-size:clamp(1.7rem,4vw,2.5rem)}header p{margin:.3rem 0;color:#e2eaff}.pill{display:inline-block;border:1px solid #d4e0ff;border-radius:999px;padding:4px 10px;font-size:.8rem;margin-top:12px}
-main{padding:24px 16px 48px}.notice{background:#fff8e6;border:1px solid #f4d48a;padding:14px 16px;border-radius:12px;margin-bottom:20px;color:#704c00}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:26px 0 12px}.section-head h2{margin:0;font-size:1.25rem}.muted{color:var(--muted);font-size:.9rem}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}.card h3{margin:8px 0 5px;font-size:1.05rem}.card p{margin:0 0 12px;color:var(--muted);font-size:.93rem}.icon{width:38px;height:38px;border-radius:11px;background:var(--pale);display:grid;place-items:center;font-size:1.25rem}.status{font-size:.8rem;color:#795500;background:#fff1c2;padding:4px 8px;border-radius:999px;display:inline-block}.button{display:inline-block;text-decoration:none;background:var(--blue);color:white;padding:10px 14px;border-radius:9px;font-weight:650;font-size:.9rem;border:0}.button.secondary{background:#edf2fb;color:#183b74}.button:focus-visible,a:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}.tasks{list-style:none;padding:0;margin:8px 0 0}.tasks li{padding:10px 0;border-bottom:1px solid var(--line)}.tasks li:last-child{border:0}.check{display:inline-block;width:18px;height:18px;border:1px solid #94a3b8;border-radius:5px;vertical-align:middle;margin-right:8px}.footer{margin-top:22px;color:var(--muted);font-size:.85rem}
-@media(max-width:640px){.grid{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}header{padding:24px 16px}}
+header{background:#10264a;color:white;padding:26px 18px}header,main{width:100%}.wrap,main{max-width:1000px;margin:auto}h1{font-size:clamp(1.6rem,4vw,2.3rem);margin:4px 0}.eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:#c6d7ff;font-weight:700}header p{margin:5px 0;color:#e2eaff}main{padding:24px 16px 48px}.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 8px 24px #10264a0b;margin-bottom:16px}.narrow{max-width:520px;margin:24px auto}.muted{color:var(--muted);font-size:.92rem}.field{display:block;font-weight:650;margin:14px 0 6px}input{display:block;width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:9px;font:inherit}button,.btn{display:inline-block;border:0;border-radius:9px;padding:11px 15px;background:var(--blue);color:white;font:inherit;font-weight:650;cursor:pointer;text-decoration:none}button:disabled{opacity:.55;cursor:wait}.secondary{background:#edf2fb;color:#183b74}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.tile{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff}.tile h3{margin:0 0 6px}.notice{padding:12px 14px;border-radius:10px;background:#fff6df;border:1px solid #f0d38b;color:#704c00;margin-bottom:14px}.message{margin-top:12px;white-space:pre-wrap}.hidden{display:none!important}.status{display:inline-block;border-radius:999px;padding:4px 9px;background:#edf2fb;color:#183b74;font-size:.82rem}.footer{color:var(--muted);font-size:.85rem;margin-top:20px}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.panel{padding:17px}.narrow{margin:12px auto}}
 </style>
 </head>
 <body>
-<header><div class="wrap"><div class="eyebrow">Sweksha CVD Diamond Service & Marketplace</div><h1>AI Business Manager</h1><p>Your daily workspace for content, outreach and customer enquiries.</p><span class="pill">Draft dashboard · Integrations not connected yet</span></div></header>
+<header><div class="wrap"><div class="eyebrow">Sweksha CVD Diamond Service & Marketplace</div><h1>Admin Panel</h1><p>Private workspace for business management</p></div></header>
 <main>
-<div class="notice"><strong>Setup status:</strong> This is a safe draft page on a separate development branch. No emails or social posts are sent from this page, and your live website has not been changed.</div>
-<div class="section-head"><h2>Daily marketing workspace</h2><span class="muted">Target: 2 images per day</span></div>
+<div class="notice"><strong>Setup note:</strong> The login interface is prepared. Supabase authentication cannot run until the project's public publishable/anon key is added below. Never enter a service_role key here.</div>
+<section id="loginPanel" class="panel narrow">
+<h2>Admin Login</h2><p class="muted">Sign in with the admin email already registered in your Supabase project.</p>
+<form id="configForm">
+<label class="field" for="publicKey">Supabase publishable key (or legacy anon key)</label>
+<input id="publicKey" autocomplete="off" placeholder="sb_publishable_… or eyJ…" required>
+<p class="muted">Find it in Supabase → Project Settings → API Keys. This must be the public publishable/anon key, never the secret or service_role key.</p>
+<button type="submit" class="secondary">Connect Supabase</button>
+</form>
+<hr style="border:0;border-top:1px solid #e2e8f0;margin:20px 0">
+<form id="loginForm">
+<label class="field" for="email">Admin email</label><input id="email" type="email" autocomplete="username" required>
+<label class="field" for="password">Password</label><input id="password" type="password" autocomplete="current-password" required>
+<div class="row" style="margin-top:18px"><button id="loginButton" type="submit">Sign in</button><button id="resetButton" class="secondary" type="button">Send password reset</button></div>
+<div id="loginMessage" class="message muted" role="status"></div>
+</form>
+</section>
+<section id="dashboard" class="hidden">
+<div class="panel"><div class="row" style="justify-content:space-between"><div><h2>Welcome to Sweksha</h2><p id="signedInEmail" class="muted"></p></div><button id="logoutButton" class="secondary">Sign out</button></div><span class="status">Authenticated session</span></div>
 <div class="grid">
-<section class="card"><div class="icon" aria-hidden="true">🖼️</div><h3>Image & Post Studio</h3><p>Plan two daily promotional images for CVD machine service, machine parts, and diamond marketplace listings.</p><span class="status">AI image connection needed</span><p style="margin-top:12px">Next: generate image concepts, English captions, hashtags and post-ready copy.</p><a class="button secondary" href="https://chatgpt.com/" target="_blank" rel="noopener">Create content with ChatGPT</a></section>
-<section class="card"><div class="icon" aria-hidden="true">✉️</div><h3>Email Marketing</h3><p>Prepare relevant B2B outreach for CVD machine owners, manufacturers, parts buyers and diamond businesses.</p><span class="status">Email connection needed</span><p style="margin-top:12px">Next: connect your email account and approve the first campaign before sending.</p><a class="button secondary" href="https://mail.google.com/" target="_blank" rel="noopener">Open Gmail</a></section>
-<section class="card"><div class="icon" aria-hidden="true">📈</div><h3>Customer Leads</h3><p>Keep track of website enquiries, interested buyers, service requests and follow-ups.</p><span class="status">Lead database not connected</span><p style="margin-top:12px">Next: verify the current database setup before saving customer data.</p></section>
-<section class="card"><div class="icon" aria-hidden="true">🧾</div><h3>Daily Activity Report</h3><p>Summarize completed work, pending tasks, email replies and new enquiries based on real connected activity.</p><span class="status">Reporting not connected</span><p style="margin-top:12px">Next: connect activity sources so reports reflect real results.</p></section>
+<div class="tile"><h3>🖼️ Image & Post Studio</h3><p class="muted">Prepare English captions, hashtags and promotional concepts for CVD machine service and marketplace.</p><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener">Create content</a></div>
+<div class="tile"><h3>✉️ Email Marketing</h3><p class="muted">Prepare B2B outreach. Review and approve every email before sending.</p><a class="btn secondary" href="https://mail.google.com/" target="_blank" rel="noopener">Open Gmail</a></div>
+<div class="tile"><h3>📈 Customer Leads</h3><p class="muted">Database connection and secure lead policies still need to be configured before customer records can be displayed.</p></div>
+<div class="tile"><h3>🧾 Daily Activity Report</h3><p class="muted">Reporting will be enabled when real activity sources are connected.</p></div>
 </div>
-<div class="section-head"><h2>Safe setup checklist</h2><span class="muted">Complete in order</span></div>
-<section class="card"><ul class="tasks"><li><span class="check" aria-hidden="true"></span>Confirm the website source and keep the live site unchanged.</li><li><span class="check" aria-hidden="true"></span>Choose the image creation and social publishing route.</li><li><span class="check" aria-hidden="true"></span>Connect an email account securely; never put passwords or API keys in website code.</li><li><span class="check" aria-hidden="true"></span>Test with one approved post and one approved email before enabling automation.</li><li><span class="check" aria-hidden="true"></span>Enable a daily report after the integrations record real activity.</li></ul></section>
-<p class="footer">Security note: never publish private customer data, email credentials, API keys or access tokens in this public website repository. Automatic social publishing may require a professional account and platform approval.</p>
+<p class="footer">Signing in authenticates the account; it does not by itself grant admin permissions or protect database rows. Configure Row Level Security (RLS) before storing or displaying private leads and marketplace data.</p>
+</section>
+<p class="footer">Sweksha CVD Diamond Machine Service & Consulting · Keep passwords and secret API keys private.</p>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+ const SUPABASE_URL='https://xotqafgkubodqpirfpfb.supabase.co';
+ const keyInput=document.getElementById('publicKey'), loginForm=document.getElementById('loginForm'), configForm=document.getElementById('configForm'), message=document.getElementById('loginMessage');
+ let client=null;
+ function say(text){message.textContent=text}
+ function connect(key){
+   if(!window.supabase||!window.supabase.createClient){say('Could not load Supabase client. Check your internet connection and refresh this page.');return false}
+   try{client=window.supabase.createClient(SUPABASE_URL,key);say('Supabase client ready. You can now sign in.');return true}catch(e){say('Could not connect. Check that you copied the public publishable/anon key.');return false}
+ }
+ configForm.addEventListener('submit',function(e){e.preventDefault();connect(keyInput.value.trim())});
+ loginForm.addEventListener('submit',async function(e){
+   e.preventDefault();if(!client){say('First paste your Supabase public publishable/anon key and click Connect Supabase.');return}
+   const button=document.getElementById('loginButton');button.disabled=true;say('Signing in…');
+   try{const result=await client.auth.signInWithPassword({email:document.getElementById('email').value.trim(),password:document.getElementById('password').value});
+    if(result.error)throw result.error;
+    document.getElementById('signedInEmail').textContent=result.data.user.email||'Signed in';
+    document.getElementById('loginPanel').classList.add('hidden');document.getElementById('dashboard').classList.remove('hidden');
+   }catch(err){say(err.message||'Sign-in failed. Check email, password and email confirmation.')}finally{button.disabled=false}
+ });
+ document.getElementById('resetButton').addEventListener('click',async function(){
+   if(!client){say('First connect Supabase using your public key.');return}
+   const email=document.getElementById('email').value.trim();if(!email){say('Enter your admin email first.');return}
+   try{const result=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(result.error)throw result.error;say('If this email is registered, a password reset email will be sent.')}
+   catch(err){say(err.message||'Could not request password reset.')}
+ });
+ document.getElementById('logoutButton').addEventListener('click',async function(){if(client)await client.auth.signOut();document.getElementById('dashboard').classList.add('hidden');document.getElementById('loginPanel').classList.remove('hidden');say('Signed out.')});
+})();
+</script>
 </body>
 </html>
