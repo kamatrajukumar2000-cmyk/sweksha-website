@@ -50,8 +50,17 @@ header{background:#10264a;color:white;padding:26px 18px}header,main{width:100%}.
  const keyInput=document.getElementById('publicKey'), loginForm=document.getElementById('loginForm'), configForm=document.getElementById('configForm'), message=document.getElementById('loginMessage');
  let client=null;
  function say(text){message.textContent=text}
- function showDashboard(user){
-   document.getElementById('signedInEmail').textContent=(user&&user.email)||'Signed in';
+ async function showDashboard(user){
+   const allowedAdminEmail='kamatrajukumar2000@gmail.com';
+   const userEmail=String((user&&user.email)||'').trim().toLowerCase();
+   if(!user || userEmail!==allowedAdminEmail){
+     if(client){try{await client.auth.signOut()}catch(e){}}
+     document.getElementById('dashboard').classList.add('hidden');
+     document.getElementById('loginPanel').classList.remove('hidden');
+     say('Access denied. This dashboard is restricted to the authorized Sweksha admin account.');
+     return;
+   }
+   document.getElementById('signedInEmail').textContent=userEmail;
    document.getElementById('loginPanel').classList.add('hidden');
    document.getElementById('dashboard').classList.remove('hidden');
  }
