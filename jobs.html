@@ -87,12 +87,12 @@ document.getElementById('candidate').addEventListener('submit', async e => {
   const record={
     full_name:document.getElementById('cname').value.trim(),
     role_skills:document.getElementById('crole').value.trim(),
-    experience:document.getElementById('cexp').value.trim(),
+    experience_qualifications:document.getElementById('cexp').value.trim(),
     preferred_location:document.getElementById('cloc').value.trim(),
-    contact_whatsapp:document.getElementById('ccontact').value.trim(),
+    phone:document.getElementById('ccontact').value.trim(),
     status:'pending'
   };
-  const message='Hello Sweksha, I am looking for a job in the CVD / lab-grown diamond industry.\nName: '+record.full_name+'\nRole/skills: '+record.role_skills+'\nExperience: '+(record.experience||'Not provided')+'\nPreferred location: '+record.preferred_location+'\nContact: '+record.contact_whatsapp;
+  const message='Hello Sweksha, I am looking for a job in the CVD / lab-grown diamond industry.\nName: '+record.full_name+'\nRole/skills: '+record.role_skills+'\nExperience: '+(record.experience_qualifications||'Not provided')+'\nPreferred location: '+record.preferred_location+'\nContact: '+record.phone;
   const whatsappWindow=window.open('about:blank','_blank');
   if(whatsappWindow) whatsappWindow.location.href='https://wa.me/917827474249?text='+encodeURIComponent(message);
   button.disabled=true; status.textContent='Saving your profile to the website database…';
