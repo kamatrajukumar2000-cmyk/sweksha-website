@@ -113,10 +113,14 @@ document.getElementById('vacancy').addEventListener('submit', async e => {
     company_name:document.getElementById('company').value.trim(),
     job_title:document.getElementById('vrole').value.trim(),
     description:document.getElementById('vdetails').value.trim(),
+    responsibilities_skills:document.getElementById('vdetails').value.trim(),
     location:document.getElementById('vloc').value.trim(),
+    work_location:document.getElementById('vloc').value.trim(),
     employment_type:document.getElementById('vtype').value,
+    salary_range:document.getElementById('vpay').value.trim(),
     pay_range:document.getElementById('vpay').value.trim(),
-    contact_whatsapp:contact,
+    contact_name:contact,
+    contact_details:contact,
     status:'pending'
   };
   const message='Hello Sweksha, please review this job vacancy.\nCompany: '+record.company_name+'\nJob title: '+record.job_title+'\nResponsibilities/skills: '+record.description+'\nLocation: '+record.location+'\nEmployment type: '+record.employment_type+'\nPay range: '+(record.pay_range||'Not provided')+'\nContact: '+contact;
