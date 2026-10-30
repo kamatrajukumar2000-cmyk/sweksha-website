@@ -22,8 +22,8 @@ label{display:block;font-weight:700;margin:13px 0 5px}input,select,textarea{widt
 <main>
 <section class="hero"><div class="wrap"><span class="eyebrow">Buy • Sell • Connect</span><h1>All Diamond Processing Machines Marketplace</h1><p>Explore or submit new and used CVD/MPCVD diamond-growing systems, HPHT presses, diamond laser machines, Galaxy, Sarin, polishing, bruting, scanning, testing equipment and other diamond-processing machinery. Listings are published only after Sweksha Admin review.</p><div class="actions"><a class="btn primary" href="#buy">Browse Approved Machines</a><a class="btn secondary" href="#choose-action">I Want to Buy / Sell</a></div></div></section>
 <section class="section" id="choose-action"><div class="wrap"><div style="text-align:center;max-width:760px;margin:0 auto 22px"><h2>What would you like to do?</h2><p class="muted">Choose one option. The form will open with the correct requirement selected.</p></div><div class="choice-grid">
-<div class="choice-card"><h2>I Want to Buy</h2><p>Tell us which diamond-processing machine you need. Sweksha will connect you with relevant sellers.</p><button class="btn primary" type="button" data-market-mode="looking_to_buy">Submit Buy Requirement</button></div>
-<div class="choice-card"><h2>I Want to Sell</h2><p>List your new or used machine for interested buyers. Your listing will be reviewed before publishing.</p><button class="btn primary" type="button" data-market-mode="for_sale">Submit Machine for Sale</button></div>
+<div class="choice-card"><h2>I Want to Buy</h2><p>Tell us which diamond-processing machine you need. Sweksha will connect you with relevant sellers.</p><button class="btn primary" type="button" onclick="window.swekshaOpenMarketForm(&quot;looking_to_buy&quot;)">Submit Buy Requirement</button></div>
+<div class="choice-card"><h2>I Want to Sell</h2><p>List your new or used machine for interested buyers. Your listing will be reviewed before publishing.</p><button class="btn primary" type="button" onclick="window.swekshaOpenMarketForm(&quot;for_sale&quot;)">Submit Machine for Sale</button></div>
 </div></div></section>
 <section class="section" id="buy"><div class="wrap"><div class="card" style="margin-bottom:22px"><h2>Approved Machine Listings</h2><p class="muted">Only listings reviewed and approved by Sweksha are shown here. Contact Sweksha to verify machine condition, ownership, specifications and availability before any transaction.</p><div id="listingStatus" class="status" role="status">Connecting to marketplace…</div></div><div id="listingGrid" class="listing-grid"><div class="empty">Loading approved listings…</div></div></div></section>
 <div class="market-modal-overlay" id="marketModal" aria-hidden="true"><div class="market-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="formHeading"><div class="market-modal-top"><strong>Sweksha Marketplace Form</strong><button class="modal-close" id="closeMarketModal" type="button" aria-label="Close form">×</button></div><section class="section" id="seller-form" style="background:var(--soft)"><div class="wrap"><div class="grid">
@@ -49,6 +49,24 @@ label{display:block;font-weight:700;margin:13px 0 5px}input,select,textarea{widt
 </div></div></section></div></div>
 </main>
 <footer><div class="wrap">© Sweksha Fondation Club • CVD Diamond Machine Service & Consulting • <a href="./index.html">Return to Homepage</a></div></footer>
+<script>
+window.swekshaOpenMarketForm=function(mode){
+ const buy=mode==='looking_to_buy';
+ const byId=id=>document.getElementById(id);
+ const modal=byId('marketModal');
+ if(!modal){alert('Marketplace form is unavailable. Please refresh the page.');return;}
+ byId('saleType').value=buy?'looking_to_buy':'for_sale';
+ byId('formHeading').textContent=buy?'Submit Your Machine Buying Requirement':'Submit Your Machine for Sale';
+ byId('formIntro').textContent=buy?'Tell us the machine you need. Sweksha will review your requirement and connect you with relevant sellers.':'Share your machine details. Sweksha will review the listing before it appears publicly.';
+ byId('conditionLabel').textContent=buy?'Preferred machine condition *':'Machine condition *';
+ byId('model').placeholder=buy?'Preferred brand, model or required specifications':'Brand, exact model and manufacturing year';
+ byId('locationLabel').textContent=buy?'Your location / preferred machine location *':'Machine location *';
+ byId('personLabel').textContent=buy?'Your name / company *':'Seller name / company *';
+ byId('submitButton').textContent=buy?'Submit Buy Requirement':'Submit Machine for Sale';
+ byId('formStatus').textContent='';
+ modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');document.body.classList.add('market-modal-open');
+};
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
