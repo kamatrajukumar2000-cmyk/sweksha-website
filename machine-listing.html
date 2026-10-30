@@ -38,7 +38,7 @@ label{display:block;font-weight:700;margin:13px 0 5px}input,select,textarea{widt
 <label for="sellerName" id="personLabel">Your name / company *</label><input id="sellerName" required maxlength="120">
 <label for="sellerPhone">WhatsApp / phone *</label><input id="sellerPhone" required type="tel" maxlength="40" placeholder="Include country code for international numbers">
 <label for="sellerEmail">Email (optional)</label><input id="sellerEmail" type="email" maxlength="160">
-<label for="machinePhotos">Machine photos (up to 4 images, max 5 MB each)</label><input id="machinePhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+<label for="machinePhotos">Machine photos (up to 4 images, max 5 MB each)</label><input id="machinePhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple><div id="machinePhotoPreview" class="photo-preview" aria-live="polite"></div>
 <p class="help">Photos upload to the Sweksha public listing image bucket. Do not upload documents containing private or sensitive information.</p>
 <label for="extra">Additional details</label><textarea id="extra" maxlength="1500" placeholder="Availability, inspection options, accessories, delivery or other notes"></textarea>
 <label style="display:flex;gap:10px;align-items:flex-start;font-weight:400"><input type="checkbox" id="consent" required style="width:auto;margin-top:6px"> I confirm I am allowed to share these details and agree Sweksha may contact me about this request.</label>
@@ -78,7 +78,7 @@ function connect(){
  if(!actual||!window.supabase){$('listingStatus').textContent='Marketplace database key is not configured yet. Sweksha Admin must add the Supabase publishable key to this page.';return false}
  try{client=window.supabase.createClient(SUPABASE_URL,actual);return true}catch(e){$('listingStatus').textContent='Could not connect to the marketplace database.';return false}
 }
-const labels={cvd_mpcvd:'CVD / MPCVD',hpht_press:'HPHT Press',diamond_laser:'Diamond Laser',galaxy:'Galaxy',four_p:'4P Machine',sarin:'Sarin',polishing:'Polishing Machine',bruting:'Bruting Machine',scanning_testing:'Scanning / Testing',planning:'Planning / Mapping',other_diamond:'Other Diamond Machine'};
+$('machinePhotos').addEventListener('change',()=>{const box=$('machinePhotoPreview');box.innerHTML='';const files=Array.from($('machinePhotos').files||[]);if(files.length>4){box.textContent='Please select no more than 4 photos.';return;}for(const file of files){if(!['image/jpeg','image/png','image/webp'].includes(file.type)){box.textContent='Only JPG, PNG or WEBP photos are accepted.';return;}if(file.size>5*1024*1024){box.textContent='Each photo must be 5 MB or smaller.';return;}const img=document.createElement('img');img.alt='Selected machine photo preview';img.style.cssText='width:112px;height:92px;object-fit:cover;border-radius:10px;border:1px solid #d8e1eb;margin:6px 8px 6px 0';img.src=URL.createObjectURL(file);box.appendChild(img);}});\nconst labels={cvd_mpcvd:'CVD / MPCVD',hpht_press:'HPHT Press',diamond_laser:'Diamond Laser',galaxy:'Galaxy',four_p:'4P Machine',sarin:'Sarin',polishing:'Polishing Machine',bruting:'Bruting Machine',scanning_testing:'Scanning / Testing',planning:'Planning / Mapping',other_diamond:'Other Diamond Machine'};
 async function loadListings(){
  if(!client){$('listingGrid').innerHTML='<div class="empty">Approved machine listings will appear here after the database key is configured and listings are approved.</div>';return}
  try{
