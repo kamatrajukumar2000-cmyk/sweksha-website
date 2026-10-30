@@ -3,99 +3,152 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sweksha Admin Panel</title>
+<title>Sweksha Admin Dashboard</title>
+<meta name="robots" content="noindex,nofollow">
 <style>
-:root{color-scheme:light;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--blue:#174ea6;--bg:#f4f7fc}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-header{background:#10264a;color:white;padding:26px 18px}header,main{width:100%}.wrap,main{max-width:1000px;margin:auto}h1{font-size:clamp(1.6rem,4vw,2.3rem);margin:4px 0}.eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:#c6d7ff;font-weight:700}header p{margin:5px 0;color:#e2eaff}main{padding:24px 16px 48px}.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 8px 24px #10264a0b;margin-bottom:16px}.narrow{max-width:520px;margin:24px auto}.muted{color:var(--muted);font-size:.92rem}.field{display:block;font-weight:650;margin:14px 0 6px}input{display:block;width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:9px;font:inherit}button,.btn{display:inline-block;border:0;border-radius:9px;padding:11px 15px;background:var(--blue);color:white;font:inherit;font-weight:650;cursor:pointer;text-decoration:none}button:disabled{opacity:.55;cursor:wait}.secondary{background:#edf2fb;color:#183b74}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.tile{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff}.tile h3{margin:0 0 6px}.notice{padding:12px 14px;border-radius:10px;background:#fff6df;border:1px solid #f0d38b;color:#704c00;margin-bottom:14px}.message{margin-top:12px;white-space:pre-wrap}.hidden{display:none!important}.status{display:inline-block;border-radius:999px;padding:4px 9px;background:#edf2fb;color:#183b74;font-size:.82rem}.footer{color:var(--muted);font-size:.85rem;margin-top:20px}
-@media(max-width:620px){.grid{grid-template-columns:1fr}.panel{padding:17px}.narrow{margin:12px auto}}
+:root{color-scheme:light;--navy:#081629;--navy2:#102747;--teal:#18b7a6;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--bg:#f3f6fa;--white:#fff;--red:#b42318;--amber:#a15c00;--green:#087f5b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}
+.top{background:var(--navy);color:#fff;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.brand{font-weight:800;font-size:19px}.brand span{color:var(--teal)}.top small{display:block;color:#b9c9dc;font-size:12px}
+.wrap{max-width:1240px;margin:auto;padding:24px 18px 60px}.panel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:20px;box-shadow:0 5px 22px #1027470a;margin-bottom:18px}.login{max-width:500px;margin:34px auto}.field{display:block;font-weight:700;margin:13px 0 6px}input,select{width:100%;padding:11px 12px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:var(--ink)}input:focus,select:focus{outline:2px solid #18b7a633;border-color:var(--teal)}.btn{border:0;border-radius:9px;padding:10px 15px;background:var(--navy2);color:#fff;font-weight:700}.btn.teal{background:var(--teal);color:#06201e}.btn.light{background:#eaf0f7;color:#18324f}.btn.red{background:#fff0ee;color:var(--red)}.btn:disabled{opacity:.55;cursor:wait}.muted{color:var(--muted)}.small{font-size:12px}.message{white-space:pre-wrap;margin-top:10px;color:var(--muted)}.hidden{display:none!important}.headrow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 18px}.headrow h1{margin:0;font-size:27px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}.stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:17px}.stat .label{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em}.stat strong{display:block;font-size:30px;margin-top:5px}.toolbar{display:grid;grid-template-columns:minmax(180px,1fr) 190px auto auto;gap:10px;align-items:center}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px;margin-top:15px}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:13px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{font-size:12px;color:#526174;background:#f7f9fc;text-transform:uppercase;letter-spacing:.04em}tr:last-child td{border-bottom:0}.name{font-weight:750}.sub{font-size:12px;color:var(--muted);margin-top:3px}.pill{display:inline-block;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:750;background:#eef2f7;color:#43536a}.pill.new{background:#e7f1ff;color:#1756a5}.pill.in_progress{background:#fff4dc;color:#925800}.pill.resolved{background:#e5f7ef;color:#087f5b}.pill.spam{background:#ffeded;color:#b42318}.actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.actions select{min-width:130px;padding:7px}.empty{text-align:center;padding:35px;color:var(--muted)}.detail{display:grid;grid-template-columns:1fr 1fr;gap:12px}.detail div{background:#f7f9fc;border-radius:9px;padding:12px;min-width:0;overflow-wrap:anywhere}.detail .full{grid-column:1/-1}.detail b{display:block;font-size:11px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}.detail p{margin:0;white-space:pre-wrap}.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:25px}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.toolbar{grid-template-columns:1fr 1fr}.toolbar input{grid-column:1/-1}.headrow h1{font-size:23px}.top{padding:15px}.detail{grid-template-columns:1fr}.detail .full{grid-column:auto}}
+@media(max-width:420px){.toolbar{grid-template-columns:1fr}.toolbar input{grid-column:auto}.stats{gap:9px}.stat{padding:13px}.stat strong{font-size:25px}}
 </style>
 </head>
 <body>
-<header><div class="wrap"><div class="eyebrow">Sweksha CVD Diamond Service & Marketplace</div><h1>Admin Panel</h1><p>Private workspace for business management</p></div></header>
-<main>
-<div class="notice"><strong>Setup note:</strong> Enter your Supabase public publishable/anon key once in this browser. The public key is saved locally in this browser for convenience. Never enter a secret or service_role key here.</div>
-<section id="loginPanel" class="panel narrow">
-<h2>Admin Login</h2><p class="muted">Sign in with the admin email already registered in your Supabase project.</p>
-<form id="configForm">
-<label class="field" for="publicKey">Supabase publishable key (or legacy anon key)</label>
-<input id="publicKey" autocomplete="off" placeholder="sb_publishable_… or eyJ…" required>
-<p class="muted">Find it in Supabase → Project Settings → API Keys. This must be the public publishable/anon key, never the secret or service_role key.</p>
-<button type="submit" class="secondary">Connect Supabase</button>
-</form>
-<hr style="border:0;border-top:1px solid #e2e8f0;margin:20px 0">
-<form id="loginForm">
-<label class="field" for="email">Admin email</label><input id="email" type="email" autocomplete="username" required>
-<label class="field" for="password">Password</label><input id="password" type="password" autocomplete="current-password" required>
-<div class="row" style="margin-top:18px"><button id="loginButton" type="submit">Sign in</button><button id="resetButton" class="secondary" type="button">Send password reset</button></div>
-<div id="loginMessage" class="message muted" role="status"></div>
-</form>
+<header class="top"><div class="brand">Sweksha <span>Fondation Club</span><small>Private business workspace</small></div><div id="topRight" class="muted small">Admin access</div></header>
+<main class="wrap">
+<section id="loginPanel" class="panel login">
+<h1>Admin Login</h1><p class="muted">Sign in with the authorized Sweksha admin account.</p>
+<form id="configForm"><label class="field" for="publicKey">Supabase public publishable / anon key</label><input id="publicKey" autocomplete="off" placeholder="sb_publishable_… or eyJ…" required><p class="muted small">Use only the public key from Supabase → Project Settings → API Keys. Never enter a secret or service_role key.</p><button class="btn light" type="submit">Connect Supabase</button></form>
+<hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+<form id="loginForm"><label class="field" for="email">Admin email</label><input id="email" type="email" autocomplete="username" required><label class="field" for="password">Password</label><input id="password" type="password" autocomplete="current-password" required><div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:16px"><button id="loginButton" class="btn" type="submit">Sign in</button><button id="resetButton" class="btn light" type="button">Reset password</button></div></form>
+<div id="loginMessage" class="message" role="status"></div>
 </section>
+
 <section id="dashboard" class="hidden">
-<div class="panel"><div class="row" style="justify-content:space-between"><div><h2>Welcome to Sweksha</h2><p id="signedInEmail" class="muted"></p></div><button id="logoutButton" class="secondary">Sign out</button></div><span class="status">Authenticated session</span></div>
-<div class="grid">
-<div class="tile"><h3>🖼️ Image & Post Studio</h3><p class="muted">Prepare English captions, hashtags and promotional concepts for CVD machine service and marketplace.</p><a class="btn secondary" href="https://chatgpt.com/" target="_blank" rel="noopener">Create content</a></div>
-<div class="tile"><h3>✉️ Email Marketing</h3><p class="muted">Prepare B2B outreach. Review and approve every email before sending.</p><a class="btn secondary" href="https://mail.google.com/" target="_blank" rel="noopener">Open Gmail</a></div>
-<div class="tile"><h3>📈 Customer Leads</h3><p class="muted">Database connection and secure lead policies still need to be configured before customer records can be displayed.</p></div>
-<div class="tile"><h3>🧾 Daily Activity Report</h3><p class="muted">Reporting will be enabled when real activity sources are connected.</p></div>
+<div class="headrow"><div><h1>Admin Dashboard</h1><div id="signedInEmail" class="muted small"></div></div><div class="actions"><button id="refreshButton" class="btn light">↻ Refresh</button><button id="logoutButton" class="btn red">Sign out</button></div></div>
+<div class="stats">
+<div class="stat"><div class="label">Total enquiries</div><strong id="totalCount">—</strong></div>
+<div class="stat"><div class="label">New</div><strong id="newCount">—</strong></div>
+<div class="stat"><div class="label">In progress</div><strong id="progressCount">—</strong></div>
+<div class="stat"><div class="label">Resolved</div><strong id="resolvedCount">—</strong></div>
 </div>
-<p class="footer">Signing in authenticates the account; it does not by itself grant admin permissions or protect database rows. Configure Row Level Security (RLS) before storing or displaying private leads and marketplace data.</p>
+<div class="panel">
+<div class="headrow"><div><h2 style="margin:0">Customer Enquiries</h2><div class="muted small">View incoming website requests and update their status.</div></div><span id="lastUpdated" class="muted small"></span></div>
+<div class="toolbar"><input id="searchInput" type="search" placeholder="Search name, phone, email, subject…"><select id="statusFilter" aria-label="Filter by status"><option value="all">All statuses</option><option value="new">New</option><option value="in_progress">In Progress</option><option value="resolved">Resolved</option><option value="spam">Spam</option></select><button id="exportButton" class="btn light">Export CSV</button><button id="clearButton" class="btn light">Clear filters</button></div>
+<div id="dataMessage" class="message" role="status"></div>
+<div class="tablewrap"><table><thead><tr><th>Customer</th><th>Requirement</th><th>Contact</th><th>Date</th><th>Status / action</th></tr></thead><tbody id="enquiryRows"><tr><td colspan="5" class="empty">Connect and sign in to load enquiries.</td></tr></tbody></table></div>
+</div>
+<div class="panel"><div class="headrow"><div><h2 style="margin:0">Enquiry Details</h2><div class="muted small">Select “View” on any enquiry to read the full message.</div></div></div><div id="detailBox" class="empty">No enquiry selected.</div></div>
 </section>
-<p class="footer">Sweksha CVD Diamond Machine Service & Consulting · Keep passwords and secret API keys private.</p>
+<div class="footer">Sweksha CVD Diamond Machine Service &amp; Consulting · Keep your admin password and secret API keys private.</div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
- const SUPABASE_URL='https://xotqafgkubodqpirfpfb.supabase.co';
- const keyInput=document.getElementById('publicKey'), loginForm=document.getElementById('loginForm'), configForm=document.getElementById('configForm'), message=document.getElementById('loginMessage');
- let client=null;
- function say(text){message.textContent=text}
- async function showDashboard(user){
-   const allowedAdminEmail='kamatrajukumar2000@gmail.com';
-   const userEmail=String((user&&user.email)||'').trim().toLowerCase();
-   if(!user || userEmail!==allowedAdminEmail){
-     if(client){try{await client.auth.signOut()}catch(e){}}
-     document.getElementById('dashboard').classList.add('hidden');
-     document.getElementById('loginPanel').classList.remove('hidden');
-     say('Access denied. This dashboard is restricted to the authorized Sweksha admin account.');
-     return;
-   }
-   document.getElementById('signedInEmail').textContent=userEmail;
-   document.getElementById('loginPanel').classList.add('hidden');
-   document.getElementById('dashboard').classList.remove('hidden');
- }
- function connect(key){
-   if(!window.supabase||!window.supabase.createClient){say('Could not load Supabase client. Check your internet connection and refresh this page.');return false}
-   try{
-     client=window.supabase.createClient(SUPABASE_URL,key);
-     try{localStorage.setItem('sweksha_supabase_public_key',key)}catch(e){}
-     say('Supabase client ready. You can now sign in.');
-     client.auth.getSession().then(function(result){
-       if(result.data&&result.data.session)showDashboard(result.data.session.user);
-     }).catch(function(){});
-     return true;
-   }catch(e){say('Could not connect. Check that you copied the public publishable/anon key.');return false}
- }
- configForm.addEventListener('submit',function(e){e.preventDefault();connect(keyInput.value.trim())});
+'use strict';
+const SUPABASE_URL='https://xotqafgkubodqpirfpfb.supabase.co';
+const ADMIN_EMAIL='kamatrajukumar2000@gmail.com';
+const $=id=>document.getElementById(id);
+let client=null, enquiries=[], selectedId=null;
+function say(id,text){$(id).textContent=text||''}
+function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function connect(key){
+ if(!window.supabase||!window.supabase.createClient){say('loginMessage','Supabase library could not load. Check internet and refresh.');return false}
  try{
-   const savedKey=localStorage.getItem('sweksha_supabase_public_key');
-   if(savedKey){keyInput.value=savedKey;connect(savedKey)}
- }catch(e){}
- loginForm.addEventListener('submit',async function(e){
-   e.preventDefault();if(!client){say('First paste your Supabase public publishable/anon key and click Connect Supabase.');return}
-   const button=document.getElementById('loginButton');button.disabled=true;say('Signing in…');
-   try{const result=await client.auth.signInWithPassword({email:document.getElementById('email').value.trim(),password:document.getElementById('password').value});
-    if(result.error)throw result.error;
-    showDashboard(result.data.user);
-   }catch(err){say(err.message||'Sign-in failed. Check email, password and email confirmation.')}finally{button.disabled=false}
+  client=window.supabase.createClient(SUPABASE_URL,key);
+  localStorage.setItem('sweksha_supabase_public_key',key);
+  say('loginMessage','Supabase connected. Sign in with the admin account.');
+  client.auth.getSession().then(({data,error})=>{if(error)throw error;if(data.session)showDashboard(data.session.user)}).catch(e=>say('loginMessage',e.message));
+  return true;
+ }catch(e){say('loginMessage','Could not connect. Check the public key.');return false}
+}
+async function showDashboard(user){
+ const email=String(user&&user.email||'').toLowerCase();
+ if(email!==ADMIN_EMAIL){await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','Access denied. This page is restricted to the authorized Sweksha admin email.');return}
+ $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');$('signedInEmail').textContent='Signed in: '+email;$('topRight').textContent='Authenticated admin session';await loadEnquiries();
+}
+async function loadEnquiries(){
+ if(!client){say('dataMessage','Supabase is not connected.');return}
+ say('dataMessage','Loading enquiries…');$('refreshButton').disabled=true;
+ try{
+  const {data,error}=await client.from('enquiries').select('*').order('created_at',{ascending:false}).limit(500);
+  if(error)throw error;
+  enquiries=Array.isArray(data)?data:[];
+  render();
+  say('dataMessage',enquiries.length?'Loaded '+enquiries.length+' enquiry record(s).':'No enquiries found yet.');
+  say('lastUpdated','Updated '+new Date().toLocaleString());
+ }catch(e){
+  enquiries=[];render();
+  say('dataMessage','Could not load enquiries: '+(e.message||'Unknown error')+'. Check that the Admin Dashboard SQL setup has been run in Supabase and that you are signed in with the authorized admin account.');
+ }finally{$('refreshButton').disabled=false}
+}
+function filtered(){
+ const q=$('searchInput').value.trim().toLowerCase(), status=$('statusFilter').value;
+ return enquiries.filter(r=>{
+  const matchStatus=status==='all'||String(r.status||'new')===status;
+  const text=[r.name,r.email,r.whatsapp,r.subject,r.message].join(' ').toLowerCase();
+  return matchStatus&&(!q||text.includes(q));
  });
- document.getElementById('resetButton').addEventListener('click',async function(){
-   if(!client){say('First connect Supabase using your public key.');return}
-   const email=document.getElementById('email').value.trim();if(!email){say('Enter your admin email first.');return}
-   try{const result=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(result.error)throw result.error;say('If this email is registered, a password reset email will be sent.')}
-   catch(err){say(err.message||'Could not request password reset.')}
- });
- document.getElementById('logoutButton').addEventListener('click',async function(){if(client)await client.auth.signOut();document.getElementById('dashboard').classList.add('hidden');document.getElementById('loginPanel').classList.remove('hidden');say('Signed out.')});
+}
+function render(){
+ $('totalCount').textContent=enquiries.length;
+ $('newCount').textContent=enquiries.filter(r=>(r.status||'new')==='new').length;
+ $('progressCount').textContent=enquiries.filter(r=>r.status==='in_progress').length;
+ $('resolvedCount').textContent=enquiries.filter(r=>r.status==='resolved').length;
+ const rows=filtered();
+ if(!rows.length){$('enquiryRows').innerHTML='<tr><td colspan="5" class="empty">No enquiries match this filter.</td></tr>';return}
+ $('enquiryRows').innerHTML=rows.map(r=>{
+  const status=r.status||'new', date=r.created_at?new Date(r.created_at).toLocaleString():'—';
+  return '<tr><td><div class="name">'+esc(r.name||'Unknown')+'</div><div class="sub">ID: '+esc(r.id)+'</div></td><td><div class="name">'+esc(r.subject||'General enquiry')+'</div><div class="sub">'+esc(String(r.message||'').slice(0,105))+(String(r.message||'').length>105?'…':'')+'</div></td><td>'+ (r.whatsapp?'<a href="https://wa.me/'+esc(String(r.whatsapp).replace(/[^0-9]/g,''))+'" target="_blank" rel="noopener">'+esc(r.whatsapp)+'</a>':'—')+'<div class="sub">'+(r.email?'<a href="mailto:'+esc(r.email)+'">'+esc(r.email)+'</a>':'')+'</div></td><td>'+esc(date)+'</td><td><div class="actions"><span class="pill '+esc(status)+'">'+esc(status.replace('_',' '))+'</span><button class="btn light" data-view="'+esc(r.id)+'">View</button><select data-status="'+esc(r.id)+'" aria-label="Update enquiry status"><option value="new" '+(status==='new'?'selected':'')+'>New</option><option value="in_progress" '+(status==='in_progress'?'selected':'')+'>In Progress</option><option value="resolved" '+(status==='resolved'?'selected':'')+'>Resolved</option><option value="spam" '+(status==='spam'?'selected':'')+'>Spam</option></select></div></td></tr>';
+ }).join('');
+}
+function showDetails(id){
+ const r=enquiries.find(x=>String(x.id)===String(id));if(!r)return;selectedId=id;
+ $('detailBox').className='detail';
+ $('detailBox').innerHTML='<div><b>Customer name</b>'+esc(r.name)+'</div><div><b>Enquiry ID</b>'+esc(r.id)+'</div><div><b>Email</b>'+esc(r.email||'Not provided')+'</div><div><b>WhatsApp / phone</b>'+esc(r.whatsapp||'Not provided')+'</div><div><b>Subject</b>'+esc(r.subject||'General enquiry')+'</div><div><b>Received</b>'+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</div><div class="full"><b>Message / requirement</b><p>'+esc(r.message||'No message supplied')+'</p></div><div class="full"><b>Current status</b>'+esc(r.status||'new')+'</div>';
+}
+async function updateStatus(id,status){
+ const allowed=['new','in_progress','resolved','spam'];if(!allowed.includes(status))return;
+ const row=enquiries.find(x=>String(x.id)===String(id));if(!row)return;
+ say('dataMessage','Updating enquiry status…');
+ try{
+  const {data,error}=await client.from('enquiries').update({status:status}).eq('id',id).select().single();
+  if(error)throw error;
+  Object.assign(row,data||{status});render();if(String(selectedId)===String(id))showDetails(id);
+  say('dataMessage','Enquiry status updated successfully.');
+ }catch(e){say('dataMessage','Status update failed: '+(e.message||'Check the SQL setup and admin permissions.'));await loadEnquiries()}
+}
+function exportCsv(){
+ const rows=filtered();if(!rows.length){say('dataMessage','There are no filtered records to export.');return}
+ const cols=['id','name','email','whatsapp','subject','message','status','created_at'];
+ const quote=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+ const csv=[cols.join(','),...rows.map(r=>cols.map(k=>quote(r[k])).join(','))].join('\r\n');
+ const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='sweksha-enquiries-'+new Date().toISOString().slice(0,10)+'.csv';a.click();URL.revokeObjectURL(url);
+}
+$('configForm').addEventListener('submit',e=>{e.preventDefault();connect($('publicKey').value.trim())});
+$('loginForm').addEventListener('submit',async e=>{
+ e.preventDefault();if(!client){say('loginMessage','First connect Supabase with the public key.');return}
+ $('loginButton').disabled=true;say('loginMessage','Signing in…');
+ try{const {data,error}=await client.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;await showDashboard(data.user)}
+ catch(err){say('loginMessage',err.message||'Sign-in failed. Check email and password.')}
+ finally{$('loginButton').disabled=false}
+});
+$('resetButton').addEventListener('click',async()=>{
+ if(!client){say('loginMessage','Connect Supabase first.');return}
+ const email=$('email').value.trim();if(!email){say('loginMessage','Enter your admin email first.');return}
+ const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+ say('loginMessage',error?error.message:'If this email is registered, a password reset email will be sent.');
+});
+$('logoutButton').addEventListener('click',async()=>{if(client)await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','You have signed out.');$('topRight').textContent='Admin access'});
+$('refreshButton').addEventListener('click',loadEnquiries);
+$('searchInput').addEventListener('input',render);$('statusFilter').addEventListener('change',render);
+$('clearButton').addEventListener('click',()=>{$('searchInput').value='';$('statusFilter').value='all';render()});
+$('exportButton').addEventListener('click',exportCsv);
+$('enquiryRows').addEventListener('click',e=>{const b=e.target.closest('[data-view]');if(b)showDetails(b.dataset.view)});
+$('enquiryRows').addEventListener('change',e=>{const s=e.target.closest('[data-status]');if(s)updateStatus(s.dataset.status,s.value)});
+try{const saved=localStorage.getItem('sweksha_supabase_public_key');if(saved){$('publicKey').value=saved;connect(saved)}}catch(e){}
 })();
 </script>
 </body>
