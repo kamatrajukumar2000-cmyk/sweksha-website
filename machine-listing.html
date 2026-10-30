@@ -17,7 +17,7 @@ label{display:block;font-weight:700;margin:13px 0 5px}input,select,textarea{widt
 </style>
 </head>
 <body>
-<header><div class="wrap nav"><a class="brand" href="./index.html">SWEKSHA <span>Machine Marketplace</span></a><nav class="navlinks"><a href="./index.html">Home</a><a href="./marketplace.html">Machine Parts</a><a href="#buy">Buy Machines</a><a href="#choose-action" data-market-mode="for_sale">Sell Machine</a></nav></div></header>
+<header><div class="wrap nav"><a class="brand" href="./index.html">SWEKSHA <span>Machine Marketplace</span></a><nav class="navlinks"><a href="./index.html">Home</a><a href="./marketplace.html">Machine Parts</a><a href="#seller-form" data-market-mode="looking_to_buy">Buy Machine</a><a href="#seller-form" data-market-mode="for_sale">Sell Machine</a><a href="#buy">Browse Listings</a></nav></div></header>
 <main>
 <section class="hero"><div class="wrap"><span class="eyebrow">Buy • Sell • Connect</span><h1>All Diamond Processing Machines Marketplace</h1><p>Explore or submit new and used CVD/MPCVD diamond-growing systems, HPHT presses, diamond laser machines, Galaxy, Sarin, polishing, bruting, scanning, testing equipment and other diamond-processing machinery. Listings are published only after Sweksha Admin review.</p><div class="actions"><a class="btn primary" href="#buy">Browse Approved Machines</a><a class="btn secondary" href="#choose-action">I Want to Buy / Sell</a></div></div></section>
 <section class="section" id="choose-action"><div class="wrap"><div style="text-align:center;max-width:760px;margin:0 auto 22px"><h2>What would you like to do?</h2><p class="muted">Choose one option. The form will open with the correct requirement selected.</p></div><div class="choice-grid">
@@ -26,7 +26,7 @@ label{display:block;font-weight:700;margin:13px 0 5px}input,select,textarea{widt
 </div></div></section>
 <section class="section" id="buy"><div class="wrap"><div class="card" style="margin-bottom:22px"><h2>Approved Machine Listings</h2><p class="muted">Only listings reviewed and approved by Sweksha are shown here. Contact Sweksha to verify machine condition, ownership, specifications and availability before any transaction.</p><div id="listingStatus" class="status" role="status">Connecting to marketplace…</div></div><div id="listingGrid" class="listing-grid"><div class="empty">Loading approved listings…</div></div></div></section>
 <section class="section" id="seller-form" style="background:var(--soft)"><div class="wrap"><div class="grid">
-<div class="card"><h2 id="formHeading">Submit Your Machine Requirement</h2><p class="muted" id="formIntro">Your submission will be saved as pending and reviewed by Sweksha Admin. It will not appear publicly until approved.</p>
+<div class="card"><h2 id="formHeading">Submit Your Machine Buying Requirement</h2><div class="actions" style="margin:12px 0 16px"><button class="btn primary" type="button" data-market-mode="looking_to_buy" id="buyModeButton" aria-pressed="true">I Want to Buy</button><button class="btn" type="button" data-market-mode="for_sale" id="sellModeButton" aria-pressed="false" style="border:1px solid #8ca0b3">I Want to Sell</button></div><p class="help" id="modeHint">Selected: BUY — submit the machine you are looking for.</p><p class="muted" id="formIntro">Your submission will be saved as pending and reviewed by Sweksha Admin. It will not appear publicly until approved.</p>
 <form id="machineForm">
 <label for="machineCategory">Machine category *</label><select id="machineCategory" required><option value="">Select category</option><option value="cvd_mpcvd">CVD / MPCVD Diamond Growing Machine</option><option value="hpht_press">HPHT Diamond Press Machine</option><option value="diamond_laser">Diamond Laser Cutting / Sawing Machine</option><option value="galaxy">Galaxy Diamond Processing Machine</option><option value="four_p">4P Diamond Processing Machine</option><option value="sarin">Sarin Scanner / Mapping Machine</option><option value="polishing">Diamond Polishing Machine / Bench</option><option value="bruting">Diamond Bruting Machine</option><option value="scanning_testing">Diamond Scanning / Testing / Identification Equipment</option><option value="planning">Diamond Planning / Inclusion Mapping Equipment</option><option value="other_diamond">Other Diamond Processing Machine</option></select>
 <label for="saleType" style="display:none">Requirement type</label><select id="saleType" style="display:none" aria-hidden="true"><option value="for_sale">I want to sell a machine</option><option value="looking_to_buy">I want to buy a machine</option><option value="dealer_partnership">Dealer / Marketing Partnership</option></select>
@@ -59,6 +59,11 @@ let client=null;
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function setMarketMode(mode){
  const buying=mode==='looking_to_buy';
+ $('buyModeButton').className=buying?'btn primary':'btn';
+ $('sellModeButton').className=buying?'btn':'btn primary';
+ $('buyModeButton').setAttribute('aria-pressed',String(buying));
+ $('sellModeButton').setAttribute('aria-pressed',String(!buying));
+ $('modeHint').textContent=buying?'Selected: BUY — submit the machine you are looking for.':'Selected: SELL — submit details of the machine you want to list.';
  $('saleType').value=buying?'looking_to_buy':'for_sale';
  $('formHeading').textContent=buying?'Submit Your Machine Buying Requirement':'Submit Your Machine for Sale';
  $('formIntro').textContent=buying?'Tell us the machine you need. Sweksha will review your requirement and connect you with relevant sellers.':'Share your machine details. Sweksha will review the listing before it appears publicly.';
@@ -149,7 +154,8 @@ $('machineForm').addEventListener('submit',async e=>{
    showWhatsAppLink('WhatsApp message is ready, but database saving failed: '+(err.message||'Unknown error')+'. Please use WhatsApp to send the enquiry; the database still needs repair.');
   }finally{btn.disabled=false}
  });
- if(connect())loadListings();
+ setMarketMode('looking_to_buy');
+if(connect())loadListings();
 })();
 </script>
 </body></html>
