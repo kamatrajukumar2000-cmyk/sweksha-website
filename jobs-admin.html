@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sweksha Jobs Admin</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f6fa;color:#172536;font:15px/1.5 Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:24px 16px}header{background:#07111f;color:white;padding:18px}.card{background:#fff;border:1px solid #dce5ed;border-radius:12px;padding:20px;margin:16px 0}input,select,button{font:inherit;padding:10px;border:1px solid #cbd6e0;border-radius:8px}input{width:100%;margin:6px 0 12px}button{cursor:pointer;background:#07111f;color:white;border:0}.muted{color:#657184;font-size:13px}.tabs{display:flex;gap:8px;flex-wrap:wrap}.tabs button{background:#e8eef5;color:#172536}.tabs button.active{background:#07111f;color:white}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.entry{border-top:1px solid #e1e7ef;padding:15px 0}.entry h3{margin:0}.entry p{white-space:pre-wrap}.entry select{margin:8px 8px 0 0}.hidden{display:none}@media(max-width:650px){.row>*{width:100%}}
+</style></head><body>
+<header><strong>Sweksha Fondation Club · Jobs Admin</strong></header><main class="wrap">
+<section id="login" class="card"><h1>Admin sign in</h1><p class="muted">Use your Supabase public publishable/anon key and authorized admin login. Never use a service_role or secret key here.</p>
+<label>Supabase public key</label><input id="key" placeholder="sb_publishable_… or anon JWT">
+<label>Admin email</label><input id="email" type="email" value="kamatrajukumar2000@gmail.com">
+<label>Password</label><input id="password" type="password">
+<button id="signin">Connect & sign in</button><p id="loginMsg" class="muted" role="status"></p></section>
+<section id="app" class="hidden">
+<div class="card row"><div><h1>Jobs & Hiring Review</h1><p class="muted" id="who"></p></div><button id="refresh">Refresh records</button><button id="logout">Sign out</button></div>
+<div class="card"><div class="tabs"><button class="active" data-kind="vacancies">Employer Vacancies</button><button data-kind="applications">Job Seeker Profiles</button></div><p class="muted" id="msg">Loading…</p><div id="records"></div></div>
+</section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+(()=>{'use strict';
+const URL='https://xotqafgkubodqpirfpfb.supabase.co',ADMIN='kamatrajukumar2000@gmail.com';
+const $=id=>document.getElementById(id);let db=null,kind='vacancies',data=[];
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function message(t){$('msg').textContent=t}
+async function signIn(){
+ const key=$('key').value.trim();if(!key){$('loginMsg').textContent='Enter the Supabase public key.';return}
+ if(!window.supabase){$('loginMsg').textContent='Supabase library did not load. Refresh and retry.';return}
+ db=window.supabase.createClient(URL,key);
+ $('loginMsg').textContent='Signing in…';
+ const {data:d,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});
+ if(error){$('loginMsg').textContent=error.message;return}
+ if((d.user.email||'').toLowerCase()!==ADMIN){await db.auth.signOut();$('loginMsg').textContent='Access denied for this account.';return}
+ $('login').classList.add('hidden');$('app').classList.remove('hidden');$('who').textContent='Signed in as '+d.user.email;await load();
+}
+async function load(){
+ message('Loading '+(kind==='vacancies'?'vacancies':'candidate profiles')+'…');
+ const table=kind==='vacancies'?'job_vacancies':'job_applications';
+ const {data:d,error}=await db.from(table).select('*').order('created_at',{ascending:false}).limit(500);
+ if(error){message('Could not load records: '+error.message+' Check that jobs_hiring_compatibility.sql has been run.');$('records').innerHTML='';return}
+ data=d||[];message(data.length+' record(s)');render();
+}
+function render(){
+ if(!data.length){$('records').innerHTML='<p class="muted">No submissions yet.</p>';return}
+ $('records').innerHTML=data.map(r=>{
+  const vacancy=kind==='vacancies';
+  const statusOptions=vacancy?['pending','approved','rejected','filled','archived']:['pending','reviewed','shortlisted','closed','rejected'];
+  const details=vacancy?
+   '<p><b>'+esc(r.company_name)+'</b> · '+esc(r.location||r.work_location)+'</p><p>'+esc(r.description||r.responsibilities_skills)+'</p><p>Employment: '+esc(r.employment_type||'Not specified')+' · Pay: '+esc(r.salary_range||r.pay_range||'Not specified')+'</p><p>Contact: '+esc(r.contact_name||'')+' '+esc(r.contact_details||'')+'</p>':
+   '<p><b>Skills / role:</b> '+esc(r.role_skills)+'</p><p><b>Experience:</b> '+esc(r.experience_qualifications||'Not provided')+'</p><p><b>Preferred location:</b> '+esc(r.preferred_location)+'</p><p><b>Phone:</b> '+esc(r.phone)+'</p>';
+  return '<article class="entry"><h3>'+esc(vacancy?r.job_title:r.full_name)+'</h3>'+details+'<div class="row"><span class="muted">Submitted: '+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</span><select data-id="'+esc(r.id)+'" aria-label="Update status">'+statusOptions.map(s=>'<option '+(r.status===s?'selected':'')+'>'+s+'</option>').join('')+'</select><button data-save="'+esc(r.id)+'">Save status</button></div></article>';
+ }).join('');
+}
+async function update(id){
+ const sel=$('records').querySelector('select[data-id="'+CSS.escape(id)+'"]');if(!sel)return;
+ const table=kind==='vacancies'?'job_vacancies':'job_applications';
+ const {error}=await db.from(table).update({status:sel.value}).eq('id',id);
+ if(error){message('Update failed: '+error.message);return}
+ message('Status updated.');await load();
+}
+$('signin').addEventListener('click',signIn);$('refresh').addEventListener('click',load);
+$('logout').addEventListener('click',async()=>{await db.auth.signOut();$('app').classList.add('hidden');$('login').classList.remove('hidden');$('password').value=''});
+document.querySelectorAll('[data-kind]').forEach(b=>b.addEventListener('click',()=>{kind=b.dataset.kind;document.querySelectorAll('[data-kind]').forEach(x=>x.classList.toggle('active',x===b));load()}));
+$('records').addEventListener('click',e=>{const b=e.target.closest('[data-save]');if(b)update(b.dataset.save)});
+})();
+</script></body></html>
