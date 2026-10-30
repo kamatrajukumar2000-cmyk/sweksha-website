@@ -42,7 +42,79 @@
 const tabs=[...document.querySelectorAll('[data-tab]')],panels=[...document.querySelectorAll('.panel')];
 function showTab(id){tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab===id));panels.forEach(p=>p.classList.toggle('active',p.id===id))}
 tabs.forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab)));
-document.getElementById('candidate').addEventListener('submit',e=>{e.preventDefault();const msg=`Hello Sweksha, I am looking for a job in the CVD / lab-grown diamond industry.\nName: ${cname.value}\nRole/skills: ${crole.value}\nExperience: ${cexp.value||'Not provided'}\nPreferred location: ${cloc.value}\nContact: ${ccontact.value}`;window.open('https://wa.me/917827474249?text='+encodeURIComponent(msg),'_blank');document.getElementById('cstatus').textContent='WhatsApp opened. Please review and send your enquiry.'});
-document.getElementById('vacancy').addEventListener('submit',e=>{e.preventDefault();const msg=`Hello Sweksha, please review this job vacancy.\nCompany: ${company.value}\nJob title: ${vrole.value}\nResponsibilities/skills: ${vdetails.value}\nLocation: ${vloc.value}\nEmployment type: ${vtype.value}\nPay range: ${vpay.value||'Not provided'}\nContact: ${vcontact.value}`;window.open('https://wa.me/917827474249?text='+encodeURIComponent(msg),'_blank');document.getElementById('vstatus').textContent='WhatsApp opened. Please review and send the vacancy enquiry.'});
+
+const SUPABASE_URL = 'https://xotqafgkubodqpirfpfb.supabase.co';
+const SUPABASE_ANON_KEY = 'PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE';
+
+async function saveToSupabase(table, record) {
+  if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.includes('PASTE_YOUR')) {
+    throw new Error('Supabase publishable key has not been added to jobs.html yet.');
+  }
+  const response = await fetch(SUPABASE_URL + '/rest/v1/' + table, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify(record)
+  });
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error('Database error (' + response.status + '): ' + detail);
+  }
+}
+
+document.getElementById('candidate').addEventListener('submit', async e => {
+  e.preventDefault();
+  const form=e.currentTarget, button=form.querySelector('button[type="submit"]'), status=document.getElementById('cstatus');
+  const record={
+    full_name:document.getElementById('cname').value.trim(),
+    role_skills:document.getElementById('crole').value.trim(),
+    experience:document.getElementById('cexp').value.trim(),
+    preferred_location:document.getElementById('cloc').value.trim(),
+    contact_whatsapp:document.getElementById('ccontact').value.trim(),
+    status:'pending'
+  };
+  const message='Hello Sweksha, I am looking for a job in the CVD / lab-grown diamond industry.\nName: '+record.full_name+'\nRole/skills: '+record.role_skills+'\nExperience: '+(record.experience||'Not provided')+'\nPreferred location: '+record.preferred_location+'\nContact: '+record.contact_whatsapp;
+  const whatsappWindow=window.open('about:blank','_blank');
+  if(whatsappWindow) whatsappWindow.location.href='https://wa.me/917827474249?text='+encodeURIComponent(message);
+  button.disabled=true; status.textContent='Saving your profile to the website database…';
+  try {
+    await saveToSupabase('candidate_profiles',record);
+    status.textContent='Success: your profile was saved on the website and WhatsApp enquiry was opened. Please press Send in WhatsApp.';
+    form.reset();
+  } catch(error) {
+    status.textContent='Database save failed: '+error.message+' WhatsApp has been opened if pop-ups are allowed. Please contact Sweksha so your enquiry is not lost.';
+  } finally { button.disabled=false; }
+});
+
+document.getElementById('vacancy').addEventListener('submit', async e => {
+  e.preventDefault();
+  const form=e.currentTarget, button=form.querySelector('button[type="submit"]'), status=document.getElementById('vstatus');
+  const contact=document.getElementById('vcontact').value.trim();
+  const record={
+    company_name:document.getElementById('company').value.trim(),
+    job_title:document.getElementById('vrole').value.trim(),
+    description:document.getElementById('vdetails').value.trim(),
+    location:document.getElementById('vloc').value.trim(),
+    employment_type:document.getElementById('vtype').value,
+    pay_range:document.getElementById('vpay').value.trim(),
+    contact_whatsapp:contact,
+    status:'pending'
+  };
+  const message='Hello Sweksha, please review this job vacancy.\nCompany: '+record.company_name+'\nJob title: '+record.job_title+'\nResponsibilities/skills: '+record.description+'\nLocation: '+record.location+'\nEmployment type: '+record.employment_type+'\nPay range: '+(record.pay_range||'Not provided')+'\nContact: '+contact;
+  const whatsappWindow=window.open('about:blank','_blank');
+  if(whatsappWindow) whatsappWindow.location.href='https://wa.me/917827474249?text='+encodeURIComponent(message);
+  button.disabled=true; status.textContent='Saving vacancy to the website database…';
+  try {
+    await saveToSupabase('job_vacancies',record);
+    status.textContent='Success: vacancy saved on the website and WhatsApp enquiry was opened. Please press Send in WhatsApp.';
+    form.reset();
+  } catch(error) {
+    status.textContent='Database save failed: '+error.message+' WhatsApp has been opened if pop-ups are allowed. Please contact Sweksha so your vacancy is not lost.';
+  } finally { button.disabled=false; }
+});
 </script>
 </body></html>
