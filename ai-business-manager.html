@@ -39,6 +39,11 @@
 <div id="dataMessage" class="message" role="status"></div>
 <div class="tablewrap"><table><thead><tr><th>Customer</th><th>Requirement</th><th>Contact</th><th>Date</th><th>Status / action</th></tr></thead><tbody id="enquiryRows"><tr><td colspan="5" class="empty">Connect and sign in to load enquiries.</td></tr></tbody></table></div>
 </div>
+<div class="panel" id="machineListingsPanel">
+<div class="headrow"><div><h2 style="margin:0">Machine Buy–Sell Listings</h2><div class="muted small">यहाँ Marketplace form से आई मशीनों की requests review करके Approve या Reject करें।</div></div><div class="actions"><span id="machineListingCount" class="muted small"></span><button id="machineRefreshButton" class="btn light" type="button">↻ Refresh Listings</button></div></div>
+<div id="machineListingMessage" class="message" role="status">Loading machine listings…</div>
+<div class="tablewrap"><table style="min-width:900px"><thead><tr><th>Machine / Category</th><th>Requirement &amp; Condition</th><th>Seller / Contact</th><th>Location / Price</th><th>Submitted</th><th>Review action</th></tr></thead><tbody id="machineListingRows"><tr><td colspan="6" class="empty">Loading machine listings…</td></tr></tbody></table></div>
+</div>
 <div class="panel"><div class="headrow"><div><h2 style="margin:0">Enquiry Details</h2><div class="muted small">Select “View” on any enquiry to read the full message.</div></div></div><div id="detailBox" class="empty">No enquiry selected.</div></div>
 </section>
 <div class="footer">Sweksha CVD Diamond Machine Service &amp; Consulting · Keep your admin password and secret API keys private.</div>
@@ -50,7 +55,7 @@
 const SUPABASE_URL='https://xotqafgkubodqpirfpfb.supabase.co';
 const ADMIN_EMAIL='kamatrajukumar2000@gmail.com';
 const $=id=>document.getElementById(id);
-let client=null, enquiries=[], selectedId=null;
+let client=null, enquiries=[], selectedId=null, machineListings=[];
 function say(id,text){$(id).textContent=text||''}
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function connect(key){
@@ -66,7 +71,49 @@ function connect(key){
 async function showDashboard(user){
  const email=String(user&&user.email||'').toLowerCase();
  if(email!==ADMIN_EMAIL){await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','Access denied. This page is restricted to the authorized Sweksha admin email.');return}
- $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');$('signedInEmail').textContent='Signed in: '+email;$('topRight').textContent='Authenticated admin session';await loadEnquiries();
+ $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');$('signedInEmail').textContent='Signed in: '+email;$('topRight').textContent='Authenticated admin session';await loadEnquiries();await loadMachineListings();
+}
+async function loadMachineListings(){
+ if(!client){say('machineListingMessage','Supabase is not connected.');return}
+ say('machineListingMessage','Loading machine buy–sell submissions…');
+ $('machineRefreshButton').disabled=true;
+ try{
+  const {data,error}=await client.from('machine_sales_listings').select('*').order('created_at',{ascending:false}).limit(500);
+  if(error)throw error;
+  machineListings=Array.isArray(data)?data:[];
+  renderMachineListings();
+  say('machineListingMessage',machineListings.length?'Loaded '+machineListings.length+' machine listing(s). Pending submissions are shown first.':'No machine buy–sell submissions found yet.');
+ }catch(e){
+  machineListings=[];
+  renderMachineListings();
+  say('machineListingMessage','Could not load machine listings: '+(e.message||'Unknown error')+'. Confirm machine-listings.sql was run in Supabase and admin is signed in with the authorized account.');
+ }finally{$('machineRefreshButton').disabled=false}
+}
+function renderMachineListings(){
+ const pending=machineListings.filter(r=>(r.status||'pending')==='pending').length;
+ $('machineListingCount').textContent=machineListings.length+' total · '+pending+' pending';
+ if(!machineListings.length){$('machineListingRows').innerHTML='<tr><td colspan="6" class="empty">अभी कोई machine listing नहीं आई है।</td></tr>';return}
+ $('machineListingRows').innerHTML=machineListings.map(r=>{
+  const status=String(r.status||'pending');
+  const phone=String(r.seller_phone||'').replace(/[^0-9]/g,'');
+  const contact=phone?'<a href="https://wa.me/'+esc(phone)+'" target="_blank" rel="noopener">'+esc(r.seller_phone)+'</a>':'—';
+  const photos=Array.isArray(r.photo_urls)&&r.photo_urls.length?'<div class="sub">'+r.photo_urls.length+' photo(s) attached</div>':'';
+  const action=status==='pending'?'<div class="actions"><button class="btn teal" type="button" data-machine-approve="'+esc(r.id)+'">Approve</button><button class="btn red" type="button" data-machine-reject="'+esc(r.id)+'">Reject</button></div>':'<span class="pill '+(status==='approved'?'resolved':'spam')+'">'+esc(status)+'</span>';
+  return '<tr><td><div class="name">'+esc(r.brand_model_year||'Machine')+'</div><div class="sub">'+esc(r.machine_category||'—')+'</div><div class="sub">ID: '+esc(r.id)+'</div></td><td>'+esc(r.transaction_type||'—')+' · '+esc(r.condition||'—')+'<div class="sub">'+esc(r.application_details||r.additional_details||'')+'</div>'+photos+'</td><td><div class="name">'+esc(r.seller_name||'—')+'</div>'+contact+'<div class="sub">'+esc(r.seller_email||'')+'</div></td><td>'+esc(r.location||'—')+'<div class="sub">'+esc(r.expected_price||'Price on Request')+'</div></td><td>'+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</td><td>'+action+'</td></tr>';
+ }).join('');
+}
+async function updateMachineListing(id,status){
+ if(!['approved','rejected'].includes(status))return;
+ const row=machineListings.find(r=>String(r.id)===String(id));if(!row)return;
+ const verb=status==='approved'?'approve':'reject';
+ if(!confirm('क्या आप इस machine listing को '+(status==='approved'?'APPROVE':'REJECT')+' करना चाहते हैं?'))return;
+ say('machineListingMessage','Updating machine listing…');
+ try{
+  const {data,error}=await client.from('machine_sales_listings').update({status,updated_at:new Date().toISOString()}).eq('id',id).select().single();
+  if(error)throw error;
+  Object.assign(row,data||{status});renderMachineListings();
+  say('machineListingMessage','Machine listing '+(status==='approved'?'approved. अब यह public Marketplace में दिखाई दे सकती है।':'rejected.') );
+ }catch(e){say('machineListingMessage','Could not '+verb+' listing: '+(e.message||'Check admin update policy.'))}
 }
 async function loadEnquiries(){
  if(!client){say('dataMessage','Supabase is not connected.');return}
@@ -142,7 +189,9 @@ $('resetButton').addEventListener('click',async()=>{
  say('loginMessage',error?error.message:'If this email is registered, a password reset email will be sent.');
 });
 $('logoutButton').addEventListener('click',async()=>{if(client)await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','You have signed out.');$('topRight').textContent='Admin access'});
-$('refreshButton').addEventListener('click',loadEnquiries);
+$('refreshButton').addEventListener('click',async()=>{await loadEnquiries();await loadMachineListings()});
+$('machineRefreshButton').addEventListener('click',loadMachineListings);
+$('machineListingRows').addEventListener('click',e=>{const a=e.target.closest('[data-machine-approve]'),r=e.target.closest('[data-machine-reject]');if(a)updateMachineListing(a.dataset.machineApprove,'approved');if(r)updateMachineListing(r.dataset.machineReject,'rejected')});
 $('searchInput').addEventListener('input',render);$('statusFilter').addEventListener('change',render);
 $('clearButton').addEventListener('click',()=>{$('searchInput').value='';$('statusFilter').value='all';render()});
 $('exportButton').addEventListener('click',exportCsv);
