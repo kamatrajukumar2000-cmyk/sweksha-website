@@ -41,12 +41,7 @@
 </div>
 <div class="panel"><div class="headrow"><div><h2 style="margin:0">Enquiry Details</h2><div class="muted small">Select “View” on any enquiry to read the full message.</div></div></div><div id="detailBox" class="empty">No enquiry selected.</div></div>
 </section>
-<div class="panel" style="margin-top:18px">
-<div class="headrow"><div><h2 style="margin:0">Buy / Sell Machine Listings</h2><div class="muted small">Review new machine submissions. Only approved listings appear on the public marketplace.</div></div><span id="machineListingCount" class="pill">0 pending</span></div>
-<div class="toolbar" style="grid-template-columns:minmax(180px,1fr) 190px auto"><input id="machineSearch" type="search" placeholder="Search machine, seller, category, location…"><select id="machineStatusFilter" aria-label="Filter machine listings"><option value="pending">Pending</option><option value="all">All statuses</option><option value="approved">Approved</option><option value="rejected">Rejected</option><option value="sold">Sold</option><option value="archived">Archived</option></select><button id="machineRefresh" class="btn light" type="button">Refresh listings</button></div>
-<div id="machineMessage" class="message" role="status"></div>
-<div class="tablewrap"><table><thead><tr><th>Machine</th><th>Seller / Contact</th><th>Location / Price</th><th>Photos</th><th>Status / action</th></tr></thead><tbody id="machineRows"><tr><td colspan="5" class="empty">Loading machine listings…</td></tr></tbody></table></div>
-</div>\n<div class="footer">Sweksha CVD Diamond Machine Service &amp; Consulting · Keep your admin password and secret API keys private.</div>
+<div class="footer">Sweksha CVD Diamond Machine Service &amp; Consulting · Keep your admin password and secret API keys private.</div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -55,7 +50,7 @@
 const SUPABASE_URL='https://xotqafgkubodqpirfpfb.supabase.co';
 const ADMIN_EMAIL='kamatrajukumar2000@gmail.com';
 const $=id=>document.getElementById(id);
-let client=null, enquiries=[], selectedId=null, machineListings=[];
+let client=null, enquiries=[], selectedId=null;
 function say(id,text){$(id).textContent=text||''}
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function connect(key){
@@ -73,7 +68,7 @@ async function showDashboard(user){
  if(email!==ADMIN_EMAIL){await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','Access denied. This page is restricted to the authorized Sweksha admin email.');return}
  $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');$('signedInEmail').textContent='Signed in: '+email;$('topRight').textContent='Authenticated admin session';await loadEnquiries();
 }
-async function loadMachineListings(){\n if(!client)return; say('machineMessage','Loading machine listings…'); $('machineRefresh').disabled=true;\n try{const {data,error}=await client.from('machine_sales_listings').select('*').order('created_at',{ascending:false}).limit(500);if(error)throw error;machineListings=Array.isArray(data)?data:[];renderMachineListings();say('machineMessage',machineListings.length?'Loaded '+machineListings.length+' machine listing(s).':'No machine listings submitted yet.');$('machineListingCount').textContent=machineListings.filter(x=>x.status==='pending').length+' pending';}\n catch(e){machineListings=[];renderMachineListings();say('machineMessage','Could not load machine listings: '+(e.message||'Check supabase/machine-listings.sql and admin access.'));}\n finally{$('machineRefresh').disabled=false}\n}\nfunction renderMachineListings(){\n const q=$('machineSearch').value.trim().toLowerCase(),s=$('machineStatusFilter').value;const rows=machineListings.filter(r=>(s==='all'||r.status===s)&&[r.machine_category,r.brand_model_year,r.seller_name,r.seller_phone,r.location,r.expected_price].join(' ').toLowerCase().includes(q));\n if(!rows.length){$('machineRows').innerHTML='<tr><td colspan="5" class="empty">No machine listings match this filter.</td></tr>';return}\n $('machineRows').innerHTML=rows.map(r=>{const photos=Array.isArray(r.photo_urls)?r.photo_urls:[];const opts=['pending','approved','rejected','sold','archived'].map(v=>'<option value="'+v+'" '+(r.status===v?'selected':'')+'>'+v+'</option>').join('');return '<tr><td><div class="name">'+esc(r.brand_model_year||'Machine')+'</div><div class="sub">'+esc(r.machine_category||'')+' · '+esc(r.transaction_type||'')+' · '+esc(r.condition||'')+'</div><div class="sub">'+esc(r.application_details||r.additional_details||'')+'</div></td><td><div class="name">'+esc(r.seller_name||'')+'</div><div class="sub"><a href="https://wa.me/'+esc(String(r.seller_phone||'').replace(/[^0-9]/g,''))+'" target="_blank" rel="noopener">'+esc(r.seller_phone||'')+'</a></div><div class="sub">'+esc(r.seller_email||'')+'</div></td><td>'+esc(r.location||'')+'<div class="sub">'+esc(r.expected_price||'Price on Request')+'</div></td><td>'+(photos.length?photos.map((u,i)=>'<a href="'+esc(u)+'" target="_blank" rel="noopener">Photo '+(i+1)+'</a>').join('<br>'):'No photos')+'</td><td><div class="actions"><span class="pill">'+esc(r.status||'pending')+'</span><select data-machine-status="'+esc(r.id)+'" aria-label="Update machine listing status">'+opts+'</select></div></td></tr>'}).join('');\n}\nasync function updateMachineStatus(id,status){const allowed=['pending','approved','rejected','sold','archived'];if(!allowed.includes(status))return;try{say('machineMessage','Updating listing status…');const {data,error}=await client.from('machine_sales_listings').update({status,updated_at:new Date().toISOString()}).eq('id',id).select().single();if(error)throw error;const row=machineListings.find(x=>String(x.id)===String(id));if(row)Object.assign(row,data||{status});renderMachineListings();$('machineListingCount').textContent=machineListings.filter(x=>x.status==='pending').length+' pending';say('machineMessage','Machine listing status updated successfully.');}catch(e){say('machineMessage','Update failed: '+(e.message||'Check admin update policy.'));await loadMachineListings()}}\nasync function loadEnquiries(){
+async function loadEnquiries(){
  if(!client){say('dataMessage','Supabase is not connected.');return}
  say('dataMessage','Loading enquiries…');$('refreshButton').disabled=true;
  try{
@@ -147,7 +142,7 @@ $('resetButton').addEventListener('click',async()=>{
  say('loginMessage',error?error.message:'If this email is registered, a password reset email will be sent.');
 });
 $('logoutButton').addEventListener('click',async()=>{if(client)await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','You have signed out.');$('topRight').textContent='Admin access'});
-$('refreshButton').addEventListener('click',async()=>{await loadEnquiries();await loadMachineListings()});\n$('machineRefresh').addEventListener('click',loadMachineListings);$('machineSearch').addEventListener('input',renderMachineListings);$('machineStatusFilter').addEventListener('change',renderMachineListings);$('machineRows').addEventListener('change',e=>{const s=e.target.closest('[data-machine-status]');if(s)updateMachineStatus(s.dataset.machineStatus,s.value)});
+$('refreshButton').addEventListener('click',loadEnquiries);
 $('searchInput').addEventListener('input',render);$('statusFilter').addEventListener('change',render);
 $('clearButton').addEventListener('click',()=>{$('searchInput').value='';$('statusFilter').value='all';render()});
 $('exportButton').addEventListener('click',exportCsv);
