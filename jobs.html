@@ -12,6 +12,7 @@
 <header><div class="wrap nav"><a class="brand" href="index.html">Sweksha <span>Jobs &amp; Careers</span></a><a href="index.html">Back to Main Website</a></div></header>
 <section class="hero"><div class="wrap"><span class="eyebrow">CVD &amp; Lab-Grown Diamond Industry</span><h1>Jobs &amp; Hiring Connections</h1><p>Employers can share vacancies and job seekers can introduce their skills and experience. Sweksha can help connect enquiries; opportunities are reviewed before being treated as verified listings.</p></div></section>
 <main class="wrap">
+<section class="card" style="margin-bottom:24px"><h2>Current Approved Vacancies</h2><p class="muted">Only employer vacancies reviewed and approved by Sweksha appear here.</p><div id="approvedJobs" class="muted">Loading approved vacancies…</div></section>
 <div class="notice"><strong>Early-stage service:</strong> Job posts and candidate profiles are not yet stored in a searchable database or published automatically. Submissions open WhatsApp so Sweksha can review details. Never send passwords, identity documents, bank details or payment to apply for a job.</div>
 <div class="tabs"><button class="tab active" data-tab="seeker">Find a Job</button><button class="tab" data-tab="employer">Post a Vacancy</button></div>
 <section class="panel active" id="seeker"><div class="grid">
@@ -65,6 +66,20 @@ async function saveToSupabase(table, record) {
     throw new Error('Database error (' + response.status + '): ' + detail);
   }
 }
+
+async function loadApprovedJobs(){
+ const box=document.getElementById('approvedJobs');
+ if(!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.includes('PASTE_YOUR')){box.textContent='Approved vacancies will appear after the website Supabase public key is configured.';return}
+ try{
+  const res=await fetch(SUPABASE_URL+'/rest/v1/job_vacancies?select=id,company_name,job_title,description,location,employment_type,salary_range,created_at&status=eq.approved&order=created_at.desc',{headers:{apikey:SUPABASE_ANON_KEY,Authorization:'Bearer '+SUPABASE_ANON_KEY}});
+  if(!res.ok)throw new Error(await res.text());
+  const jobs=await res.json();
+  if(!jobs.length){box.textContent='No approved vacancies are published yet. Please check again later.';return}
+  box.innerHTML=jobs.map(j=>'<article style="border-top:1px solid #dce5ed;padding:14px 0"><strong>'+safe(j.job_title)+'</strong><div>'+safe(j.company_name)+' · '+safe(j.location)+'</div><div class="muted">'+safe(j.employment_type||'')+(j.salary_range?' · '+safe(j.salary_range):'')+'</div><p>'+safe(j.description)+'</p></article>').join('');
+ }catch(e){box.textContent='Approved vacancies could not be loaded. Please try again later.'}
+}
+function safe(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+loadApprovedJobs();
 
 document.getElementById('candidate').addEventListener('submit', async e => {
   e.preventDefault();
