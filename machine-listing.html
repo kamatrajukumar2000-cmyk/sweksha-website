@@ -78,7 +78,8 @@ function connect(){
  if(!actual||!window.supabase){$('listingStatus').textContent='Marketplace database key is not configured yet. Sweksha Admin must add the Supabase publishable key to this page.';return false}
  try{client=window.supabase.createClient(SUPABASE_URL,actual);return true}catch(e){$('listingStatus').textContent='Could not connect to the marketplace database.';return false}
 }
-$('machinePhotos').addEventListener('change',()=>{const box=$('machinePhotoPreview');box.innerHTML='';const files=Array.from($('machinePhotos').files||[]);if(files.length>4){box.textContent='Please select no more than 4 photos.';return;}for(const file of files){if(!['image/jpeg','image/png','image/webp'].includes(file.type)){box.textContent='Only JPG, PNG or WEBP photos are accepted.';return;}if(file.size>5*1024*1024){box.textContent='Each photo must be 5 MB or smaller.';return;}const img=document.createElement('img');img.alt='Selected machine photo preview';img.style.cssText='width:112px;height:92px;object-fit:cover;border-radius:10px;border:1px solid #d8e1eb;margin:6px 8px 6px 0';img.src=URL.createObjectURL(file);box.appendChild(img);}});\nconst labels={cvd_mpcvd:'CVD / MPCVD',hpht_press:'HPHT Press',diamond_laser:'Diamond Laser',galaxy:'Galaxy',four_p:'4P Machine',sarin:'Sarin',polishing:'Polishing Machine',bruting:'Bruting Machine',scanning_testing:'Scanning / Testing',planning:'Planning / Mapping',other_diamond:'Other Diamond Machine'};
+$('machinePhotos').addEventListener('change',()=>{const box=$('machinePhotoPreview');box.innerHTML='';const files=Array.from($('machinePhotos').files||[]);if(files.length>4){box.textContent='Please select no more than 4 photos.';return;}for(const file of files){if(!['image/jpeg','image/png','image/webp'].includes(file.type)){box.textContent='Only JPG, PNG or WEBP photos are accepted.';return;}if(file.size>5*1024*1024){box.textContent='Each photo must be 5 MB or smaller.';return;}const img=document.createElement('img');img.alt='Selected machine photo preview';img.style.cssText='width:112px;height:92px;object-fit:cover;border-radius:10px;border:1px solid #d8e1eb;margin:6px 8px 6px 0';img.src=URL.createObjectURL(file);box.appendChild(img);}});
+const labels={cvd_mpcvd:'CVD / MPCVD',hpht_press:'HPHT Press',diamond_laser:'Diamond Laser',galaxy:'Galaxy',four_p:'4P Machine',sarin:'Sarin',polishing:'Polishing Machine',bruting:'Bruting Machine',scanning_testing:'Scanning / Testing',planning:'Planning / Mapping',other_diamond:'Other Diamond Machine'};
 async function loadListings(){
  if(!client){$('listingGrid').innerHTML='<div class="empty">Approved machine listings will appear here after the database key is configured and listings are approved.</div>';return}
  try{
@@ -113,7 +114,7 @@ $('machineForm').addEventListener('submit',async e=>{
    'WhatsApp / Phone: '+record.seller_phone,
    'Email: '+(record.seller_email||'Not provided'),
    'Additional details: '+(record.additional_details||'Not provided')
-  ].join('\\n');
+  ].join('\n');
   const waUrl='https://wa.me/917827474249?text='+encodeURIComponent(waMessage);
   let waOpened=false;
   try{const waTab=window.open(waUrl,'_blank');waOpened=!!waTab;if(waTab)waTab.opener=null}catch(openError){}
@@ -142,6 +143,7 @@ $('machineForm').addEventListener('submit',async e=>{
    const {error}=await client.from('machine_sales_listings').insert(record);
    if(error)throw error;
    $('machineForm').reset();
+   $('saleType').value=record.transaction_type;
    showWhatsAppLink('Database saved successfully for Admin review. WhatsApp message is ready—please press Send in WhatsApp to deliver it.');
   }catch(err){
    showWhatsAppLink('WhatsApp message is ready, but database saving failed: '+(err.message||'Unknown error')+'. Please use WhatsApp to send the enquiry; the database still needs repair.');
