@@ -17,10 +17,12 @@
 (()=>{'use strict';
 const URL='https://xotqafgkubodqpirfpfb.supabase.co',ADMIN='kamatrajukumar2000@gmail.com';
 const $=id=>document.getElementById(id);let db=null,kind='vacancies',data=[];
+try{const savedKey=localStorage.getItem('sweksha_supabase_public_key');if(savedKey)$('key').value=savedKey}catch(e){}
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function message(t){$('msg').textContent=t}
 async function signIn(){
  const key=$('key').value.trim();if(!key){$('loginMsg').textContent='Enter the Supabase public key.';return}
+ try{localStorage.setItem('sweksha_supabase_public_key',key)}catch(e){}
  if(!window.supabase){$('loginMsg').textContent='Supabase library did not load. Refresh and retry.';return}
  db=window.supabase.createClient(URL,key);
  $('loginMsg').textContent='Signing in…';
