@@ -9,7 +9,7 @@
 </style>
 </head>
 <body>
-<header><div class="wrap nav"><a class="brand" href="index.html">Sweksha <span>Jobs &amp; Careers</span></a><a href="index.html">Back to Main Website</a></div></header>
+<header><div class="wrap nav"><a class="brand" href="index.html">Sweksha <span>Jobs &amp; Careers</span></a><nav><a href="jobs-admin.html" style="margin-right:14px">Admin Review</a><a href="index.html">Back to Main Website</a></nav></div></header>
 <section class="hero"><div class="wrap"><span class="eyebrow">CVD &amp; Lab-Grown Diamond Industry</span><h1>Jobs &amp; Hiring Connections</h1><p>Employers can share vacancies and job seekers can introduce their skills and experience. Sweksha can help connect enquiries; opportunities are reviewed before being treated as verified listings.</p></div></section>
 <main class="wrap">
 <section class="card" style="margin-bottom:24px"><h2>Current Approved Vacancies</h2><p class="muted">Only employer vacancies reviewed and approved by Sweksha appear here.</p><div id="approvedJobs" class="muted">Loading approved vacancies…</div></section>
@@ -45,7 +45,7 @@ function showTab(id){tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab==
 tabs.forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab)));
 
 const SUPABASE_URL = 'https://xotqafgkubodqpirfpfb.supabase.co';
-const SUPABASE_ANON_KEY = 'PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE';
+const SUPABASE_ANON_KEY = (()=>{try{return localStorage.getItem('sweksha_supabase_public_key')||'PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE'}catch(e){return 'PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE'}})();
 
 async function saveToSupabase(table, record) {
   if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.includes('PASTE_YOUR')) {
