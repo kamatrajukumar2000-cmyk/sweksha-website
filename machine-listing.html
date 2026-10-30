@@ -77,31 +77,59 @@ async function loadListings(){
  }catch(e){$('listingStatus').textContent='Could not load approved listings: '+(e.message||'Please check the marketplace SQL setup.');$('listingGrid').innerHTML='<div class="empty">Marketplace is temporarily unavailable. Please contact Sweksha on WhatsApp.</div>'}
 }
 $('machineForm').addEventListener('submit',async e=>{
- e.preventDefault();
- if(!client){$('formStatus').textContent='Database key is not configured. Please contact Sweksha on WhatsApp at +91 78274 74249.';return}
- const btn=$('submitButton');btn.disabled=true;$('formStatus').textContent='Submitting your machine details…';
- const val=id=>$(id).value.trim();
- const record={machine_category:val('machineCategory'),transaction_type:val('saleType'),condition:val('condition'),brand_model_year:val('model'),application_details:val('application')||null,expected_price:val('price')||'Price on Request',location:val('location'),seller_name:val('sellerName'),seller_phone:val('sellerPhone'),seller_email:val('sellerEmail')||null,additional_details:val('extra')||null,status:'pending',admin_notes:null,photo_urls:[]};
- try{
-  const files=Array.from($('machinePhotos').files||[]);
-  if(files.length>4)throw new Error('Please select no more than 4 photos.');
-  for(const file of files){
-   if(!['image/jpeg','image/png','image/webp'].includes(file.type))throw new Error('Only JPG, PNG or WEBP photos are accepted.');
-   if(file.size>5*1024*1024)throw new Error('Each photo must be 5 MB or smaller.');
-   const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';
-   const path=Date.now()+'-'+Math.random().toString(36).slice(2)+'-'+ext;
-   const {error:uploadError}=await client.storage.from('machine-listing-images').upload(path,file,{contentType:file.type,upsert:false});
-   if(uploadError)throw uploadError;
-   const {data:urlData}=client.storage.from('machine-listing-images').getPublicUrl(path);
-   record.photo_urls.push(urlData.publicUrl);
+  e.preventDefault();
+  const btn=$('submitButton');btn.disabled=true;
+  const val=id=>$(id).value.trim();
+  const record={machine_category:val('machineCategory'),transaction_type:val('saleType'),condition:val('condition'),brand_model_year:val('model'),application_details:val('application')||null,expected_price:val('price')||'Price on Request',location:val('location'),seller_name:val('sellerName'),seller_phone:val('sellerPhone'),seller_email:val('sellerEmail')||null,additional_details:val('extra')||null,status:'pending',admin_notes:null,photo_urls:[]};
+  const category=labels[record.machine_category]||record.machine_category;
+  const waMessage=[
+   'Hello Sweksha, I am submitting a machine marketplace enquiry.',
+   'Requirement: '+(record.transaction_type==='looking_to_buy'?'Looking to buy':record.transaction_type==='dealer_partnership'?'Dealer / marketing partnership':'Machine for sale'),
+   'Category: '+category,
+   'Condition: '+record.condition,
+   'Brand / Model / Year: '+record.brand_model_year,
+   'Specifications: '+(record.application_details||'Not provided'),
+   'Expected price: '+record.expected_price,
+   'Location: '+record.location,
+   'Name / Company: '+record.seller_name,
+   'WhatsApp / Phone: '+record.seller_phone,
+   'Email: '+(record.seller_email||'Not provided'),
+   'Additional details: '+(record.additional_details||'Not provided')
+  ].join('\\n');
+  const waUrl='https://wa.me/917827474249?text='+encodeURIComponent(waMessage);
+  let waOpened=false;
+  try{const waTab=window.open(waUrl,'_blank');waOpened=!!waTab;if(waTab)waTab.opener=null}catch(openError){}
+  const showWhatsAppLink=message=>{
+   const el=$('formStatus');el.textContent=message+' ';
+   const link=document.createElement('a');link.href=waUrl;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Open WhatsApp message';el.appendChild(link);
+  };
+  if(!client){
+   showWhatsAppLink('WhatsApp message is prepared, but database saving is not available because the Supabase public key is not configured on this browser. Please connect the key in Sweksha Admin first.');
+   btn.disabled=false;return;
   }
-  const {error}=await client.from('machine_sales_listings').insert(record);
-  if(error)throw error;
-  $('machineForm').reset();$('formStatus').textContent='Thank you! Your submission has been saved for Sweksha Admin review. It will appear publicly only after approval.';
- }catch(err){$('formStatus').textContent='Submission could not be completed: '+(err.message||'Please try again or contact Sweksha on WhatsApp.')}
- finally{btn.disabled=false}
-});
-if(connect())loadListings();
+  $('formStatus').textContent=waOpened?'WhatsApp opened. Saving your details to the database…':'Saving your details. If WhatsApp did not open, use the link below after submission…';
+  try{
+   const files=Array.from($('machinePhotos').files||[]);
+   if(files.length>4)throw new Error('Please select no more than 4 photos.');
+   for(const file of files){
+    if(!['image/jpeg','image/png','image/webp'].includes(file.type))throw new Error('Only JPG, PNG or WEBP photos are accepted.');
+    if(file.size>5*1024*1024)throw new Error('Each photo must be 5 MB or smaller.');
+    const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';
+    const path=Date.now()+'-'+Math.random().toString(36).slice(2)+'-'+ext;
+    const {error:uploadError}=await client.storage.from('machine-listing-images').upload(path,file,{contentType:file.type,upsert:false});
+    if(uploadError)throw uploadError;
+    const {data:urlData}=client.storage.from('machine-listing-images').getPublicUrl(path);
+    record.photo_urls.push(urlData.publicUrl);
+   }
+   const {error}=await client.from('machine_sales_listings').insert(record);
+   if(error)throw error;
+   $('machineForm').reset();
+   showWhatsAppLink('Database saved successfully for Admin review. WhatsApp message is ready—please press Send in WhatsApp to deliver it.');
+  }catch(err){
+   showWhatsAppLink('WhatsApp message is ready, but database saving failed: '+(err.message||'Unknown error')+'. Please use WhatsApp to send the enquiry; the database still needs repair.');
+  }finally{btn.disabled=false}
+ });
+ if(connect())loadListings();
 })();
 </script>
 </body></html>
