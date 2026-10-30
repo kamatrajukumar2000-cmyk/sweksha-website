@@ -53,6 +53,20 @@ const KEY_PLACEHOLDER='sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf';
 const $=id=>document.getElementById(id);
 let client=null;
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function setMarketMode(mode){
+ const buying=mode==='looking_to_buy';
+ $('saleType').value=buying?'looking_to_buy':'for_sale';
+ $('formHeading').textContent=buying?'Submit Your Machine Buying Requirement':'Submit Your Machine for Sale';
+ $('formIntro').textContent=buying?'Tell us the machine you need. Sweksha will review your requirement and connect you with relevant sellers.':'Share your machine details. Sweksha will review the listing before it appears publicly.';
+ $('conditionLabel').textContent=buying?'Preferred machine condition *':'Machine condition *';
+ $('model').placeholder=buying?'Preferred brand, model or required specifications':'Brand, exact model and manufacturing year';
+ $('locationLabel').textContent=buying?'Your location / preferred machine location *':'Machine location *';
+ $('personLabel').textContent=buying?'Your name / company *':'Seller name / company *';
+ $('submitButton').textContent=buying?'Submit Buy Requirement':'Submit Machine for Sale';
+ $('formStatus').textContent='';
+ $('seller-form').scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.querySelectorAll('[data-market-mode]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();setMarketMode(el.dataset.marketMode)}));
 function connect(){
  const key=KEY_PLACEHOLDER==='PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE'?'':KEY_PLACEHOLDER;
  let saved='';try{saved=localStorage.getItem('sweksha_supabase_public_key')||''}catch(e){}
