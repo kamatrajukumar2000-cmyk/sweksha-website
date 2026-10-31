@@ -280,7 +280,9 @@ $('resetButton').addEventListener('click',async()=>{
 $('logoutButton').addEventListener('click',async()=>{if(client)await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','You have signed out.');$('topRight').textContent='Admin access'});
 $('refreshButton').addEventListener('click',async()=>{await loadEnquiries();await loadMachineListings()});
 $('machineRefreshButton').addEventListener('click',loadMachineListings);
-$('partsAdminRefresh').addEventListener('click',loadPartsListings);\n$('diamondAdminRefresh').addEventListener('click',loadDiamondTradeListings);\n$('diamondAdminRows').addEventListener('click',e=>{const b=e.target.closest('[data-diamond-status]');if(b)updateDiamondTradeListing(b.dataset.diamondId,b.dataset.diamondStatus)});
+$('partsAdminRefresh').addEventListener('click',loadPartsListings);
+$('diamondAdminRefresh').addEventListener('click',loadDiamondTradeListings);
+$('diamondAdminRows').addEventListener('click',e=>{const b=e.target.closest('[data-diamond-status]');if(b)updateDiamondTradeListing(b.dataset.diamondId,b.dataset.diamondStatus)});
 $('partsAdminRows').addEventListener('click',e=>{const b=e.target.closest('[data-part-status]');if(b)updatePartListing(b.dataset.partId,b.dataset.partStatus)});
 $('machineListingRows').addEventListener('click',e=>{const a=e.target.closest('[data-machine-approve]'),r=e.target.closest('[data-machine-reject]');if(a)updateMachineListing(a.dataset.machineApprove,'approved');if(r)updateMachineListing(r.dataset.machineReject,'rejected')});
 $('searchInput').addEventListener('input',render);$('statusFilter').addEventListener('change',render);
