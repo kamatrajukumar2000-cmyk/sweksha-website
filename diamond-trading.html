@@ -54,12 +54,108 @@ footer{background:var(--navy);color:#c7d4e1;padding:28px 0;margin-top:45px}
 </div></section>
 </main>
 <footer><div class="wrap"><strong>Sweksha CVD Diamond Machine Service &amp; Consulting</strong><p>Natural &amp; Lab-Grown Diamond Trading — buyer and seller enquiry preview</p><p><strong>Call / WhatsApp:</strong> <a href="https://wa.me/917827474249">+91 78274 74249</a></p><p><strong>Email:</strong> <a href="mailto:kamatrajukumar2000@gmail.com">kamatrajukumar2000@gmail.com</a></p><p><strong>Instagram:</strong> <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">instagram.com</a> · <strong>X / Twitter:</strong> <a href="https://x.com/Rajukamat03zm" target="_blank" rel="noopener noreferrer">@Rajukamat03zm</a></p></div></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const tabs=[...document.querySelectorAll('[data-tab]')],panels=[...document.querySelectorAll('.panel')];
-function showTab(id){tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab===id));panels.forEach(p=>p.classList.toggle('active',p.id===id))}
-tabs.forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab)));
-document.getElementById('sphoto').addEventListener('change',e=>{const f=e.target.files[0],img=document.getElementById('preview');if(!f){img.style.display='none';return}img.src=URL.createObjectURL(f);img.style.display='block'});
-document.getElementById('buyerForm').addEventListener('submit',e=>{e.preventDefault();const msg=`Hello Sweksha, I would like to enquire about diamond products.\nType: ${kind.value}\nSpecifications: ${spec.value||'Not provided'}\nQuantity: ${qty.value}\nBudget: ${budget.value||'Not provided'}\nName/company: ${bname.value}\nContact: ${bcontact.value}`;window.open('https://wa.me/917827474249?text='+encodeURIComponent(msg),'_blank');document.getElementById('buyerStatus').textContent='WhatsApp opened. Please send the enquiry.'});
-document.getElementById('sellerForm').addEventListener('submit',e=>{e.preventDefault();const msg=`Hello Sweksha, I want to submit a diamond product listing for review.\nType: ${stype.value}\nDescription: ${sdesc.value}\nPrice: ${sprice.value}\nQuantity: ${sqty.value}\nLocation: ${sloc.value}\nSeller: ${sname.value}\nContact: ${scontact.value}\n\nI will attach the product photo in this WhatsApp chat.`;window.open('https://wa.me/917827474249?text='+encodeURIComponent(msg),'_blank');document.getElementById('sellerStatus').textContent='WhatsApp opened. Attach your product photo and send the listing for review.'});
+(() => {
+'use strict';
+const PROJECT_URL = 'https://xotqafgkubodqpirfpfb.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf';
+const BUCKET = 'diamond-trade-images';
+const $ = id => document.getElementById(id);
+const tabs = [...document.querySelectorAll('[data-tab]')];
+const panels = [...document.querySelectorAll('.panel')];
+const buyerForm = $('buyerForm');
+const sellerForm = $('sellerForm');
+const buyerStatus = $('buyerStatus');
+const sellerStatus = $('sellerStatus');
+let db = null;
+if (window.supabase && SUPABASE_KEY) {
+  db = window.supabase.createClient(PROJECT_URL, SUPABASE_KEY);
+}
+function showTab(id) {
+  tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+  panels.forEach(p => p.classList.toggle('active', p.id === id));
+}
+tabs.forEach(t => t.addEventListener('click', () => showTab(t.dataset.tab)));
+$('sphoto').addEventListener('change', e => {
+  const f = e.target.files && e.target.files[0], img = $('preview');
+  if (!f) { img.style.display = 'none'; img.removeAttribute('src'); return; }
+  if (!['image/jpeg','image/png','image/webp'].includes(f.type) || f.size > 5 * 1024 * 1024) {
+    e.target.value = '';
+    img.style.display = 'none';
+    sellerStatus.textContent = 'Please choose a JPG, PNG or WEBP image up to 5 MB.';
+    return;
+  }
+  img.src = URL.createObjectURL(f);
+  img.style.display = 'block';
+  sellerStatus.textContent = '';
+});
+buyerForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!db) { buyerStatus.textContent = 'Marketplace connection is not available. Please refresh and try again.'; return; }
+  const button = buyerForm.querySelector('button[type="submit"]');
+  button.disabled = true; button.textContent = 'Submitting…'; buyerStatus.textContent = '';
+  const record = {
+    transaction_type: 'looking_to_buy',
+    product_type: $('kind').value,
+    description: $('spec').value.trim() || null,
+    expected_price: $('budget').value.trim() || null,
+    quantity: $('qty').value.trim(),
+    contact_name: $('bname').value.trim(),
+    contact_phone: $('bcontact').value.trim(),
+    status: 'pending'
+  };
+  const { error } = await db.from('diamond_trade_listings').insert(record);
+  if (error) {
+    buyerStatus.textContent = 'Could not submit enquiry: ' + error.message;
+  } else {
+    buyerStatus.textContent = 'Your buy requirement has been submitted to Sweksha for review. Thank you!';
+    buyerForm.reset();
+  }
+  button.disabled = false; button.textContent = 'Send Buyer Enquiry';
+});
+sellerForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!db) { sellerStatus.textContent = 'Marketplace connection is not available. Please refresh and try again.'; return; }
+  const file = $('sphoto').files && $('sphoto').files[0];
+  if (!file) { sellerStatus.textContent = 'Please select a product photo.'; return; }
+  if (!['image/jpeg','image/png','image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024) {
+    sellerStatus.textContent = 'Please choose a JPG, PNG or WEBP image up to 5 MB.'; return;
+  }
+  const button = sellerForm.querySelector('button[type="submit"]');
+  button.disabled = true; button.textContent = 'Uploading photo…'; sellerStatus.textContent = '';
+  const ext = file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg';
+  const filePath = Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
+  const { error: uploadError } = await db.storage.from(BUCKET).upload(filePath, file, {
+    cacheControl: '3600', upsert: false, contentType: file.type
+  });
+  if (uploadError) {
+    sellerStatus.textContent = 'Photo upload failed: ' + uploadError.message;
+    button.disabled = false; button.textContent = 'Send Listing for Review'; return;
+  }
+  const photoUrl = db.storage.from(BUCKET).getPublicUrl(filePath).data.publicUrl;
+  button.textContent = 'Submitting listing…';
+  const record = {
+    transaction_type: 'for_sale',
+    product_type: $('stype').value,
+    description: $('sdesc').value.trim(),
+    expected_price: $('sprice').value.trim(),
+    quantity: $('sqty').value.trim(),
+    location: $('sloc').value.trim(),
+    photo_url: photoUrl,
+    contact_name: $('sname').value.trim(),
+    contact_phone: $('scontact').value.trim(),
+    status: 'pending'
+  };
+  const { error } = await db.from('diamond_trade_listings').insert(record);
+  if (error) {
+    sellerStatus.textContent = 'Photo uploaded, but listing submission failed: ' + error.message + '. Please contact Sweksha.';
+  } else {
+    sellerStatus.textContent = 'Your diamond listing and photo have been submitted for admin review. It will appear publicly only after approval.';
+    sellerForm.reset(); $('preview').style.display = 'none'; $('preview').removeAttribute('src');
+  }
+  button.disabled = false; button.textContent = 'Send Listing for Review';
+});
+})();
 </script>
 </body></html>
