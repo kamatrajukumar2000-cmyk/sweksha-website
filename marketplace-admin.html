@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sweksha Marketplace Admin</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f6fa;color:#172536;font:15px/1.55 Arial,sans-serif}.wrap{max-width:1180px;margin:auto;padding:22px 16px}header{background:#07111f;color:#fff;padding:18px}.card{background:#fff;border:1px solid #dce5ed;border-radius:13px;padding:18px;margin:14px 0}.hidden{display:none}input,select,button{font:inherit;padding:10px;border:1px solid #cbd6e0;border-radius:8px}input{display:block;width:100%;margin:6px 0 12px}button{cursor:pointer;background:#07111f;color:#fff;border:0}.muted{color:#657184;font-size:13px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{background:#f7fafc;border:1px solid #dce5ed;border-radius:10px;padding:14px}.stat strong{display:block;font-size:25px}.tabs{display:flex;gap:8px;flex-wrap:wrap}.tabs button{background:#e7edf4;color:#172536}.tabs button.active{background:#07111f;color:#fff}.entry{border-top:1px solid #e3e9ef;padding:16px 0}.entry img{width:110px;height:90px;object-fit:cover;border-radius:8px}.entry p{white-space:pre-wrap}.entry select{margin:6px 6px 0 0}.status{font-weight:700}@media(max-width:650px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style></head><body><header><strong>Sweksha Fondation Club · Marketplace Admin</strong></header><main class="wrap">
+<section id="login" class="card"><h1>Admin sign in</h1><p class="muted">Use the active Supabase project's Project URL and publishable/anon key. Never enter a service_role or secret key.</p>
+<label>Supabase Project URL</label><input id="url" placeholder="https://YOUR_PROJECT_REF.supabase.co">
+<label>Supabase publishable / anon key</label><input id="key" placeholder="sb_publishable_… or anon JWT">
+<label>Admin email</label><input id="email" type="email" value="kamatrajukumar2000@gmail.com">
+<label>Password</label><input id="password" type="password"><button id="signin">Connect & sign in</button><p id="loginMsg" class="muted" role="status"></p></section>
+<section id="app" class="hidden"><div class="card row"><div><h1>Marketplace Dashboard</h1><p id="who" class="muted"></p></div><button id="refresh">Refresh</button><button id="logout">Sign out</button></div>
+<div class="card"><div class="stats"><div class="stat">Total<strong id="total">0</strong></div><div class="stat">Pending<strong id="pending">0</strong></div><div class="stat">Approved<strong id="approved">0</strong></div><div class="stat">Rejected<strong id="rejected">0</strong></div></div></div>
+<div class="card"><div class="tabs"><button class="active" data-kind="diamonds">Diamond Trading</button><button data-kind="machines">Machine Buy/Sell</button><button data-kind="parts">Machine Parts</button></div><p id="msg" class="muted" role="status">Choose a category.</p><div id="records"></div></div></section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+(()=>{'use strict';
+const ADMIN='kamatrajukumar2000@gmail.com', $=id=>document.getElementById(id);
+let db=null,kind='diamonds',data=[];
+try{$('url').value=localStorage.getItem('sweksha_marketplace_url')||'';$('key').value=localStorage.getItem('sweksha_marketplace_key')||''}catch(e){}
+const tables={diamonds:'diamond_trade_listings',machines:'machine_sales_listings',parts:'machine_part_listings'};
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function msg(s){$('msg').textContent=s}
+async function signIn(){
+ const url=$('url').value.trim().replace(/\/$/,'');const key=$('key').value.trim();
+ if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url)||!key){$('loginMsg').textContent='Enter the correct Project URL and publishable/anon key.';return}
+ try{localStorage.setItem('sweksha_marketplace_url',url);localStorage.setItem('sweksha_marketplace_key',key)}catch(e){}
+ if(!window.supabase){$('loginMsg').textContent='Supabase library failed to load. Refresh and try again.';return}
+ db=window.supabase.createClient(url,key);$('loginMsg').textContent='Signing in…';
+ const {data:d,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});
+ if(error){$('loginMsg').textContent=error.message;return}
+ if((d.user.email||'').toLowerCase()!==ADMIN){await db.auth.signOut();$('loginMsg').textContent='Access denied for this account.';return}
+ $('login').classList.add('hidden');$('app').classList.remove('hidden');$('who').textContent='Signed in as '+d.user.email+' · '+url;await load();
+}
+async function load(){
+ msg('Loading '+kind+'…');
+ const {data:d,error}=await db.from(tables[kind]).select('*').order('created_at',{ascending:false}).limit(500);
+ if(error){msg('Could not load '+kind+': '+error.message+' — run its SQL setup in this active project.');$('records').innerHTML='';return}
+ data=d||[];$('total').textContent=data.length;$('pending').textContent=data.filter(x=>x.status==='pending').length;$('approved').textContent=data.filter(x=>x.status==='approved').length;$('rejected').textContent=data.filter(x=>x.status==='rejected').length;msg(data.length+' record(s)');render();
+}
+function details(r){
+ if(kind==='diamonds')return '<p><b>'+esc(r.transaction_type)+' · '+esc(r.product_type)+'</b></p><p>'+esc(r.description)+'</p><p>Price/budget: '+esc(r.expected_price)+' · Qty: '+esc(r.quantity)+' · Location: '+esc(r.location)+'</p><p>Contact: '+esc(r.contact_name)+' · '+esc(r.contact_phone)+'</p>';
+ if(kind==='machines')return '<p><b>'+esc(r.transaction_type)+' · '+esc(r.machine_category)+'</b></p><p>'+esc(r.brand_model_year)+'</p><p>'+esc(r.application_details||r.additional_details)+'</p><p>Price: '+esc(r.expected_price)+' · '+esc(r.location)+'</p><p>Contact: '+esc(r.seller_name)+' · '+esc(r.seller_phone)+'</p>';
+ return '<p><b>'+esc(r.transaction_type)+' · '+esc(r.part_name)+'</b></p><p>'+esc(r.category)+' · '+esc(r.condition)+' · '+esc(r.details)+'</p><p>Price: '+esc(r.expected_price)+' · Qty: '+esc(r.quantity)+' · '+esc(r.location)+'</p><p>Contact: '+esc(r.contact_name)+' · '+esc(r.contact_phone)+'</p>';
+}
+function render(){
+ if(!data.length){$('records').innerHTML='<p class="muted">No submissions yet.</p>';return}
+ $('records').innerHTML=data.map(r=>'<article class="entry"><div class="row">'+(r.photo_url?'<img src="'+esc(r.photo_url)+'" alt="Listing photo">':Array.isArray(r.photo_urls)&&r.photo_urls[0]?'<img src="'+esc(r.photo_urls[0])+'" alt="Machine photo">':'')+'<div><b>'+esc(r.status).toUpperCase()+'</b><p class="muted">Submitted: '+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</p></div></div>'+details(r)+'<div class="row"><select data-id="'+esc(r.id)+'" aria-label="Listing status">'+['pending','approved','rejected','sold','archived'].map(s=>'<option '+(r.status===s?'selected':'')+'>'+s+'</option>').join('')+'</select><button data-save="'+esc(r.id)+'">Save status</button></div></article>').join('');
+}
+async function update(id){
+ const sel=$('records').querySelector('select[data-id="'+CSS.escape(id)+'"]');if(!sel)return;
+ const {error}=await db.from(tables[kind]).update({status:sel.value,updated_at:new Date().toISOString()}).eq('id',id);
+ if(error){msg('Update failed: '+error.message);return}msg('Status updated.');await load();
+}
+$('signin').addEventListener('click',signIn);$('refresh').addEventListener('click',load);
+$('logout').addEventListener('click',async()=>{await db.auth.signOut();$('app').classList.add('hidden');$('login').classList.remove('hidden');$('password').value=''});
+document.querySelectorAll('[data-kind]').forEach(b=>b.addEventListener('click',()=>{kind=b.dataset.kind;document.querySelectorAll('[data-kind]').forEach(x=>x.classList.toggle('active',x===b));load()}));
+$('records').addEventListener('click',e=>{const b=e.target.closest('[data-save]');if(b)update(b.dataset.save)});
+})();
+</script></body></html>
