@@ -49,6 +49,11 @@
 <div id="partsAdminMessage" class="message" role="status">Loading machine parts…</div>
 <div class="tablewrap"><table style="min-width:900px"><thead><tr><th>Part / Category</th><th>Type / Condition</th><th>Contact</th><th>Location / Price / Qty</th><th>Photo / Date</th><th>Admin action</th></tr></thead><tbody id="partsAdminRows"><tr><td colspan="6" class="empty">Loading…</td></tr></tbody></table></div>
 </div>
+<div class="panel" id="diamondTradingPanel">
+<div class="headrow"><div><h2 style="margin:0">Diamond Trading Marketplace</h2><div class="muted small">Review diamond buyer requirements and seller listings. Only approved sale listings should be published.</div></div><div class="actions"><span id="diamondAdminCount" class="muted small"></span><button id="diamondAdminRefresh" class="btn light" type="button">↻ Refresh Diamond Listings</button></div></div>
+<div id="diamondAdminMessage" class="message" role="status">Loading diamond trading submissions…</div>
+<div class="tablewrap"><table style="min-width:980px"><thead><tr><th>Diamond / Product</th><th>Type &amp; Details</th><th>Contact</th><th>Location / Price / Qty</th><th>Photo / Date</th><th>Review action</th></tr></thead><tbody id="diamondAdminRows"><tr><td colspan="6" class="empty">Loading diamond listings…</td></tr></tbody></table></div>
+</div>
 <div class="panel"><div class="headrow"><div><h2 style="margin:0">Enquiry Details</h2><div class="muted small">Select “View” on any enquiry to read the full message.</div></div></div><div id="detailBox" class="empty">No enquiry selected.</div></div>
 </section>
 <div class="footer">Sweksha CVD Diamond Machine Service &amp; Consulting · Keep your admin password and secret API keys private.</div>
@@ -60,7 +65,7 @@
 const SUPABASE_URL='https://xotqafgkubodqpirfpfb.supabase.co';
 const ADMIN_EMAIL='kamatrajukumar2000@gmail.com';
 const $=id=>document.getElementById(id);
-let client=null, enquiries=[], selectedId=null, machineListings=[], machinePartListings=[];
+let client=null, enquiries=[], selectedId=null, machineListings=[], machinePartListings=[], diamondTradeListings=[];
 function say(id,text){$(id).textContent=text||''}
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function connect(key){
@@ -76,7 +81,7 @@ function connect(key){
 async function showDashboard(user){
  const email=String(user&&user.email||'').toLowerCase();
  if(email!==ADMIN_EMAIL){await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','Access denied. This page is restricted to the authorized Sweksha admin email.');return}
- $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');$('signedInEmail').textContent='Signed in: '+email;$('topRight').textContent='Authenticated admin session';await loadEnquiries();await loadMachineListings();await loadPartsListings();
+ $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');$('signedInEmail').textContent='Signed in: '+email;$('topRight').textContent='Authenticated admin session';await loadEnquiries();await loadMachineListings();await loadPartsListings();await loadDiamondTradeListings();await loadPartsListings();await loadDiamondTradeListings();
 }
 async function loadMachineListings(){
  if(!client){say('machineListingMessage','Supabase is not connected.');return}
@@ -154,6 +159,51 @@ async function updatePartListing(id,status){
  try{const {data,error}=await client.from('machine_part_listings').update({status,updated_at:new Date().toISOString()}).eq('id',id).select().single();if(error)throw error;Object.assign(row,data||{status});renderPartsListings();say('partsAdminMessage','Part listing updated: '+status+'.')}
  catch(e){say('partsAdminMessage','Update failed: '+(e.message||'Check Supabase admin update policy.'))}
 }
+async function loadDiamondTradeListings(){
+ if(!client){say('diamondAdminMessage','Supabase is not connected.');return}
+ say('diamondAdminMessage','Loading diamond trading submissions…');$('diamondAdminRefresh').disabled=true;
+ try{
+  const {data,error}=await client.from('diamond_trade_listings').select('*').order('created_at',{ascending:false}).limit(500);
+  if(error)throw error;
+  diamondTradeListings=Array.isArray(data)?data:[];
+  renderDiamondTradeListings();
+  const pending=diamondTradeListings.filter(r=>(r.status||'pending')==='pending').length;
+  $('diamondAdminCount').textContent=diamondTradeListings.length+' total · '+pending+' pending';
+  say('diamondAdminMessage',diamondTradeListings.length?'Loaded '+diamondTradeListings.length+' diamond trading listing(s).':'No diamond trading submissions found yet.');
+ }catch(e){
+  diamondTradeListings=[];renderDiamondTradeListings();$('diamondAdminCount').textContent='';
+  say('diamondAdminMessage','Could not load diamond listings: '+(e.message||'Unknown error')+'. Check the diamond_trade_listings table and admin read policy.');
+ }finally{$('diamondAdminRefresh').disabled=false}
+}
+function renderDiamondTradeListings(){
+ if(!diamondTradeListings.length){$('diamondAdminRows').innerHTML='<tr><td colspan="6" class="empty">No diamond trading submissions yet.</td></tr>';return}
+ $('diamondAdminRows').innerHTML=diamondTradeListings.map(r=>{
+  const status=String(r.status||'pending');
+  const phone=String(r.contact_phone||'').replace(/[^0-9]/g,'');
+  const contact=phone?'<a href="https://wa.me/'+esc(phone)+'" target="_blank" rel="noopener">'+esc(r.contact_phone)+'</a>':'—';
+  const photo=r.photo_url?'<a href="'+esc(r.photo_url)+'" target="_blank" rel="noopener"><img src="'+esc(r.photo_url)+'" alt="Diamond product photo" style="width:76px;height:62px;object-fit:cover;border-radius:7px;border:1px solid #d8e1eb"></a>':'—';
+  let action='';
+  if(status==='pending')action='<div class="actions"><button class="btn teal" type="button" data-diamond-status="approved" data-diamond-id="'+esc(r.id)+'">Approve</button><button class="btn red" type="button" data-diamond-status="rejected" data-diamond-id="'+esc(r.id)+'">Reject</button></div>';
+  else if(status==='approved')action='<div class="actions"><span class="pill resolved">approved</span><button class="btn light" type="button" data-diamond-status="sold" data-diamond-id="'+esc(r.id)+'">Mark Sold</button><button class="btn light" type="button" data-diamond-status="archived" data-diamond-id="'+esc(r.id)+'">Archive</button></div>';
+  else action='<span class="pill '+(status==='rejected'?'spam':'')+'">'+esc(status)+'</span>';
+  const kind=r.transaction_type==='looking_to_buy'?'BUY REQUIREMENT':r.transaction_type==='for_sale'?'FOR SALE':r.transaction_type;
+  return '<tr><td><div class="name">'+esc(r.product_type||'Diamond enquiry')+'</div><div class="sub">ID: '+esc(r.id)+'</div></td><td><strong>'+esc(kind)+'</strong><div class="sub">'+esc(r.description||'No specifications provided')+'</div></td><td><div class="name">'+esc(r.contact_name||'—')+'</div>'+contact+'</td><td>'+esc(r.location||'—')+'<div class="sub">'+esc(r.expected_price||'Price not specified')+' · Qty '+esc(r.quantity||'—')+'</div></td><td>'+photo+'<div class="sub">'+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</div></td><td>'+action+'</td></tr>';
+ }).join('');
+}
+async function updateDiamondTradeListing(id,status){
+ if(!['approved','rejected','sold','archived'].includes(status))return;
+ const row=diamondTradeListings.find(r=>String(r.id)===String(id));if(!row)return;
+ if(!confirm('Change this diamond listing to '+status.toUpperCase()+'?'))return;
+ say('diamondAdminMessage','Updating diamond listing…');
+ try{
+  const {data,error}=await client.from('diamond_trade_listings').update({status,updated_at:new Date().toISOString()}).eq('id',id).select().single();
+  if(error)throw error;
+  Object.assign(row,data||{status});renderDiamondTradeListings();
+  const pending=diamondTradeListings.filter(r=>(r.status||'pending')==='pending').length;
+  $('diamondAdminCount').textContent=diamondTradeListings.length+' total · '+pending+' pending';
+  say('diamondAdminMessage','Diamond listing status updated: '+status+'.');
+ }catch(e){say('diamondAdminMessage','Could not update diamond listing: '+(e.message||'Check admin update policy.'))}
+}
 async function loadEnquiries(){
  if(!client){say('dataMessage','Supabase is not connected.');return}
  say('dataMessage','Loading enquiries…');$('refreshButton').disabled=true;
@@ -230,7 +280,7 @@ $('resetButton').addEventListener('click',async()=>{
 $('logoutButton').addEventListener('click',async()=>{if(client)await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','You have signed out.');$('topRight').textContent='Admin access'});
 $('refreshButton').addEventListener('click',async()=>{await loadEnquiries();await loadMachineListings()});
 $('machineRefreshButton').addEventListener('click',loadMachineListings);
-$('partsAdminRefresh').addEventListener('click',loadPartsListings);
+$('partsAdminRefresh').addEventListener('click',loadPartsListings);\n$('diamondAdminRefresh').addEventListener('click',loadDiamondTradeListings);\n$('diamondAdminRows').addEventListener('click',e=>{const b=e.target.closest('[data-diamond-status]');if(b)updateDiamondTradeListing(b.dataset.diamondId,b.dataset.diamondStatus)});
 $('partsAdminRows').addEventListener('click',e=>{const b=e.target.closest('[data-part-status]');if(b)updatePartListing(b.dataset.partId,b.dataset.partStatus)});
 $('machineListingRows').addEventListener('click',e=>{const a=e.target.closest('[data-machine-approve]'),r=e.target.closest('[data-machine-reject]');if(a)updateMachineListing(a.dataset.machineApprove,'approved');if(r)updateMachineListing(r.dataset.machineReject,'rejected')});
 $('searchInput').addEventListener('input',render);$('statusFilter').addEventListener('change',render);
