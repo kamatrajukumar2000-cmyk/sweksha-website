@@ -28,18 +28,8 @@
     .listings{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
     .listing{border:1px solid var(--line);border-radius:14px;padding:18px}.listing h3{margin:0 0 5px}.listing .price{font-weight:800;color:#087f6e}
     .status{margin-top:12px;font-size:14px;font-weight:700}.footer{background:var(--navy);color:#c7d4e1;padding:30px 0;margin-top:50px}
-    .sell-intro{background:linear-gradient(135deg,#effaf8,#f4f8fb);border:1px solid #d7eee9;border-radius:12px;padding:16px;margin:18px 0 22px}
-    .sell-form{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.sell-form .field{min-width:0}.sell-form .field.full{grid-column:1/-1}
-    .sell-form label{margin-top:10px}.sell-form input,.sell-form select,.sell-form textarea{border-color:#cbd8e2;transition:border-color .2s,box-shadow .2s}
-    .sell-form input:focus,.sell-form select:focus,.sell-form textarea:focus{outline:none;border-color:#159d91;box-shadow:0 0 0 3px #23c7b71c}
-    .form-section{grid-column:1/-1;border:0;border-top:1px solid var(--line);padding:14px 0 0;margin:14px 0 0}
-    .form-section legend{padding:0 9px 0 0;font-weight:800;color:var(--navy);font-size:15px}
-    .form-section legend span{display:inline-grid;place-items:center;background:#e5f7f4;color:#087f72;border-radius:50%;width:27px;height:27px;margin-right:7px}
-    .photo-help{font-size:12px;color:var(--muted);margin:5px 0}
-    .sell-submit{grid-column:1/-1;margin-top:20px;width:100%;justify-content:center;padding:15px}
-    .sell-side{background:#f7fafc}.sell-side li{margin:10px 0}.sell-side .trust{background:#eaf8f5;border-radius:10px;padding:13px;color:#17685f;font-size:14px;margin-top:18px}
     @media(max-width:760px){.layout{grid-template-columns:1fr}.listings{grid-template-columns:1fr 1fr}}
-    @media(max-width:520px){.listings{grid-template-columns:1fr}.hero{padding:42px 0}.sell-form{grid-template-columns:1fr}.sell-form .field.full,.form-section,.sell-submit{grid-column:1}}
+    @media(max-width:520px){.listings{grid-template-columns:1fr}.hero{padding:42px 0}}
   </style>
 </head>
 <body>
@@ -71,35 +61,22 @@
   </section>
   <section class="panel" id="sell" role="tabpanel">
     <div class="layout">
-      <div class="card">
-        <span class="eyebrow" style="color:#087f72">Seller Listing</span>
-        <h2>List Your CVD Machine Part</h2>
-        <p class="muted">Share a few clear details. Sweksha will review your listing before it appears in the marketplace.</p>
-        <div class="sell-intro"><strong>Make your listing easy to trust.</strong><br><span class="muted">Add the correct model, condition and a real product photo. Buyers can then understand what you are offering.</span></div>
-        <form id="sellForm" class="sell-form">
-          <fieldset class="form-section"><legend><span>1</span>Part information</legend></fieldset>
-          <div class="field full"><label for="partName">Part / product name *</label><input id="partName" required placeholder="e.g. Edwards Vacuum Pump, MFC, Magnetron"></div>
-          <div class="field"><label for="partType">Category *</label><select id="partType" required><option value="">Select part category</option><option>Vacuum Pump</option><option>Microwave / RF Power</option><option>Magnetron</option><option>Mass Flow Controller (MFC)</option><option>Chamber / Stage</option><option>Power Supply</option><option>Gas / Water / Vacuum Fittings</option><option>Other CVD Machine Part</option></select></div>
-          <div class="field"><label for="partCondition">Part condition *</label><select id="partCondition" required><option value="">Select condition</option><option>New</option><option>Used - Working</option><option>Used - Needs Repair</option><option>For Parts / As-Is</option></select></div>
-          <div class="field full"><label for="partDetails">Brand, model &amp; description</label><textarea id="partDetails" placeholder="Brand / manufacturer, model or part number, compatible machine, working condition and any known issue."></textarea></div>
-          <fieldset class="form-section"><legend><span>2</span>Price &amp; availability</legend></fieldset>
-          <div class="field"><label for="partPrice">Expected selling price *</label><input id="partPrice" required placeholder="e.g. ₹25,000 or Price on Request"></div>
-          <div class="field"><label for="partQty">Quantity available *</label><input id="partQty" required type="number" min="1" value="1"></div>
-          <div class="field full"><label for="partLocation">Pickup location (City, State, Country) *</label><input id="partLocation" required placeholder="e.g. Surat, Gujarat, India"></div>
-          <fieldset class="form-section"><legend><span>3</span>Product photo</legend></fieldset>
-          <div class="field full"><label for="partPhoto">Upload product photo *</label><input id="partPhoto" type="file" accept="image/jpeg,image/png,image/webp" required><p class="photo-help">JPG, PNG or WEBP · Maximum 5 MB. Use a clear photo of the actual part.</p><img class="preview" id="photoPreview" alt="Selected product photo preview"></div>
-          <fieldset class="form-section"><legend><span>4</span>Seller contact</legend></fieldset>
-          <div class="field"><label for="sellerName">Your name / company *</label><input id="sellerName" required placeholder="Name or business name"></div>
-          <div class="field"><label for="sellerContact">WhatsApp / phone number *</label><input id="sellerContact" required type="tel" placeholder="Include country code"></div>
-          <button class="btn sell-submit" type="submit">Submit Part for Admin Review</button>
-          <p class="status field full" id="sellStatus" aria-live="polite"></p>
+      <div class="card"><h2>List a Part for Sale</h2><p class="muted">Prepare your listing details and send them to Sweksha for review.</p>
+        <form id="sellForm">
+          <label for="partName">Product name *</label><input id="partName" required placeholder="e.g. Edwards vacuum pump">
+          <label for="partType">Category *</label><select id="partType" required><option value="">Choose a category</option><option>Vacuum Pump</option><option>Microwave / RF Power</option><option>Magnetron</option><option>Mass Flow Controller (MFC)</option><option>Chamber / Stage</option><option>Power Supply</option><option>Gas / Water / Vacuum Fittings</option><option>Other CVD Machine Part</option></select>
+          <label for="partCondition">Condition *</label><select id="partCondition" required><option value="">Choose condition</option><option>New</option><option>Used - Working</option><option>Used - Needs Repair</option><option>For Parts / As-Is</option></select>
+          <label for="partPrice">Asking price and currency *</label><input id="partPrice" required placeholder="e.g. INR 25,000 or Price on Request">
+          <label for="partQty">Quantity available *</label><input id="partQty" required type="number" min="1" value="1">
+          <label for="partLocation">City / Country *</label><input id="partLocation" required placeholder="e.g. Surat, India">
+          <label for="partPhoto">Product photo *</label><input id="partPhoto" type="file" accept="image/*" required><img class="preview" id="photoPreview" alt="Selected product photo preview">
+          <label for="partDetails">Description / part number / machine compatibility</label><textarea id="partDetails" placeholder="Describe condition, model, serial or part number, and known issues."></textarea>
+          <label for="sellerName">Seller name / company *</label><input id="sellerName" required>
+          <label for="sellerContact">WhatsApp / phone number *</label><input id="sellerContact" required type="tel">
+          <button class="btn" type="submit" style="margin-top:16px">Prepare Listing for Review</button><p class="status" id="sellStatus" aria-live="polite"></p>
         </form>
       </div>
-      <div class="card sell-side"><h2>What happens next?</h2><p class="muted">A simple and transparent listing process.</p>
-        <ol><li><strong>You submit your part.</strong><br><span class="muted">Your details and product photo are sent securely for review.</span></li><li><strong>Sweksha checks the listing.</strong><br><span class="muted">The admin team reviews the information before publishing.</span></li><li><strong>Your approved listing goes live.</strong><br><span class="muted">Interested buyers can contact Sweksha through WhatsApp.</span></li></ol>
-        <div class="trust"><strong>Seller tip</strong><br>Clear photos, honest condition details and the correct part number help buyers make faster enquiries.</div>
-        <p class="muted" style="margin-top:20px">Need help listing a CVD machine part?</p><a class="btn" href="https://wa.me/917827474249" target="_blank" rel="noopener">Chat with Sweksha</a>
-      </div>
+      <div class="card"><h2>Listing Checklist</h2><ul><li>Use your own clear product photos.</li><li>Describe whether the part is new, working, repair-needed, or sold as-is.</li><li>Include the part number and compatible machine model where available.</li><li>Do not include passwords, payment card details, or sensitive personal information.</li><li>Wait for Sweksha to review the details before treating the listing as published.</li></ul><p class="muted" style="margin-top:18px">The selected image is previewed in this browser only. It is not uploaded to a public listing by this draft page.</p></div>
     </div>
   </section>
 </main>
