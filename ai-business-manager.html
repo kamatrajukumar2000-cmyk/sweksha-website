@@ -44,6 +44,11 @@
 <div id="machineListingMessage" class="message" role="status">Loading machine listings…</div>
 <div class="tablewrap"><table style="min-width:900px"><thead><tr><th>Machine / Category</th><th>Requirement &amp; Condition</th><th>Seller / Contact</th><th>Location / Price</th><th>Submitted</th><th>Review action</th></tr></thead><tbody id="machineListingRows"><tr><td colspan="6" class="empty">Loading machine listings…</td></tr></tbody></table></div>
 </div>
+<div class="panel" id="machinePartsPanel">
+<div class="headrow"><div><h2 style="margin:0">Machine Parts Buy–Sell</h2><div class="muted small">Review buyer requirements and seller part listings. Only approved parts are public.</div></div><div class="actions"><span id="partsAdminCount" class="muted small"></span><button id="partsAdminRefresh" class="btn light" type="button">↻ Refresh Parts</button></div></div>
+<div id="partsAdminMessage" class="message" role="status">Loading machine parts…</div>
+<div class="tablewrap"><table style="min-width:900px"><thead><tr><th>Part / Category</th><th>Type / Condition</th><th>Contact</th><th>Location / Price / Qty</th><th>Photo / Date</th><th>Admin action</th></tr></thead><tbody id="partsAdminRows"><tr><td colspan="6" class="empty">Loading…</td></tr></tbody></table></div>
+</div>
 <div class="panel"><div class="headrow"><div><h2 style="margin:0">Enquiry Details</h2><div class="muted small">Select “View” on any enquiry to read the full message.</div></div></div><div id="detailBox" class="empty">No enquiry selected.</div></div>
 </section>
 <div class="footer">Sweksha CVD Diamond Machine Service &amp; Consulting · Keep your admin password and secret API keys private.</div>
@@ -55,7 +60,7 @@
 const SUPABASE_URL='https://xotqafgkubodqpirfpfb.supabase.co';
 const ADMIN_EMAIL='kamatrajukumar2000@gmail.com';
 const $=id=>document.getElementById(id);
-let client=null, enquiries=[], selectedId=null, machineListings=[];
+let client=null, enquiries=[], selectedId=null, machineListings=[], machinePartListings=[];
 function say(id,text){$(id).textContent=text||''}
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function connect(key){
@@ -71,7 +76,7 @@ function connect(key){
 async function showDashboard(user){
  const email=String(user&&user.email||'').toLowerCase();
  if(email!==ADMIN_EMAIL){await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','Access denied. This page is restricted to the authorized Sweksha admin email.');return}
- $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');$('signedInEmail').textContent='Signed in: '+email;$('topRight').textContent='Authenticated admin session';await loadEnquiries();await loadMachineListings();
+ $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');$('signedInEmail').textContent='Signed in: '+email;$('topRight').textContent='Authenticated admin session';await loadEnquiries();await loadMachineListings();await loadPartsListings();
 }
 async function loadMachineListings(){
  if(!client){say('machineListingMessage','Supabase is not connected.');return}
@@ -114,6 +119,40 @@ async function updateMachineListing(id,status){
   Object.assign(row,data||{status});renderMachineListings();
   say('machineListingMessage','Machine listing '+(status==='approved'?'approved. अब यह public Marketplace में दिखाई दे सकती है।':'rejected.') );
  }catch(e){say('machineListingMessage','Could not '+verb+' listing: '+(e.message||'Check admin update policy.'))}
+}
+async function loadPartsListings(){
+ if(!client){say('partsAdminMessage','Supabase is not connected.');return}
+ say('partsAdminMessage','Loading machine part requests…');$('partsAdminRefresh').disabled=true;
+ try{
+  const {data,error}=await client.from('machine_part_listings').select('*').order('created_at',{ascending:false}).limit(500);
+  if(error)throw error;machinePartListings=Array.isArray(data)?data:[];renderPartsListings();
+  say('partsAdminMessage',machinePartListings.length?'Loaded '+machinePartListings.length+' machine part request(s).':'No machine part requests received yet.');
+ }catch(e){machinePartListings=[];renderPartsListings();say('partsAdminMessage','Could not load parts: '+(e.message||'Run supabase/machine-parts.sql and sign in as the authorized admin.'))}
+ finally{$('partsAdminRefresh').disabled=false}
+}
+function renderPartsListings(){
+ const pending=machinePartListings.filter(r=>(r.status||'pending')==='pending').length;
+ $('partsAdminCount').textContent=machinePartListings.length+' total · '+pending+' pending';
+ if(!machinePartListings.length){$('partsAdminRows').innerHTML='<tr><td colspan="6" class="empty">No part requests yet.</td></tr>';return}
+ $('partsAdminRows').innerHTML=machinePartListings.map(r=>{
+  const phone=String(r.contact_phone||'').replace(/[^0-9]/g,'');
+  const contact=phone?'<a href="https://wa.me/'+esc(phone)+'" target="_blank" rel="noopener">'+esc(r.contact_phone)+'</a>':'—';
+  const photo=r.photo_url?'<a href="'+esc(r.photo_url)+'" target="_blank" rel="noopener"><img src="'+esc(r.photo_url)+'" alt="Part photo" style="width:72px;height:58px;object-fit:cover;border-radius:7px"></a>':'—';
+  const status=String(r.status||'pending');
+  let actions='';
+  if(status==='pending')actions='<div class="actions"><button class="btn teal" type="button" data-part-status="approved" data-part-id="'+esc(r.id)+'">Approve</button><button class="btn red" type="button" data-part-status="rejected" data-part-id="'+esc(r.id)+'">Reject</button></div>';
+  else if(status==='approved')actions='<div class="actions"><button class="btn light" type="button" data-part-status="sold" data-part-id="'+esc(r.id)+'">Mark Sold</button><button class="btn light" type="button" data-part-status="archived" data-part-id="'+esc(r.id)+'">Archive</button></div>';
+  else actions='<span class="pill '+(status==='approved'?'resolved':'spam')+'">'+esc(status)+'</span>';
+  return '<tr><td><div class="name">'+esc(r.part_name)+'</div><div class="sub">'+esc(r.category)+'</div><div class="sub">ID: '+esc(r.id)+'</div></td><td><strong>'+esc(r.transaction_type==='looking_to_buy'?'BUY REQUIREMENT':'FOR SALE')+'</strong><div class="sub">'+esc(r.condition||'—')+'</div><div class="sub">'+esc(r.details||'')+'</div></td><td><div class="name">'+esc(r.contact_name)+'</div>'+contact+'</td><td>'+esc(r.location||'—')+'<div class="sub">'+esc(r.expected_price||'Price on Request')+' · Qty '+esc(r.quantity)+'</div></td><td>'+photo+'<div class="sub">'+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</div></td><td><span class="pill">'+esc(status)+'</span>'+actions+'</td></tr>';
+ }).join('');
+}
+async function updatePartListing(id,status){
+ if(!['approved','rejected','sold','archived'].includes(status))return;
+ const row=machinePartListings.find(r=>String(r.id)===String(id));if(!row)return;
+ const label=status.toUpperCase();if(!confirm('Change this part listing to '+label+'?'))return;
+ say('partsAdminMessage','Updating part listing…');
+ try{const {data,error}=await client.from('machine_part_listings').update({status,updated_at:new Date().toISOString()}).eq('id',id).select().single();if(error)throw error;Object.assign(row,data||{status});renderPartsListings();say('partsAdminMessage','Part listing updated: '+status+'.')}
+ catch(e){say('partsAdminMessage','Update failed: '+(e.message||'Check Supabase admin update policy.'))}
 }
 async function loadEnquiries(){
  if(!client){say('dataMessage','Supabase is not connected.');return}
@@ -191,6 +230,8 @@ $('resetButton').addEventListener('click',async()=>{
 $('logoutButton').addEventListener('click',async()=>{if(client)await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','You have signed out.');$('topRight').textContent='Admin access'});
 $('refreshButton').addEventListener('click',async()=>{await loadEnquiries();await loadMachineListings()});
 $('machineRefreshButton').addEventListener('click',loadMachineListings);
+$('partsAdminRefresh').addEventListener('click',loadPartsListings);
+$('partsAdminRows').addEventListener('click',e=>{const b=e.target.closest('[data-part-status]');if(b)updatePartListing(b.dataset.partId,b.dataset.partStatus)});
 $('machineListingRows').addEventListener('click',e=>{const a=e.target.closest('[data-machine-approve]'),r=e.target.closest('[data-machine-reject]');if(a)updateMachineListing(a.dataset.machineApprove,'approved');if(r)updateMachineListing(r.dataset.machineReject,'rejected')});
 $('searchInput').addEventListener('input',render);$('statusFilter').addEventListener('change',render);
 $('clearButton').addEventListener('click',()=>{$('searchInput').value='';$('statusFilter').value='all';render()});
