@@ -17,7 +17,7 @@
 (()=>{'use strict';
 const URL='https://xotqafgkubodqpirfpfb.supabase.co',ADMIN='kamatrajukumar2000@gmail.com';
 const $=id=>document.getElementById(id);let db=null,kind='vacancies',data=[];
-try{const savedKey=localStorage.getItem('sweksha_supabase_public_key');if(savedKey)$('key').value=savedKey}catch(e){}
+try{$('key').value=localStorage.getItem('sweksha_supabase_public_key')||'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf'}catch(e){$('key').value='sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf'}
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function message(t){$('msg').textContent=t}
 async function signIn(){
@@ -35,7 +35,7 @@ async function load(){
  message('Loading '+(kind==='vacancies'?'vacancies':'candidate profiles')+'…');
  const table=kind==='vacancies'?'job_vacancies':'candidate_profiles';
  const {data:d,error}=await db.from(table).select('*').order('created_at',{ascending:false}).limit(500);
- if(error){message('Could not load records: '+error.message+' Check that jobs_hiring_compatibility.sql has been run.');$('records').innerHTML='';return}
+ if(error){message('Could not load records: '+error.message+' Check that supabase/compatibility_fixes.sql has been run in the existing project.');$('records').innerHTML='';return}
  data=d||[];message(data.length+' record(s)');render();
 }
 function render(){
