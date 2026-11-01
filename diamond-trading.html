@@ -60,9 +60,9 @@ footer{background:var(--navy);color:#c7d4e1;padding:28px 0;margin-top:45px}
 <script>
 (() => {
 'use strict';
-const PROJECT_URL = 'https://ftvfumhxcpakskhbcuup.supabase.co';
-// Add the publishable key from this same active Supabase project before deployment.
-const SUPABASE_KEY = 'PASTE_FTVFUM_PUBLISHABLE_KEY_HERE';
+const PROJECT_URL = 'https://xotqafgkubodqpirfpfb.supabase.co';
+// Add the publishable key from this same existing Trading Supabase project before deployment.
+const SUPABASE_KEY = 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf';
 const BUCKET = 'diamond-trade-images';
 const $ = id => document.getElementById(id);
 const tabs = [...document.querySelectorAll('[data-tab]')];
@@ -107,7 +107,7 @@ async function loadApprovedListings() {
   const status = $('listingStatus');
   const container = $('approvedListings');
   if (!db) {
-    status.textContent = 'Marketplace is not connected yet. Add the publishable key for the active Supabase project before publishing this update.';
+    status.textContent = 'Marketplace is not connected yet. Add the publishable key for the existing Trading Supabase project before publishing this update.';
     container.innerHTML = '';
     return;
   }
