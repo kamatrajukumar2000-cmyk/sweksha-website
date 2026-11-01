@@ -1584,6 +1584,13 @@ function renderReviews(reviews){
       }[c]));
     }
 
+    function getReviews(){
+      const savedReviews = localStorage.getItem(reviewStorageKey);
+      if(savedReviews === null) return initialReviews;
+      const reviews = JSON.parse(savedReviews);
+      return Array.isArray(reviews) ? reviews : initialReviews;
+    }
+
     async function loadReviews(){
       const url = 'https://xotqafgkubodqpirfpfb.supabase.co/rest/v1/reviews?select=name,rating,review,status,created_at&status=eq.approved&order=created_at.desc&limit=50';
       try{
