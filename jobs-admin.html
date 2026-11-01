@@ -33,7 +33,7 @@ async function signIn(){
 }
 async function load(){
  message('Loading '+(kind==='vacancies'?'vacancies':'candidate profiles')+'…');
- const table=kind==='vacancies'?'job_vacancies':'job_applications';
+ const table=kind==='vacancies'?'job_vacancies':'candidate_profiles';
  const {data:d,error}=await db.from(table).select('*').order('created_at',{ascending:false}).limit(500);
  if(error){message('Could not load records: '+error.message+' Check that jobs_hiring_compatibility.sql has been run.');$('records').innerHTML='';return}
  data=d||[];message(data.length+' record(s)');render();
@@ -51,7 +51,7 @@ function render(){
 }
 async function update(id){
  const sel=$('records').querySelector('select[data-id="'+CSS.escape(id)+'"]');if(!sel)return;
- const table=kind==='vacancies'?'job_vacancies':'job_applications';
+ const table=kind==='vacancies'?'job_vacancies':'candidate_profiles';
  const {error}=await db.from(table).update({status:sel.value}).eq('id',id);
  if(error){message('Update failed: '+error.message);return}
  message('Status updated.');await load();
