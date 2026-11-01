@@ -1,5 +1,5 @@
 -- Sweksha Diamond Trading Marketplace schema
--- Run this file in the SQL Editor of the active project: ftvfumhxcpakskhbcuup (https://ftvfumhxcpakskhbcuup.supabase.co). Existing listing rows are retained.
+-- Run this file in the SQL Editor of the existing Trading project: xotqafgkubodqpirfpfb (https://xotqafgkubodqpirfpfb.supabase.co). Existing listing rows are retained.
 create extension if not exists pgcrypto;
 
 create table if not exists public.diamond_trade_listings (
