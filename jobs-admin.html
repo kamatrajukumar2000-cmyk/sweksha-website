@@ -42,10 +42,10 @@ function render(){
  if(!data.length){$('records').innerHTML='<p class="muted">No submissions yet.</p>';return}
  $('records').innerHTML=data.map(r=>{
   const vacancy=kind==='vacancies';
-  const statusOptions=vacancy?['pending','approved','rejected','filled','archived']:['pending','reviewed','shortlisted','closed','rejected'];
+  const statusOptions=vacancy?['pending','approved','rejected','filled','archived']:['pending','approved','rejected'];
   const details=vacancy?
    '<p><b>'+esc(r.company_name)+'</b> · '+esc(r.location||r.work_location)+'</p><p>'+esc(r.description||r.responsibilities_skills)+'</p><p>Employment: '+esc(r.employment_type||'Not specified')+' · Pay: '+esc(r.salary_range||r.pay_range||'Not specified')+'</p><p>Contact: '+esc(r.contact_name||'')+' '+esc(r.contact_details||'')+'</p>':
-   '<p><b>Skills / role:</b> '+esc(r.role_skills)+'</p><p><b>Experience:</b> '+esc(r.experience_qualifications||'Not provided')+'</p><p><b>Preferred location:</b> '+esc(r.preferred_location)+'</p><p><b>Phone:</b> '+esc(r.phone)+'</p>';
+   '<p><b>Skills / role:</b> '+esc(r.role_skills)+'</p><p><b>Experience:</b> '+esc(r.experience||'Not provided')+'</p><p><b>Preferred location:</b> '+esc(r.preferred_location)+'</p><p><b>Phone:</b> '+esc(r.contact_whatsapp)+'</p>';
   return '<article class="entry"><h3>'+esc(vacancy?r.job_title:r.full_name)+'</h3>'+details+'<div class="row"><span class="muted">Submitted: '+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</span><select data-id="'+esc(r.id)+'" aria-label="Update status">'+statusOptions.map(s=>'<option '+(r.status===s?'selected':'')+'>'+s+'</option>').join('')+'</select><button data-save="'+esc(r.id)+'">Save status</button></div></article>';
  }).join('');
 }
