@@ -1,5 +1,5 @@
 -- READ-ONLY diagnostics for Sweksha Diamond Trading.
--- Run in Supabase SQL Editor for project: ftvfumhxcpakskhbcuup.
+-- Run in Supabase SQL Editor for project: xotqafgkubodqpirfpfb.
 -- These queries do not insert, update, or delete any records.
 
 -- 1) Confirm the Diamond Trading table exists.
