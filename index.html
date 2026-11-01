@@ -1461,7 +1461,7 @@ I will attach relevant photos/videos in WhatsApp if available. Please contact me
       window.open('https://wa.me/917827474249?text=' + encodeURIComponent(msg), '_blank', 'noopener');
       const status = document.getElementById('serviceRequestStatus');
       let publicKey = '';
-      try { publicKey = localStorage.getItem('sweksha_supabase_public_key') || ''; } catch (err) {}
+      try { publicKey = localStorage.getItem('sweksha_supabase_public_key') || 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf'; } catch (err) {}
       if (!publicKey) {
         status.textContent = 'WhatsApp opened. Online database saving still needs the public Supabase key configured on the website.';
         return;
