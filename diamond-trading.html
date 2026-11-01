@@ -60,8 +60,9 @@ footer{background:var(--navy);color:#c7d4e1;padding:28px 0;margin-top:45px}
 <script>
 (() => {
 'use strict';
-const PROJECT_URL = 'https://xotqafgkubodqpirfpfb.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf';
+const PROJECT_URL = 'https://ftvfumhxcpakskhbcuup.supabase.co';
+// Add the publishable key from this same active Supabase project before deployment.
+const SUPABASE_KEY = 'PASTE_FTVFUM_PUBLISHABLE_KEY_HERE';
 const BUCKET = 'diamond-trade-images';
 const $ = id => document.getElementById(id);
 const tabs = [...document.querySelectorAll('[data-tab]')];
@@ -71,7 +72,7 @@ const sellerForm = $('sellerForm');
 const buyerStatus = $('buyerStatus');
 const sellerStatus = $('sellerStatus');
 let db = null;
-if (window.supabase && SUPABASE_KEY) {
+if (window.supabase && SUPABASE_KEY && !SUPABASE_KEY.startsWith('PASTE_')) {
   db = window.supabase.createClient(PROJECT_URL, SUPABASE_KEY);
 }
 function escapeHtml(value) {
@@ -106,7 +107,7 @@ async function loadApprovedListings() {
   const status = $('listingStatus');
   const container = $('approvedListings');
   if (!db) {
-    status.textContent = 'Marketplace database is unavailable. Please refresh the page or contact Sweksha.';
+    status.textContent = 'Marketplace is not connected yet. Add the publishable key for the active Supabase project before publishing this update.';
     container.innerHTML = '';
     return;
   }
@@ -149,7 +150,6 @@ $('sphoto').addEventListener('change', e => {
 buyerForm.addEventListener('submit', async e => {
   e.preventDefault();
   const waTab = window.open('about:blank', '_blank');
-  if (!db) { buyerStatus.textContent = 'Database connection failed. WhatsApp will open so your enquiry is not lost.'; }
   const button = buyerForm.querySelector('button[type="submit"]');
   button.disabled = true; button.textContent = 'Submitting…'; buyerStatus.textContent = '';
   const record = {
@@ -162,17 +162,21 @@ buyerForm.addEventListener('submit', async e => {
     contact_phone: $('bcontact').value.trim(),
     status: 'pending'
   };
-  let dbError = null;
-  if (db) {
+  let saved = false, dbError = null;
+  try {
+    if (!db) throw new Error('Active Supabase project publishable key has not been configured yet');
     const result = await db.from('diamond_trade_listings').insert(record);
-    dbError = result.error;
+    if (result.error) throw result.error;
+    saved = true;
+  } catch (error) {
+    dbError = error;
   }
-  const message = 'Hello Sweksha, I would like to submit a diamond BUY requirement.\\nProduct: '+record.product_type+'\\nSpecifications: '+(record.description||'Not provided')+'\\nQuantity: '+record.quantity+'\\nBudget: '+(record.expected_price||'Not provided')+'\\nName/company: '+record.contact_name+'\\nContact: '+record.contact_phone;
+  const message = 'Hello Sweksha, I would like to submit a diamond BUY requirement.\nProduct: '+record.product_type+'\nSpecifications: '+(record.description||'Not provided')+'\nQuantity: '+record.quantity+'\nBudget: '+(record.expected_price||'Not provided')+'\nName/company: '+record.contact_name+'\nContact: '+record.contact_phone;
   const waUrl = 'https://wa.me/917827474249?text='+encodeURIComponent(message);
   if (waTab) waTab.location.href = waUrl; else window.location.href = waUrl;
-  buyerStatus.textContent = dbError
-    ? 'WhatsApp opened. Database save failed: '+dbError.message+'. Please send the WhatsApp message; we will fix database access.'
-    : 'Submitted to database for admin review, and WhatsApp opened. Please send the WhatsApp message too.';
+  buyerStatus.textContent = saved
+    ? 'Enquiry saved for admin review. WhatsApp opened; please send the message too.'
+    : 'WhatsApp opened, but the database did not save this enquiry: '+(dbError.message || 'Unknown error')+'. Please send the WhatsApp message.';
   button.disabled = false; button.textContent = 'Send Buyer Enquiry';
 });
 sellerForm.addEventListener('submit', async e => {
