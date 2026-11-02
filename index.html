@@ -114,6 +114,30 @@
     footer h3{color:#fff;margin-bottom:8px}
     .small{font-size:13px;color:#8798aa;margin-top:22px}
 
+    /* SWEKSHA PREMIUM CARD MOTION — subtle, accessible 3D hover */
+    @media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+      .card, .machine-market-card, .defect-card, .review-card, .faq-item, .step, .hero-card {
+        --card-rotate-x: 0deg;
+        --card-rotate-y: 0deg;
+        transform: perspective(900px) rotateX(var(--card-rotate-x)) rotateY(var(--card-rotate-y)) translateY(0);
+        transform-style: preserve-3d;
+        transition: transform .28s cubic-bezier(.2,.75,.25,1), box-shadow .28s ease, border-color .28s ease;
+        will-change: transform;
+      }
+      .card:hover, .machine-market-card:hover, .defect-card:hover, .review-card:hover, .faq-item:hover, .step:hover, .hero-card:hover {
+        transform: perspective(900px) rotateX(var(--card-rotate-x)) rotateY(var(--card-rotate-y)) translateY(-6px);
+        box-shadow: 0 22px 48px rgba(7,17,31,.16), 0 0 0 1px rgba(35,199,183,.14);
+        border-color: rgba(35,199,183,.55);
+      }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      .card, .machine-market-card, .defect-card, .review-card, .faq-item, .step, .hero-card {
+        transition: none !important;
+        transform: none !important;
+      }
+    }
+
+
     .float-wa{position:fixed;right:20px;bottom:20px;background:#20b86b;color:#fff;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-weight:900;box-shadow:0 10px 25px rgba(0,0,0,.22);z-index:30}
     .notice{font-size:13px;color:var(--muted);margin-top:12px}
     /* ===== SERVICE FAQ ===== */
@@ -1749,6 +1773,34 @@ function renderReviews(reviews){
         if(!request) { input.focus(); return; }
         const message = 'Hello Sweksha CVD Diamond Machine Service & Consulting, I need help with: ' + request;
         window.open('https://wa.me/917827474249?text=' + encodeURIComponent(message), '_blank', 'noopener');
+      });
+    })();
+  </script>
+
+
+  <script id="sweksha-premium-card-motion">
+    // Direction-aware 3D tilt for desktop pointers; touch and reduced-motion remain calm.
+    (function(){
+      if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches ||
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const selector = '.card, .machine-market-card, .defect-card, .review-card, .faq-item, .step, .hero-card';
+      document.addEventListener('pointermove', function(event){
+        const card = event.target.closest(selector);
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        const x = (event.clientX - rect.left) / rect.width;
+        const y = (event.clientY - rect.top) / rect.height;
+        const rotateY = (x - .5) * 7;
+        const rotateX = (.5 - y) * 7;
+        card.style.setProperty('--card-rotate-x', rotateX.toFixed(2) + 'deg');
+        card.style.setProperty('--card-rotate-y', rotateY.toFixed(2) + 'deg');
+      }, {passive:true});
+      document.addEventListener('pointerout', function(event){
+        const card = event.target.closest(selector);
+        if (!card || card.contains(event.relatedTarget)) return;
+        card.style.setProperty('--card-rotate-x', '0deg');
+        card.style.setProperty('--card-rotate-y', '0deg');
       });
     })();
   </script>
