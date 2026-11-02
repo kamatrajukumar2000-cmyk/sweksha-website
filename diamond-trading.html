@@ -16,6 +16,7 @@ main{padding:38px 0}.notice{background:#fff8e9;border:1px solid #f1d7a8;border-r
 label{display:block;font-size:13px;font-weight:800;margin:14px 0 6px}input,select,textarea{width:100%;font:inherit;padding:11px;border:1px solid #cbd6e0;border-radius:8px;background:#fff}textarea{min-height:90px}input[type=file]{padding:8px}
 .btn{display:inline-block;background:var(--teal);color:#06141c;padding:12px 18px;border:0;border-radius:9px;font-weight:800;cursor:pointer;margin-top:15px}
 .preview{display:none;max-width:100%;max-height:230px;object-fit:contain;margin-top:10px;border-radius:8px}.status{font-weight:700;font-size:14px}
+.listing-section{margin:34px 0 42px}.listing-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.listing-heading h2{margin:6px 0}.listing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:18px;margin-top:18px}.listing-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 8px 24px #07111f0c}.listing-card img{display:block;width:100%;height:190px;object-fit:cover;background:var(--soft)}.listing-card-body{padding:16px}.listing-card h3{margin:0 0 8px;font-size:18px}.listing-card p{margin:7px 0;color:var(--muted);font-size:14px;overflow-wrap:anywhere}.listing-price{font-weight:800;color:var(--ink)!important;font-size:16px!important}.listing-card .btn{margin-top:10px}.empty-listings{padding:20px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);grid-column:1/-1}.refresh-listings{margin-top:0}
 footer{background:var(--navy);color:#c7d4e1;padding:28px 0;margin-top:45px}
 @media(max-width:700px){.grid{grid-template-columns:1fr}}
 </style>
@@ -24,7 +25,8 @@ footer{background:var(--navy);color:#c7d4e1;padding:28px 0;margin-top:45px}
 <header><div class="wrap nav"><a class="brand" href="index.html">Sweksha <span>Diamond Trading</span></a><a href="index.html">Back to Main Website</a></div></header>
 <section class="hero"><div class="wrap"><span class="eyebrow">Natural &amp; Lab-Grown Diamond Enquiries</span><h1>Sweksha Diamond Trading Marketplace</h1><p>Connect with buyers and sellers of Natural Polished Diamonds, CVD and other Lab-Grown Diamonds, Diamond Seeds, and Rough Diamonds. Submit your buying requirement or prepare a seller listing for review. Sweksha helps introduce business enquiries; transactions remain subject to verification and mutually agreed terms.</p></div></section>
 <main class="wrap">
-<div class="notice"><strong>Marketplace preview:</strong> This page currently prepares enquiries through WhatsApp. Product photos and listings are not stored or published online yet. Sellers must attach their selected photo in WhatsApp and wait for review. Diamond authenticity, ownership and applicable legal requirements must be verified before any transaction.</div>
+<div class="notice"><strong>Marketplace:</strong> Approved seller listings appear below. New seller submissions are reviewed by Sweksha before publication. Diamond authenticity, ownership and applicable legal requirements must be verified before any transaction.</div>
+<section class="listing-section" aria-labelledby="approvedTitle"><div class="listing-heading"><div><span class="eyebrow">Verified for marketplace display</span><h2 id="approvedTitle">Approved Diamond Listings</h2><p class="muted">Only seller listings approved by Sweksha are shown here.</p></div><button class="btn refresh-listings" id="refreshListings" type="button">Refresh Listings</button></div><p class="status" id="listingStatus" role="status" aria-live="polite">Loading approved listings…</p><div class="listing-grid" id="approvedListings"></div></section>
 <div class="tabs"><button class="tab active" data-tab="buyer">Request / Buy</button><button class="tab" data-tab="seller">List / Sell</button></div>
 <section class="panel active" id="buyer"><div class="grid">
 <div class="card"><h2>Buy / Request Diamonds</h2><p class="muted">Tell Sweksha what you are looking for: Natural or Lab-Grown Diamonds, seeds, or rough diamonds.</p><form id="buyerForm">
@@ -59,6 +61,7 @@ footer{background:var(--navy);color:#c7d4e1;padding:28px 0;margin-top:45px}
 (() => {
 'use strict';
 const PROJECT_URL = 'https://xotqafgkubodqpirfpfb.supabase.co';
+// Add the publishable key from this same existing Trading Supabase project before deployment.
 const SUPABASE_KEY = 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf';
 const BUCKET = 'diamond-trade-images';
 const $ = id => document.getElementById(id);
@@ -69,14 +72,68 @@ const sellerForm = $('sellerForm');
 const buyerStatus = $('buyerStatus');
 const sellerStatus = $('sellerStatus');
 let db = null;
-if (window.supabase && SUPABASE_KEY) {
+if (window.supabase && SUPABASE_KEY && !SUPABASE_KEY.startsWith('PASTE_')) {
   db = window.supabase.createClient(PROJECT_URL, SUPABASE_KEY);
+}
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function safeImageUrl(value) {
+  try { const url = new URL(value); return url.protocol === 'https:' ? url.href : ''; }
+  catch (_) { return ''; }
+}
+function renderApprovedListings(rows) {
+  const container = $('approvedListings');
+  if (!rows.length) {
+    container.innerHTML = '<div class="empty-listings">No approved diamond listings are available yet. Please check again later.</div>';
+    return;
+  }
+  container.innerHTML = rows.map(row => {
+    const image = safeImageUrl(row.photo_url);
+    const title = escapeHtml(row.product_type || 'Diamond listing');
+    const description = escapeHtml(row.description || 'Specifications available on enquiry.');
+    const price = escapeHtml(row.expected_price || 'Price on request');
+    const quantity = escapeHtml(row.quantity || 'Not specified');
+    const location = escapeHtml(row.location || 'Location on enquiry');
+    const message = encodeURIComponent('Hello Sweksha, I am interested in this approved diamond listing: ' + (row.product_type || 'Diamond') + '. Please share details.');
+    return '<article class="listing-card">' +
+      (image ? '<img src="' + escapeHtml(image) + '" alt="' + title + '" loading="lazy">' : '') +
+      '<div class="listing-card-body"><h3>' + title + '</h3><p>' + description + '</p>' +
+      '<p class="listing-price">' + price + '</p><p>Quantity: ' + quantity + '</p><p>Location: ' + location + '</p>' +
+      '<a class="btn" href="https://wa.me/917827474249?text=' + message + '" target="_blank" rel="noopener noreferrer">Enquire on WhatsApp</a></div></article>';
+  }).join('');
+}
+async function loadApprovedListings() {
+  const status = $('listingStatus');
+  const container = $('approvedListings');
+  if (!db) {
+    status.textContent = 'Marketplace is not connected yet. Add the publishable key for the existing Trading Supabase project before publishing this update.';
+    container.innerHTML = '';
+    return;
+  }
+  status.textContent = 'Loading approved listings…';
+  try {
+    const { data, error } = await db.from('diamond_trade_listings')
+      .select('*')
+      .eq('status', 'approved')
+      .eq('transaction_type', 'for_sale')
+      .order('created_at', { ascending: false })
+      .limit(60);
+    if (error) throw error;
+    renderApprovedListings(data || []);
+    status.textContent = (data || []).length + ' approved listing(s)';
+  } catch (error) {
+    status.textContent = 'Could not load listings: ' + (error.message || 'Unknown database error') + '. Please check the Supabase table and public SELECT policy.';
+    container.innerHTML = '';
+  }
 }
 function showTab(id) {
   tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === id));
   panels.forEach(p => p.classList.toggle('active', p.id === id));
 }
 tabs.forEach(t => t.addEventListener('click', () => showTab(t.dataset.tab)));
+$('refreshListings').addEventListener('click', loadApprovedListings);
+loadApprovedListings();
 $('sphoto').addEventListener('change', e => {
   const f = e.target.files && e.target.files[0], img = $('preview');
   if (!f) { img.style.display = 'none'; img.removeAttribute('src'); return; }
@@ -93,7 +150,6 @@ $('sphoto').addEventListener('change', e => {
 buyerForm.addEventListener('submit', async e => {
   e.preventDefault();
   const waTab = window.open('about:blank', '_blank');
-  if (!db) { buyerStatus.textContent = 'Database connection failed. WhatsApp will open so your enquiry is not lost.'; }
   const button = buyerForm.querySelector('button[type="submit"]');
   button.disabled = true; button.textContent = 'Submitting…'; buyerStatus.textContent = '';
   const record = {
@@ -106,17 +162,21 @@ buyerForm.addEventListener('submit', async e => {
     contact_phone: $('bcontact').value.trim(),
     status: 'pending'
   };
-  let dbError = null;
-  if (db) {
+  let saved = false, dbError = null;
+  try {
+    if (!db) throw new Error('Active Supabase project publishable key has not been configured yet');
     const result = await db.from('diamond_trade_listings').insert(record);
-    dbError = result.error;
+    if (result.error) throw result.error;
+    saved = true;
+  } catch (error) {
+    dbError = error;
   }
-  const message = 'Hello Sweksha, I would like to submit a diamond BUY requirement.\\nProduct: '+record.product_type+'\\nSpecifications: '+(record.description||'Not provided')+'\\nQuantity: '+record.quantity+'\\nBudget: '+(record.expected_price||'Not provided')+'\\nName/company: '+record.contact_name+'\\nContact: '+record.contact_phone;
+  const message = 'Hello Sweksha, I would like to submit a diamond BUY requirement.\nProduct: '+record.product_type+'\nSpecifications: '+(record.description||'Not provided')+'\nQuantity: '+record.quantity+'\nBudget: '+(record.expected_price||'Not provided')+'\nName/company: '+record.contact_name+'\nContact: '+record.contact_phone;
   const waUrl = 'https://wa.me/917827474249?text='+encodeURIComponent(message);
   if (waTab) waTab.location.href = waUrl; else window.location.href = waUrl;
-  buyerStatus.textContent = dbError
-    ? 'WhatsApp opened. Database save failed: '+dbError.message+'. Please send the WhatsApp message; we will fix database access.'
-    : 'Submitted to database for admin review, and WhatsApp opened. Please send the WhatsApp message too.';
+  buyerStatus.textContent = saved
+    ? 'Enquiry saved for admin review. WhatsApp opened; please send the message too.'
+    : 'WhatsApp opened, but the database did not save this enquiry: '+(dbError.message || 'Unknown error')+'. Please send the WhatsApp message.';
   button.disabled = false; button.textContent = 'Send Buyer Enquiry';
 });
 sellerForm.addEventListener('submit', async e => {
