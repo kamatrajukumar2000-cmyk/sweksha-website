@@ -17,7 +17,7 @@
 (()=>{'use strict';
 const URL='https://xotqafgkubodqpirfpfb.supabase.co',ADMIN='kamatrajukumar2000@gmail.com';
 const $=id=>document.getElementById(id);let db=null,kind='vacancies',data=[];
-try{const savedKey=localStorage.getItem('sweksha_supabase_public_key');if(savedKey)$('key').value=savedKey}catch(e){}
+try{const savedKey=localStorage.getItem('sweksha_supabase_public_key')||'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf';$('key').value=savedKey}catch(e){}
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function message(t){$('msg').textContent=t}
 async function signIn(){
