@@ -13,7 +13,7 @@
 <section class="hero"><div class="wrap"><span class="eyebrow">CVD &amp; Lab-Grown Diamond Industry</span><h1>Jobs &amp; Hiring Connections</h1><p>Employers can share vacancies and job seekers can introduce their skills and experience. Sweksha can help connect enquiries; opportunities are reviewed before being treated as verified listings.</p></div></section>
 <main class="wrap">
 <section class="card" style="margin-bottom:24px"><h2>Current Approved Vacancies</h2><p class="muted">Only employer vacancies reviewed and approved by Sweksha appear here.</p><div id="approvedJobs" class="muted">Loading approved vacancies…</div></section>
-<div class="notice"><strong>Early-stage service:</strong> Job posts and candidate profiles are not yet stored in a searchable database or published automatically. Submissions open WhatsApp so Sweksha can review details. Never send passwords, identity documents, bank details or payment to apply for a job.</div>
+<div class="notice"><strong>How submissions work:</strong> Candidate profiles and employer vacancy enquiries are saved for Sweksha review. Approved vacancies may be published here. Candidate profiles are private and are not publicly displayed. WhatsApp is an additional enquiry channel. Never send passwords, identity documents, bank details or payment to apply for a job.</div>
 <div class="tabs"><button class="tab active" data-tab="seeker">Find a Job</button><button class="tab" data-tab="employer">Post a Vacancy</button></div>
 <section class="panel active" id="seeker"><div class="grid">
 <div class="card"><h2>Job Seeker Profile</h2><p class="muted">Share your work experience and the role you are looking for.</p><form id="candidate">
@@ -97,8 +97,8 @@ document.getElementById('candidate').addEventListener('submit', async e => {
   if(whatsappWindow) whatsappWindow.location.href='https://wa.me/917827474249?text='+encodeURIComponent(message);
   button.disabled=true; status.textContent='Saving your profile to the website database…';
   try {
-    await saveToSupabase('candidate_profiles',record);
-    status.textContent='Success: your profile was saved on the website and WhatsApp enquiry was opened. Please press Send in WhatsApp.';
+    await saveToSupabase('job_applications',record);
+    status.textContent='Success: your job seeker profile was saved for Sweksha review and WhatsApp enquiry was opened. Please press Send in WhatsApp.';
     form.reset();
   } catch(error) {
     status.textContent='Database save failed: '+error.message+' WhatsApp has been opened if pop-ups are allowed. Please contact Sweksha so your enquiry is not lost.';
