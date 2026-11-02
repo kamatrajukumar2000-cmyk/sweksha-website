@@ -259,8 +259,8 @@
     <div class="container">
       <nav>
         <a class="brand" href="#home">Sweksha <span>Fondation Club</span></a>
-        <button class="menu" aria-label="Open menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">&#9776;</button>
-        <div class="navlinks">
+        <button class="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primary-navigation" onclick="const nav=document.getElementById('primary-navigation'); const open=nav.classList.toggle('open'); this.setAttribute('aria-expanded',String(open)); this.setAttribute('aria-label',open?'Close menu':'Open menu');">&#9776;</button>
+        <div class="navlinks" id="primary-navigation">
           <a href="#home">Home</a><a href="#services">Services</a><a href="ai-business-manager.html">AI Business Manager</a><a href="#machine-market">Machine Buy &amp; Sell</a><a href="marketplace.html">Machine Parts Buy &amp; Sell</a><a href="diamond-trading.html">Diamond Seed &amp; Rough Trading</a><a href="jobs.html">Jobs &amp; Hiring</a><a href="#about">About</a>
           <a href="#process">Process</a><a href="#reviews">Reviews</a><a href="#defects">Machine Defects</a><a href="#diamond-defects">Diamond Defects</a><a href="#request">Service Request</a><a href="#contact">Contact</a>
         </div>
@@ -296,7 +296,7 @@
           <div class="container hero-grid">
             <div>
               <span class="eyebrow">Setup &amp; Commissioning</span>
-              <h1>Start Production with Confidence.</h1>
+              <h2>Start Production with Confidence.</h2>
               <p>Get practical guidance for lab grown diamond machine setup, commissioning and operating readiness, with remote support tailored to your equipment and goals.</p>
               <div class="actions">
                 <a class="btn btn-primary" href="#request">Get Setup Support</a>
@@ -316,7 +316,7 @@
           <div class="container hero-grid">
             <div>
               <span class="eyebrow">Machine Troubleshooting</span>
-              <h1>Find the Cause. Get Back on Track.</h1>
+              <h2>Find the Cause. Get Back on Track.</h2>
               <p>Work through machine and process problems with structured remote troubleshooting focused on symptoms, recent changes and useful checks.</p>
               <div class="actions">
                 <a class="btn btn-primary" href="#request">Request Troubleshooting</a>
@@ -336,7 +336,7 @@
           <div class="container hero-grid">
             <div>
               <span class="eyebrow">Process Review &amp; Optimization</span>
-              <h1>Improve Process Stability and Diamond Color.</h1>
+              <h2>Improve Process Stability and Diamond Color.</h2>
               <p>Review process conditions and production challenges with an experienced technical consultant, and identify opportunities to improve consistency.</p>
               <div class="actions">
                 <a class="btn btn-primary" href="#request">Discuss Your Process</a>
@@ -470,7 +470,7 @@
           <div class="card"><div class="icon">04</div><h3>Process Review</h3><p>Review of available machine data, production observations and process settings to identify areas for improvement.</p></div>
           <div class="card"><div class="icon">05</div><h3>Online Consulting</h3><p>Get troubleshooting, process review and planning support by phone or WhatsApp from anywhere in India or abroad.</p></div>
           <div class="card"><div class="icon">06</div><h3>On-site Plant Service</h3><p>Plant visits for machine inspection, setup, troubleshooting and process support. Service scope and travel are confirmed before scheduling.</p></div>
-        <div class="card"><div class="icon">06</div><h3>Machine Service &amp; Plant Setup Details</h3><p>Explore machine specifications, technical service scope, supported machine brands and service coverage.</p><p><a class="map-link" href="./machine-service-details.html">View Machine Service Details →</a></p></div>
+        <div class="card"><div class="icon">07</div><h3>Machine Service &amp; Plant Setup Details</h3><p>Explore machine specifications, technical service scope, supported machine brands and service coverage.</p><p><a class="map-link" href="./machine-service-details.html">View Machine Service Details →</a></p></div>
         </div>
       </div>
     </section>
@@ -1137,7 +1137,7 @@
           <p>Share feedback about your service experience. Feedback is sent directly to our WhatsApp for review; it is not published automatically.</p>
         </div>
 
-        <div class="review-summary">
+        <div class="review-summary" hidden>
           <div class="rating-box">
             <div class="rating-number" id="reviewAverage">&#8212;</div>
             <div class="stars" id="reviewAverageStars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
@@ -1150,7 +1150,7 @@
           </div>
         </div>
 
-        <div id="reviewList" class="review-list" role="region" aria-label="Customer reviews" aria-roledescription="carousel" tabindex="0">
+        <div id="reviewList" class="review-list" hidden role="region" aria-label="Customer reviews" aria-roledescription="carousel" tabindex="0">
           <div class="review-empty">Loading published reviews...</div>
         </div>
 
@@ -1235,11 +1235,11 @@
             <textarea id="problem" required placeholder="What is happening? Include error messages, pressure/power readings or when the issue started..."></textarea>
             <label for="recentChanges">Recent Changes (optional)</label>
             <textarea id="recentChanges" placeholder="Any recent maintenance, parts replacement, settings or process changes?"></textarea>
-            <label for="contact">Your Contact Number *</label>
+            <label for="serviceContact">Your Contact Number *</label>
             <input id="serviceContact" required type="tel" placeholder="Your phone / WhatsApp number">
             <button class="btn btn-primary" type="submit">Send Request on WhatsApp</button>
             <div class="notice">After WhatsApp opens, attach relevant photos/videos if available. Please do not send passwords, confidential credentials or sensitive personal information.</div>
-            <p id="serviceRequestStatus" class="notice" role="status" aria-live="polite">Your request will open in WhatsApp. Online database saving requires the website's public Supabase key.</p>
+            <p id="serviceRequestStatus" class="notice" role="status" aria-live="polite">Your request will open in WhatsApp. Please send the prepared message there to complete your enquiry.</p>
           </form>
         </div>
       </div>
@@ -1261,6 +1261,7 @@
           <div class="card"><h3><a href="./gas-line-purity-problem.html">Gas Line &amp; Purity Problem</a></h3><p>Gas supply, purity, regulator, fitting and contamination checks.</p></div>
           <div class="card"><h3><a href="./throttle-valve-pressure-stability.html">Throttle Valve &amp; Pressure Stability</a></h3><p>Chamber pressure hunting, valve response and vacuum monitoring.</p></div>
           <div class="card"><h3><a href="./helium-leak-testing.html">Helium Leak Testing</a></h3><p>Leak-rate assessment and vacuum pressure monitoring guidance.</p></div>
+          <div class="card"><h3><a href="./plasma-ignition-failure.html">Plasma Ignition Failure</a></h3><p>Ignition faults, plasma start conditions and safe diagnostic checks.</p></div>
         </div>
       </div>
     </section>
@@ -1301,13 +1302,24 @@
           <p>Online consulting worldwide and on-site CVD machine and plant service from Surat, Gujarat, for clients across India and internationally. Visit availability and travel are confirmed before scheduling.</p>
         </div>
         <div class="grid3">
-          <div class="card"><div class="icon">&#9742;</div><h3>Call / WhatsApp</h3><p><a onclick="trackEvent('phone_click', {method: 'phone'});" href="tel:+917827474249">+91 78274 74249</a></p></div>
-          <div class="card"><div class="icon">@</div><h3>Email &amp; Social</h3><p><a onclick="trackEvent('email_click', {method: 'email'});" href="mailto:kamatrajukumar2000@gmail.com">kamatrajukumar2000@gmail.com</a></p><p><a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a> · <a href="https://x.com/Rajukamat03zm" target="_blank" rel="noopener noreferrer">X / Twitter</a></p></div>
-          <div class="card"><div class="icon">&#8982;</div><h3>Based In</h3><p><a class="map-link" href="https://maps.app.goo.gl/AugPRawiNhoPN4fw7?g_st=iw" target="_blank" rel="noopener noreferrer">Office: 1st Floor, Plot 29/6, Sy No. 430/1, Near Torrent Power, Gotalawadi, Wadi, Surat, Gujarat 395008 — View on Google Maps</a></p></div>
-      <div class="card"><h3><a href="./plasma-ignition-failure.html">View Plasma Ignition Failure Troubleshooting Guide →</a></h3></div>
-    </div></section>
- and generator readings, then arrange inspection by a qualified CVD service technician.</p>
-        </article>
+          <div class="card">
+            <div class="icon">&#9742;</div>
+            <h3>Call / WhatsApp</h3>
+            <p><a onclick="trackEvent('phone_click', {method: 'phone'});" href="tel:+917827474249">+91 78274 74249</a></p>
+            <p><a href="https://wa.me/917827474249" target="_blank" rel="noopener noreferrer">Send a WhatsApp message</a></p>
+          </div>
+          <div class="card">
+            <div class="icon">@</div>
+            <h3>Email &amp; Social</h3>
+            <p><a onclick="trackEvent('email_click', {method: 'email'});" href="mailto:kamatrajukumar2000@gmail.com">kamatrajukumar2000@gmail.com</a></p>
+            <p><a href="https://x.com/Rajukamat03zm" target="_blank" rel="noopener noreferrer">X / Twitter</a></p>
+          </div>
+          <div class="card">
+            <div class="icon">&#8982;</div>
+            <h3>Based In</h3>
+            <p><a class="map-link" href="https://maps.app.goo.gl/AugPRawiNhoPN4fw7?g_st=iw" target="_blank" rel="noopener noreferrer">Office: 1st Floor, Plot 29/6, Sy No. 430/1, Near Torrent Power, Gotalawadi, Wadi, Surat, Gujarat 395008 — View on Google Maps</a></p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1427,6 +1439,16 @@
       search.addEventListener('input', updateDefects);
     })();
 
+    document.querySelectorAll('#primary-navigation a').forEach(link => {
+      link.addEventListener('click', () => {
+        const nav = document.getElementById('primary-navigation');
+        const menuButton = document.querySelector('.menu');
+        nav.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Open menu');
+      });
+    });
+
     document.getElementById('year').textContent = new Date().getFullYear();
 
     document.getElementById('serviceForm').addEventListener('submit', function(e){
@@ -1463,7 +1485,7 @@ I will attach relevant photos/videos in WhatsApp if available. Please contact me
       let publicKey = '';
       try { publicKey = localStorage.getItem('sweksha_supabase_public_key') || ''; } catch (err) {}
       if (!publicKey) {
-        status.textContent = 'WhatsApp opened. Online database saving still needs the public Supabase key configured on the website.';
+        status.textContent = 'WhatsApp opened. Please send the prepared message there to complete your enquiry.';
         return;
       }
       const record = {
@@ -1508,6 +1530,8 @@ function renderReviews(reviews){
   const avgStars = document.getElementById('reviewAverageStars');
 
   count.textContent = reviews.length;
+  document.querySelector(".review-summary").hidden = reviews.length === 0;
+  list.hidden = reviews.length === 0;
 
   if (!reviews.length){
     avg.textContent = '\u2014';
@@ -1627,14 +1651,13 @@ function renderReviews(reviews){
   <!-- Sweksha quick service assistant -->
   <style>
     #sweksha-assist-toggle{position:fixed;right:20px;bottom:88px;z-index:50;border:0;border-radius:999px;background:#23c7b7;color:#07111f;padding:14px 18px;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.22);cursor:pointer}
-    #sweksha-instagram-link{position:fixed;right:20px;bottom:150px;z-index:50;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;background:#e1306c;color:#fff;padding:12px 18px;font-weight:800;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.22)}
-    #sweksha-instagram-link:hover,#sweksha-x-link:hover{filter:brightness(1.06)}
+    #sweksha-x-link:hover{filter:brightness(1.06)}
     #sweksha-x-link{position:fixed;right:20px;bottom:205px;z-index:50;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;background:#111;color:#fff;padding:12px 18px;font-weight:800;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.22)}
     #sweksha-voice-call-link,#sweksha-video-call-link{position:fixed;right:20px;z-index:50;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:12px 18px;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.22);cursor:pointer}
     #sweksha-voice-call-link{bottom:260px;background:#23c7b7;color:#07111f}
     #sweksha-video-call-link{bottom:315px;background:#0d1b2d;color:#fff;border:1px solid #23c7b7}
     @media(max-width:480px){#sweksha-voice-call-link,#sweksha-video-call-link{right:14px}}
-    @media(max-width:480px){#sweksha-instagram-link{right:14px;bottom:145px}#sweksha-x-link{right:14px;bottom:200px}}
+    @media(max-width:480px){#sweksha-x-link{right:14px;bottom:200px}}
     #sweksha-assist-panel{position:fixed;right:20px;bottom:150px;width:min(360px,calc(100vw - 32px));z-index:50;background:#fff;border:1px solid #dfe7ef;border-radius:16px;box-shadow:0 18px 50px rgba(7,17,31,.25);overflow:hidden;color:#182333}
     #sweksha-assist-panel[hidden]{display:none}
     .sweksha-assist-head{background:#07111f;color:#fff;padding:15px 18px;font-weight:800}
@@ -1648,7 +1671,6 @@ function renderReviews(reviews){
     #sweksha-assist-form button{border:0;border-radius:8px;background:#23c7b7;color:#07111f;font-weight:800;padding:10px 12px;cursor:pointer}
     @media(max-width:480px){#sweksha-assist-toggle{right:14px;bottom:84px}#sweksha-assist-panel{right:12px;bottom:145px}}
   </style>
-  <a id="sweksha-instagram-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Open Instagram in a new tab">Instagram</a>
     <a id="sweksha-voice-call-link" href="tel:+917827474249" onclick="trackEvent('voice_call_click',{method:'phone'});" aria-label="Call Sweksha by phone">Voice Call</a>
   <a id="sweksha-video-call-link" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20would%20like%20to%20start%20a%20video%20call." target="_blank" rel="noopener noreferrer" onclick="trackEvent('video_call_click',{method:'whatsapp'});" aria-label="Request a video call on WhatsApp">Video Call</a>
   <a id="sweksha-x-link" href="https://x.com/Rajukamat03zm" target="_blank" rel="noopener noreferrer" aria-label="Open Sweksha on X">X / Twitter</a>
