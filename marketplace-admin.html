@@ -10,13 +10,13 @@
 <label>Password</label><input id="password" type="password"><button id="signin">Connect & sign in</button><p id="loginMsg" class="muted" role="status"></p></section>
 <section id="app" class="hidden"><div class="card row"><div><h1>Marketplace Dashboard</h1><p id="who" class="muted"></p></div><button id="refresh">Refresh</button><button id="logout">Sign out</button></div>
 <div class="card"><div class="stats"><div class="stat">Total<strong id="total">0</strong></div><div class="stat">Pending<strong id="pending">0</strong></div><div class="stat">Approved<strong id="approved">0</strong></div><div class="stat">Rejected<strong id="rejected">0</strong></div></div></div>
-<div class="card"><div class="tabs"><button class="active" data-kind="diamonds">Diamond Trading</button><button data-kind="machines">Machine Buy/Sell</button><button data-kind="parts">Machine Parts</button></div><p id="msg" class="muted" role="status">Choose a category.</p><div id="records"></div></div></section></main>
+<div class="card"><div class="tabs"><button class="active" data-kind="diamonds">Diamond Trading</button><button data-kind="machines">Machine Buy/Sell</button><button data-kind="parts">Machine Parts</button><button data-kind="reviews">Customer Reviews</button></div><p id="msg" class="muted" role="status">Choose a category.</p><div id="records"></div></div></section></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 (()=>{'use strict';
 const ADMIN='kamatrajukumar2000@gmail.com', $=id=>document.getElementById(id);
 let db=null,kind='diamonds',data=[];
-try{$('url').value=localStorage.getItem('sweksha_marketplace_url')||'';$('key').value=localStorage.getItem('sweksha_marketplace_key')||''}catch(e){}
-const tables={diamonds:'diamond_trade_listings',machines:'machine_sales_listings',parts:'machine_part_listings'};
+try{$('url').value=localStorage.getItem('sweksha_marketplace_url')||'https://xotqafgkubodqpirfpfb.supabase.co';$('key').value=localStorage.getItem('sweksha_marketplace_key')||'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf'}catch(e){}
+const tables={diamonds:'diamond_trade_listings',machines:'machine_sales_listings',parts:'machine_part_listings',reviews:'reviews'};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function msg(s){$('msg').textContent=s}
 async function signIn(){
@@ -37,17 +37,18 @@ async function load(){
  data=d||[];$('total').textContent=data.length;$('pending').textContent=data.filter(x=>x.status==='pending').length;$('approved').textContent=data.filter(x=>x.status==='approved').length;$('rejected').textContent=data.filter(x=>x.status==='rejected').length;msg(data.length+' record(s)');render();
 }
 function details(r){
+ if(kind==='reviews')return '<p><b>'+esc(r.name)+'</b> · '+esc(r.rating)+'/5 stars</p><p>'+esc(r.review)+'</p>';
  if(kind==='diamonds')return '<p><b>'+esc(r.transaction_type)+' · '+esc(r.product_type)+'</b></p><p>'+esc(r.description)+'</p><p>Price/budget: '+esc(r.expected_price)+' · Qty: '+esc(r.quantity)+' · Location: '+esc(r.location)+'</p><p>Contact: '+esc(r.contact_name)+' · '+esc(r.contact_phone)+'</p>';
  if(kind==='machines')return '<p><b>'+esc(r.transaction_type)+' · '+esc(r.machine_category)+'</b></p><p>'+esc(r.brand_model_year)+'</p><p>'+esc(r.application_details||r.additional_details)+'</p><p>Price: '+esc(r.expected_price)+' · '+esc(r.location)+'</p><p>Contact: '+esc(r.seller_name)+' · '+esc(r.seller_phone)+'</p>';
  return '<p><b>'+esc(r.transaction_type)+' · '+esc(r.part_name)+'</b></p><p>'+esc(r.category)+' · '+esc(r.condition)+' · '+esc(r.details)+'</p><p>Price: '+esc(r.expected_price)+' · Qty: '+esc(r.quantity)+' · '+esc(r.location)+'</p><p>Contact: '+esc(r.contact_name)+' · '+esc(r.contact_phone)+'</p>';
 }
 function render(){
  if(!data.length){$('records').innerHTML='<p class="muted">No submissions yet.</p>';return}
- $('records').innerHTML=data.map(r=>'<article class="entry"><div class="row">'+(r.photo_url?'<img src="'+esc(r.photo_url)+'" alt="Listing photo">':Array.isArray(r.photo_urls)&&r.photo_urls[0]?'<img src="'+esc(r.photo_urls[0])+'" alt="Machine photo">':'')+'<div><b>'+esc(r.status).toUpperCase()+'</b><p class="muted">Submitted: '+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</p></div></div>'+details(r)+'<div class="row"><select data-id="'+esc(r.id)+'" aria-label="Listing status">'+['pending','approved','rejected','sold','archived'].map(s=>'<option '+(r.status===s?'selected':'')+'>'+s+'</option>').join('')+'</select><button data-save="'+esc(r.id)+'">Save status</button></div></article>').join('');
+ $('records').innerHTML=data.map(r=>'<article class="entry"><div class="row">'+(r.photo_url?'<img src="'+esc(r.photo_url)+'" alt="Listing photo">':Array.isArray(r.photo_urls)&&r.photo_urls[0]?'<img src="'+esc(r.photo_urls[0])+'" alt="Machine photo">':'')+'<div><b>'+esc(r.status).toUpperCase()+'</b><p class="muted">Submitted: '+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</p></div></div>'+details(r)+'<div class="row"><select data-id="'+esc(r.id)+'" aria-label="Listing status">'+(kind==='reviews'?['pending','approved','rejected']:['pending','approved','rejected','sold','archived']).map(s=>'<option '+(r.status===s?'selected':'')+'>'+s+'</option>').join('')+'</select><button data-save="'+esc(r.id)+'">Save status</button></div></article>').join('');
 }
 async function update(id){
  const sel=$('records').querySelector('select[data-id="'+CSS.escape(id)+'"]');if(!sel)return;
- const {error}=await db.from(tables[kind]).update({status:sel.value,updated_at:new Date().toISOString()}).eq('id',id);
+ const changes=kind==='reviews'?{status:sel.value}:{status:sel.value,updated_at:new Date().toISOString()};const {error}=await db.from(tables[kind]).update(changes).eq('id',id);
  if(error){msg('Update failed: '+error.message);return}msg('Status updated.');await load();
 }
 $('signin').addEventListener('click',signIn);$('refresh').addEventListener('click',load);

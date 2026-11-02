@@ -1164,7 +1164,7 @@
         <div class="section-head">
           <span class="eyebrow">Customer Feedback</span>
           <h2>Reviews & Suggestions</h2>
-          <p>Share feedback about your service experience. Feedback is sent directly to our WhatsApp for review; it is not published automatically.</p>
+          <p>Share feedback about your service experience. Reviews are saved for admin approval and are published only after approval.</p>
         </div>
 
         <div class="review-summary" hidden>
@@ -1186,7 +1186,7 @@
 
         <div class="review-form-wrap">
           <h3>Share Your Experience</h3>
-          <p class="notice" style="margin:6px 0 20px">Your feedback will open in WhatsApp so you can send it to us. It will not be published on this website automatically. Please do not include private or confidential information.</p>
+          <p class="notice" style="margin:6px 0 20px">Your review is sent to Sweksha for approval before it appears publicly. A WhatsApp message will also be prepared. Please do not include private or confidential information.</p>
           <form id="reviewForm">
             <div class="review-form-grid">
               <div>
@@ -1217,7 +1217,7 @@
                 <textarea id="reviewText" maxlength="1200" required placeholder="What was your experience? What should we improve?"></textarea>
               </div>
               <div class="full">
-                <button class="btn btn-primary" type="submit">Send Feedback on WhatsApp</button>
+                <button class="btn btn-primary" type="submit">Submit Review & Open WhatsApp</button>
                 <div id="reviewStatus" class="review-status" role="status" aria-live="polite"></div>
               </div>
             </div>
@@ -1514,7 +1514,7 @@ I will attach relevant photos/videos in WhatsApp if available. Please contact me
       window.open('https://wa.me/917827474249?text=' + encodeURIComponent(msg), '_blank', 'noopener');
       const status = document.getElementById('serviceRequestStatus');
       let publicKey = '';
-      try { publicKey = localStorage.getItem('sweksha_supabase_public_key') || ''; } catch (err) {}
+      try { publicKey = localStorage.getItem('sweksha_supabase_public_key') || 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf'; } catch (err) {}
       if (!publicKey) {
         status.textContent = 'WhatsApp opened. Please send the prepared message there to complete your enquiry.';
         return;
@@ -1646,16 +1646,22 @@ function renderReviews(reviews){
       return Array.isArray(reviews) ? reviews : initialReviews;
     }
 
-    function loadReviews(){
+    async function loadReviews(){
+      const url = 'https://xotqafgkubodqpirfpfb.supabase.co/rest/v1/reviews?select=name,rating,review,status,created_at&status=eq.approved&order=created_at.desc&limit=50';
       try{
-        renderReviews(getReviews().filter(review => review.approved === true));
+        const key = (()=>{try{return localStorage.getItem('sweksha_supabase_public_key') || 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf'}catch(e){return 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf'}})();
+        const response = await fetch(url,{headers:{apikey:key,Authorization:'Bearer '+key}});
+        if(!response.ok) throw new Error(await response.text());
+        const rows = await response.json();
+        renderReviews(rows.map(r=>({name:r.name,rating:r.rating,review_text:r.review})));
       }catch(err){
-        renderReviews(initialReviews.filter(review => review.approved === true));
-        setReviewStatus('This browser could not access saved reviews.');
+        try{renderReviews(getReviews().filter(review=>review.approved===true));}
+        catch(fallbackError){renderReviews(initialReviews.filter(review=>review.approved===true));}
+        setReviewStatus('Live reviews could not be loaded. Please try again later.');
       }
     }
 
-    document.getElementById('reviewForm').addEventListener('submit', function(e){
+    document.getElementById('reviewForm').addEventListener('submit', async function(e){
       e.preventDefault();
       const name = document.getElementById('reviewName').value.trim();
       const company = document.getElementById('reviewCompany').value.trim();
@@ -1663,16 +1669,29 @@ function renderReviews(reviews){
       const title = document.getElementById('reviewTitle').value.trim();
       const review_text = document.getElementById('reviewText').value.trim();
       if(!name || !rating || !review_text) return;
-      const msg = 'Hello Sweksha CVD Diamond Machine Service & Consulting,\n\nI would like to share feedback about your service.\n\nName: ' + name +
-        '\nCompany: ' + (company || 'Not provided') +
-        '\nRating: ' + rating + '/5' +
-        '\nTitle: ' + (title || 'Not provided') +
-        '\nFeedback: ' + review_text +
-        '\n\nPlease review my feedback. I understand it will not be published on the website automatically.';
+      const msg = 'Hello Sweksha CVD Diamond Machine Service & Consulting,\\n\\nI would like to share feedback about your service.\\n\\nName: ' + name +
+        '\\nCompany: ' + (company || 'Not provided') +
+        '\\nRating: ' + rating + '/5' +
+        '\\nTitle: ' + (title || 'Not provided') +
+        '\\nFeedback: ' + review_text +
+        '\\n\\nPlease review my feedback. It will only be published after approval.';
       const waUrl = 'https://wa.me/917827474249?text=' + encodeURIComponent(msg);
-      window.open(waUrl, '_blank', 'noopener');
-      setReviewStatus('WhatsApp opened with your feedback. Please send the message there.', 'success');
-      trackEvent('review_feedback_whatsapp', {rating});
+      const waTab = window.open('about:blank','_blank');
+      const key = (()=>{try{return localStorage.getItem('sweksha_supabase_public_key') || 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf'}catch(e){return 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf'}})();
+      try{
+        const response = await fetch('https://xotqafgkubodqpirfpfb.supabase.co/rest/v1/reviews',{
+          method:'POST',
+          headers:{'Content-Type':'application/json',apikey:key,Authorization:'Bearer '+key,Prefer:'return=minimal'},
+          body:JSON.stringify({name,rating,review:review_text,status:'pending'})
+        });
+        if(!response.ok) throw new Error(await response.text());
+        setReviewStatus('Thank you. Your review was saved and is waiting for Sweksha approval. Please send the WhatsApp message too.','success');
+        document.getElementById('reviewForm').reset();
+      }catch(err){
+        setReviewStatus('Database submission failed: '+err.message+'. WhatsApp is available as a backup.');
+      }
+      if(waTab){waTab.location.href=waUrl;waTab.opener=null;}else{window.location.href=waUrl;}
+      trackEvent('review_feedback_whatsapp',{rating});
     });
 
     loadReviews();

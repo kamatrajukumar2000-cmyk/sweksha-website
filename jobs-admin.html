@@ -17,7 +17,7 @@
 (()=>{'use strict';
 const URL='https://xotqafgkubodqpirfpfb.supabase.co',ADMIN='kamatrajukumar2000@gmail.com';
 const $=id=>document.getElementById(id);let db=null,kind='vacancies',data=[];
-try{const savedKey=localStorage.getItem('sweksha_supabase_public_key');if(savedKey)$('key').value=savedKey}catch(e){}
+try{$('key').value=localStorage.getItem('sweksha_supabase_public_key')||'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf'}catch(e){$('key').value='sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf'}
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function message(t){$('msg').textContent=t}
 async function signIn(){
@@ -33,25 +33,25 @@ async function signIn(){
 }
 async function load(){
  message('Loading '+(kind==='vacancies'?'vacancies':'candidate profiles')+'…');
- const table=kind==='vacancies'?'job_vacancies':'job_applications';
+ const table=kind==='vacancies'?'job_vacancies':'candidate_profiles';
  const {data:d,error}=await db.from(table).select('*').order('created_at',{ascending:false}).limit(500);
- if(error){message('Could not load records: '+error.message+' Check that jobs_hiring_compatibility.sql has been run.');$('records').innerHTML='';return}
+ if(error){message('Could not load records: '+error.message+' Check that supabase/compatibility_fixes.sql has been run in the existing project.');$('records').innerHTML='';return}
  data=d||[];message(data.length+' record(s)');render();
 }
 function render(){
  if(!data.length){$('records').innerHTML='<p class="muted">No submissions yet.</p>';return}
  $('records').innerHTML=data.map(r=>{
   const vacancy=kind==='vacancies';
-  const statusOptions=vacancy?['pending','approved','rejected','filled','archived']:['pending','reviewed','shortlisted','closed','rejected'];
+  const statusOptions=vacancy?['pending','approved','rejected','filled','archived']:['pending','approved','rejected'];
   const details=vacancy?
    '<p><b>'+esc(r.company_name)+'</b> · '+esc(r.location||r.work_location)+'</p><p>'+esc(r.description||r.responsibilities_skills)+'</p><p>Employment: '+esc(r.employment_type||'Not specified')+' · Pay: '+esc(r.salary_range||r.pay_range||'Not specified')+'</p><p>Contact: '+esc(r.contact_name||'')+' '+esc(r.contact_details||'')+'</p>':
-   '<p><b>Skills / role:</b> '+esc(r.role_skills)+'</p><p><b>Experience:</b> '+esc(r.experience_qualifications||'Not provided')+'</p><p><b>Preferred location:</b> '+esc(r.preferred_location)+'</p><p><b>Phone:</b> '+esc(r.phone)+'</p>';
+   '<p><b>Skills / role:</b> '+esc(r.role_skills)+'</p><p><b>Experience:</b> '+esc(r.experience||'Not provided')+'</p><p><b>Preferred location:</b> '+esc(r.preferred_location)+'</p><p><b>Phone:</b> '+esc(r.contact_whatsapp)+'</p>';
   return '<article class="entry"><h3>'+esc(vacancy?r.job_title:r.full_name)+'</h3>'+details+'<div class="row"><span class="muted">Submitted: '+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</span><select data-id="'+esc(r.id)+'" aria-label="Update status">'+statusOptions.map(s=>'<option '+(r.status===s?'selected':'')+'>'+s+'</option>').join('')+'</select><button data-save="'+esc(r.id)+'">Save status</button></div></article>';
  }).join('');
 }
 async function update(id){
  const sel=$('records').querySelector('select[data-id="'+CSS.escape(id)+'"]');if(!sel)return;
- const table=kind==='vacancies'?'job_vacancies':'job_applications';
+ const table=kind==='vacancies'?'job_vacancies':'candidate_profiles';
  const {error}=await db.from(table).update({status:sel.value}).eq('id',id);
  if(error){message('Update failed: '+error.message);return}
  message('Status updated.');await load();
