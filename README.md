@@ -1,4 +1,4 @@
-# Sweksha Fondation Club
+# Sweksha Foundation Club
 
 This is a static website. Open `index.html` in a browser; no Node.js installation or build step is required.
 
