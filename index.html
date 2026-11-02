@@ -44,6 +44,14 @@
     .navlinks a.nav-login{border:1px solid var(--accent);color:var(--accent);padding:8px 12px;border-radius:8px;font-weight:800}
     .navlinks a.nav-login:hover{background:rgba(35,199,183,.12);color:#fff}
     .navlinks a.nav-cta:hover{background:#63d9cd;color:#041116}
+    .nav-action-menu{position:relative}
+    .nav-action-menu>summary{list-style:none;cursor:pointer;background:var(--accent);color:#041116;padding:9px 13px;border-radius:8px;font-size:13px;font-weight:800;white-space:nowrap}
+    .nav-action-menu>summary::-webkit-details-marker{display:none}
+    .nav-action-menu>summary:after{content:" ▾";font-size:11px}
+    .nav-action-menu[open]>summary{background:#63d9cd}
+    .nav-action-dropdown{position:absolute;right:0;top:calc(100% + 10px);min-width:205px;padding:8px;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 14px 35px rgba(0,0,0,.2);display:grid;gap:3px;z-index:40}
+    .navlinks .nav-action-dropdown a{display:block;padding:11px 12px;border-radius:8px;color:#182333;font-size:13px;font-weight:700}
+    .navlinks .nav-action-dropdown a:hover{background:#e9faf7;color:#087f73}
     .menu{display:none;background:none;border:0;color:#fff;font-size:27px}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:9px;font-weight:700;border:1px solid transparent;cursor:pointer}
     .btn-primary{background:var(--accent);color:#041116}
@@ -120,6 +128,9 @@
     @media(max-width:850px){
       .navlinks{display:none;position:absolute;top:72px;left:0;right:0;background:var(--dark);padding:20px;flex-direction:column;align-items:flex-start}
       .navlinks.open{display:flex}.menu{display:block}
+      .nav-action-menu{width:100%}
+      .nav-action-menu>summary{display:inline-block}
+      .nav-action-dropdown{position:static;margin-top:9px;width:100%;box-shadow:none}
       .hero-grid,.about,.form-wrap{grid-template-columns:1fr}
       .grid3{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}
     }
@@ -272,8 +283,14 @@
           <a href="diamond-trading.html">Diamond Trading</a>
           <a href="jobs.html">Jobs</a>
           <a href="#defects">Technical Guides</a>
-          <a class="nav-login" href="ai-business-manager.html" aria-label="Admin login and dashboard">Login / Dashboard</a>
-          <a class="nav-cta" href="#request">Request Support</a>
+          <details class="nav-action-menu">
+            <summary aria-label="Open About Us, Login and Request Support menu">Request Support</summary>
+            <div class="nav-action-dropdown">
+              <a href="#about">About Us</a>
+              <a href="ai-business-manager.html">Login / Dashboard</a>
+              <a href="#request">Request Support</a>
+            </div>
+          </details>
         </div>
       </nav>
     </div>
