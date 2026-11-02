@@ -230,6 +230,84 @@
       .float-wa { right:12px; }
     }
 
+  
+    /* ===== SWEKSHA PREMIUM DIAMOND VISUAL THEME ===== */
+    :root{
+      --dark:#071426;
+      --dark2:#102a43;
+      --accent:#20c8b8;
+      --accent2:#9af0e4;
+      --gold:#e7b85c;
+      --white:#fff;
+      --text:#17283a;
+      --muted:#63758a;
+      --light:#f2f7fb;
+      --border:#d9e5ee;
+      --shadow:0 16px 42px rgba(7,20,38,.09);
+    }
+    body{background:#f8fbfd;color:var(--text)}
+    .topbar{background:linear-gradient(90deg,#050d18,#102a43);color:#dce8f2}
+    header{background:rgba(5,16,31,.97);border-bottom:1px solid rgba(231,184,92,.25)}
+    .brand{letter-spacing:.35px}
+    .brand span{color:var(--gold)}
+    .navlinks a:hover{color:var(--gold)}
+    .navlinks a.nav-cta,.nav-action-menu>summary{
+      background:linear-gradient(135deg,#20c8b8,#8ce6da);
+      color:#06202a;box-shadow:0 5px 16px rgba(32,200,184,.18)
+    }
+    .navlinks a.nav-login{border-color:var(--gold);color:var(--gold)}
+    .navlinks a.nav-login:hover{background:rgba(231,184,92,.12);color:#fff}
+    .nav-action-menu>summary:hover,.nav-action-menu[open]>summary{
+      background:linear-gradient(135deg,#f0cf82,#d9a943);color:#17283a
+    }
+    .nav-action-dropdown{border:1px solid rgba(231,184,92,.4);box-shadow:0 18px 42px rgba(5,16,31,.24)}
+    .navlinks .nav-action-dropdown a:hover{background:#fff6e5;color:#8a5b0b}
+    .hero{background:#061426}
+    .hero-slide{background-image:linear-gradient(115deg,rgba(3,12,25,.78),rgba(3,12,25,.38)),url("./cvd-plant-banner.jpg.png")}
+    .hero-slide-setup,.hero-slide-troubleshooting,.hero-slide-process{background-image:linear-gradient(115deg,rgba(3,12,25,.78),rgba(3,12,25,.38)),url("./cvd-plant-banner.jpg.png")}
+    .eyebrow{color:var(--gold)}
+    .hero-card{background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(32,200,184,.07));border-color:rgba(231,184,92,.35);backdrop-filter:blur(8px)}
+    .check b{color:var(--gold)}
+    .btn{transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:linear-gradient(135deg,#20c8b8,#8ce6da);box-shadow:0 8px 20px rgba(32,200,184,.18)}
+    .btn-primary:hover{background:linear-gradient(135deg,#f0cf82,#d9a943);box-shadow:0 10px 24px rgba(231,184,92,.22)}
+    .btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+    section{position:relative}
+    .section-head h2{color:#102a43;letter-spacing:-.7px}
+    .section-head .eyebrow{color:#a97922}
+    .card,.step,.machine-market-card,.faq-item,.review-form-wrap,form{
+      border-color:#dce7ef;box-shadow:0 12px 32px rgba(7,20,38,.065);
+      transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease
+    }
+    .card:hover,.machine-market-card:hover,.faq-item:hover{
+      transform:translateY(-4px);border-color:rgba(32,200,184,.55);
+      box-shadow:0 18px 42px rgba(7,20,38,.12)
+    }
+    .card .icon,.machine-market-icon{background:linear-gradient(145deg,#e4fbf7,#fff4dc);color:#087f73}
+    .band,#reviews,#machine-market{background:linear-gradient(180deg,#eef5fa 0%,#fbfdff 100%)}
+    .about-box,.contact-panel,.rating-box{
+      background:linear-gradient(145deg,#071426 0%,#123451 72%,#15505a 100%);
+      border:1px solid rgba(231,184,92,.3);box-shadow:0 18px 42px rgba(7,20,38,.13)
+    }
+    .about-box .big,.rating-number{color:var(--gold)}
+    .step{border-top-color:var(--gold)}
+    .step:before{background:linear-gradient(135deg,#102a43,#071426);color:var(--gold)}
+    input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(32,200,184,.15)}
+    .map-link,footer a{color:var(--gold)}
+    .float-wa{box-shadow:0 10px 28px rgba(7,20,38,.25);border:2px solid rgba(255,255,255,.75)}
+    .faq-item summary:after{color:#b17b20}
+    .machine-market-tags span{border-color:#f0dfb9;background:#fffaf0;color:#815a16}
+    footer{background:linear-gradient(110deg,#040c17,#102a43);border-top:2px solid rgba(231,184,92,.35)}
+    #sweksha-assist-toggle{background:linear-gradient(135deg,#20c8b8,#8ce6da);color:#06202a}
+    .sweksha-assist-head{background:linear-gradient(110deg,#071426,#123451);border-bottom:2px solid var(--gold)}
+    .sweksha-assist-options button:hover{border-color:var(--gold);background:#fff8e9}
+    #sweksha-assist-form button{background:linear-gradient(135deg,#20c8b8,#8ce6da);color:#06202a}
+    @media(prefers-reduced-motion:reduce){
+      .btn,.card,.machine-market-card,.faq-item{transition:none}
+      .btn:hover,.card:hover,.machine-market-card:hover,.faq-item:hover{transform:none}
+    }
+
   </style>
 
   <script type="application/ld+json">
