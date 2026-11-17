@@ -1703,19 +1703,19 @@ function renderReviews(reviews){
       const reviewText = document.getElementById('reviewText').value.trim();
       if (!name || !Number.isInteger(rating) || rating < 1 || rating > 5 || !reviewText) return;
 
-      const whatsappMessage = 'Hello Sweksha CVD Diamond Machine Service & Consulting,\\n\\nI would like to share feedback about your service.\\n\\nName: ' + name +
-        '\\nCompany: ' + (company || 'Not provided') +
-        '\\nRating: ' + rating + '/5' +
-        '\\nTitle: ' + (title || 'Not provided') +
-        '\\nFeedback: ' + reviewText +
-        '\\n\\nPlease review my feedback. It will only be published after approval.';
+      const whatsappMessage = 'Hello Sweksha CVD Diamond Machine Service & Consulting,\n\nI would like to share feedback about your service.\n\nName: ' + name +
+        '\nCompany: ' + (company || 'Not provided') +
+        '\nRating: ' + rating + '/5' +
+        '\nTitle: ' + (title || 'Not provided') +
+        '\nFeedback: ' + reviewText +
+        '\n\nPlease review my feedback. It will only be published after approval.';
       window.open('https://wa.me/917827474249?text=' + encodeURIComponent(whatsappMessage), '_blank', 'noopener');
 
       const key = (() => {
         try { return localStorage.getItem('sweksha_supabase_public_key') || 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf'; }
         catch (err) { return 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf'; }
       })();
-      const reviewBody = [title ? 'Title: ' + title : '', company ? 'Company: ' + company : '', reviewText].filter(Boolean).join('\\n');
+      const reviewBody = [title ? 'Title: ' + title : '', company ? 'Company: ' + company : '', reviewText].filter(Boolean).join('\n');
       button.disabled = true;
       setReviewStatus('Submitting your review for Sweksha approval…');
       try {
