@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kamatrajukumar2000-cmyk.github.io/sweksha-website/sitemap.xml
+Sitemap: https://swekshacvd.com/sitemap.xml
