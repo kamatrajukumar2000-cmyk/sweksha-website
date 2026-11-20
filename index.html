@@ -284,6 +284,11 @@
 .cvd-growth-story-head .eyebrow{color:#087f73;font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:12px}
 .cvd-growth-story-head h2{margin:8px 0;font-size:clamp(23px,3vw,32px)}
 .cvd-growth-story-head p{color:#536575;margin:0}
+.cvd-setup-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:12px 12px 0}
+.cvd-setup-gallery figure{margin:0;min-width:0;background:#f4f7f9;border-radius:10px;overflow:hidden}
+.cvd-setup-gallery img{display:block;width:100%;height:150px;object-fit:contain;background:#fff;padding:5px}
+.cvd-setup-gallery figcaption{padding:7px 5px;text-align:center;font-size:12px;font-weight:800;color:#18344a}
+@media(max-width:520px){.cvd-setup-gallery{grid-template-columns:1fr}.cvd-setup-gallery img{height:190px}}
 .cvd-growth-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .cvd-growth-step{background:#fff;border:1px solid #dce7ed;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(7,17,31,.07);min-width:0}
 .cvd-growth-step img{width:100%;height:220px;object-fit:contain;background:#f7fafc;display:block;padding:12px}
@@ -566,9 +571,13 @@
    <img src="https://shopcdnpro.grainajz.com/category/43456/877/d9a44b5e7ab6aba5951187ad7d7c0f80/1%E7%B1%BD%E6%99%B6%20%281%29.jpg" alt="Diamond seed plate prepared for CVD growth" loading="lazy">
    <div class="cvd-growth-step-body"><span class="step-number">STEP 01 · DIAMOND SEED</span><h3>Seed Preparation</h3><p>A thin single-crystal diamond plate is selected, cleaned and prepared. This seed is the starting surface for CVD growth. The CVD machine does not create the seed; the prepared seed is placed inside the reactor.</p></div>
   </article>
-  <article class="cvd-growth-step">
-   <img src="https://shopcdnpro.grainajz.com/category/43456/877/7d59c6e0af3d14cb805a2d7a6172c2dd/banner1.jpg" alt="MPCVD reactor equipment used for diamond growth" loading="lazy">
-   <div class="cvd-growth-step-body"><span class="step-number">STEP 02 · SWEKSHA CVD PROCESS</span><h3>Reactor Setup and Growth</h3><p>The seed is fixed on a holder inside the chamber. The chamber is evacuated and the cooling, gas supply, pressure control and safety systems are checked. Hydrogen and a carbon-containing gas are introduced at controlled settings. Microwave energy creates plasma and activates the gas for diamond deposition.</p></div>
+  <article class="cvd-growth-step cvd-setup-card">
+   <div class="cvd-setup-gallery" aria-label="SEKI diamond CVD machine photographs">
+    <figure><img src="https://sekidiamond.com/wp-content/uploads/SDS-6K-900sq.jpg" alt="SEKI SDS 6K microwave plasma CVD system" loading="lazy"><figcaption>SEKI SDS 6K</figcaption></figure>
+    <figure><img src="https://e6-prd-cdn-01.azureedge.net/mediacontainer/medialibraries/element6/images/news/sds-e600.png" alt="SEKI SDS-E600 CVD reactor" loading="lazy"><figcaption>SEKI SDS-E600</figcaption></figure>
+    <figure><img src="https://sekidiamond.com/wp-content/uploads/AX5010-INT-from-right-SQ-900.jpg" alt="SEKI AX5010-INT CVD system" loading="lazy"><figcaption>SEKI AX5010-INT</figcaption></figure>
+   </div>
+   <div class="cvd-growth-step-body"><span class="step-number">STEP 02 · SWEKSHA CVD PROCESS</span><h3>SEKI Machine Setup and Diamond Growth</h3><p>SEKI machine photographs are shown here as examples of MPCVD systems. The seed is fixed on a holder inside the chamber. Before operation, check chamber condition, cooling, gas supply, vacuum, pressure control and safety interlocks. Use only the verified recipe and limits for the exact machine model.</p></div>
   </article>
   <article class="cvd-growth-step">
    <img src="https://shopcdnpro.grainajz.com/category/43456/877/eddcee5092f28894b870c65ee0818b7c/1CVD%20Rough%20Diamond%20%281%29.jpg" alt="Uncut as-grown CVD rough diamond crystal" loading="lazy">
