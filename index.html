@@ -306,20 +306,27 @@
 @media(max-width:520px){.cvd-growth-story{padding:17px}.cvd-growth-steps{grid-template-columns:1fr}.cvd-growth-step:last-child{grid-column:auto}.cvd-growth-step img{height:205px}}
 
 
-/* Compact, expandable diamond-seed card */
-.cvd-seed-card{align-self:start}
-.cvd-seed-details{width:100%}
+/* SWEKSHA 3D Diamond Seed Gallery */
+.cvd-seed-card{align-self:start;perspective:1200px}
+.cvd-seed-details{width:100%;border:1px solid rgba(35,199,183,.35);border-radius:20px;overflow:hidden;background:linear-gradient(145deg,#071a31 0%,#0b3650 55%,#087f83 100%);box-shadow:0 18px 42px rgba(3,18,35,.24),inset 0 1px 0 rgba(255,255,255,.16);color:#f4fbff;transform-style:preserve-3d;transition:transform .35s ease,box-shadow .35s ease}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){.cvd-seed-details:hover{transform:translateY(-7px) rotateX(2deg);box-shadow:0 28px 55px rgba(3,18,35,.32),0 0 24px rgba(35,199,183,.16)}}
 .cvd-seed-summary{list-style:none;cursor:pointer;display:flex;flex-direction:column;gap:0;outline-offset:-4px}
 .cvd-seed-summary::-webkit-details-marker{display:none}
-.cvd-seed-preview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:8px;background:#f7fafc}
-.cvd-seed-preview img{width:100%;height:76px;object-fit:contain;background:#fff;border:1px solid #e2eaf0;border-radius:7px;padding:3px}
-.cvd-seed-summary-text{display:flex;flex-direction:column;gap:5px;padding:10px 12px 12px}
-.cvd-seed-summary-text strong{font-size:16px;line-height:1.25;color:#18344a}
-.cvd-seed-hint{font-size:12px;color:#087f73;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+.cvd-seed-preview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;padding:15px;background:radial-gradient(ellipse at 50% 0%,rgba(35,199,183,.22),transparent 70%),linear-gradient(135deg,#0a2038,#0b4055)}
+.cvd-seed-preview img{width:100%;height:112px;object-fit:contain;background:linear-gradient(145deg,#f8fdff,#dceef4);border:1px solid rgba(139,231,220,.65);border-radius:12px;padding:7px;box-shadow:0 9px 18px rgba(0,0,0,.25);animation:seedFloat 5s ease-in-out infinite;transition:transform .3s ease,box-shadow .3s ease}
+.cvd-seed-preview img:nth-child(2){animation-delay:.7s}.cvd-seed-preview img:nth-child(3){animation-delay:1.4s}
+@keyframes seedFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@media(hover:hover) and (pointer:fine){.cvd-seed-preview img:hover{transform:translateY(-5px) scale(1.045);box-shadow:0 15px 25px rgba(0,0,0,.32)}}
+.cvd-seed-summary-text{display:flex;flex-direction:column;gap:7px;padding:17px 18px 19px}
+.cvd-seed-summary-text .step-number{color:#8be7dc}
+.cvd-seed-summary-text strong{font-size:19px;line-height:1.25;color:#fff}
+.cvd-seed-hint{font-size:12px;color:#aaf4e9;font-weight:700;display:flex;justify-content:space-between;align-items:center}
 .cvd-seed-details[open] .cvd-seed-hint span{transform:rotate(45deg)}
-.cvd-seed-science{border-top:1px solid #e2eaf0}
-.cvd-seed-science p{line-height:1.65;margin-bottom:12px}
-@media(max-width:760px){.cvd-seed-preview img{height:88px}}
+.cvd-seed-science{border-top:1px solid rgba(139,231,220,.3);background:linear-gradient(160deg,#f4fbff,#eaf7f8);color:#18344a;padding:22px}
+.cvd-seed-science h3{color:#0b5260;margin-bottom:12px}
+.cvd-seed-science p{line-height:1.75;margin-bottom:14px;color:#334e60}
+@media(max-width:760px){.cvd-seed-preview{gap:7px;padding:11px}.cvd-seed-preview img{height:100px}}
+@media(prefers-reduced-motion:reduce){.cvd-seed-preview img{animation:none!important;transition:none!important}.cvd-seed-details{transition:none!important}}
 
 </style>
 
