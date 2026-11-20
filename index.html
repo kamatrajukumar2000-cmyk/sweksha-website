@@ -261,7 +261,23 @@
 
   
 
-  </style>
+  
+/* Smooth, touch-friendly machine card carousel */
+.machine-carousel-shell{position:relative;margin:22px 0 8px}
+.machine-carousel-shell .machine-carousel-track{display:flex!important;gap:20px;overflow-x:auto;overflow-y:visible;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:14px 5px 24px;scrollbar-width:thin;overscroll-behavior-x:contain}
+.machine-carousel-shell .machine-market-card,.machine-carousel-shell .category-photo-card{flex:0 0 calc((100% - 40px)/3);min-width:0;scroll-snap-align:start;transition:transform .35s ease,box-shadow .35s ease}
+.machine-carousel-shell .machine-market-card:hover,.machine-carousel-shell .category-photo-card:hover{transform:translateY(-7px) scale(1.012);box-shadow:0 18px 42px rgba(7,17,31,.16)}
+.machine-carousel-controls{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin:0 4px 4px}
+.machine-carousel-controls button{width:42px;height:42px;border:1px solid var(--border,#dce5ec);border-radius:50%;background:#fff;color:#087f73;font-size:23px;line-height:1;cursor:pointer;box-shadow:0 5px 16px rgba(7,17,31,.09);transition:transform .2s ease,background .2s ease}
+.machine-carousel-controls button:hover{background:#e5faf7;transform:scale(1.08)}
+.machine-carousel-controls button:focus-visible{outline:3px solid #16a394;outline-offset:3px}
+.machine-carousel-track::-webkit-scrollbar{height:7px}
+.machine-carousel-track::-webkit-scrollbar-thumb{background:#a9c9c4;border-radius:10px}
+@media(max-width:760px){.machine-carousel-shell .machine-market-card,.machine-carousel-shell .category-photo-card{flex-basis:calc((100% - 20px)/2)}}
+@media(max-width:520px){.machine-carousel-shell .machine-market-card,.machine-carousel-shell .category-photo-card{flex-basis:88%}.machine-carousel-track{gap:14px!important}}
+@media(prefers-reduced-motion:reduce){.machine-carousel-track{scroll-behavior:auto}.machine-carousel-shell .machine-market-card,.machine-carousel-shell .category-photo-card{transition:none}}
+
+</style>
 
   <script type="application/ld+json">
   {
@@ -1896,5 +1912,32 @@ function renderReviews(reviews){
     })();
   </script>
 
+
+<script id="sweksha-machine-carousel-motion">
+(function(){
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ document.querySelectorAll('.machine-market-grid, .category-photo-grid').forEach(function(track,index){
+   if(track.dataset.carouselReady==='1')return;
+   track.dataset.carouselReady='1';
+   track.classList.add('machine-carousel-track');
+   const shell=document.createElement('div');shell.className='machine-carousel-shell';
+   track.parentNode.insertBefore(shell,track);shell.appendChild(track);
+   const controls=document.createElement('div');controls.className='machine-carousel-controls';
+   controls.innerHTML='<button type="button" aria-label="Previous machine cards">&#8249;</button><button type="button" aria-label="Next machine cards">&#8250;</button>';
+   shell.insertBefore(controls,track);
+   const buttons=controls.querySelectorAll('button');
+   function step(){const card=track.querySelector(':scope > article');return card?card.getBoundingClientRect().width+parseFloat(getComputedStyle(track).gap||20):track.clientWidth;}
+   function move(dir){const max=track.scrollWidth-track.clientWidth;if(dir>0&&track.scrollLeft>=max-8)track.scrollTo({left:0,behavior:'smooth'});else if(dir<0&&track.scrollLeft<=8)track.scrollTo({left:max,behavior:'smooth'});else track.scrollBy({left:dir*step(),behavior:'smooth'});}
+   buttons[0].addEventListener('click',()=>move(-1));buttons[1].addEventListener('click',()=>move(1));
+   let timer=null;
+   function start(){if(timer)clearInterval(timer);timer=setInterval(()=>move(1),3600);}
+   function stop(){if(timer){clearInterval(timer);timer=null;}}
+   shell.addEventListener('mouseenter',stop);shell.addEventListener('mouseleave',start);
+   shell.addEventListener('focusin',stop);shell.addEventListener('focusout',start);
+   track.addEventListener('touchstart',stop,{passive:true});track.addEventListener('touchend',start,{passive:true});
+   start();
+ });
+})();
+</script>
 </body>
 </html>
