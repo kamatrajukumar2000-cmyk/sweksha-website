@@ -1507,7 +1507,7 @@
     document.getElementById('year').textContent = new Date().getFullYear();
 
     document.getElementById('serviceForm').addEventListener('submit', function(e){
-      trackEvent('service_request_submit', {method: 'whatsapp_form'});
+      // Conversion is recorded only after the enquiry is successfully saved to Supabase.
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
       const company = document.getElementById('company').value.trim();
@@ -1562,6 +1562,13 @@ I will attach relevant photos/videos in WhatsApp if available. Please contact me
       }).then(function(response) {
         if (!response.ok) throw new Error('save failed');
         status.textContent = 'Request opened in WhatsApp and saved to the enquiry database.';
+        // GTM custom event: fire only after Supabase confirms a successful insert.
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'sweksha_service_enquiry_saved',
+          enquiry_type: 'service',
+          submission_method: 'website_form'
+        });
       }).catch(function() {
         status.textContent = 'WhatsApp opened, but database saving failed. Please send the request on WhatsApp.';
       });
