@@ -51,6 +51,7 @@ grant insert on table public.enquiries to anon;
 grant select, update on table public.enquiries to authenticated;
 
 -- Allow public website visitors to submit enquiries only.
+-- Uses the live enquiries columns: name, email, whatsapp, subject, message.
 -- Anonymous visitors cannot SELECT, UPDATE, or DELETE customer enquiries.
 drop policy if exists "Public can submit enquiries" on public.enquiries;
 create policy "Public can submit enquiries"
@@ -58,8 +59,9 @@ on public.enquiries
 for insert
 to anon
 with check (
-  enquiry_type in ('machine_part','diamond_seed','rough_diamond','job_seeker','employer','general')
-  and length(trim(name)) between 2 and 120
-  and length(trim(contact_details)) between 5 and 300
+  length(trim(name)) between 2 and 120
+  and (email is null or length(trim(email)) <= 254)
+  and length(trim(whatsapp)) between 5 and 50
+  and length(trim(subject)) between 2 and 300
   and length(trim(message)) between 5 and 5000
 );
