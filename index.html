@@ -1743,12 +1743,15 @@ I will attach relevant photos/videos in WhatsApp if available. Please contact me
         status.textContent = 'WhatsApp opened. Please send the prepared message there to complete your enquiry.';
         return;
       }
+      // Match the actual public.enquiries schema: enquiry_type, name, contact_details, message.
       const record = {
+        enquiry_type: 'general',
         name: name,
-        email: null,
-        whatsapp: contact,
-        subject: service + ' — ' + machine + (company ? ' — ' + company : ''),
-        message: 'Problem: ' + problem + '\nRecent changes: ' + (recentChanges || 'Not provided') + '\nDefect reference: ' + (defectSearchValue || 'Not specified')
+        contact_details: 'WhatsApp: ' + contact + (company ? '\nCompany: ' + company : ''),
+        message: 'Service required: ' + service + '\nMachine type / model: ' + machine +
+          '\nProblem: ' + problem +
+          '\nRecent changes: ' + (recentChanges || 'Not provided') +
+          '\nDefect reference: ' + (defectSearchValue || 'Not specified')
       };
       fetch('https://xotqafgkubodqpirfpfb.supabase.co/rest/v1/enquiries', {
         method: 'POST',
