@@ -1758,12 +1758,19 @@ I will attach relevant photos/videos in WhatsApp if available. Please contact me
       };
       fetch('https://xotqafgkubodqpirfpfb.supabase.co/rest/v1/enquiries', {
         method: 'POST',
-        headers: {
-          'apikey': publicKey,
-          'Authorization': 'Bearer ' + publicKey,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
+        headers: (function(){
+          const requestHeaders = {
+            'apikey': publicKey,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          };
+          // New sb_publishable keys belong in apikey only; legacy anon JWT keys
+          // continue to use Authorization for backward compatibility.
+          if (!publicKey.startsWith('sb_publishable_')) {
+            requestHeaders['Authorization'] = 'Bearer ' + publicKey;
+          }
+          return requestHeaders;
+        })(),
         body: JSON.stringify(record)
       }).then(function(response) {
         if (!response.ok) throw new Error('save failed');
