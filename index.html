@@ -1768,6 +1768,8 @@ I will attach relevant photos/videos in WhatsApp if available. Please contact me
       }).then(function(response) {
         if (!response.ok) throw new Error('save failed');
         status.textContent = 'Request opened in WhatsApp and saved to the enquiry database.';
+        // Preserve the existing GA4 event, but record it only after the database save succeeds.
+        trackEvent('service_request_submit', {method: 'whatsapp_form'});
         // GTM custom event: fire only after Supabase confirms a successful insert.
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
