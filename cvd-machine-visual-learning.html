@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CVD / MPCVD Machine Visual Learning Centre | SWEKSHA</title>
+<meta name="description" content="Illustrative CVD / MPCVD machine system diagrams and technical learning guides covering vacuum, gas flow, microwave power, plasma, cooling and controls.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://swekshacvd.com/cvd-machine-visual-learning.html">
+<meta property="og:type" content="website"><meta property="og:title" content="CVD / MPCVD Machine Visual Learning Centre | SWEKSHA">
+<meta property="og:description" content="Understand major CVD / MPCVD machine systems through clear illustrative diagrams and technical learning guides.">
+<meta property="og:url" content="https://swekshacvd.com/cvd-machine-visual-learning.html">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f7fa;color:#182333;font:16px/1.65 Arial,sans-serif}
+header{background:#07111f;color:#fff;padding:20px max(5%,calc((100% - 1120px)/2))}header a{color:#8be7dc;text-decoration:none}
+main{max-width:1120px;margin:34px auto;padding:0 20px}.hero,.section{background:#fff;border:1px solid #dfe7ef;border-radius:18px;padding:clamp(22px,4vw,42px);box-shadow:0 12px 35px #07111f0d;margin-bottom:22px}
+.eyebrow{color:#087c80;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px}
+h1{font-size:clamp(30px,5vw,48px);line-height:1.12;color:#07111f;margin:10px 0 16px}h2{color:#0b5260;margin-top:0}h3{color:#17394b}.lead{font-size:18px;max-width:850px}
+.notice{background:#fff7e7;border-left:4px solid #e4a23c;padding:14px 17px;border-radius:8px}
+.diagram-wrap{background:linear-gradient(145deg,#081a2a,#102e40);border-radius:16px;padding:clamp(8px,2vw,22px);overflow:hidden}
+svg{display:block;width:100%;height:auto;max-height:600px}.chamber{fill:#dce8ef;stroke:#85a8b9;stroke-width:3}.metal{fill:#9fb5c2;stroke:#d8e6ed;stroke-width:2}
+.pipe{fill:none;stroke:#59d6c5;stroke-width:5;stroke-linecap:round;stroke-dasharray:10 12;animation:flow 2.4s linear infinite}
+.vac{fill:none;stroke:#8bc8ff;stroke-width:5;stroke-linecap:round;stroke-dasharray:8 11;animation:flow 2s linear infinite}
+.energy{fill:none;stroke:#f6c66c;stroke-width:5;stroke-linecap:round;stroke-dasharray:5 10;animation:flow 1.6s linear infinite}
+.plasma{fill:#56e3d3;opacity:.7;filter:drop-shadow(0 0 12px #56e3d3);transform-origin:500px 260px;animation:pulse 2.2s ease-in-out infinite}
+.label{fill:#fff;font:700 16px Arial}.small{fill:#b8d1dc;font:13px Arial}
+@keyframes flow{to{stroke-dashoffset:-44}}@keyframes pulse{0%,100%{opacity:.4;transform:scale(.92)}50%{opacity:.9;transform:scale(1.08)}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.tile{border:1px solid #dfe7ef;border-radius:13px;padding:18px;background:#fbfdfe}.tile h3{margin:0 0 8px}.tile p{margin:0;color:#536477}
+.cta{display:inline-block;background:#23c7b7;color:#07111f;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:8px;margin:8px 10px 0 0}
+footer{color:#647184;font-size:14px;padding:8px 0 28px}
+@media(prefers-reduced-motion:reduce){.pipe,.vac,.energy,.plasma{animation:none}}
+</style>
+</head>
+<body>
+<header><strong>SWEKSHA FOUNDATION CLUB</strong><p><a href="./">Home</a> · <a href="machine-service-details.html">Machine Service</a> · <a href="helium-leak-testing.html">Helium Leak Testing</a></p></header>
+<main>
+<section class="hero">
+<p class="eyebrow">Technical Knowledge · Visual Learning</p>
+<h1>Understand Your CVD / MPCVD Machine Systems</h1>
+<p class="lead">Explore a simplified visual overview of the major systems found in many CVD / MPCVD diamond-growth platforms. Learn what each system does, what symptoms may indicate a problem, and what information to collect before requesting technical support.</p>
+<p class="notice"><strong>Illustration notice:</strong> This is an educational, simplified system diagram—not a photograph, exact engineering drawing, wiring diagram or representation of a specific SEKI, i-Plus or Z-XIX model. Actual machine layouts and specifications vary.</p>
+</section>
+<section class="section">
+<h2>Animated system overview</h2>
+<p>The moving paths represent conceptual gas flow, vacuum connection and power input. They are not live measurements or operating instructions.</p>
+<div class="diagram-wrap">
+<svg viewBox="0 0 1000 520" role="img" aria-labelledby="diagramTitle diagramDesc">
+<title id="diagramTitle">Illustrative CVD and MPCVD machine system overview</title><desc id="diagramDesc">A conceptual chamber connected to gas delivery, vacuum pumping, microwave or RF power, cooling and control systems.</desc>
+<rect x="355" y="145" width="290" height="220" rx="30" class="chamber"/>
+<rect x="415" y="190" width="170" height="130" rx="18" class="metal"/>
+<ellipse cx="500" cy="255" rx="55" ry="38" class="plasma"/>
+<path d="M500 365 V420 H690" class="vac"/><rect x="690" y="390" width="190" height="65" rx="12" class="metal"/>
+<path d="M150 220 H355" class="pipe"/><rect x="35" y="180" width="115" height="80" rx="12" class="metal"/>
+<path d="M500 65 V145" class="energy"/><rect x="420" y="18" width="160" height="48" rx="10" class="metal"/>
+<path d="M645 190 H810 V145" class="pipe"/><rect x="760" y="75" width="190" height="70" rx="12" class="metal"/>
+<path d="M355 335 H205 V420" class="vac"/><rect x="100" y="420" width="210" height="60" rx="12" class="metal"/>
+<text x="92" y="168" class="label">Gas delivery</text><text x="92" y="213" class="small">MFC / valves</text>
+<text x="445" y="48" class="label" style="fill:#102e40">Power input</text>
+<text x="775" y="62" class="label">Cooling loop</text><text x="785" y="115" class="small">Heat removal</text>
+<text x="690" y="480" class="label">Vacuum pump</text>
+<text x="115" y="405" class="label">Controls</text><text x="115" y="455" class="small">PLC / HMI / sensors</text>
+<text x="420" y="175" class="label" style="fill:#102e40">Process chamber</text>
+<text x="463" y="270" class="label" style="fill:#072b36">Plasma</text>
+<text x="405" y="390" class="small">Illustrative connections only</text>
+</svg>
+</div>
+<p><strong>How to read it:</strong> green dashed paths indicate conceptual gas/cooling connections, blue paths indicate vacuum-related connections, and the gold path indicates a conceptual power input. Actual equipment may route these systems differently.</p>
+</section>
+<section class="section">
+<h2>Explore the main machine systems</h2>
+<div class="grid">
+<div class="tile"><h3>1. Vacuum system</h3><p>Chamber, vacuum pump, valves, gauges and leak integrity. Record pressure readings, pump status and when the issue occurs.</p></div>
+<div class="tile"><h3>2. Gas delivery</h3><p>Gas supply, regulators, tubing, valves and mass-flow controllers. Record setpoints, displayed readings and alarms; never change gas settings without an approved procedure.</p></div>
+<div class="tile"><h3>3. Microwave / RF power</h3><p>Power source, transmission path and matching components vary by platform. High voltage and microwave energy require trained, authorized personnel.</p></div>
+<div class="tile"><h3>4. Plasma and chamber</h3><p>Plasma behaviour depends on the complete process and machine configuration. Document visual changes and alarms without opening or bypassing safety systems.</p></div>
+<div class="tile"><h3>5. Cooling system</h3><p>Cooling circuits remove heat from selected components. Note flow/temperature alarms and visible leaks; follow the manufacturer's shutdown procedure.</p></div>
+<div class="tile"><h3>6. PLC / HMI and sensors</h3><p>Controls coordinate interlocks, monitoring and sequences. Capture exact alarm text and sensor readings before requesting diagnosis.</p></div>
+</div>
+</section>
+<section class="section">
+<h2>Technical learning library</h2>
+<div class="grid">
+<div class="tile"><h3>Vacuum & helium leak testing</h3><p>Learn the purpose of leak testing, vacuum trends and safe fault documentation.</p><a href="helium-leak-testing.html">Open guide →</a></div>
+<div class="tile"><h3>Microwave / RF faults</h3><p>Understand common fault categories and what information to collect for a technician.</p><a href="microwave-rf-fault.html">Open guide →</a></div>
+<div class="tile"><h3>Plasma ignition & instability</h3><p>Review symptoms, possible system areas and safe escalation steps.</p><a href="plasma-ignition-failure.html">Ignition guide →</a> · <a href="plasma-instability.html">Instability guide →</a></div>
+<div class="tile"><h3>MFC flow errors</h3><p>Learn what MFC readings and alarms can tell you—without changing process settings.</p><a href="mfc-flow-error.html">Open guide →</a></div>
+<div class="tile"><h3>Pressure stability</h3><p>Explore pressure-control components and how to document fluctuations.</p><a href="throttle-valve-pressure-stability.html">Open guide →</a></div>
+<div class="tile"><h3>Cooling failures</h3><p>Understand cooling-system warning signs and maintenance documentation.</p><a href="cooling-failure.html">Open guide →</a></div>
+</div>
+</section>
+<section class="section">
+<h2>Video and animation learning plan</h2>
+<p>This page currently contains a lightweight animated educational diagram. The following lessons are planned as short explainers; machine-specific footage will be added when authentic photos/videos and exact model details are supplied.</p>
+<ol>
+<li>CVD / MPCVD machine: major components and system flow</li>
+<li>Vacuum system: pump, chamber, gauge and leak-test concepts</li>
+<li>Gas line and MFC: component roles and reading an alarm screen</li>
+<li>Microwave / RF power and plasma: conceptual explanation</li>
+<li>Cooling, PLC / HMI and sensors: maintenance awareness</li>
+<li>Common faults: how to record symptoms before technician support</li>
+</ol>
+<p class="notice">No operating recipe, gas-flow value, pressure target, power setting or repair procedure is prescribed here. Use the machine manufacturer's documentation and authorized personnel for machine operation and maintenance.</p>
+<a class="cta" href="https://wa.me/917827474249?text=Hello%20SWEKSHA%2C%20I%20need%20CVD%2FMPCVD%20technical%20support.">Ask for technical support</a>
+<a class="cta" href="machine-service-details.html">View machine services</a>
+</section>
+<footer>SWEKSHA FOUNDATION CLUB · Educational content · Illustrative system diagram · Machine-specific details must be verified</footer>
+</main>
+</body></html>
