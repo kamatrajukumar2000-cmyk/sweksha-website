@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CVD Gas Delivery &amp; MFC Visual Guide | SWEKSHA</title>
+<meta name="description" content="An educational visual guide to CVD and MPCVD gas delivery systems, regulators, valves, mass flow controllers and safe fault documentation.">
+<link rel="canonical" href="https://swekshacvd.com/gas-flow-mfc-visual-guide.html">
+<meta property="og:type" content="article"><meta property="og:title" content="CVD Gas Delivery &amp; MFC Visual Guide | SWEKSHA"><meta property="og:description" content="Understand the roles of gas supply, regulation, isolation valves, MFCs and chamber connections through an animated conceptual diagram.">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f7fa;color:#182333;font:16px/1.65 Arial,sans-serif}header{background:#07111f;color:#fff;padding:20px 5%}header a{color:#8be7dc;text-decoration:none}main{max-width:1050px;margin:34px auto;padding:0 20px}.panel{background:#fff;border:1px solid #dfe7ef;border-radius:18px;padding:clamp(20px,4vw,38px);margin-bottom:22px;box-shadow:0 12px 35px #07111f0d}h1{font-size:clamp(30px,5vw,46px);line-height:1.15;color:#07111f}h2{color:#0b5260}.lead{font-size:18px}.diagram{background:linear-gradient(145deg,#081a2a,#12384a);border-radius:15px;padding:12px;overflow:hidden}svg{width:100%;height:auto;display:block}.line{fill:none;stroke:#5ce0ce;stroke-width:7;stroke-linecap:round;stroke-dasharray:9 12;animation:move 1.8s linear infinite}.boxpart{fill:#dce8ef;stroke:#8ba9b8;stroke-width:3}.label{fill:#fff;font:700 17px Arial}.sub{fill:#bcd3df;font:14px Arial}.pulse{fill:#f2c36b;animation:blink 1.6s ease-in-out infinite}@keyframes move{to{stroke-dashoffset:-42}}@keyframes blink{50%{opacity:.35}}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.tile{background:#f8fbfd;border:1px solid #dfe7ef;border-radius:12px;padding:16px}.tile h3{margin:0 0 6px;color:#12384a}.note{background:#fff7e7;border-left:4px solid #e4a23c;padding:14px 16px}.cta{display:inline-block;background:#23c7b7;color:#07111f;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:8px;margin:8px 8px 0 0}footer{font-size:14px;color:#647184;padding:12px 0 30px}@media(prefers-reduced-motion:reduce){.line,.pulse{animation:none}}
+</style>
+</head>
+<body>
+<header><strong>SWEKSHA FOUNDATION CLUB</strong><p><a href="./">Home</a> · <a href="cvd-machine-visual-learning.html">Visual Learning Centre</a> · <a href="mfc-flow-error.html">MFC fault guide</a></p></header>
+<main>
+<section class="panel">
+<p><strong>TECHNICAL LEARNING · GAS DELIVERY</strong></p>
+<h1>CVD / MPCVD Gas Delivery &amp; MFC Visual Guide</h1>
+<p class="lead">A mass flow controller (MFC) is one part of a larger gas-delivery chain. This animated illustration shows the general relationship between a gas source, pressure regulation, isolation, flow control and a process chamber.</p>
+<div class="diagram">
+<svg viewBox="0 0 960 330" role="img" aria-label="Conceptual animated gas delivery path from gas source through regulator, isolation valve and mass flow controller to a process chamber">
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="#5ce0ce"/></marker></defs>
+<path class="line" d="M145 160 H260 M385 160 H470 M590 160 H675 M795 160 H855" marker-end="url(#arrow)"/>
+<rect class="boxpart" x="25" y="105" width="120" height="110" rx="15"/><path d="M55 105 V82 H115 V105" stroke="#dce8ef" stroke-width="6" fill="none"/><text x="85" y="150" text-anchor="middle" fill="#12384a" font-size="17" font-weight="bold">Gas</text><text x="85" y="175" text-anchor="middle" fill="#12384a" font-size="17" font-weight="bold">source</text>
+<rect class="boxpart" x="260" y="105" width="125" height="110" rx="15"/><circle cx="322" cy="143" r="22" fill="none" stroke="#12384a" stroke-width="4"/><path d="M322 143 L338 130" stroke="#12384a" stroke-width="4"/><text x="322" y="190" text-anchor="middle" fill="#12384a" font-size="15" font-weight="bold">Regulator</text>
+<rect class="boxpart" x="470" y="105" width="120" height="110" rx="15"/><path d="M495 145 L530 175 L565 145 Z" fill="#0b7880"/><path d="M530 125 V195" stroke="#12384a" stroke-width="3"/><text x="530" y="238" text-anchor="middle" class="sub">Isolation valve</text>
+<rect class="boxpart" x="675" y="95" width="120" height="130" rx="15"/><rect x="696" y="115" width="78" height="45" rx="6" fill="#12384a"/><text x="735" y="144" text-anchor="middle" fill="#75ead9" font-size="16" font-weight="bold">MFC</text><circle class="pulse" cx="735" cy="185" r="8"/><text x="735" y="248" text-anchor="middle" class="sub">Mass flow control</text>
+<rect class="boxpart" x="855" y="105" width="90" height="110" rx="15"/><text x="900" y="150" text-anchor="middle" fill="#12384a" font-size="16" font-weight="bold">Process</text><text x="900" y="174" text-anchor="middle" fill="#12384a" font-size="16" font-weight="bold">chamber</text>
+<text x="85" y="285" text-anchor="middle" class="label">Supply</text><text x="322" y="285" text-anchor="middle" class="label">Regulate</text><text x="530" y="285" text-anchor="middle" class="label">Isolate</text><text x="735" y="285" text-anchor="middle" class="label">Measure / control</text><text x="900" y="285" text-anchor="middle" class="label">Process</text>
+</svg>
+</div>
+<p class="note"><strong>Important:</strong> This is a conceptual learning diagram, not a piping schematic. Real layouts, component order, gas compatibility, pressure limits and interlocks depend on the machine manufacturer and installed configuration.</p>
+</section>
+<section class="panel">
+<h2>What each component does</h2>
+<div class="grid">
+<div class="tile"><h3>Gas source and supply</h3><p>Provides the specified process gas. Correct gas identity, cylinder handling and approved supply arrangements are essential.</p></div>
+<div class="tile"><h3>Pressure regulator</h3><p>Reduces and controls upstream supply pressure within the component's rated specification. It is not a substitute for an MFC.</p></div>
+<div class="tile"><h3>Isolation valve</h3><p>Allows an approved system section to be isolated. Valve position and interlocks must follow the machine's operating procedure.</p></div>
+<div class="tile"><h3>Mass flow controller</h3><p>Measures and regulates gas flow according to its calibration, gas configuration, range and operating conditions.</p></div>
+<div class="tile"><h3>Controller / PLC / HMI</h3><p>Displays commands, readings, alarms and communication status. Capture the exact message before diagnosis.</p></div>
+<div class="tile"><h3>Chamber connection</h3><p>Delivers gas to the configured process area through model-specific tubing, fittings and distribution hardware.</p></div>
+</div>
+</section>
+<section class="panel">
+<h2>When the MFC reading looks wrong</h2>
+<ul>
+<li>Record the MFC manufacturer, model, serial number and calibrated gas shown on its label.</li>
+<li>Record commanded setpoint, displayed actual flow, units, alarm text and timestamp.</li>
+<li>Record available upstream pressure indication and whether the reading is steady or fluctuating.</li>
+<li>Note recent maintenance, gas-cylinder change, configuration change or communication interruption.</li>
+<li>Have qualified personnel compare the installation with the manufacturer's approved specifications.</li>
+</ul>
+<p class="note"><strong>Safety:</strong> Do not loosen gas fittings, bypass interlocks, change a process recipe, adjust regulator settings or attempt calibration based on this guide. Gas systems can contain hazardous or pressurized gases. Use approved isolation, purge, leak-check and service procedures with trained personnel.</p>
+<a class="cta" href="mfc-flow-error.html">Read MFC fault guide</a><a class="cta" href="gas-line-purity-problem.html">Read gas-line guide</a><a class="cta" href="https://wa.me/917827474249?text=Hello%20SWEKSHA%2C%20I%20need%20CVD%20gas%20delivery%20or%20MFC%20technical%20support.">Request technical support</a>
+</section>
+<footer>SWEKSHA FOUNDATION CLUB · Educational illustration · Confirm all machine-specific information with manufacturer documentation.</footer>
+</main>
+</body></html>
