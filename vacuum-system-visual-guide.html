@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CVD / MPCVD Vacuum System Visual Guide | SWEKSHA</title>
+<meta name="description" content="Educational visual guide to CVD and MPCVD vacuum-system components, pressure monitoring, leak-test concepts and safe fault documentation.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://swekshacvd.com/vacuum-system-visual-guide.html">
+<meta property="og:type" content="article"><meta property="og:title" content="CVD / MPCVD Vacuum System Visual Guide | SWEKSHA">
+<meta property="og:description" content="Understand the conceptual roles of the chamber, vacuum line, pump, isolation valves and pressure gauges.">
+<meta property="og:url" content="https://swekshacvd.com/vacuum-system-visual-guide.html">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f7fa;color:#182333;font:16px/1.65 Arial,sans-serif}header{background:#07111f;color:white;padding:20px max(5%,calc((100% - 1050px)/2))}header a{color:#8be7dc;text-decoration:none}
+main{max-width:1050px;margin:32px auto;padding:0 20px}.panel{background:#fff;border:1px solid #dfe7ef;border-radius:17px;padding:clamp(22px,4vw,38px);margin-bottom:20px;box-shadow:0 10px 28px #07111f0c}
+h1{font-size:clamp(30px,5vw,45px);line-height:1.15;color:#07111f;margin:8px 0 14px}h2{color:#0b5260;margin-top:0}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#087c80;font-weight:bold}
+.notice{background:#fff7e7;border-left:4px solid #e4a23c;padding:14px 16px;border-radius:8px}.visual{background:#0b2030;border-radius:14px;padding:16px;overflow:hidden}svg{width:100%;height:auto;display:block}.unit{fill:#dce8ef;stroke:#82a6b7;stroke-width:3}.pipe{fill:none;stroke:#68d8c9;stroke-width:7;stroke-linecap:round;stroke-dasharray:12 13;animation:move 2s linear infinite}.vac{fill:none;stroke:#83c9ff;stroke-width:7;stroke-linecap:round;stroke-dasharray:9 13;animation:move 1.8s linear infinite}.label{fill:white;font:700 17px Arial}.sub{fill:#b8d1dc;font:13px Arial}
+@keyframes move{to{stroke-dashoffset:-50}}@media(prefers-reduced-motion:reduce){.pipe,.vac{animation:none}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}.item{background:#fbfdfe;border:1px solid #dfe7ef;border-radius:12px;padding:16px}.item h3{margin:0 0 7px;color:#17394b}.item p{margin:0;color:#536477}
+a.cta{display:inline-block;background:#23c7b7;color:#07111f;text-decoration:none;font-weight:bold;padding:11px 16px;border-radius:8px;margin:8px 8px 0 0}
+</style></head><body>
+<header><strong>SWEKSHA FOUNDATION CLUB</strong><p><a href="./">Home</a> · <a href="cvd-machine-visual-learning.html">Visual Learning Centre</a> · <a href="helium-leak-testing.html">Helium Leak Testing</a></p></header>
+<main>
+<section class="panel"><p class="eyebrow">Technical Learning · Vacuum Fundamentals</p><h1>CVD / MPCVD Vacuum System: Components & Concepts</h1>
+<p>A vacuum system removes gas from a chamber and helps establish and monitor the pressure conditions required by a machine's approved process. The exact pump arrangement, valves, gauges and control logic differ by machine model.</p>
+<p class="notice"><strong>Illustration notice:</strong> The animated drawing below is a simplified educational concept. It is not a scale drawing, piping diagram, pump-sizing guide, operating sequence or representation of a specific manufacturer's machine.</p></section>
+<section class="panel"><h2>Conceptual vacuum-line animation</h2><div class="visual">
+<svg viewBox="0 0 900 370" role="img" aria-labelledby="vtitle vdesc"><title id="vtitle">Illustrative vacuum system layout</title><desc id="vdesc">A process chamber connects through an isolation valve and vacuum line to a conceptual pump, with a pressure gauge shown on the chamber side.</desc>
+<rect x="35" y="105" width="220" height="165" rx="24" class="unit"/><text x="92" y="175" class="label" style="fill:#153448">Process chamber</text><text x="87" y="202" class="sub" style="fill:#355366">sealed vessel</text>
+<path d="M255 188 H360" class="vac"/><rect x="360" y="150" width="105" height="76" rx="12" class="unit"/><text x="377" y="181" class="label" style="fill:#153448">Valve</text><text x="374" y="202" class="sub" style="fill:#355366">isolation</text>
+<path d="M465 188 H625" class="vac"/><rect x="625" y="112" width="230" height="150" rx="22" class="unit"/><text x="685" y="178" class="label" style="fill:#153448">Vacuum pump</text><text x="681" y="205" class="sub" style="fill:#355366">pump type varies</text>
+<path d="M145 105 V55 H205" class="pipe"/><circle cx="205" cy="55" r="34" class="unit"/><text x="184" y="61" class="label" style="fill:#153448">Gauge</text>
+<text x="35" y="320" class="sub">Blue: conceptual evacuation path</text><text x="490" y="320" class="sub">Green: illustrative gauge connection</text></svg></div>
+<p>Animated dashed lines show conceptual connections only. Real installations may include additional stages, traps, filters, backing pumps, isolation arrangements and interlocks.</p></section>
+<section class="panel"><h2>What each component does</h2><div class="grid">
+<div class="item"><h3>Process chamber</h3><p>The sealed vessel where the process takes place. Seals, ports and windows are part of the chamber's integrity.</p></div>
+<div class="item"><h3>Vacuum pump system</h3><p>Creates the required vacuum condition. Pump technology and configuration must be confirmed from the machine documentation.</p></div>
+<div class="item"><h3>Isolation valves</h3><p>Control connections between sections of the vacuum system. Their position and interlocks are machine-specific.</p></div>
+<div class="item"><h3>Pressure gauges</h3><p>Provide pressure readings within their designed measurement range. Gauge type, location and calibration matter.</p></div>
+<div class="item"><h3>Vacuum tubing & fittings</h3><p>Connect components and must be compatible with the system's materials, seals and rated conditions.</p></div>
+<div class="item"><h3>Control & interlocks</h3><p>Monitor system states and prevent unsafe or out-of-sequence operation according to the machine design.</p></div>
+</div></section>
+<section class="panel"><h2>When a vacuum-related issue appears</h2><p>For a technician review, record the exact machine model, displayed pressure and units, gauge location, alarm wording, time trend, pump status and any recent maintenance or configuration changes. Photos of the HMI and external equipment labels can help.</p>
+<p class="notice"><strong>Safety:</strong> Do not loosen fittings, open a chamber, disconnect vacuum lines, bypass interlocks or service energized equipment to investigate a fault. Follow the manufacturer's shutdown, venting and maintenance procedures and use trained, authorized personnel.</p>
+<h2>Continue learning</h2><p><a href="helium-leak-testing.html">Helium leak testing guide</a> · <a href="vacuum-pump-error.html">Vacuum pump error guide</a> · <a href="throttle-valve-pressure-stability.html">Pressure stability guide</a></p>
+<a class="cta" href="https://wa.me/917827474249?text=Hello%20SWEKSHA%2C%20I%20need%20help%20with%20a%20CVD%20vacuum%20system%20issue.">Request technical support</a><a class="cta" href="cvd-machine-visual-learning.html">Back to Visual Learning</a></section>
+</main></body></html>
