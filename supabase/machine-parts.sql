@@ -24,6 +24,13 @@ create table if not exists public.machine_part_listings (
 alter table public.machine_part_listings enable row level security;
 drop policy if exists "public can submit pending machine part listings" on public.machine_part_listings;
 drop policy if exists "public can view machine part images" on storage.objects;
+create policy "public can upload machine-part-images objects"
+on storage.objects for insert to anon, authenticated
+with check (
+  bucket_id = 'machine-part-images'
+  and name ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp$'
+);
+
 create policy "Sweksha admin can list machine part images"
 on storage.objects for select to authenticated
 using (
