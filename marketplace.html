@@ -25,7 +25,7 @@
     label{display:block;font-size:13px;font-weight:800;margin:15px 0 6px}input,select,textarea{width:100%;font:inherit;padding:12px;border:1px solid #cbd6e0;border-radius:8px;background:#fff}
     textarea{min-height:100px;resize:vertical}input[type=file]{padding:9px}.preview{margin-top:12px;display:none;max-width:100%;max-height:250px;border-radius:10px;border:1px solid var(--line);object-fit:contain}
     .empty{border:1px dashed #bdcbd8;border-radius:14px;padding:30px;text-align:center;color:var(--muted);background:var(--soft)}
-    .listings{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+    .listings{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;min-height:420px;align-content:start}
     .listing{border:1px solid var(--line);border-radius:14px;padding:18px}.listing h3{margin:0 0 5px}.listing .price{font-weight:800;color:#087f6e}
     .market-filters{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;margin:18px 0 6px;align-items:end}.market-filters label{margin:0 0 5px}.market-filters .btn{height:46px;white-space:nowrap}.filter-count{font-size:13px;color:var(--muted);margin:8px 0 0}
     @media(max-width:760px){.market-filters{grid-template-columns:1fr 1fr}.market-filters .search-field{grid-column:1/-1}}
@@ -103,7 +103,7 @@
           <label for="partPrice">Asking price and currency *</label><input id="partPrice" required placeholder="e.g. INR 25,000 or Price on Request">
           <label for="partQty">Quantity available *</label><input id="partQty" required type="number" min="1" value="1">
           <label for="partLocation">City / Country *</label><input id="partLocation" required placeholder="e.g. Surat, India">
-          <label for="partPhoto">Product photo *</label><input id="partPhoto" type="file" accept="image/*" required><img class="preview" id="photoPreview" alt="Selected product photo preview">
+          <label for="partPhoto">Product photo *</label><input id="partPhoto" type="file" accept="image/jpeg,image/png,image/webp" required><img class="preview" id="photoPreview" alt="Selected product photo preview">
           <label for="partDetails">Description / part number / machine compatibility</label><textarea id="partDetails" placeholder="Describe condition, model, serial or part number, and known issues."></textarea>
           <label for="sellerName">Seller name / company *</label><input id="sellerName" required>
           <label for="sellerContact">WhatsApp / phone number *</label><input id="sellerContact" required type="tel">
