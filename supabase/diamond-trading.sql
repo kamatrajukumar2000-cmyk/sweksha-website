@@ -32,7 +32,7 @@ on public.diamond_trade_listings for insert to anon, authenticated
 with check (status = 'pending' and admin_notes is null);
 
 create policy "public can view approved diamond listings"
-on public.diamond_trade_listings for select to anon, authenticated
+on public.diamond_trade_listings for select to anon
 using (status = 'approved');
 
 create policy "Sweksha admin read diamond listings"
@@ -44,7 +44,9 @@ on public.diamond_trade_listings for update to authenticated
 using (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com')
 with check (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com');
 
-grant insert, select on public.diamond_trade_listings to anon;
+revoke select on public.diamond_trade_listings from anon;
+grant insert on public.diamond_trade_listings to anon;
+grant select (id, transaction_type, product_type, description, expected_price, quantity, location, photo_url, created_at) on public.diamond_trade_listings to anon;
 grant select, update on public.diamond_trade_listings to authenticated;
 
 insert into storage.buckets (id,name,public,file_size_limit,allowed_mime_types)
