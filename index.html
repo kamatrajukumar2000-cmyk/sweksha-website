@@ -1974,12 +1974,12 @@ I will attach relevant photos/videos in WhatsApp if available. Please contact me
       const title = document.getElementById('reviewTitle').value.trim();
       const review = document.getElementById('reviewText').value.trim();
       if(!name || !Number.isInteger(rating) || rating < 1 || rating > 5 || review.length < 2) return;
-      const msg = 'Hello Sweksha CVD Diamond Machine Service & Consulting,\\n\\nI would like to share feedback about your service.\\n\\nName: ' + name +
-        '\\nCompany: ' + (company || 'Not provided') +
-        '\\nRating: ' + rating + '/5' +
-        '\\nTitle: ' + (title || 'Not provided') +
-        '\\nFeedback: ' + review +
-        '\\n\\nPlease review my feedback. I understand it will be published only after approval.';
+      const msg = 'Hello Sweksha CVD Diamond Machine Service & Consulting,\n\nI would like to share feedback about your service.\n\nName: ' + name +
+        '\nCompany: ' + (company || 'Not provided') +
+        '\nRating: ' + rating + '/5' +
+        '\nTitle: ' + (title || 'Not provided') +
+        '\nFeedback: ' + review +
+        '\n\nPlease review my feedback. I understand it will be published only after approval.';
       const waUrl = 'https://wa.me/917827474249?text=' + encodeURIComponent(msg);
       const waTab = window.open(waUrl, '_blank', 'noopener');
       button.disabled = true;
