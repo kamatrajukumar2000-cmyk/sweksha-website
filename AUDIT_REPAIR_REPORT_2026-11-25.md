@@ -47,6 +47,8 @@
 - Storage object listing is now blocked for anonymous users; the authorised admin can list all existing objects (18 machine, 2 parts, 4 diamond). Existing object counts did not change.
 - Tested Storage RLS in a rolled-back transaction: a valid legacy-style image filename was accepted, while an arbitrary text filename was rejected.
 - Tested valid public submissions and invalid oversized/short-field submissions for machine listings, parts, diamond listings, job applications, vacancies and reviews; valid examples passed, invalid examples were blocked, and all test rows were rolled back.
+- Ran all five standalone marketplace/jobs SQL setup scripts inside database transactions and rolled them back successfully. Also ran the consolidated security SQL reference inside a transaction and rolled it back successfully.
+- Parsed inline JavaScript in the key website/admin pages; no syntax errors were found. Three malformed meta-description tags were corrected.
 - Simulated authorized admin access: admin can read all 4 machine listings and the existing 1 job application.
 - Admin machine-listing update and job application status update tests ran inside transactions and were rolled back.
 - A temporary job vacancy was inserted as admin, approved, verified, then rolled back.
