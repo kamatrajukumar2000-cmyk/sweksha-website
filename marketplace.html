@@ -135,7 +135,7 @@ async function compressListingImage(file){
  ctx.drawImage(image,0,0,canvas.width,canvas.height);
  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/webp',0.78));
  if(!blob)throw new Error('Could not compress this image. Please try another photo.');
- return new File([blob],file.name.replace(/\\.[^.]+$/,'')+'.webp',{type:'image/webp',lastModified:Date.now()});
+ return new File([blob],file.name.split('.').slice(0,-1).join('.')+'.webp',{type:'image/webp',lastModified:Date.now()});
 }
 function wa(m){let w=window.open('https://wa.me/917827474249?text='+encodeURIComponent(m),'_blank');if(w)w.opener=null}
 let approvedParts=[];
@@ -148,7 +148,7 @@ function renderParts(){
  });
  $('listingCount').textContent='Showing '+filtered.length+' of '+approvedParts.length+' approved listing(s).';
  if(!filtered.length){$('partsListings').innerHTML='<div class="empty">No matching parts found. Try another search or clear the filters.</div>';return}
- $('partsListings').innerHTML=filtered.map(r=>'<article class="listing">'+(r.photo_url?'<img src="'+esc(r.photo_url)+'" alt="'+esc(r.part_name)+'" style="width:100%;height:150px;object-fit:cover;border-radius:8px">':'')+'<span class="muted">'+(r.transaction_type==='looking_to_buy'?'Buyer requirement':'For sale')+'</span><h3>'+esc(r.part_name)+'</h3><p class="muted">'+esc(r.category)+' · '+esc(r.condition||'Not specified')+'</p><p>'+esc(r.details||'Details on request')+'</p><p class="price">'+esc(r.expected_price||'Price on Request')+' · Qty '+esc(r.quantity)+'</p><p class="muted">'+esc(r.location)+'</p><a class="btn" target="_blank" rel="noopener" href="https://wa.me/917827474249?text='+encodeURIComponent('Hello Sweksha, I am interested in '+r.part_name+' ('+r.category+').')+'">Enquire on WhatsApp</a></article>').join('');
+ $('partsListings').innerHTML=filtered.map(r=>'<article class="listing">'+(r.photo_url?'<img loading="lazy" src="'+esc(r.photo_url)+'" alt="'+esc(r.part_name)+'" style="width:100%;height:150px;object-fit:cover;border-radius:8px">':'')+'<span class="muted">'+(r.transaction_type==='looking_to_buy'?'Buyer requirement':'For sale')+'</span><h3>'+esc(r.part_name)+'</h3><p class="muted">'+esc(r.category)+' · '+esc(r.condition||'Not specified')+'</p><p>'+esc(r.details||'Details on request')+'</p><p class="price">'+esc(r.expected_price||'Price on Request')+' · Qty '+esc(r.quantity)+'</p><p class="muted">'+esc(r.location)+'</p><a class="btn" target="_blank" rel="noopener" href="https://wa.me/917827474249?text='+encodeURIComponent('Hello Sweksha, I am interested in '+r.part_name+' ('+r.category+').')+'">Enquire on WhatsApp</a></article>').join('');
 }
 ['listingSearch','listingCategory','listingType'].forEach(id=>$(id).addEventListener(id==='listingSearch'?'input':'change',renderParts));
 $('clearListingFilters').addEventListener('click',()=>{$('listingSearch').value='';$('listingCategory').value='';$('listingType').value='';renderParts()});
