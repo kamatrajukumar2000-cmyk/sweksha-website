@@ -15,6 +15,108 @@ where id in ('machine-listing-images', 'diamond-trade-images', 'machine-part-ima
 -- Restrictive policies are combined with existing permissive policies using AND.
 -- They add hard boundaries even if another permissive policy exists.
 
+-- Customer enquiries: submissions are always new; only the admin can read/update.
+alter table public.enquiries enable row level security;
+
+drop policy if exists "Sweksha restrict enquiry submissions" on public.enquiries;
+create policy "Sweksha restrict enquiry submissions"
+on public.enquiries as restrictive
+for insert to anon, authenticated
+with check (
+  status = 'new'
+  and length(trim(name)) between 2 and 120
+  and (email is null or length(trim(email)) <= 254)
+  and length(trim(whatsapp)) between 5 and 50
+  and length(trim(subject)) between 2 and 300
+  and length(trim(message)) between 5 and 5000
+);
+
+drop policy if exists "Sweksha restrict enquiry reads" on public.enquiries;
+create policy "Sweksha restrict enquiry reads"
+on public.enquiries as restrictive
+for select to anon, authenticated
+using (
+  auth.role() = 'authenticated'
+  and lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com'
+);
+
+drop policy if exists "Sweksha restrict enquiry updates" on public.enquiries;
+create policy "Sweksha restrict enquiry updates"
+on public.enquiries as restrictive
+for update to authenticated
+using (lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com')
+with check (lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com');
+
+-- Job seeker profiles are private; approved vacancies expose only public fields.
+alter table public.job_applications enable row level security;
+alter table public.job_vacancies enable row level security;
+
+drop policy if exists "Sweksha restrict candidate profile submissions" on public.job_applications;
+create policy "Sweksha restrict candidate profile submissions"
+on public.job_applications as restrictive
+for insert to anon, authenticated
+with check (
+  status = 'pending'
+  and length(trim(full_name)) between 2 and 120
+  and length(trim(role_skills)) between 2 and 500
+  and length(trim(preferred_location)) between 2 and 200
+  and length(trim(phone)) between 5 and 40
+  and (experience_qualifications is null or length(experience_qualifications) <= 2000)
+);
+
+drop policy if exists "Sweksha restrict candidate profile reads" on public.job_applications;
+create policy "Sweksha restrict candidate profile reads"
+on public.job_applications as restrictive
+for select to anon, authenticated
+using (
+  auth.role() = 'authenticated'
+  and lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com'
+);
+
+drop policy if exists "Sweksha restrict candidate profile updates" on public.job_applications;
+create policy "Sweksha restrict candidate profile updates"
+on public.job_applications as restrictive
+for update to authenticated
+using (lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com')
+with check (lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com');
+
+drop policy if exists "Sweksha restrict vacancy submissions" on public.job_vacancies;
+create policy "Sweksha restrict vacancy submissions"
+on public.job_vacancies as restrictive
+for insert to anon, authenticated
+with check (
+  status = 'pending'
+  and length(trim(company_name)) between 2 and 160
+  and length(trim(job_title)) between 2 and 160
+  and length(trim(coalesce(description, responsibilities_skills, ''))) between 2 and 3000
+  and length(trim(coalesce(location, work_location, ''))) between 2 and 200
+  and length(trim(contact_details)) between 5 and 160
+);
+
+drop policy if exists "Sweksha restrict vacancy reads" on public.job_vacancies;
+create policy "Sweksha restrict vacancy reads"
+on public.job_vacancies as restrictive
+for select to anon, authenticated
+using (
+  (auth.role() = 'anon' and status = 'approved')
+  or (auth.role() = 'authenticated'
+      and lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com')
+);
+
+drop policy if exists "Sweksha restrict vacancy updates" on public.job_vacancies;
+create policy "Sweksha restrict vacancy updates"
+on public.job_vacancies as restrictive
+for update to authenticated
+using (lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com')
+with check (lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com');
+
+-- Prevent direct public reads of job applicant contact details and employer contacts.
+revoke select on public.job_applications from anon;
+revoke select on public.job_vacancies from anon;
+grant select (id, company_name, job_title, description, location, employment_type, salary_range, created_at)
+  on public.job_vacancies to anon;
+
+
 -- Marketplace rows: public can read approved listings only; anonymous submissions
 -- must remain pending; only the authorised admin can review or change records.
 alter table public.machine_sales_listings enable row level security;
