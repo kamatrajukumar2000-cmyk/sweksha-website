@@ -19,7 +19,7 @@
 - Enquiry insert policy lacked adequate field-length and status validation.
 - Reviews had a database table and public pending-insert policy, but the homepage review form used WhatsApp only and the admin dashboard had no review moderation UI.
 - Initial public Storage upload policies allowed anonymous uploads under any object name and public listing of object metadata. Buckets were already capped at 5 MiB and restricted to JPG/PNG/WebP; this policy weakness has now been fixed.
-- `marketplace_listings` contains an unusual extra column named `iPhone 13` (array type, comment: “Good condition, used phone”). It was not changed or deleted.
+- `marketplace_listings` was unused by the current website, had anonymous-readable contact columns, and contained an unexplained `iPhone 13` array column. The table has zero rows; browser-role access was revoked and its public-read policy removed. The table/column were retained, not deleted.
 
 ## Live database changes applied and verified
 1. Revoked browser-role `DELETE`, `TRUNCATE`, `REFERENCES`, `TRIGGER`, and PostgreSQL 17 `MAINTAIN` privileges on public tables; revoked anonymous `UPDATE`.
@@ -31,11 +31,13 @@
 7. Added enquiry validation and required new enquiries to use `status='new'`.
 8. Removed an obsolete enquiry admin policy and a duplicate vacancy policy; optimized admin JWT policy evaluation.
 9. Added admin-only review read/update policies; public reviews remain pending until approved.
-10. Seven Supabase migrations are recorded and mirrored under `supabase/migrations/` on the repair branch.
+10. Eight Supabase migrations are recorded and mirrored under `supabase/migrations/` on the repair branch.
+11. Locked down the unused legacy `marketplace_listings` table: revoked all browser-role privileges and removed its public-read policy; zero existing rows were present and the table/column were retained.
 
 ## Verification performed
 - Anonymous DELETE/TRUNCATE/UPDATE privileges are false; authenticated TRUNCATE is false.
 - Private contact/admin columns are not selectable by the anonymous role.
+- Verified `marketplace_listings` has zero rows, no remaining RLS policies, and no SELECT/INSERT privilege for anon or authenticated roles.
 - Public approved-status queries were individually tested for machine sales, machine parts, diamond listings, job vacancies and reviews; they succeeded after the additional `status` column grant.
 - Storage object listing is now blocked for anonymous users; the authorised admin can list all existing objects (18 machine, 2 parts, 4 diamond). Existing object counts did not change.
 - Tested Storage RLS in a rolled-back transaction: a valid legacy-style image filename was accepted, while an arbitrary text filename was rejected.
