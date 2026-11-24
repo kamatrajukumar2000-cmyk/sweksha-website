@@ -105,6 +105,15 @@
     .about{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
     .about-box{background:linear-gradient(145deg,#07111f,#16334a);color:#fff;border-radius:20px;padding:34px}
     .about-box .big{font-size:54px;font-weight:900;color:var(--accent);line-height:1}
+    .about-photo-column{min-width:0}
+    .about-photo-figure{margin:0;max-width:100%}
+    .about-profile-card h2{font-size:clamp(25px,3vw,34px);line-height:1.2;margin:8px 0 18px;color:#fff}
+    .about-profile-card .eyebrow{margin-bottom:4px}
+    .about-profile-card p{color:#d3e0eb;margin:0 0 13px;font-size:15px}
+    .about-profile-card .about-profile-lead{font-size:16px;color:#fff}
+    .about-profile-promise{display:grid;gap:6px;margin-top:18px;padding:16px 18px;border-left:3px solid var(--accent);border-radius:0 10px 10px 0;background:rgba(255,255,255,.07)}
+    .about-profile-promise strong{color:var(--accent2);font-size:16px}
+    .about-profile-promise span{color:#d3e0eb;font-size:14px}
     .steps{counter-reset:step;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
     .step{position:relative;border-top:3px solid var(--accent);padding:22px;background:#fff;border-radius:0 0 14px 14px;box-shadow:var(--shadow)}
     .step:before{counter-increment:step;content:counter(step);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--dark);color:#fff;font-weight:800;margin-bottom:14px}
@@ -747,7 +756,7 @@
 
     <section id="about" class="band">
       <div class="container about">
-        <div>
+        <div class="about-photo-column">
           <figure class="about-photo-figure">
             <button class="about-photo-trigger" type="button" aria-label="Open full-screen 3D view of Raju Kamat's SWEKSHA profile photo" aria-haspopup="dialog">
               <span class="about-photo-frame">
@@ -761,16 +770,18 @@
               <img src="29fc3747-cc7a-41b9-b700-16bdd8c942b6%20-%20Copy.jpg" alt="Raju Kamat, SWEKSHA FOUNDATION CLUB">
             </div>
           </dialog>
+        </div>
+        <article class="about-box about-profile-card">
           <span class="eyebrow">About Us</span>
-          <h2>Sweksha CVD Diamond Machine Service & Consulting</h2>
-          <p style="margin-top:15px;color:var(--muted)">Sweksha CVD Diamond Machine Service & Consulting, led by <strong>Raju Kamat</strong> in Surat, Gujarat, provides online consulting worldwide and on-site CVD machine and plant service across India and internationally. On-site availability, travel and work scope are confirmed before scheduling.</p>
-          <p style="margin-top:13px;color:var(--muted)">Our goal is simple: understand the machine problem, understand the production requirement, and provide practical guidance for the next step.</p>
-        </div>
-        <div class="about-box">
-          <div class="big">01</div>
-          <h3 style="font-size:28px;margin:15px 0 8px">One clear service channel.</h3>
-          <p>Tell us what machine you have, what problem you are facing and what production result you want to achieve. We will guide you on the suitable service process.</p>
-        </div>
+          <h2>Sweksha CVD Diamond Machine Service &amp; Consulting</h2>
+          <p class="about-profile-lead">Led by <strong>Raju Kamat</strong> in Surat, Gujarat, SWEKSHA supports the CVD and lab-grown diamond industry with practical machine-service guidance, technical consulting and plant support.</p>
+          <p>With 6 years of experience in the CVD/LGD industry, Raju works with a technical team covering electrical systems, PLC/HMI, microwave and magnetron power systems, vacuum and gas lines, MFCs, pressure controllers, mechanical systems, cooling and CVD growth processes.</p>
+          <p>Support includes machine installation and commissioning, troubleshooting, vacuum and gas-line issues, plasma and power-system faults, maintenance, process review and production-related consulting. Online consulting is available worldwide; on-site service across India and internationally is arranged subject to availability, travel and agreed scope.</p>
+          <div class="about-profile-promise">
+            <strong>One clear service channel</strong>
+            <span>Share your machine model, the issue you are facing and your production requirement. We will review the details and guide you on practical next steps before any service is scheduled.</span>
+          </div>
+        </article>
       </div>
     </section>
 
