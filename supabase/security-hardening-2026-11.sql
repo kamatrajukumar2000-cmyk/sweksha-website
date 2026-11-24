@@ -199,4 +199,11 @@ with check (status='pending' and rating between 1 and 5
   and length(trim(coalesce(name,''))) between 1 and 120
   and length(trim(coalesce(review,''))) between 1 and 1600);
 
+create policy "Deny browser access to unused legacy marketplace"
+on public.marketplace_listings for all to anon,authenticated
+using (false) with check (false);
+create policy "Deny browser access to unused candidate profiles"
+on public.candidate_profiles for all to anon,authenticated
+using (false) with check (false);
+
 commit;
