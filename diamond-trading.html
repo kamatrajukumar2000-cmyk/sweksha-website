@@ -107,6 +107,24 @@ function safeImageUrl(value) {
   try { const url = new URL(value); return url.protocol === 'https:' ? url.href : ''; }
   catch (_) { return ''; }
 }
+async function compressListingImage(file){
+ const image=await new Promise((resolve,reject)=>{
+  const url=URL.createObjectURL(file),img=new Image();
+  img.onload=()=>{URL.revokeObjectURL(url);resolve(img)};
+  img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Could not read the selected image.'))};
+  img.src=url;
+ });
+ const maxEdge=1920,scale=Math.min(1,maxEdge/Math.max(image.naturalWidth,image.naturalHeight));
+ const canvas=document.createElement('canvas');
+ canvas.width=Math.max(1,Math.round(image.naturalWidth*scale));
+ canvas.height=Math.max(1,Math.round(image.naturalHeight*scale));
+ const ctx=canvas.getContext('2d');
+ if(!ctx)throw new Error('Image compression is not supported in this browser.');
+ ctx.drawImage(image,0,0,canvas.width,canvas.height);
+ const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/webp',0.78));
+ if(!blob)throw new Error('Could not compress this image. Please try another photo.');
+ return new File([blob],file.name.split('.').slice(0,-1).join('.')+'.webp',{type:'image/webp',lastModified:Date.now()});
+}
 function renderApprovedListings(rows) {
   approvedRows = rows || [];
   const locations = [...new Set(approvedRows.map(row => (row.location || '').trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b));
@@ -247,10 +265,10 @@ sellerForm.addEventListener('submit', async e => {
   let uploadError = null;
   let dbError = null;
   if (db) {
-    const ext = file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg';
-    const filePath = Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
-    const upload = await db.storage.from(BUCKET).upload(filePath, file, {
-      cacheControl: '3600', upsert: false, contentType: file.type
+    const optimizedFile = await compressListingImage(file);
+    const filePath = Date.now() + '-' + Math.random().toString(36).slice(2) + '.webp';
+    const upload = await db.storage.from(BUCKET).upload(filePath, optimizedFile, {
+      cacheControl: '31536000', upsert: false, contentType: 'image/webp'
     });
     uploadError = upload.error;
     if (!uploadError) photoUrl = db.storage.from(BUCKET).getPublicUrl(filePath).data.publicUrl;
