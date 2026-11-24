@@ -135,4 +135,8 @@ with check (bucket_id='diamond-trade-images' and name ~* '^(?:[0-9a-f]{8}-[0-9a-
 create policy "Sweksha admin can list diamond trade images" on storage.objects for select to authenticated
 using (bucket_id='diamond-trade-images' and lower(coalesce((select auth.jwt())->>'email',''))='kamatrajukumar2000@gmail.com');
 
+-- This legacy table is not used by the current site and previously exposed contact columns.
+revoke all privileges on table public.marketplace_listings from anon,authenticated;
+drop policy if exists "Public can read approved listings" on public.marketplace_listings;
+
 commit;
