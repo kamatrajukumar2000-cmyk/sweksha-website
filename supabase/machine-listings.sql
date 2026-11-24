@@ -122,15 +122,4 @@ using (
   and lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com'
 );
 
--- No public UPDATE or DELETE policy is granted on listing records.);
-
-create policy "public can view machine listing images"
-on storage.objects for select to anon, authenticated
-using (bucket_id = 'machine-listing-images');
-
-create policy "Sweksha admin can delete machine listing images"
-on storage.objects for delete to authenticated
-using (bucket_id = 'machine-listing-images'
-  and lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com');
-
 -- No public UPDATE or DELETE policy is granted on listing records.
