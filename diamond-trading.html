@@ -191,7 +191,7 @@ async function loadApprovedListings() {
   status.textContent = 'Loading approved listings…';
   try {
     const { data, error } = await db.from('diamond_trade_listings')
-      .select('*')
+      .select('id,transaction_type,product_type,description,expected_price,quantity,location,photo_url,created_at')
       .eq('status', 'approved')
       .order('created_at', { ascending: false })
       .limit(60);
