@@ -23,51 +23,13 @@ create table if not exists public.diamond_trade_listings (
 alter table public.diamond_trade_listings enable row level security;
 
 drop policy if exists "public can submit pending diamond listings" on public.diamond_trade_listings;
-drop policy if exists "public can view approved diamond listings" on public.diamond_trade_listings;
-drop policy if exists "Sweksha admin read diamond listings" on public.diamond_trade_listings;
-drop policy if exists "Sweksha admin update diamond listings" on public.diamond_trade_listings;
-
-create policy "public can submit pending diamond listings"
-on public.diamond_trade_listings for insert to anon, authenticated
-with check (status = 'pending' and admin_notes is null);
-
-create policy "public can view approved diamond listings"
-on public.diamond_trade_listings for select to anon
-using (status = 'approved');
-
-create policy "Sweksha admin read diamond listings"
-on public.diamond_trade_listings for select to authenticated
-using (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com');
-
-create policy "Sweksha admin update diamond listings"
-on public.diamond_trade_listings for update to authenticated
-using (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com')
-with check (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com');
-
-revoke select on public.diamond_trade_listings from anon;
-grant insert on public.diamond_trade_listings to anon;
-grant select (id, transaction_type, product_type, description, expected_price, quantity, location, photo_url, created_at) on public.diamond_trade_listings to anon;
-grant select, update on public.diamond_trade_listings to authenticated;
-
-insert into storage.buckets (id,name,public,file_size_limit,allowed_mime_types)
-values ('diamond-trade-images','diamond-trade-images',true,5242880,array['image/jpeg','image/png','image/webp'])
-on conflict (id) do update set public=true,file_size_limit=5242880,
-  allowed_mime_types=array['image/webp'];
-
-drop policy if exists "public can upload diamond trade images" on storage.objects;
 drop policy if exists "public can view diamond trade images" on storage.objects;
-drop policy if exists "Sweksha admin can delete diamond trade images" on storage.objects;
-
-create policy "public can upload diamond trade images"
-on storage.objects for insert to anon, authenticated
-with check (
-  bucket_id='diamond-trade-images'
-  and name ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp$'
+create policy "Sweksha admin can list diamond trade images"
+on storage.objects for select to authenticated
+using (
+  bucket_id = 'diamond-trade-images'
+  and lower(coalesce((select auth.jwt()) ->> 'email','')) = 'kamatrajukumar2000@gmail.com'
 );
-
-create policy "public can view diamond trade images"
-on storage.objects for select to anon, authenticated
-using (bucket_id='diamond-trade-images');
 
 create policy "Sweksha admin can delete diamond trade images"
 on storage.objects for delete to authenticated
