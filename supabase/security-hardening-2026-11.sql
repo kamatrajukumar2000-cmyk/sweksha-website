@@ -10,7 +10,7 @@ update storage.buckets
 set public = true,
     file_size_limit = 5242880,
     allowed_mime_types = array['image/webp']
-where id in ('machine-listing-images', 'diamond-trade-images');
+where id in ('machine-listing-images', 'diamond-trade-images', 'machine-part-images');
 
 -- Restrictive policies are combined with existing permissive policies using AND.
 -- They add hard boundaries even if another permissive policy exists.
@@ -126,9 +126,9 @@ as restrictive
 for insert
 to anon, authenticated
 with check (
-  bucket_id not in ('machine-listing-images', 'diamond-trade-images')
+  bucket_id not in ('machine-listing-images', 'diamond-trade-images', 'machine-part-images')
   or (
-    bucket_id in ('machine-listing-images', 'diamond-trade-images')
+    bucket_id in ('machine-listing-images', 'diamond-trade-images', 'machine-part-images')
     and name ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp$'
   )
 );
@@ -140,8 +140,8 @@ on storage.objects
 as restrictive
 for update
 to anon, authenticated
-using (bucket_id not in ('machine-listing-images', 'diamond-trade-images'))
-with check (bucket_id not in ('machine-listing-images', 'diamond-trade-images'));
+using (bucket_id not in ('machine-listing-images', 'diamond-trade-images', 'machine-part-images'))
+with check (bucket_id not in ('machine-listing-images', 'diamond-trade-images', 'machine-part-images'));
 
 -- Preserve image deletion only for the authorised Sweksha admin account.
 -- This permissive policy pairs with the restrictive admin-only delete boundary below.
@@ -151,7 +151,7 @@ on storage.objects
 for delete
 to authenticated
 using (
-  bucket_id in ('machine-listing-images', 'diamond-trade-images')
+  bucket_id in ('machine-listing-images', 'diamond-trade-images', 'machine-part-images')
   and lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com'
 );
 
@@ -162,7 +162,7 @@ as restrictive
 for delete
 to anon, authenticated
 using (
-  bucket_id not in ('machine-listing-images', 'diamond-trade-images')
+  bucket_id not in ('machine-listing-images', 'diamond-trade-images', 'machine-part-images')
   or lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com'
 );
 
