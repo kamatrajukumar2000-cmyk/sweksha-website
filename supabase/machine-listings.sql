@@ -89,7 +89,9 @@ for update to authenticated
 using (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com')
 with check (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com');
 
-grant insert, select on public.machine_sales_listings to anon;
+revoke select on public.machine_sales_listings from anon;
+grant insert on public.machine_sales_listings to anon;
+grant select (id, machine_category, transaction_type, condition, brand_model_year, application_details, expected_price, location, photo_urls, created_at) on public.machine_sales_listings to anon;
 grant select, update on public.machine_sales_listings to authenticated;
 
 -- Public image bucket: uploads are public-read, but no public update/delete access.
