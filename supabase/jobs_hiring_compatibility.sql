@@ -88,6 +88,8 @@ drop policy if exists "Public can submit job applications" on public.job_applica
 create policy "Public can submit job applications"
 on public.job_applications for insert to anon, authenticated
 with check (
+  status = 'pending'
+  and 
   length(trim(coalesce(full_name,''))) between 2 and 120
   and length(trim(coalesce(role_skills,''))) between 2 and 500
   and length(trim(coalesce(preferred_location,''))) between 2 and 200
@@ -99,6 +101,8 @@ drop policy if exists "Public can submit job vacancies" on public.job_vacancies;
 create policy "Public can submit job vacancies"
 on public.job_vacancies for insert to anon, authenticated
 with check (
+  status = 'pending'
+  and 
   length(trim(coalesce(company_name,''))) between 2 and 160
   and length(trim(coalesce(job_title,''))) between 2 and 160
   and length(trim(coalesce(description,responsibilities_skills,''))) between 2 and 3000
@@ -108,7 +112,7 @@ with check (
 
 drop policy if exists "Public can read approved job vacancies" on public.job_vacancies;
 create policy "Public can read approved job vacancies"
-on public.job_vacancies for select to anon, authenticated
+on public.job_vacancies for select to anon
 using (status='approved');
 
 -- Admin-only access is restricted to the Sweksha admin email.
@@ -136,5 +140,8 @@ with check (lower(coalesce(auth.jwt()->>'email',''))='kamatrajukumar2000@gmail.c
 
 grant insert on public.job_applications to anon, authenticated;
 grant select, update on public.job_applications to authenticated;
-grant insert, select on public.job_vacancies to anon, authenticated;
+revoke select on public.job_vacancies from anon;
+grant insert on public.job_vacancies to anon;
+grant select (id, company_name, job_title, description, location, employment_type, salary_range, created_at) on public.job_vacancies to anon;
+grant insert, select on public.job_vacancies to authenticated;
 grant update on public.job_vacancies to authenticated;
