@@ -139,4 +139,8 @@ using (bucket_id='diamond-trade-images' and lower(coalesce((select auth.jwt())->
 revoke all privileges on table public.marketplace_listings from anon,authenticated;
 drop policy if exists "Public can read approved listings" on public.marketplace_listings;
 
+-- Candidate profiles are a legacy table not used by the current Jobs page.
+revoke all privileges on table public.candidate_profiles from anon,authenticated;
+drop policy if exists "Public can submit pending candidate profiles" on public.candidate_profiles;
+
 commit;
