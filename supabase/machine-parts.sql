@@ -32,7 +32,7 @@ on public.machine_part_listings for insert to anon, authenticated
 with check (status = 'pending' and admin_notes is null);
 
 create policy "public can view approved machine part listings"
-on public.machine_part_listings for select to anon, authenticated
+on public.machine_part_listings for select to anon
 using (status = 'approved');
 
 create policy "Sweksha admin read machine part listings"
@@ -44,7 +44,9 @@ on public.machine_part_listings for update to authenticated
 using (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com')
 with check (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com');
 
-grant insert, select on public.machine_part_listings to anon;
+revoke select on public.machine_part_listings from anon;
+grant insert on public.machine_part_listings to anon;
+grant select (id, transaction_type, part_name, category, condition, expected_price, quantity, location, photo_url, details, created_at) on public.machine_part_listings to anon;
 grant select, update on public.machine_part_listings to authenticated;
 
 insert into storage.buckets (id,name,public,file_size_limit,allowed_mime_types)
