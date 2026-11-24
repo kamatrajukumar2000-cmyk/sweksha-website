@@ -70,15 +70,14 @@ begin
   end loop;
 end $$;
 
-update public.job_applications set status='pending' where status is null or status not in ('pending','reviewed','shortlisted','closed','rejected');
-update public.job_vacancies set status='pending' where status is null or status not in ('pending','approved','rejected','filled','archived');
-
+-- Preserve every existing status value. NOT VALID constraints enforce the
+-- approved workflow for new/updated rows without rewriting legacy records.
 alter table public.job_applications alter column status set default 'pending';
 alter table public.job_vacancies alter column status set default 'pending';
 alter table public.job_applications add constraint job_applications_status_check
-  check (status in ('pending','reviewed','shortlisted','closed','rejected'));
+  check (status in ('pending','reviewed','shortlisted','closed','rejected')) not valid;
 alter table public.job_vacancies add constraint job_vacancies_status_check
-  check (status in ('pending','approved','rejected','filled','archived'));
+  check (status in ('pending','approved','rejected','filled','archived')) not valid;
 
 alter table public.job_applications enable row level security;
 alter table public.job_vacancies enable row level security;
