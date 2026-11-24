@@ -59,16 +59,9 @@ drop policy if exists "Sweksha admin can delete machine part images" on storage.
 
 create policy "public can upload machine part images"
 on storage.objects for insert to anon, authenticated
-with check (bucket_id='machine-part-images' and name ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp
-
-create policy "public can view machine part images"
-on storage.objects for select to anon, authenticated
-using (bucket_id='machine-part-images');
-
-create policy "Sweksha admin can delete machine part images"
-on storage.objects for delete to authenticated
-using (bucket_id='machine-part-images'
-  and lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com');
+with check (
+  bucket_id = 'machine-part-images'
+  and name ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp$'
 );
 
 create policy "public can view machine part images"
