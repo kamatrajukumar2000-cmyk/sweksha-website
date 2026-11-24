@@ -29,7 +29,18 @@ drop policy if exists "Sweksha admin update machine part listings" on public.mac
 
 create policy "public can submit pending machine part listings"
 on public.machine_part_listings for insert to anon,authenticated
-with check (status='pending' and admin_notes is null);
+with check (
+  status='pending' and admin_notes is null
+  and length(trim(coalesce(part_name,''))) between 1 and 160
+  and length(trim(coalesce(category,''))) between 1 and 120
+  and length(trim(coalesce(condition,''))) <= 120
+  and length(trim(coalesce(expected_price,''))) <= 120
+  and quantity between 1 and 100000
+  and length(trim(coalesce(location,''))) between 1 and 200
+  and length(trim(coalesce(details,''))) <= 3000
+  and length(trim(coalesce(contact_name,''))) between 1 and 120
+  and length(trim(coalesce(contact_phone,''))) between 5 and 40
+);
 create policy "public can view approved machine part listings"
 on public.machine_part_listings for select to anon using (status='approved');
 create policy "Sweksha admin read machine part listings"
