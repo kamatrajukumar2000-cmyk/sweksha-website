@@ -55,7 +55,7 @@
 - Confirmed current application tables are owned by `postgres`, not `supabase_admin`. Supabase's internal `supabase_admin` default ACLs cannot be changed by the project postgres role; those defaults apply only to objects created by that internal role. No attempt was made to alter reserved Supabase roles.
 - Tested enquiry subject lengths at 300 and 301 characters: the valid maximum passed and the oversized value was blocked; all test rows were rolled back.
 - Ran all five standalone marketplace/jobs SQL setup scripts inside database transactions and rolled them back successfully. Also ran the consolidated security SQL reference inside a transaction and rolled it back successfully.
-- Parsed inline JavaScript in nine key website/admin pages; no syntax errors were found. GitHub returned no CI status checks or workflow runs for the repair head commit, so no automated browser/build test has run. Three malformed meta-description tags were corrected.
+- Added a GitHub Actions workflow that parses inline JavaScript across HTML pages on pushes and pull requests. It passed on the repair branch (run 45481111548); a duplicate run for the same commit was still in progress at the last check. This is a syntax check, not a full browser test. Three malformed meta-description tags were corrected.
 - Simulated authorized admin access: admin can read all 4 machine listings and the existing 1 job application.
 - Admin machine-listing update and job application status update tests ran inside transactions and were rolled back.
 - A temporary job vacancy was inserted as admin, approved, verified, then rolled back.
