@@ -32,7 +32,16 @@
     .status{margin-top:12px;font-size:14px;font-weight:700}.footer{background:var(--navy);color:#c7d4e1;padding:30px 0;margin-top:50px}
     @media(max-width:760px){.layout{grid-template-columns:1fr}.listings{grid-template-columns:1fr 1fr}}
     @media(max-width:520px){.listings{grid-template-columns:1fr}.hero{padding:42px 0}}
-  </style>
+  
+     .parts-image-trigger{display:block;width:100%;padding:0;border:0;background:var(--soft);border-radius:8px;cursor:zoom-in;text-align:left}
+     .parts-image-trigger img{display:block;width:100%;height:170px;object-fit:cover;border-radius:8px}
+     .parts-image-trigger:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+     .parts-image-lightbox{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(3,10,20,.92)}
+     .parts-image-lightbox.is-open{display:flex}
+     .parts-image-lightbox img{display:block;max-width:min(96vw,1800px);max-height:88vh;width:auto;height:auto;object-fit:contain;border-radius:8px}
+     .parts-image-lightbox-close{position:absolute;top:14px;right:18px;width:46px;height:46px;border:1px solid rgba(255,255,255,.6);border-radius:50%;background:#fff;color:#07111f;font-size:28px;line-height:1;cursor:pointer}
+     .parts-image-lightbox-caption{position:absolute;left:20px;right:20px;bottom:12px;text-align:center;color:#fff;font-size:13px}
+   </style>
 <link rel="canonical" href="https://swekshacvd.com/marketplace.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SWEKSHA FOUNDATION CLUB">
@@ -106,6 +115,12 @@
   </section>
 </main>
 <footer class="footer"><div class="wrap"><strong>Sweksha CVD Diamond Machine Service &amp; Consulting</strong><p>Machine parts marketplace — draft preview</p><p><strong>Call / WhatsApp:</strong> <a href="https://wa.me/917827474249" target="_blank" rel="noopener">+91 78274 74249</a></p><p><strong>Email:</strong> <a href="mailto:kamatrajukumar2000@gmail.com">kamatrajukumar2000@gmail.com</a></p><p><strong>Instagram:</strong> <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">instagram.com</a> · <strong>X / Twitter:</strong> <a href="https://x.com/Rajukamat03zm" target="_blank" rel="noopener noreferrer">@Rajukamat03zm</a></p></div></footer>
+
+<div class="parts-image-lightbox" id="partsImageLightbox" role="dialog" aria-modal="true" aria-label="Full-size part photo viewer" aria-hidden="true">
+ <button class="parts-image-lightbox-close" type="button" aria-label="Close full-size photo">&times;</button>
+ <img id="partsLightboxImage" alt="Full-size approved part photo">
+ <div class="parts-image-lightbox-caption">Click outside the image or press Escape to close</div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
@@ -148,13 +163,20 @@ function renderParts(){
  });
  $('listingCount').textContent='Showing '+filtered.length+' of '+approvedParts.length+' approved listing(s).';
  if(!filtered.length){$('partsListings').innerHTML='<div class="empty">No matching parts found. Try another search or clear the filters.</div>';return}
- $('partsListings').innerHTML=filtered.map(r=>'<article class="listing">'+(r.photo_url?'<img loading="lazy" src="'+esc(r.photo_url)+'" alt="'+esc(r.part_name)+'" style="width:100%;height:150px;object-fit:cover;border-radius:8px">':'')+'<span class="muted">'+(r.transaction_type==='looking_to_buy'?'Buyer requirement':'For sale')+'</span><h3>'+esc(r.part_name)+'</h3><p class="muted">'+esc(r.category)+' · '+esc(r.condition||'Not specified')+'</p><p>'+esc(r.details||'Details on request')+'</p><p class="price">'+esc(r.expected_price||'Price on Request')+' · Qty '+esc(r.quantity)+'</p><p class="muted">'+esc(r.location)+'</p><a class="btn" target="_blank" rel="noopener" href="https://wa.me/917827474249?text='+encodeURIComponent('Hello Sweksha, I am interested in '+r.part_name+' ('+r.category+').')+'">Enquire on WhatsApp</a></article>').join('');
+ $('partsListings').innerHTML=filtered.map(r=>'<article class="listing">'+(r.photo_url?'<button class="parts-image-trigger" type="button" data-parts-full-image="'+esc(r.photo_url)+'" data-image-alt="'+esc(r.part_name)+'" aria-label="Open full-size photo: '+esc(r.part_name)+'"><img loading="lazy" src="'+esc(r.photo_url)+'" alt="'+esc(r.part_name)+'"></button>':'')+'<span class="muted">'+(r.transaction_type==='looking_to_buy'?'Buyer requirement':'For sale')+'</span><h3>'+esc(r.part_name)+'</h3><p class="muted">'+esc(r.category)+' · '+esc(r.condition||'Not specified')+'</p><p>'+esc(r.details||'Details on request')+'</p><p class="price">'+esc(r.expected_price||'Price on Request')+' · Qty '+esc(r.quantity)+'</p><p class="muted">'+esc(r.location)+'</p><a class="btn" target="_blank" rel="noopener" href="https://wa.me/917827474249?text='+encodeURIComponent('Hello Sweksha, I am interested in '+r.part_name+' ('+r.category+').')+'">Enquire on WhatsApp</a></article>').join('');
 }
 ['listingSearch','listingCategory','listingType'].forEach(id=>$(id).addEventListener(id==='listingSearch'?'input':'change',renderParts));
 $('clearListingFilters').addEventListener('click',()=>{$('listingSearch').value='';$('listingCategory').value='';$('listingType').value='';renderParts()});
 async function loadParts(){try{$('partsListingStatus').textContent='Loading approved parts…';let {data,error}=await client.from('machine_part_listings').select('id,transaction_type,part_name,category,condition,expected_price,quantity,location,photo_url,details').eq('status','approved').order('created_at',{ascending:false}).limit(60);if(error)throw error;approvedParts=data||[];$('partsListingStatus').textContent=approvedParts.length?'Marketplace connected. Confirm stock and compatibility with Sweksha.':'Connected. No approved parts yet.';renderParts()}catch(e){$('partsListingStatus').textContent='Could not load parts: '+(e.message||'Run machine-parts.sql in Supabase.');$('partsListings').innerHTML='<div class="empty">Please contact Sweksha while the marketplace is configured.</div>'}}
 $('requestForm').addEventListener('submit',async e=>{e.preventDefault();let btn=e.submitter;btn.disabled=true;let r={transaction_type:'looking_to_buy',part_name:$('needPart').value.trim(),category:'Buyer requirement',condition:$('needCondition').value,quantity:Number($('needQty').value),location:'Not specified',details:$('needDetails').value.trim()||null,contact_name:$('buyerName').value.trim(),contact_phone:$('buyerContact').value.trim(),status:'pending',admin_notes:null};let msg='Hello Sweksha, I need a CVD machine part.\nPart: '+r.part_name+'\nCondition: '+r.condition+'\nQuantity: '+r.quantity+'\nDetails: '+(r.details||'Not provided')+'\nName: '+r.contact_name+'\nContact: '+r.contact_phone;try{let {error}=await client.from('machine_part_listings').insert(r);if(error)throw error;$('requestStatus').textContent='BUY requirement saved for Admin review. Please press Send in WhatsApp.';$('requestForm').reset();wa(msg)}catch(x){$('requestStatus').textContent='Database save failed: '+x.message+'. WhatsApp message is still available.';wa(msg)}finally{btn.disabled=false}});
 $('sellForm').addEventListener('submit',async e=>{e.preventDefault();let btn=e.submitter;btn.disabled=true;let f=photo.files[0],r={transaction_type:'for_sale',part_name:$('partName').value.trim(),category:$('partType').value,condition:$('partCondition').value,expected_price:$('partPrice').value.trim(),quantity:Number($('partQty').value),location:$('partLocation').value.trim(),details:$('partDetails').value.trim()||null,contact_name:$('sellerName').value.trim(),contact_phone:$('sellerContact').value.trim(),status:'pending',admin_notes:null};let msg='Hello Sweksha, I want to list a part for sale.\nPart: '+r.part_name+'\nCategory: '+r.category+'\nCondition: '+r.condition+'\nPrice: '+r.expected_price+'\nQuantity: '+r.quantity+'\nLocation: '+r.location+'\nDetails: '+(r.details||'Not provided')+'\nSeller: '+r.contact_name+'\nContact: '+r.contact_phone;try{if(!f)throw Error('Select a product photo');if(!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>5242880)throw Error('Photo must be JPG, PNG or WEBP up to 5 MB');let optimizedFile=await compressListingImage(f),path=Date.now()+'-'+Math.random().toString(36).slice(2)+'.webp';let up=await client.storage.from('machine-part-images').upload(path,optimizedFile,{contentType:'image/webp',cacheControl:'31536000',upsert:false});if(up.error)throw up.error;r.photo_url=client.storage.from('machine-part-images').getPublicUrl(path).data.publicUrl;let {error}=await client.from('machine_part_listings').insert(r);if(error)throw error;$('sellStatus').textContent='SELL listing and photo saved for Admin review. Please press Send in WhatsApp.';$('sellForm').reset();preview.removeAttribute('src');preview.style.display='none';wa(msg)}catch(x){$('sellStatus').textContent='Database/photo save failed: '+x.message+'. WhatsApp message is still available.';wa(msg)}finally{btn.disabled=false}});
+const partsViewer=$('partsImageLightbox'),partsViewerImage=$('partsLightboxImage');
+let lastPartsImageTrigger=null;
+function closePartsImageViewer(){partsViewer.classList.remove('is-open');partsViewer.setAttribute('aria-hidden','true');partsViewerImage.removeAttribute('src');if(lastPartsImageTrigger)lastPartsImageTrigger.focus();}
+$('partsListings').addEventListener('click',e=>{const trigger=e.target.closest('.parts-image-trigger[data-parts-full-image]');if(!trigger)return;lastPartsImageTrigger=trigger;partsViewerImage.src=trigger.dataset.partsFullImage;partsViewerImage.alt=trigger.dataset.imageAlt||'Full-size approved part photo';partsViewer.classList.add('is-open');partsViewer.setAttribute('aria-hidden','false');partsViewer.querySelector('.parts-image-lightbox-close').focus();});
+partsViewer.querySelector('.parts-image-lightbox-close').addEventListener('click',closePartsImageViewer);
+partsViewer.addEventListener('click',e=>{if(e.target===partsViewer)closePartsImageViewer();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&partsViewer.classList.contains('is-open'))closePartsImageViewer();});
 loadParts();
 })();
 </script>
