@@ -69,11 +69,11 @@
     .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
     .hero{position:relative;overflow:hidden;padding:0;background:#06101d;color:#fff}
     .hero-carousel{display:grid;position:relative}
-    .hero-slide{grid-area:1/1;padding:92px 0 112px;background-image:linear-gradient(rgba(3,12,25,.28),rgba(3,12,25,.28)),url("./29fc3747-cc7a-41b9-b700-16bdd8c942b6%20-%20Copy.jpg");background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#06101d;opacity:0;visibility:hidden;transition:opacity .6s ease,visibility .6s}
+    .hero-slide{grid-area:1/1;padding:92px 0 112px;background-image:linear-gradient(rgba(3,12,25,.28),rgba(3,12,25,.28)),url("./cvd-plant-banner.jpg.png");background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#06101d;opacity:0;visibility:hidden;transition:opacity .6s ease,visibility .6s}
     .hero-slide.is-active{z-index:1;opacity:1;visibility:visible}
-    .hero-slide-setup{background-image:linear-gradient(rgba(3,12,25,.28),rgba(3,12,25,.28)),url("./29fc3747-cc7a-41b9-b700-16bdd8c942b6%20-%20Copy.jpg")}
-    .hero-slide-troubleshooting{background-image:linear-gradient(rgba(3,12,25,.28),rgba(3,12,25,.28)),url("./29fc3747-cc7a-41b9-b700-16bdd8c942b6%20-%20Copy.jpg")}
-    .hero-slide-process{background-image:linear-gradient(rgba(3,12,25,.28),rgba(3,12,25,.28)),url("./29fc3747-cc7a-41b9-b700-16bdd8c942b6%20-%20Copy.jpg")}
+    .hero-slide-setup{background-image:linear-gradient(rgba(3,12,25,.28),rgba(3,12,25,.28)),url("./cvd-plant-banner.jpg.png")}
+    .hero-slide-troubleshooting{background-image:linear-gradient(rgba(3,12,25,.28),rgba(3,12,25,.28)),url("./cvd-plant-banner.jpg.png")}
+    .hero-slide-process{background-image:linear-gradient(rgba(3,12,25,.28),rgba(3,12,25,.28)),url("./cvd-plant-banner.jpg.png")}
     @media(max-width:768px){.hero-slide,.hero-slide-setup,.hero-slide-troubleshooting,.hero-slide-process{background-position:center;background-attachment:scroll}}
     .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:50px;align-items:center}
     .eyebrow{display:inline-block;color:var(--accent2);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;font-size:12px;margin-bottom:16px}
@@ -343,42 +343,7 @@
 @media(min-width:1101px){.header-intro{align-items:flex-start!important;text-align:left!important}.header-info{align-items:flex-start!important;text-align:left!important;width:100%!important}.header-service{display:block!important;text-align:left!important;margin-right:auto!important}.header-support-info{display:flex!important;justify-content:flex-start!important;align-items:center!important;width:100%!important;flex:0 0 100%!important;text-align:left!important;margin-left:0!important;margin-right:auto!important}.header-support-info .header-support{text-align:left!important}.brand{display:block!important;align-self:flex-start!important;text-align:left!important;margin-left:0!important;margin-right:auto!important}}
 
     /* SWEKSHA immersive 3D hero: uploaded CVD image with content layered on top */
-    .hero{background:#06101d;perspective:1400px;isolation:isolate}
-    .hero-slide{position:relative;isolation:isolate;min-height:560px;padding:76px 0 100px;background-size:cover;background-position:center;overflow:hidden}
-    .hero-slide::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(112deg,rgba(3,12,25,.78) 0%,rgba(3,12,25,.48) 54%,rgba(3,12,25,.24) 100%);pointer-events:none}
-    .hero-slide.is-active{animation:heroImageReveal .85s ease both}
-    .hero-grid{position:relative;z-index:1;gap:clamp(22px,4vw,54px);transform-style:preserve-3d}
-    .hero-grid>div:first-child{padding:clamp(20px,3vw,34px);border:1px solid rgba(255,255,255,.22);border-radius:22px;background:linear-gradient(135deg,rgba(5,19,35,.76),rgba(7,37,53,.44));box-shadow:0 24px 65px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.16);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);transform:translateZ(28px)}
-    .hero-grid h1,.hero-grid h2{text-shadow:0 4px 24px rgba(0,0,0,.38)}
-    .hero-grid .eyebrow{padding:7px 12px;border:1px solid rgba(139,231,220,.4);border-radius:999px;background:rgba(4,32,48,.55)}
-    .hero-grid .hero-card{background:linear-gradient(145deg,rgba(5,25,43,.82),rgba(8,65,76,.62));border:1px solid rgba(139,231,220,.42);box-shadow:0 26px 70px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.2);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transform:translateZ(48px)}
-    .hero-grid .hero-card h3{color:#fff}
-    .hero-grid .actions .btn{box-shadow:0 10px 24px rgba(0,0,0,.22);transition:transform .25s ease,box-shadow .25s ease,background .25s ease}
-    .hero-grid .actions .btn:hover,.hero-grid .actions .btn:focus-visible{transform:translateY(-4px) scale(1.025);box-shadow:0 16px 30px rgba(0,0,0,.3);outline:2px solid rgba(139,231,220,.65);outline-offset:3px}
-    .hero-controls{z-index:3}
-    .hero-arrow,.hero-dot{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 8px 22px rgba(0,0,0,.2)}
-    @keyframes heroImageReveal{from{filter:saturate(.82);background-size:106% 106%}to{filter:saturate(1.08);background-size:cover}}
-    @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
-      .hero-grid>div:first-child,.hero-grid .hero-card{transition:transform .35s cubic-bezier(.2,.75,.25,1),box-shadow .35s ease}
-      .hero-grid>div:first-child:hover{transform:translate3d(0,-6px,38px) rotateX(1deg) rotateY(-1deg);box-shadow:0 32px 75px rgba(0,0,0,.34)}
-      .hero-grid .hero-card:hover{transform:translate3d(0,-8px,58px) rotateX(2deg) rotateY(1deg);box-shadow:0 34px 78px rgba(0,0,0,.4),0 0 28px rgba(35,199,183,.16)}
-    }
-    @media(max-width:768px){
-      .hero-slide{min-height:0;padding:54px 0 92px;background-position:center}
-      .hero-grid>div:first-child{padding:20px;background:rgba(4,18,32,.7)}
-      .hero-grid .hero-card{padding:21px}
-    }
-    @media(prefers-reduced-motion:reduce){
-      .hero-slide.is-active{animation:none}
-      .hero-grid>div:first-child,.hero-grid .hero-card,.hero-grid .actions .btn{transition:none!important;transform:none!important}
-    }
-
-</style>
-
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"ProfessionalService",
+    .hero{background:#06ssionalService",
     "name":"Sweksha CVD Diamond Machine Service & Consulting",
     "description":"CVD lab-grown diamond machine service and consulting, including setup guidance and troubleshooting for quartz window, microwave/RF, vacuum pump, MFC flow and plasma instability issues.",
     "telephone":"+91 7827474249",
