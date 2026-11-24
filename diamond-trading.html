@@ -279,7 +279,7 @@ sellerForm.addEventListener('submit', async e => {
   let dbError = null;
   if (db) {
     const optimizedFile = await compressListingImage(file);
-    const filePath = Date.now() + '-' + Math.random().toString(36).slice(2) + '.webp';
+    const filePath = crypto.randomUUID() + '.webp';
     const upload = await db.storage.from(BUCKET).upload(filePath, optimizedFile, {
       cacheControl: '31536000', upsert: false, contentType: 'image/webp'
     });
