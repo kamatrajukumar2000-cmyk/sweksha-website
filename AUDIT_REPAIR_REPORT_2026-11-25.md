@@ -32,7 +32,7 @@
 7. Added enquiry validation and required new enquiries to use `status='new'`.
 8. Removed an obsolete enquiry admin policy and a duplicate vacancy policy; optimized admin JWT policy evaluation.
 9. Added admin-only review read/update policies; public reviews remain pending until approved.
-10. Fourteen Supabase migrations are recorded and mirrored under `supabase/migrations/` on the repair branch.
+10. Sixteen Supabase migrations are recorded and mirrored under `supabase/migrations/` on the repair branch.
 11. Locked down unused legacy `marketplace_listings`: revoked all browser-role privileges and removed its public-read policy; zero rows were present and the table/column were retained.
 12. Locked down unused legacy `candidate_profiles`: revoked all browser-role privileges and its public insert policy; zero rows were present. The active Jobs page continues to use `job_applications`.
 13. Added server-side length and field-count validation to public machine, parts, diamond, job application, vacancy and review submissions; no existing rows were rewritten.
@@ -55,7 +55,8 @@
 - Confirmed current application tables are owned by `postgres`, not `supabase_admin`. Supabase's internal `supabase_admin` default ACLs cannot be changed by the project postgres role; those defaults apply only to objects created by that internal role. No attempt was made to alter reserved Supabase roles.
 - Tested enquiry subject lengths at 300 and 301 characters: the valid maximum passed and the oversized value was blocked; all test rows were rolled back.
 - Ran all five standalone marketplace/jobs SQL setup scripts inside database transactions and rolled them back successfully. Also ran the consolidated security SQL reference inside a transaction and rolled it back successfully.
-- Added a GitHub Actions workflow that parses inline JavaScript across HTML pages on pushes and pull requests. It passed on the repair branch (run 45481111548); a duplicate run for the same commit was still in progress at the last check. This is a syntax check, not a full browser test. Three malformed meta-description tags were corrected.
+- Added a GitHub Actions workflow that parses inline JavaScript across HTML pages on pushes and pull requests. It passed on the repair branch (run 45481111548); a duplicate run for the same commit was still in progress at the last check. This is a syntax check, not a full browser test.
+- After tightening authenticated read policies, re-optimized all six policies using scalar-subquery JWT evaluation. The latest Supabase performance advisor no longer reports RLS initplan warnings; only one informational unused index remains. Three malformed meta-description tags were corrected.
 - Simulated authorized admin access: admin can read all 4 machine listings and the existing 1 job application.
 - Admin machine-listing update and job application status update tests ran inside transactions and were rolled back.
 - A temporary job vacancy was inserted as admin, approved, verified, then rolled back.
