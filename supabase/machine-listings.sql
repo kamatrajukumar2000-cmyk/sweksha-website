@@ -63,57 +63,13 @@ create index if not exists machine_sales_listings_status_created_idx
 alter table public.machine_sales_listings enable row level security;
 
 drop policy if exists "public can submit pending machine listings" on public.machine_sales_listings;
-drop policy if exists "public can view approved machine listings" on public.machine_sales_listings;
-drop policy if exists "admins manage machine sales listings" on public.machine_sales_listings;
-drop policy if exists "Sweksha admin read machine listings" on public.machine_sales_listings;
-drop policy if exists "Sweksha admin update machine listings" on public.machine_sales_listings;
-
-create policy "public can submit pending machine listings"
-on public.machine_sales_listings
-for insert to anon, authenticated
-with check (status = 'pending' and admin_notes is null);
-
-create policy "public can view approved machine listings"
-on public.machine_sales_listings
-for select to anon, authenticated
-using (status = 'approved');
-
-create policy "Sweksha admin read machine listings"
-on public.machine_sales_listings
-for select to authenticated
-using (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com');
-
-create policy "Sweksha admin update machine listings"
-on public.machine_sales_listings
-for update to authenticated
-using (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com')
-with check (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com');
-
-revoke select on public.machine_sales_listings from anon;
-grant insert on public.machine_sales_listings to anon;
-grant select (id, machine_category, transaction_type, condition, brand_model_year, application_details, expected_price, location, photo_urls, created_at) on public.machine_sales_listings to anon;
-grant select, update on public.machine_sales_listings to authenticated;
-
--- Public image bucket: uploads are public-read, but no public update/delete access.
-insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-values ('machine-listing-images','machine-listing-images',true,5242880,array['image/jpeg','image/png','image/webp'])
-on conflict (id) do update set public = true, file_size_limit = 5242880,
-  allowed_mime_types = array['image/webp'];
-
-drop policy if exists "public can upload machine listing images" on storage.objects;
 drop policy if exists "public can view machine listing images" on storage.objects;
-drop policy if exists "Sweksha admin can delete machine listing images" on storage.objects;
-
-create policy "public can upload machine listing images"
-on storage.objects for insert to anon, authenticated
-with check (
+create policy "Sweksha admin can list machine listing images"
+on storage.objects for select to authenticated
+using (
   bucket_id = 'machine-listing-images'
-  and name ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp$'
+  and lower(coalesce((select auth.jwt()) ->> 'email','')) = 'kamatrajukumar2000@gmail.com'
 );
-
-create policy "public can view machine listing images"
-on storage.objects for select to anon, authenticated
-using (bucket_id = 'machine-listing-images');
 
 create policy "Sweksha admin can delete machine listing images"
 on storage.objects for delete to authenticated
