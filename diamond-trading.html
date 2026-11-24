@@ -304,7 +304,7 @@ sellerForm.addEventListener('submit', async e => {
   } catch (error) {
     uploadError = error;
   } finally {
-    const message = 'Hello Sweksha, I want to submit a diamond SELL listing for review.\\nProduct: '+$('stype').value+'\\nDescription: '+$('sdesc').value+'\\nPrice: '+$('sprice').value+'\\nQuantity: '+$('sqty').value+'\\nLocation: '+$('sloc').value+'\\nSeller/company: '+$('sname').value+'\\nContact: '+$('scontact').value+'\\nPhoto: '+(photoUrl||'I will attach the photo in WhatsApp.');
+    const message = 'Hello Sweksha, I want to submit a diamond SELL listing for review.\nProduct: '+$('stype').value+'\nDescription: '+$('sdesc').value+'\nPrice: '+$('sprice').value+'\nQuantity: '+$('sqty').value+'\nLocation: '+$('sloc').value+'\nSeller/company: '+$('sname').value+'\nContact: '+$('scontact').value+'\nPhoto: '+(photoUrl||'I will attach the photo in WhatsApp.');
     const waUrl = 'https://wa.me/917827474249?text='+encodeURIComponent(message);
     if (waTab) waTab.location.href = waUrl; else window.location.href = waUrl;
     if (uploadError) {
