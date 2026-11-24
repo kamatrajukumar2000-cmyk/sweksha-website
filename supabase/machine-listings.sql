@@ -64,6 +64,13 @@ alter table public.machine_sales_listings enable row level security;
 
 drop policy if exists "public can submit pending machine listings" on public.machine_sales_listings;
 drop policy if exists "public can view machine listing images" on storage.objects;
+create policy "public can upload machine-listing-images objects"
+on storage.objects for insert to anon, authenticated
+with check (
+  bucket_id = 'machine-listing-images'
+  and name ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp$'
+);
+
 create policy "Sweksha admin can list machine listing images"
 on storage.objects for select to authenticated
 using (
