@@ -1854,9 +1854,8 @@ I will attach relevant photos/videos in WhatsApp if available. Please contact me
       });
     });
 
-    // ===== Customer Reviews =====
+    // ===== Customer Reviews: Supabase-backed moderation =====
     const reviewStars = n => '\u2605'.repeat(Number(n)) + '\u2606'.repeat(5 - Number(n));
-    const reviewStorageKey = 'sweksha-reviews';
     const initialReviews = JSON.parse(document.getElementById('initialReviews').textContent);
 
     function setReviewStatus(message, type=''){
@@ -1865,48 +1864,55 @@ I will attach relevant photos/videos in WhatsApp if available. Please contact me
       el.className = 'review-status ' + type;
     }
 
-function renderReviews(reviews){
-  const list = document.getElementById('reviewList');
-  const count = document.getElementById('reviewCount');
-  const avg = document.getElementById('reviewAverage');
-  const avgStars = document.getElementById('reviewAverageStars');
+    function getPublicKey(){
+      try {
+        return localStorage.getItem('sweksha_supabase_public_key') || 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf';
+      } catch (err) {
+        return 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf';
+      }
+    }
 
-  count.textContent = reviews.length;
-  document.querySelector(".review-summary").hidden = reviews.length === 0;
-  list.hidden = reviews.length === 0;
+    function publicApiHeaders(key, extra){
+      const headers = Object.assign({'apikey': key}, extra || {});
+      if (!key.startsWith('sb_publishable_')) headers.Authorization = 'Bearer ' + key;
+      return headers;
+    }
 
-  if (!reviews.length){
-    avg.textContent = '\u2014';
-    avgStars.textContent = '\u2605'.repeat(5);
-    list.innerHTML = '<div class="review-empty">No published reviews yet. Be the first to share your experience.</div>';
-    return;
-  }
-
-  const average = reviews.reduce((sum, r) => sum + Number(r.rating), 0) / reviews.length;
-  avg.textContent = average.toFixed(1);
-  avgStars.textContent = reviewStars(Math.round(average));
-
-  list.innerHTML = `<div class="review-track" id="reviewTrack" aria-live="off">${reviews.map((r, index) => `
-    <article class="review-card" role="group" aria-roledescription="slide" aria-label="Review ${index + 1} of ${reviews.length}">
-      <div class="review-stars">${reviewStars(r.rating)}</div>
-      ${r.title ? `<h3>${escapeHtml(r.title)}</h3>` : ''}
-      <p>${escapeHtml(r.review_text)}</p>
-      <div class="review-name">${escapeHtml(r.name)}</div>
-      ${r.company ? `<div class="review-company">${escapeHtml(r.company)}</div>` : ''}
-    </article>
-  `).join('')}</div>`;
-  startReviewSlider();
-}
+    function renderReviews(reviews){
+      const list = document.getElementById('reviewList');
+      const count = document.getElementById('reviewCount');
+      const avg = document.getElementById('reviewAverage');
+      const avgStars = document.getElementById('reviewAverageStars');
+      count.textContent = reviews.length;
+      document.querySelector(".review-summary").hidden = reviews.length === 0;
+      list.hidden = reviews.length === 0;
+      if (!reviews.length){
+        avg.textContent = '\u2014';
+        avgStars.textContent = '\u2605'.repeat(5);
+        list.innerHTML = '<div class="review-empty">No published reviews yet. Be the first to share your experience.</div>';
+        return;
+      }
+      const average = reviews.reduce((sum, r) => sum + Number(r.rating), 0) / reviews.length;
+      avg.textContent = average.toFixed(1);
+      avgStars.textContent = reviewStars(Math.round(average));
+      list.innerHTML = `<div class="review-track" id="reviewTrack" aria-live="off">${reviews.map((r, index) => `
+        <article class="review-card" role="group" aria-roledescription="slide" aria-label="Review ${index + 1} of ${reviews.length}">
+          <div class="review-stars">${reviewStars(r.rating)}</div>
+          <p>${escapeHtml(r.review || r.review_text || '')}</p>
+          <div class="review-name">${escapeHtml(r.name)}</div>
+          ${r.company ? `<div class="review-company">${escapeHtml(r.company)}</div>` : ''}
+        </article>
+      `).join('')}</div>`;
+      startReviewSlider();
+    }
 
     let reviewSliderTimer = null;
-
     function startReviewSlider(){
       clearInterval(reviewSliderTimer);
       reviewSliderTimer = null;
       const viewport = document.getElementById('reviewList');
       const track = document.getElementById('reviewTrack');
       if(!viewport || !track) return;
-
       const cards = Array.from(track.children);
       const visibleCards = window.matchMedia('(max-width:700px)').matches ? 1 : 2;
       const lastStart = cards.length - visibleCards;
@@ -1914,11 +1920,7 @@ function renderReviews(reviews){
       track.style.transform = 'translateX(0)';
       track.classList.toggle('single-review', cards.length === 1);
       if(lastStart <= 0 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      const pause = () => {
-        clearInterval(reviewSliderTimer);
-        reviewSliderTimer = null;
-      };
+      const pause = () => { clearInterval(reviewSliderTimer); reviewSliderTimer = null; };
       const resume = () => {
         if(reviewSliderTimer) return;
         reviewSliderTimer = setInterval(() => {
@@ -1928,13 +1930,10 @@ function renderReviews(reviews){
           track.style.transform = `translateX(-${currentStart * step}px)`;
         }, 4000);
       };
-
       viewport.onmouseenter = pause;
       viewport.onmouseleave = resume;
       viewport.onfocusin = pause;
-      viewport.onfocusout = event => {
-        if(!viewport.contains(event.relatedTarget)) resume();
-      };
+      viewport.onfocusout = event => { if(!viewport.contains(event.relatedTarget)) resume(); };
       resume();
     }
 
@@ -1950,40 +1949,57 @@ function renderReviews(reviews){
       }[c]));
     }
 
-    function getReviews(){
-      const savedReviews = localStorage.getItem(reviewStorageKey);
-      if(savedReviews === null) return initialReviews;
-      const reviews = JSON.parse(savedReviews);
-      return Array.isArray(reviews) ? reviews : initialReviews;
-    }
-
-    function loadReviews(){
-      try{
-        renderReviews(getReviews().filter(review => review.approved === true));
-      }catch(err){
+    async function loadReviews(){
+      const key = getPublicKey();
+      try {
+        const response = await fetch('https://xotqafgkubodqpirfpfb.supabase.co/rest/v1/reviews?select=id,created_at,name,rating,review&status=eq.approved&order=created_at.desc&limit=30', {
+          headers: publicApiHeaders(key)
+        });
+        if(!response.ok) throw new Error('Could not load approved reviews');
+        const reviews = await response.json();
+        renderReviews(Array.isArray(reviews) ? reviews : []);
+      } catch(err) {
         renderReviews(initialReviews.filter(review => review.approved === true));
-        setReviewStatus('This browser could not access saved reviews.');
+        setReviewStatus('Published reviews are temporarily unavailable. You can still send feedback on WhatsApp.', 'error');
       }
     }
 
-    document.getElementById('reviewForm').addEventListener('submit', function(e){
+    document.getElementById('reviewForm').addEventListener('submit', async function(e){
       e.preventDefault();
+      const form = e.currentTarget;
+      const button = form.querySelector('button[type="submit"]');
       const name = document.getElementById('reviewName').value.trim();
       const company = document.getElementById('reviewCompany').value.trim();
       const rating = Number(document.getElementById('reviewRating').value);
       const title = document.getElementById('reviewTitle').value.trim();
-      const review_text = document.getElementById('reviewText').value.trim();
-      if(!name || !rating || !review_text) return;
-      const msg = 'Hello Sweksha CVD Diamond Machine Service & Consulting,\n\nI would like to share feedback about your service.\n\nName: ' + name +
-        '\nCompany: ' + (company || 'Not provided') +
-        '\nRating: ' + rating + '/5' +
-        '\nTitle: ' + (title || 'Not provided') +
-        '\nFeedback: ' + review_text +
-        '\n\nPlease review my feedback. I understand it will not be published on the website automatically.';
+      const review = document.getElementById('reviewText').value.trim();
+      if(!name || !Number.isInteger(rating) || rating < 1 || rating > 5 || review.length < 2) return;
+      const msg = 'Hello Sweksha CVD Diamond Machine Service & Consulting,\\n\\nI would like to share feedback about your service.\\n\\nName: ' + name +
+        '\\nCompany: ' + (company || 'Not provided') +
+        '\\nRating: ' + rating + '/5' +
+        '\\nTitle: ' + (title || 'Not provided') +
+        '\\nFeedback: ' + review +
+        '\\n\\nPlease review my feedback. I understand it will be published only after approval.';
       const waUrl = 'https://wa.me/917827474249?text=' + encodeURIComponent(msg);
-      window.open(waUrl, '_blank', 'noopener');
-      setReviewStatus('WhatsApp opened with your feedback. Please send the message there.', 'success');
-      trackEvent('review_feedback_whatsapp', {rating});
+      const waTab = window.open(waUrl, '_blank', 'noopener');
+      button.disabled = true;
+      setReviewStatus('Saving your feedback for admin review…');
+      try {
+        const key = getPublicKey();
+        const response = await fetch('https://xotqafgkubodqpirfpfb.supabase.co/rest/v1/reviews', {
+          method: 'POST',
+          headers: publicApiHeaders(key, {'Content-Type':'application/json','Prefer':'return=minimal'}),
+          body: JSON.stringify({name, rating, review, status:'pending'})
+        });
+        if(!response.ok) throw new Error('Database did not accept the review');
+        setReviewStatus('Feedback saved for admin approval. WhatsApp opened; please send the message there too.', 'success');
+        trackEvent('review_feedback_submitted', {rating});
+        form.reset();
+      } catch(err) {
+        setReviewStatus('WhatsApp opened, but the review could not be saved to the website. Please send your feedback on WhatsApp.', 'error');
+      } finally {
+        button.disabled = false;
+      }
     });
 
     loadReviews();
