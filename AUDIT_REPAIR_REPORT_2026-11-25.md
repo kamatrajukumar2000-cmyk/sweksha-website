@@ -32,10 +32,11 @@
 7. Added enquiry validation and required new enquiries to use `status='new'`.
 8. Removed an obsolete enquiry admin policy and a duplicate vacancy policy; optimized admin JWT policy evaluation.
 9. Added admin-only review read/update policies; public reviews remain pending until approved.
-10. Ten Supabase migrations are recorded and mirrored under `supabase/migrations/` on the repair branch.
+10. Eleven Supabase migrations are recorded and mirrored under `supabase/migrations/` on the repair branch.
 11. Locked down unused legacy `marketplace_listings`: revoked all browser-role privileges and removed its public-read policy; zero rows were present and the table/column were retained.
 12. Locked down unused legacy `candidate_profiles`: revoked all browser-role privileges and its public insert policy; zero rows were present. The active Jobs page continues to use `job_applications`.
 13. Added server-side length and field-count validation to public machine, parts, diamond, job application, vacancy and review submissions; no existing rows were rewritten.
+14. Added explicit deny-all RLS policies to the two unused legacy tables so the security advisor no longer reports RLS-enabled tables without policies.
 
 ## Verification performed
 - Anonymous DELETE/TRUNCATE/UPDATE privileges are false; authenticated TRUNCATE is false.
