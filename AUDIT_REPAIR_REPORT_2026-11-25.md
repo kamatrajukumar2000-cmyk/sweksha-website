@@ -18,7 +18,7 @@
 - Public job application/vacancy policies did not consistently force new submissions to `pending`.
 - Enquiry insert policy lacked adequate field-length and status validation.
 - Reviews had a database table and public pending-insert policy, but the homepage review form used WhatsApp only and the admin dashboard had no review moderation UI.
-- Public Storage upload policies allowed anonymous uploads under any object name and public listing of object metadata. Buckets themselves were capped at 5 MiB and restricted to JPG/PNG/WebP.
+- Initial public Storage upload policies allowed anonymous uploads under any object name and public listing of object metadata. Buckets were already capped at 5 MiB and restricted to JPG/PNG/WebP; this policy weakness has now been fixed.
 - `marketplace_listings` contains an unusual extra column named `iPhone 13` (array type, comment: “Good condition, used phone”). It was not changed or deleted.
 
 ## Live database changes applied and verified
@@ -31,12 +31,14 @@
 7. Added enquiry validation and required new enquiries to use `status='new'`.
 8. Removed an obsolete enquiry admin policy and a duplicate vacancy policy; optimized admin JWT policy evaluation.
 9. Added admin-only review read/update policies; public reviews remain pending until approved.
-10. Five Supabase migrations are recorded and mirrored under `supabase/migrations/` on the repair branch.
+10. Seven Supabase migrations are recorded and mirrored under `supabase/migrations/` on the repair branch.
 
 ## Verification performed
 - Anonymous DELETE/TRUNCATE/UPDATE privileges are false; authenticated TRUNCATE is false.
 - Private contact/admin columns are not selectable by the anonymous role.
 - Public approved-status queries were individually tested for machine sales, machine parts, diamond listings, job vacancies and reviews; they succeeded after the additional `status` column grant.
+- Storage object listing is now blocked for anonymous users; the authorised admin can list all existing objects (18 machine, 2 parts, 4 diamond). Existing object counts did not change.
+- Tested Storage RLS in a rolled-back transaction: a valid legacy-style image filename was accepted, while an arbitrary text filename was rejected.
 - Simulated authorized admin access: admin can read all 4 machine listings and the existing 1 job application.
 - Admin machine-listing update and job application status update tests ran inside transactions and were rolled back.
 - A temporary job vacancy was inserted as admin, approved, verified, then rolled back.
@@ -70,7 +72,7 @@ No records were removed. If previous enquiries/reviews were expected in these ze
 - Improved machine listing image layout stability.
 - Fixed malformed meta-description markup on three pages.
 - Fixed Jobs page publishable-key fallback and Diamond Seller WhatsApp fallback after image compression/upload failure.
-- Prepared UUID-v4 WebP-only upload policies and admin-only Storage object listing policies for machine, parts and diamond image buckets.
+- Hardened live Storage policies: uploads must use the current timestamp/random image filename pattern or UUID-v4 WebP; public object listing is blocked; only the authorised admin can list/delete. Existing public image URLs remain directly readable by design.
 - Removed duplicate parts/diamond loading in the admin dashboard.
 - Added `SECURITY.md` and `.well-known/security.txt`.
 
@@ -83,10 +85,10 @@ No records were removed. If previous enquiries/reviews were expected in these ze
 ## Remaining items before production deployment
 1. Take/verify a provider-level database backup.
 2. Review the unusual `marketplace_listings."iPhone 13"` column and `supabase_admin` default privileges; do not delete or change them without confirmation.
-3. Deploy the UUID-WebP uploader and matching Storage policies together.
+3. Deploy the UUID-WebP uploader already prepared in the repair branch; the live Storage policy now accepts both old and new filename patterns.
 4. Test all real forms, admin login/moderation, reviews, job applications and vacancies on desktop/mobile.
 5. Verify custom domain, HTTPS, sitemap, robots, Search Console, GA4/GTM and performance after deployment.
 6. Confirm the admin dashboard loads all current records using the real signed-in browser session.
 
 ## Release status
-**Supabase RLS/column hardening applied and verified. Website repair branch not deployed.** Production `main` remains unchanged. No existing business records were deleted.
+**Supabase RLS, column grants and Storage policy hardening applied and verified. Website repair branch not deployed.** Production `main` remains unchanged. No existing business records were deleted.
