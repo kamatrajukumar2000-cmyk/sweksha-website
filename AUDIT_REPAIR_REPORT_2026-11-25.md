@@ -44,7 +44,7 @@
 - Simulated review workflow: public pending submission, admin moderation, and anonymous read after approval succeeded inside a transaction and was rolled back.
 - Simulated enquiry, job application and vacancy submissions through the anonymous database role and verified admin visibility; test rows were rolled back.
 - Confirmed no temporary audit test rows remain.
-- Final advisors: no remaining RLS initplan or multiple-permissive-policy warnings; one informational unused index remains. The security advisor still reports leaked-password protection disabled.
+- Final advisors: no remaining RLS initplan or multiple-permissive-policy warnings; one informational unused index remains. The security advisor still reports leaked-password protection disabled. The Supabase organization is on the Free plan; Supabase documentation says leaked-password protection is available on Pro and above, so this warning cannot be cleared on the current plan without upgrading.
 - All three public image buckets are already limited to 5 MiB and JPG/PNG/WebP. UUID-WebP path restrictions are prepared in the website repair branch but were not applied to live Storage policies because the current production site has not yet been replaced.
 
 ## Live row counts observed
