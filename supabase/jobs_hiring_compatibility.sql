@@ -141,6 +141,6 @@ grant insert on public.job_applications to anon, authenticated;
 grant select, update on public.job_applications to authenticated;
 revoke select on public.job_vacancies from anon;
 grant insert on public.job_vacancies to anon;
-grant select (id, company_name, job_title, description, location, employment_type, salary_range, created_at) on public.job_vacancies to anon;
+grant select (id, company_name, job_title, description, location, employment_type, salary_range, created_at, status) on public.job_vacancies to anon;
 grant insert, select on public.job_vacancies to authenticated;
 grant update on public.job_vacancies to authenticated;
