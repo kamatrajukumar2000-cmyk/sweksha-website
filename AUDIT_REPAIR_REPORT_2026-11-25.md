@@ -8,6 +8,7 @@
 - Supabase project: `sweksha-cvd-service` (`xotqafgkubodqpirfpfb`), status `ACTIVE_HEALTHY`, PostgreSQL 17.11.
 - Backup branch points to the production baseline commit `80ff301ec546545badb25a5b93657bdf9a2732e3`.
 - The repair branch is isolated. Production `main` has not been changed or deployed.
+- Windows-specific backup instructions are documented in `BACKUP_RUNBOOK_WINDOWS_2026-11-25.md`; no backup files or credentials are committed.
 - Live database policy/grant migrations were applied and verified. No existing table rows were deleted or rewritten.
 - A provider-level database backup/export was not created by this audit. The GitHub backup branch is a code backup, not a database backup.
 
@@ -26,6 +27,7 @@
 1. Revoked browser-role `DELETE`, `TRUNCATE`, `REFERENCES`, `TRIGGER`, and PostgreSQL 17 `MAINTAIN` privileges on public tables; revoked anonymous `UPDATE`.
 2. Tightened default privileges for future public tables/sequences created by the `postgres` role. Default privileges owned by `supabase_admin` were not changed.
 3. Restricted anonymous SELECT to the fields required for public listings; private seller/buyer phone, email, contact details, candidate contact data and admin notes are not selectable by the anonymous API role.
+4. Tightened authenticated SELECT policies on machine, parts, diamond, job applications, vacancies and reviews to the designated admin only. Authenticated non-admin simulation returned zero rows across all seven tables; the admin simulation still returned the 4 machine listings and 1 job application. Public approved listing reads continue through the anonymous role and restricted column grants.
 4. Added a separate public `status` column grant for the five tables whose frontend queries filter approved records by status. This follow-up was necessary to keep the public listing/review queries working without granting access to private columns.
 5. Removed anonymous SELECT from candidate profiles and job applications.
 6. Enforced `status='pending'` for public job applications and vacancy submissions, and added field validation.
@@ -101,7 +103,7 @@ No records were removed. If previous enquiries/reviews were expected in these ze
 - The current website still uses the legacy timestamp/random upload naming. The new repair branch changes this to UUID-v4 WebP; both filename patterns are currently accepted so this can be deployed without a separate Storage-policy window.
 
 ## Remaining items before production deployment
-1. Take/verify a provider-level database backup.
+1. Take/verify a provider-level database backup using the Windows runbook `BACKUP_RUNBOOK_WINDOWS_2026-11-25.md`; separately copy Storage object bytes and verify the backup off-device.
 2. Review the unusual `marketplace_listings."iPhone 13"` column and `supabase_admin` default privileges; do not delete or change them without confirmation.
 3. Deploy the UUID-WebP uploader already prepared in the repair branch; the live Storage policy now accepts both old and new filename patterns.
 4. Test all real forms, admin login/moderation, reviews, job applications and vacancies on desktop/mobile.
