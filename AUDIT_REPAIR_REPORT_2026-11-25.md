@@ -76,11 +76,11 @@ No records were removed. If previous enquiries/reviews were expected in these ze
 - Removed duplicate parts/diamond loading in the admin dashboard.
 - Added `SECURITY.md` and `.well-known/security.txt`.
 
-## Storage deployment caution
-- Existing live Storage objects use legacy timestamp/random filenames, not UUID-v4 `.webp` names.
-- The new upload code uses UUID-v4 WebP names. The matching Storage policies are prepared in the repair branch but have NOT been applied to live Storage.
-- Deploy the new upload code and Storage policy changes together. Applying the new policy before the website code changes could cause the current production uploader to fail.
-- Public image URLs remain accessible by design because the image buckets are public; public object listing is not needed to render a known public URL.
+## Storage status
+- Live Storage now accepts both the current production timestamp/random filenames (including existing `.jpg`, `.png`, `.webp` and legacy `-jpg`/`-png` forms) and UUID-v4 `.webp` filenames for the new repair-branch uploader.
+- Public object listing is disabled; the authorised admin can still list/delete objects. Direct public image URLs remain accessible because the buckets are intentionally public.
+- Existing objects were retained; counts remain 18 machine, 2 parts and 4 diamond images.
+- The current website still uses the legacy timestamp/random upload naming. The new repair branch changes this to UUID-v4 WebP; both filename patterns are currently accepted so this can be deployed without a separate Storage-policy window.
 
 ## Remaining items before production deployment
 1. Take/verify a provider-level database backup.
