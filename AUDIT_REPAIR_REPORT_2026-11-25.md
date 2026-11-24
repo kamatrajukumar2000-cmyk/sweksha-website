@@ -80,8 +80,9 @@ No records were removed by the audit. If the admin dashboard previously showed o
 2. Take/verify a provider-level database backup before the next production schema or deployment change.
 3. Reconcile the unusual `marketplace_listings."iPhone 13"` column with the site's intended schema; do not delete until its origin is known.
 4. Review default privileges for objects created by `supabase_admin`; the current audit could only change defaults for `postgres`.
-5. Test the actual site in desktop and mobile browsers: service enquiry, machine listing, parts BUY/SELL, diamond BUY/SELL, jobs, admin login/moderation, and reviews.
-6. Verify the custom domain, HTTPS, sitemap, robots, Search Console, GA4/GTM, and image performance after the candidate branch is deployed.
+5. Deploy the updated Storage upload/list policies together with the new UUID-WebP website upload code; do not apply the policy first, or existing live upload filenames may be rejected.
+6. Test the actual site in desktop and mobile browsers: service enquiry, machine listing, parts BUY/SELL, diamond BUY/SELL, jobs, admin login/moderation, and reviews.
+7. Verify the custom domain, HTTPS, sitemap, robots, Search Console, GA4/GTM, and image performance after the candidate branch is deployed.
 7. Confirm the admin dashboard can load all current records and approve/reject them using the real signed-in browser session.
 8. Merge/deploy the repair branch only after those checks pass.
 
