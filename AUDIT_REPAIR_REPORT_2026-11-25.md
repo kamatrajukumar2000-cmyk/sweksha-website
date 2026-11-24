@@ -32,11 +32,12 @@
 7. Added enquiry validation and required new enquiries to use `status='new'`.
 8. Removed an obsolete enquiry admin policy and a duplicate vacancy policy; optimized admin JWT policy evaluation.
 9. Added admin-only review read/update policies; public reviews remain pending until approved.
-10. Eleven Supabase migrations are recorded and mirrored under `supabase/migrations/` on the repair branch.
+10. Twelve Supabase migrations are recorded and mirrored under `supabase/migrations/` on the repair branch.
 11. Locked down unused legacy `marketplace_listings`: revoked all browser-role privileges and removed its public-read policy; zero rows were present and the table/column were retained.
 12. Locked down unused legacy `candidate_profiles`: revoked all browser-role privileges and its public insert policy; zero rows were present. The active Jobs page continues to use `job_applications`.
 13. Added server-side length and field-count validation to public machine, parts, diamond, job application, vacancy and review submissions; no existing rows were rewritten.
 14. Added explicit deny-all RLS policies to the two unused legacy tables so the security advisor no longer reports RLS-enabled tables without policies.
+15. Made `job_vacancies.status` NOT NULL so every vacancy must have a moderation state; there were no current vacancy rows to alter.
 
 ## Verification performed
 - Anonymous DELETE/TRUNCATE/UPDATE privileges are false; authenticated TRUNCATE is false.
@@ -47,6 +48,7 @@
 - Storage object listing is now blocked for anonymous users; the authorised admin can list all existing objects (18 machine, 2 parts, 4 diamond). Existing object counts did not change.
 - Tested Storage RLS in a rolled-back transaction: a valid legacy-style image filename was accepted, while an arbitrary text filename was rejected.
 - Tested valid public submissions and invalid oversized/short-field submissions for machine listings, parts, diamond listings, job applications, vacancies and reviews; valid examples passed, invalid examples were blocked, and all test rows were rolled back.
+- Verified every public-facing moderation status has a default and that `job_vacancies.status` is now NOT NULL.
 - Ran all five standalone marketplace/jobs SQL setup scripts inside database transactions and rolled them back successfully. Also ran the consolidated security SQL reference inside a transaction and rolled it back successfully.
 - Parsed inline JavaScript in the key website/admin pages; no syntax errors were found. Three malformed meta-description tags were corrected.
 - Simulated authorized admin access: admin can read all 4 machine listings and the existing 1 job application.
