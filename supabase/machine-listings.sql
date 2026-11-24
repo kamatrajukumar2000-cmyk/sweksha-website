@@ -51,11 +51,11 @@ end $$;
 -- Keep transaction/status values constrained to supported workflow values.
 alter table public.machine_sales_listings drop constraint if exists machine_sales_listings_transaction_type_check;
 alter table public.machine_sales_listings add constraint machine_sales_listings_transaction_type_check
-  check (transaction_type in ('for_sale','looking_to_buy','dealer_partnership'));
+  check (transaction_type in ('for_sale','looking_to_buy','dealer_partnership')) not valid;
 
 alter table public.machine_sales_listings drop constraint if exists machine_sales_listings_status_check;
 alter table public.machine_sales_listings add constraint machine_sales_listings_status_check
-  check (status in ('pending','approved','rejected','sold','archived'));
+  check (status in ('pending','approved','rejected','sold','archived')) not valid;
 
 create index if not exists machine_sales_listings_status_created_idx
   on public.machine_sales_listings(status, created_at desc);
