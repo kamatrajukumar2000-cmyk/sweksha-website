@@ -105,8 +105,14 @@
     .about{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
     .about-box{background:linear-gradient(145deg,#07111f,#16334a);color:#fff;border-radius:20px;padding:34px}
     .about-box .big{font-size:54px;font-weight:900;color:var(--accent);line-height:1}
-    .about-photo-column{min-width:0}
-    .about-photo-figure{margin:0;max-width:100%}
+    .about{grid-template-columns:.9fr 1.1fr;align-items:stretch;gap:34px}
+    .about-photo-column{min-width:0;display:flex;align-items:stretch}
+    .about-photo-figure{margin:0;max-width:none;width:100%;display:flex;flex:1}
+    .about-photo-trigger{height:100%;width:100%}
+    .about-photo-frame{height:100%;min-height:100%;display:block}
+    .about-photo-image{width:100%;height:100%;max-height:none;min-height:100%;object-fit:contain;background:#fff}
+    @media(max-width:1100px){.about{grid-template-columns:1fr;gap:26px}.about-photo-column{min-height:360px}.about-photo-figure{max-width:520px;margin:auto;width:100%}.about-photo-image{min-height:360px}}
+    @media(max-width:560px){.about-photo-column{min-height:300px}.about-photo-image{min-height:300px}}
     .about-profile-card h2{font-size:clamp(25px,3vw,34px);line-height:1.2;margin:8px 0 18px;color:#fff}
     .about-profile-card .eyebrow{margin-bottom:4px}
     .about-profile-card p{color:#d3e0eb;margin:0 0 13px;font-size:15px}
@@ -774,12 +780,12 @@
         <article class="about-box about-profile-card">
           <span class="eyebrow">About Us</span>
           <h2>Sweksha CVD Diamond Machine Service &amp; Consulting</h2>
-          <p class="about-profile-lead">Led by <strong>Raju Kamat</strong> in Surat, Gujarat, SWEKSHA supports the CVD and lab-grown diamond industry with practical machine-service guidance, technical consulting and plant support.</p>
-          <p>With 6 years of experience in the CVD/LGD industry, Raju works with a technical team covering electrical systems, PLC/HMI, microwave and magnetron power systems, vacuum and gas lines, MFCs, pressure controllers, mechanical systems, cooling and CVD growth processes.</p>
-          <p>Support includes machine installation and commissioning, troubleshooting, vacuum and gas-line issues, plasma and power-system faults, maintenance, process review and production-related consulting. Online consulting is available worldwide; on-site service across India and internationally is arranged subject to availability, travel and agreed scope.</p>
+          <p class="about-profile-lead"><strong>Raju Kamat</strong> brings 6 years of hands-on experience in the CVD/LGD industry, focused on understanding machine challenges and finding practical solutions.</p>
+          <p>Backed by a skilled technical team across PLC/HMI, electrical and microwave systems, vacuum, gas lines, MFCs, pressure control, cooling and mechanical systems, SWEKSHA supports machine installation, commissioning, troubleshooting and process consulting.</p>
+          <p>Based in Surat, we provide online consulting worldwide and arrange on-site support across India and internationally, subject to availability and agreed scope.</p>
           <div class="about-profile-promise">
-            <strong>One clear service channel</strong>
-            <span>Share your machine model, the issue you are facing and your production requirement. We will review the details and guide you on practical next steps before any service is scheduled.</span>
+            <strong>Technical understanding. Practical support.</strong>
+            <span>Share your machine model, current issue and production goal. We will listen, review the details and help you identify the right next step.</span>
           </div>
         </article>
       </div>
