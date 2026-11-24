@@ -277,46 +277,46 @@ sellerForm.addEventListener('submit', async e => {
   let photoUrl = '';
   let uploadError = null;
   let dbError = null;
-  if (db) {
+  try {
+    if (!db) throw new Error('Database connection is unavailable');
     const optimizedFile = await compressListingImage(file);
     const filePath = crypto.randomUUID() + '.webp';
     const upload = await db.storage.from(BUCKET).upload(filePath, optimizedFile, {
       cacheControl: '31536000', upsert: false, contentType: 'image/webp'
     });
-    uploadError = upload.error;
-    if (!uploadError) photoUrl = db.storage.from(BUCKET).getPublicUrl(filePath).data.publicUrl;
-    if (!uploadError) {
-      button.textContent = 'Submitting listing…';
-      const record = {
-        transaction_type: 'for_sale',
-        product_type: $('stype').value,
-        description: $('sdesc').value.trim(),
-        expected_price: $('sprice').value.trim(),
-        quantity: $('sqty').value.trim(),
-        location: $('sloc').value.trim(),
-        photo_url: photoUrl,
-        contact_name: $('sname').value.trim(),
-        contact_phone: $('scontact').value.trim(),
-        status: 'pending'
-      };
-      const result = await db.from('diamond_trade_listings').insert(record);
-      dbError = result.error;
+    if (upload.error) throw upload.error;
+    photoUrl = db.storage.from(BUCKET).getPublicUrl(filePath).data.publicUrl;
+    button.textContent = 'Submitting listing…';
+    const record = {
+      transaction_type: 'for_sale',
+      product_type: $('stype').value,
+      description: $('sdesc').value.trim(),
+      expected_price: $('sprice').value.trim(),
+      quantity: $('sqty').value.trim(),
+      location: $('sloc').value.trim(),
+      photo_url: photoUrl,
+      contact_name: $('sname').value.trim(),
+      contact_phone: $('scontact').value.trim(),
+      status: 'pending'
+    };
+    const result = await db.from('diamond_trade_listings').insert(record);
+    dbError = result.error;
+  } catch (error) {
+    uploadError = error;
+  } finally {
+    const message = 'Hello Sweksha, I want to submit a diamond SELL listing for review.\\nProduct: '+$('stype').value+'\\nDescription: '+$('sdesc').value+'\\nPrice: '+$('sprice').value+'\\nQuantity: '+$('sqty').value+'\\nLocation: '+$('sloc').value+'\\nSeller/company: '+$('sname').value+'\\nContact: '+$('scontact').value+'\\nPhoto: '+(photoUrl||'I will attach the photo in WhatsApp.');
+    const waUrl = 'https://wa.me/917827474249?text='+encodeURIComponent(message);
+    if (waTab) waTab.location.href = waUrl; else window.location.href = waUrl;
+    if (uploadError) {
+      sellerStatus.textContent = 'WhatsApp opened. Photo/database upload failed: '+(uploadError.message||'Unknown error')+'. Please attach the photo in WhatsApp.';
+    } else if (dbError) {
+      sellerStatus.textContent = 'Photo uploaded, but database save failed: '+(dbError.message||'Unknown error')+'. WhatsApp opened; please send the message.';
+    } else {
+      sellerStatus.textContent = 'Listing and photo submitted to database for admin review. WhatsApp opened; please send the message too.';
+      sellerForm.reset(); $('preview').style.display = 'none'; $('preview').removeAttribute('src');
     }
-  } else {
-    uploadError = new Error('Database connection is unavailable');
+    button.disabled = false; button.textContent = 'Send Listing for Review';
   }
-  const message = 'Hello Sweksha, I want to submit a diamond SELL listing for review.\\nProduct: '+$('stype').value+'\\nDescription: '+$('sdesc').value+'\\nPrice: '+$('sprice').value+'\\nQuantity: '+$('sqty').value+'\\nLocation: '+$('sloc').value+'\\nSeller/company: '+$('sname').value+'\\nContact: '+$('scontact').value+'\\nPhoto: '+(photoUrl||'I will attach the photo in WhatsApp.');
-  const waUrl = 'https://wa.me/917827474249?text='+encodeURIComponent(message);
-  if (waTab) waTab.location.href = waUrl; else window.location.href = waUrl;
-  if (uploadError) {
-    sellerStatus.textContent = 'WhatsApp opened. Photo/database upload failed: '+uploadError.message+'. Please attach the photo in WhatsApp.';
-  } else if (dbError) {
-    sellerStatus.textContent = 'Photo uploaded, but database save failed: '+dbError.message+'. WhatsApp opened; please send the message.';
-  } else {
-    sellerStatus.textContent = 'Listing and photo submitted to database for admin review. WhatsApp opened; please send the message too.';
-    sellerForm.reset(); $('preview').style.display = 'none'; $('preview').removeAttribute('src');
-  }
-  button.disabled = false; button.textContent = 'Send Listing for Review';
 });
 })();
 </script>
