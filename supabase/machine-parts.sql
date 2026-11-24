@@ -42,3 +42,6 @@ create policy "Sweksha admin can delete machine part images"
 on storage.objects for delete to authenticated
 using (bucket_id='machine-part-images'
   and lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com');
+
+-- Required for public approved-status filters; no private contact columns are exposed.
+grant select (status) on public.machine_part_listings to anon;
