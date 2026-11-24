@@ -58,7 +58,20 @@ drop policy if exists "Sweksha admin update machine listings" on public.machine_
 
 create policy "public can submit pending machine listings"
 on public.machine_sales_listings for insert to anon,authenticated
-with check (status='pending' and admin_notes is null);
+with check (
+  status='pending' and admin_notes is null
+  and length(trim(coalesce(machine_category,''))) between 1 and 120
+  and length(trim(coalesce(brand_model_year,''))) between 1 and 200
+  and length(trim(coalesce(condition,''))) <= 120
+  and length(trim(coalesce(application_details,''))) <= 3000
+  and length(trim(coalesce(additional_details,''))) <= 3000
+  and length(trim(coalesce(expected_price,''))) <= 120
+  and length(trim(coalesce(location,''))) between 1 and 200
+  and length(trim(coalesce(seller_name,''))) between 1 and 120
+  and length(trim(coalesce(seller_phone,''))) between 5 and 40
+  and length(trim(coalesce(seller_email,''))) <= 254
+  and coalesce(cardinality(photo_urls),0) <= 5
+);
 create policy "public can view approved machine listings"
 on public.machine_sales_listings for select to anon using (status='approved');
 create policy "Sweksha admin read machine listings"
