@@ -55,6 +55,21 @@
 <div id="diamondAdminMessage" class="message" role="status">Loading diamond trading submissions…</div>
 <div class="tablewrap"><table style="min-width:980px"><thead><tr><th>Diamond / Product</th><th>Type &amp; Details</th><th>Contact</th><th>Location / Price / Qty</th><th>Photo / Date</th><th>Review action</th></tr></thead><tbody id="diamondAdminRows"><tr><td colspan="6" class="empty">Loading diamond listings…</td></tr></tbody></table></div>
 </div>
+<div class="panel" id="jobApplicationsPanel">
+<div class="headrow"><div><h2 style="margin:0">Job Seeker Applications</h2><div class="muted small">Private candidate details are visible only to the authorised admin. Update each application status here.</div></div><div class="actions"><span id="jobApplicationCount" class="muted small"></span><button id="jobApplicationRefresh" class="btn light" type="button">↻ Refresh Applications</button></div></div>
+<div id="jobApplicationMessage" class="message" role="status">Loading job applications…</div>
+<div class="tablewrap"><table style="min-width:1000px"><thead><tr><th>Candidate</th><th>Skills / Experience</th><th>Contact</th><th>Preferred Location</th><th>Submitted</th><th>Status</th></tr></thead><tbody id="jobApplicationRows"><tr><td colspan="6" class="empty">Loading job applications…</td></tr></tbody></table></div>
+</div>
+<div class="panel" id="jobVacanciesPanel">
+<div class="headrow"><div><h2 style="margin:0">Employer Job Vacancies</h2><div class="muted small">Review employer submissions. Only approved vacancies are shown publicly on the Jobs page.</div></div><div class="actions"><span id="jobVacancyCount" class="muted small"></span><button id="jobVacancyRefresh" class="btn light" type="button">↻ Refresh Vacancies</button></div></div>
+<div id="jobVacancyMessage" class="message" role="status">Loading employer vacancies…</div>
+<div class="tablewrap"><table style="min-width:1100px"><thead><tr><th>Company / Role</th><th>Requirements</th><th>Location / Type</th><th>Salary</th><th>Contact</th><th>Submitted</th><th>Status</th></tr></thead><tbody id="jobVacancyRows"><tr><td colspan="7" class="empty">Loading employer vacancies…</td></tr></tbody></table></div>
+</div>
+<div class="panel" id="reviewsPanel">
+<div class="headrow"><div><h2 style="margin:0">Customer Reviews</h2><div class="muted small">Approve reviews before they appear publicly on the website.</div></div><div class="actions"><span id="adminReviewCount" class="muted small"></span><button id="reviewRefreshButton" class="btn light" type="button">↻ Refresh Reviews</button></div></div>
+<div id="adminReviewMessage" class="message" role="status">Loading customer reviews…</div>
+<div class="tablewrap"><table style="min-width:800px"><thead><tr><th>Customer</th><th>Rating</th><th>Review</th><th>Submitted</th><th>Moderation</th></tr></thead><tbody id="reviewRows"><tr><td colspan="5" class="empty">Loading reviews…</td></tr></tbody></table></div>
+</div>
 <div class="panel"><div class="headrow"><div><h2 style="margin:0">Enquiry Details</h2><div class="muted small">Select “View” on any enquiry to read the full message.</div></div></div><div id="detailBox" class="empty">No enquiry selected.</div></div>
 </section>
 <div class="footer">Sweksha CVD Diamond Machine Service &amp; Consulting · Keep your admin password and secret API keys private.</div>
@@ -66,7 +81,7 @@
 const SUPABASE_URL='https://xotqafgkubodqpirfpfb.supabase.co';
 const ADMIN_EMAIL='kamatrajukumar2000@gmail.com';
 const $=id=>document.getElementById(id);
-let client=null, enquiries=[], selectedId=null, machineListings=[], machinePartListings=[], diamondTradeListings=[];
+let client=null, enquiries=[], selectedId=null, machineListings=[], machinePartListings=[], diamondTradeListings=[], customerReviews=[], jobApplications=[], jobVacancies=[];
 function say(id,text){$(id).textContent=text||''}
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function connect(key){
@@ -82,7 +97,7 @@ function connect(key){
 async function showDashboard(user){
  const email=String(user&&user.email||'').toLowerCase();
  if(email!==ADMIN_EMAIL){await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','Access denied. This page is restricted to the authorized Sweksha admin email.');return}
- $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');$('signedInEmail').textContent='Signed in: '+email;$('topRight').textContent='Authenticated admin session';await loadEnquiries();await loadMachineListings();await loadPartsListings();await loadDiamondTradeListings();await loadPartsListings();await loadDiamondTradeListings();
+ $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');$('signedInEmail').textContent='Signed in: '+email;$('topRight').textContent='Authenticated admin session';await loadEnquiries();await loadMachineListings();await loadPartsListings();await loadDiamondTradeListings();await loadJobApplications();await loadJobVacancies();await loadCustomerReviews();
 }
 async function loadMachineListings(){
  if(!client){say('machineListingMessage','Supabase is not connected.');return}
@@ -191,6 +206,129 @@ function renderDiamondTradeListings(){
   return '<tr><td><div class="name">'+esc(r.product_type||'Diamond enquiry')+'</div><div class="sub">ID: '+esc(r.id)+'</div></td><td><strong>'+esc(kind)+'</strong><div class="sub">'+esc(r.description||'No specifications provided')+'</div></td><td><div class="name">'+esc(r.contact_name||'—')+'</div>'+contact+'</td><td>'+esc(r.location||'—')+'<div class="sub">'+esc(r.expected_price||'Price not specified')+' · Qty '+esc(r.quantity||'—')+'</div></td><td>'+photo+'<div class="sub">'+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</div></td><td>'+action+'</td></tr>';
  }).join('');
 }
+const JOB_APPLICATION_STATUSES=['pending','reviewed','shortlisted','closed','rejected'];
+const JOB_VACANCY_STATUSES=['pending','approved','rejected','filled','archived'];
+function statusOptions(current,allowed){
+ return allowed.map(s=>'<option value="'+s+'" '+(current===s?'selected':'')+'>'+s.replace('_',' ')+'</option>').join('');
+}
+async function loadJobApplications(){
+ if(!client){say('jobApplicationMessage','Supabase is not connected.');return}
+ say('jobApplicationMessage','Loading job applications…');$('jobApplicationRefresh').disabled=true;
+ try{
+  const {data,error}=await client.from('job_applications').select('*').order('created_at',{ascending:false}).limit(500);
+  if(error)throw error;
+  jobApplications=Array.isArray(data)?data:[];
+  renderJobApplications();
+  const pending=jobApplications.filter(r=>(r.status||'pending')==='pending').length;
+  $('jobApplicationCount').textContent=jobApplications.length+' total · '+pending+' pending';
+  say('jobApplicationMessage',jobApplications.length?'Loaded '+jobApplications.length+' private job application(s).':'No job applications received yet.');
+ }catch(e){
+  jobApplications=[];renderJobApplications();$('jobApplicationCount').textContent='';
+  say('jobApplicationMessage','Could not load job applications: '+(e.message||'Check the admin read policy.'));
+ }finally{$('jobApplicationRefresh').disabled=false}
+}
+function renderJobApplications(){
+ if(!jobApplications.length){$('jobApplicationRows').innerHTML='<tr><td colspan="6" class="empty">No job seeker applications yet.</td></tr>';return}
+ $('jobApplicationRows').innerHTML=jobApplications.map(r=>{
+  const phone=String(r.phone||'').replace(/[^0-9]/g,'');
+  const contact=phone?'<a href="https://wa.me/'+esc(phone)+'" target="_blank" rel="noopener">'+esc(r.phone)+'</a>':'—';
+  const status=String(r.status||'pending');
+  return '<tr><td><div class="name">'+esc(r.full_name||'—')+'</div><div class="sub">ID: '+esc(r.id)+'</div></td><td>'+esc(r.role_skills||'—')+'<div class="sub">'+esc(r.experience_qualifications||'')+'</div></td><td>'+contact+'</td><td>'+esc(r.preferred_location||'—')+'</td><td>'+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</td><td><select data-job-app-status="'+esc(r.id)+'" aria-label="Update application status">'+statusOptions(status,JOB_APPLICATION_STATUSES)+'</select></td></tr>';
+ }).join('');
+}
+async function updateJobApplicationStatus(id,status){
+ if(!JOB_APPLICATION_STATUSES.includes(status))return;
+ const row=jobApplications.find(r=>String(r.id)===String(id));if(!row)return;
+ say('jobApplicationMessage','Updating application status…');
+ try{
+  const {data,error}=await client.from('job_applications').update({status}).eq('id',id).select().single();
+  if(error)throw error;
+  Object.assign(row,data||{status});renderJobApplications();
+  const pending=jobApplications.filter(r=>(r.status||'pending')==='pending').length;
+  $('jobApplicationCount').textContent=jobApplications.length+' total · '+pending+' pending';
+  say('jobApplicationMessage','Job application status updated: '+status+'.');
+ }catch(e){say('jobApplicationMessage','Could not update application: '+(e.message||'Check the admin update policy.'));await loadJobApplications()}
+}
+async function loadJobVacancies(){
+ if(!client){say('jobVacancyMessage','Supabase is not connected.');return}
+ say('jobVacancyMessage','Loading employer vacancies…');$('jobVacancyRefresh').disabled=true;
+ try{
+  const {data,error}=await client.from('job_vacancies').select('*').order('created_at',{ascending:false}).limit(500);
+  if(error)throw error;
+  jobVacancies=Array.isArray(data)?data:[];
+  renderJobVacancies();
+  const pending=jobVacancies.filter(r=>(r.status||'pending')==='pending').length;
+  $('jobVacancyCount').textContent=jobVacancies.length+' total · '+pending+' pending';
+  say('jobVacancyMessage',jobVacancies.length?'Loaded '+jobVacancies.length+' employer vacancy submission(s).':'No employer vacancies received yet.');
+ }catch(e){
+  jobVacancies=[];renderJobVacancies();$('jobVacancyCount').textContent='';
+  say('jobVacancyMessage','Could not load vacancies: '+(e.message||'Check the admin read policy.'));
+ }finally{$('jobVacancyRefresh').disabled=false}
+}
+function renderJobVacancies(){
+ if(!jobVacancies.length){$('jobVacancyRows').innerHTML='<tr><td colspan="7" class="empty">No employer vacancies yet.</td></tr>';return}
+ $('jobVacancyRows').innerHTML=jobVacancies.map(r=>{
+  const phone=String(r.contact_details||r.contact_whatsapp||'').replace(/[^0-9]/g,'');
+  const contact=phone?'<a href="https://wa.me/'+esc(phone)+'" target="_blank" rel="noopener">'+esc(r.contact_name||'Contact')+' · '+esc(r.contact_details||r.contact_whatsapp)+'</a>':esc(r.contact_name||'—');
+  const status=String(r.status||'pending');
+  return '<tr><td><div class="name">'+esc(r.company_name||'—')+'</div><div class="sub">'+esc(r.job_title||'—')+'</div><div class="sub">ID: '+esc(r.id)+'</div></td><td>'+esc(r.description||r.responsibilities_skills||'—')+'</td><td>'+esc(r.location||r.work_location||'—')+'<div class="sub">'+esc(r.employment_type||'')+'</div></td><td>'+esc(r.salary_range||r.pay_range||'Not specified')+'</td><td>'+contact+'</td><td>'+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</td><td><select data-job-vacancy-status="'+esc(r.id)+'" aria-label="Update vacancy status">'+statusOptions(status,JOB_VACANCY_STATUSES)+'</select></td></tr>';
+ }).join('');
+}
+async function updateJobVacancyStatus(id,status){
+ if(!JOB_VACANCY_STATUSES.includes(status))return;
+ const row=jobVacancies.find(r=>String(r.id)===String(id));if(!row)return;
+ if(status==='approved'&&!confirm('Approve and publish this vacancy on the public Jobs page?')){renderJobVacancies();return}
+ say('jobVacancyMessage','Updating vacancy status…');
+ try{
+  const {data,error}=await client.from('job_vacancies').update({status}).eq('id',id).select().single();
+  if(error)throw error;
+  Object.assign(row,data||{status});renderJobVacancies();
+  const pending=jobVacancies.filter(r=>(r.status||'pending')==='pending').length;
+  $('jobVacancyCount').textContent=jobVacancies.length+' total · '+pending+' pending';
+  say('jobVacancyMessage','Employer vacancy status updated: '+status+'.');
+ }catch(e){say('jobVacancyMessage','Could not update vacancy: '+(e.message||'Check the admin update policy.'));await loadJobVacancies()}
+}
+async function loadCustomerReviews(){
+ if(!client){say('adminReviewMessage','Supabase is not connected.');return}
+ say('adminReviewMessage','Loading customer reviews…');$('reviewRefreshButton').disabled=true;
+ try{
+  const {data,error}=await client.from('reviews').select('*').order('created_at',{ascending:false}).limit(500);
+  if(error)throw error;
+  customerReviews=Array.isArray(data)?data:[];
+  renderCustomerReviews();
+  const pending=customerReviews.filter(r=>(r.status||'pending')==='pending').length;
+  $('adminReviewCount').textContent=customerReviews.length+' total · '+pending+' pending';
+  say('adminReviewMessage',customerReviews.length?'Loaded '+customerReviews.length+' review(s).':'No customer reviews submitted yet.');
+ }catch(e){
+  customerReviews=[];renderCustomerReviews();$('adminReviewCount').textContent='';
+  say('adminReviewMessage','Could not load reviews: '+(e.message||'Check the reviews table and admin read policy.'));
+ }finally{$('reviewRefreshButton').disabled=false}
+}
+function renderCustomerReviews(){
+ if(!customerReviews.length){$('reviewRows').innerHTML='<tr><td colspan="5" class="empty">No customer reviews yet.</td></tr>';return}
+ $('reviewRows').innerHTML=customerReviews.map(r=>{
+  const status=String(r.status||'pending');
+  let actions='';
+  if(status==='pending')actions='<div class="actions"><button class="btn teal" type="button" data-review-status="approved" data-review-id="'+esc(r.id)+'">Approve</button><button class="btn red" type="button" data-review-status="rejected" data-review-id="'+esc(r.id)+'">Reject</button></div>';
+  else if(status==='approved')actions='<div class="actions"><span class="pill resolved">approved</span><button class="btn red" type="button" data-review-status="rejected" data-review-id="'+esc(r.id)+'">Hide</button></div>';
+  else actions='<div class="actions"><span class="pill spam">'+esc(status)+'</span><button class="btn light" type="button" data-review-status="approved" data-review-id="'+esc(r.id)+'">Approve</button></div>';
+  return '<tr><td><div class="name">'+esc(r.name||'—')+'</div><div class="sub">ID: '+esc(r.id)+'</div></td><td>'+esc(r.rating||'—')+'/5</td><td>'+esc(r.review||'')+'</td><td>'+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</td><td>'+actions+'</td></tr>';
+ }).join('');
+}
+async function updateCustomerReviewStatus(id,status){
+ if(!['approved','rejected'].includes(status))return;
+ const row=customerReviews.find(r=>String(r.id)===String(id));if(!row)return;
+ if(!confirm((status==='approved'?'Publish':'Hide')+' this customer review?'))return;
+ say('adminReviewMessage','Updating review moderation…');
+ try{
+  const {data,error}=await client.from('reviews').update({status}).eq('id',id).select().single();
+  if(error)throw error;
+  Object.assign(row,data||{status});renderCustomerReviews();
+  const pending=customerReviews.filter(r=>(r.status||'pending')==='pending').length;
+  $('adminReviewCount').textContent=customerReviews.length+' total · '+pending+' pending';
+  say('adminReviewMessage','Review status updated: '+status+'.');
+ }catch(e){say('adminReviewMessage','Could not update review: '+(e.message||'Check the admin review policy.'))}
+}
 async function updateDiamondTradeListing(id,status){
  if(!['approved','rejected','sold','archived'].includes(status))return;
  const row=diamondTradeListings.find(r=>String(r.id)===String(id));if(!row)return;
@@ -279,10 +417,16 @@ $('resetButton').addEventListener('click',async()=>{
  say('loginMessage',error?error.message:'If this email is registered, a password reset email will be sent.');
 });
 $('logoutButton').addEventListener('click',async()=>{if(client)await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','You have signed out.');$('topRight').textContent='Admin access'});
-$('refreshButton').addEventListener('click',async()=>{await loadEnquiries();await loadMachineListings()});
+$('refreshButton').addEventListener('click',async()=>{await loadEnquiries();await loadMachineListings();await loadPartsListings();await loadDiamondTradeListings();await loadJobApplications();await loadJobVacancies();await loadCustomerReviews()});
 $('machineRefreshButton').addEventListener('click',loadMachineListings);
 $('partsAdminRefresh').addEventListener('click',loadPartsListings);
 $('diamondAdminRefresh').addEventListener('click',loadDiamondTradeListings);
+$('reviewRefreshButton').addEventListener('click',loadCustomerReviews);
+$('jobApplicationRefresh').addEventListener('click',loadJobApplications);
+$('jobVacancyRefresh').addEventListener('click',loadJobVacancies);
+$('jobApplicationRows').addEventListener('change',e=>{const s=e.target.closest('[data-job-app-status]');if(s)updateJobApplicationStatus(s.dataset.jobAppStatus,s.value)});
+$('jobVacancyRows').addEventListener('change',e=>{const s=e.target.closest('[data-job-vacancy-status]');if(s)updateJobVacancyStatus(s.dataset.jobVacancyStatus,s.value)});
+$('reviewRows').addEventListener('click',e=>{const b=e.target.closest('[data-review-status]');if(b)updateCustomerReviewStatus(b.dataset.reviewId,b.dataset.reviewStatus)});
 $('diamondAdminRows').addEventListener('click',e=>{const b=e.target.closest('[data-diamond-status]');if(b)updateDiamondTradeListing(b.dataset.diamondId,b.dataset.diamondStatus)});
 $('partsAdminRows').addEventListener('click',e=>{const b=e.target.closest('[data-part-status]');if(b)updatePartListing(b.dataset.partId,b.dataset.partStatus)});
 $('machineListingRows').addEventListener('click',e=>{const a=e.target.closest('[data-machine-approve]'),r=e.target.closest('[data-machine-reject]');if(a)updateMachineListing(a.dataset.machineApprove,'approved');if(r)updateMachineListing(r.dataset.machineReject,'rejected')});

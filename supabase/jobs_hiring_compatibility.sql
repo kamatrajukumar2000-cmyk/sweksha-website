@@ -70,15 +70,15 @@ begin
   end loop;
 end $$;
 
-update public.job_applications set status='pending' where status is null or status not in ('pending','reviewed','shortlisted','closed','rejected');
-update public.job_vacancies set status='pending' where status is null or status not in ('pending','approved','rejected','filled','archived');
-
+-- Preserve every existing status value. NOT VALID constraints enforce the
+-- approved workflow for new/updated rows without rewriting legacy records.
 alter table public.job_applications alter column status set default 'pending';
 alter table public.job_vacancies alter column status set default 'pending';
+alter table public.job_vacancies alter column status set not null;
 alter table public.job_applications add constraint job_applications_status_check
-  check (status in ('pending','reviewed','shortlisted','closed','rejected'));
+  check (status in ('pending','reviewed','shortlisted','closed','rejected')) not valid;
 alter table public.job_vacancies add constraint job_vacancies_status_check
-  check (status in ('pending','approved','rejected','filled','archived'));
+  check (status in ('pending','approved','rejected','filled','archived')) not valid;
 
 alter table public.job_applications enable row level security;
 alter table public.job_vacancies enable row level security;
@@ -88,8 +88,10 @@ drop policy if exists "Public can submit job applications" on public.job_applica
 create policy "Public can submit job applications"
 on public.job_applications for insert to anon, authenticated
 with check (
-  length(trim(coalesce(full_name,''))) between 2 and 120
+  status='pending'
+  and length(trim(coalesce(full_name,''))) between 2 and 120
   and length(trim(coalesce(role_skills,''))) between 2 and 500
+  and length(trim(coalesce(experience_qualifications,''))) <= 2000
   and length(trim(coalesce(preferred_location,''))) between 2 and 200
   and length(trim(coalesce(phone,''))) between 5 and 40
 );
@@ -99,16 +101,19 @@ drop policy if exists "Public can submit job vacancies" on public.job_vacancies;
 create policy "Public can submit job vacancies"
 on public.job_vacancies for insert to anon, authenticated
 with check (
-  length(trim(coalesce(company_name,''))) between 2 and 160
+  status='pending'
+  and length(trim(coalesce(company_name,''))) between 2 and 160
   and length(trim(coalesce(job_title,''))) between 2 and 160
   and length(trim(coalesce(description,responsibilities_skills,''))) between 2 and 3000
   and length(trim(coalesce(location,work_location,''))) between 2 and 200
+  and length(trim(coalesce(employment_type,''))) <= 80
+  and length(trim(coalesce(salary_range,pay_range,''))) <= 120
   and length(trim(coalesce(contact_details,''))) between 5 and 160
 );
 
 drop policy if exists "Public can read approved job vacancies" on public.job_vacancies;
 create policy "Public can read approved job vacancies"
-on public.job_vacancies for select to anon, authenticated
+on public.job_vacancies for select to anon
 using (status='approved');
 
 -- Admin-only access is restricted to the Sweksha admin email.
@@ -136,5 +141,8 @@ with check (lower(coalesce(auth.jwt()->>'email',''))='kamatrajukumar2000@gmail.c
 
 grant insert on public.job_applications to anon, authenticated;
 grant select, update on public.job_applications to authenticated;
-grant insert, select on public.job_vacancies to anon, authenticated;
+revoke select on public.job_vacancies from anon;
+grant insert on public.job_vacancies to anon;
+grant select (id, company_name, job_title, description, location, employment_type, salary_range, created_at, status) on public.job_vacancies to anon;
+grant insert, select on public.job_vacancies to authenticated;
 grant update on public.job_vacancies to authenticated;

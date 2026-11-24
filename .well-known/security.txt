@@ -1,0 +1,5 @@
+Contact: mailto:kamatrajukumar2000@gmail.com
+Preferred-Languages: en, hi
+Canonical: https://swekshacvd.com/.well-known/security.txt
+Policy: https://swekshacvd.com/SECURITY.md
+Expires: 2027-11-24T00:00:00.000Z
