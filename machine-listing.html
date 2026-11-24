@@ -94,8 +94,8 @@ label{display:block;font-weight:700;margin:13px 0 5px}input,select,textarea{widt
   }
 }
 
-// Open approved machine photos in a full-screen, responsive lightbox.
-(function(){
+// Open approved machine photos in a full-screen, responsive lightbox after the page DOM is ready.
+document.addEventListener('DOMContentLoaded',function(){
  const grid=document.getElementById('listingGrid');
  const modal=document.getElementById('machineImageLightbox');
  const fullImage=document.getElementById('machineLightboxImage');
