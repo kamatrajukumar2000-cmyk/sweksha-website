@@ -96,7 +96,7 @@ grant select, update on public.machine_sales_listings to authenticated;
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('machine-listing-images','machine-listing-images',true,5242880,array['image/jpeg','image/png','image/webp'])
 on conflict (id) do update set public = true, file_size_limit = 5242880,
-  allowed_mime_types = array['image/jpeg','image/png','image/webp'];
+  allowed_mime_types = array['image/webp'];
 
 drop policy if exists "public can upload machine listing images" on storage.objects;
 drop policy if exists "public can view machine listing images" on storage.objects;
@@ -104,7 +104,19 @@ drop policy if exists "Sweksha admin can delete machine listing images" on stora
 
 create policy "public can upload machine listing images"
 on storage.objects for insert to anon, authenticated
-with check (bucket_id = 'machine-listing-images');
+with check (bucket_id = 'machine-listing-images' and name ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp
+
+create policy "public can view machine listing images"
+on storage.objects for select to anon, authenticated
+using (bucket_id = 'machine-listing-images');
+
+create policy "Sweksha admin can delete machine listing images"
+on storage.objects for delete to authenticated
+using (bucket_id = 'machine-listing-images'
+  and lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com');
+
+-- No public UPDATE or DELETE policy is granted on listing records.
+);
 
 create policy "public can view machine listing images"
 on storage.objects for select to anon, authenticated
