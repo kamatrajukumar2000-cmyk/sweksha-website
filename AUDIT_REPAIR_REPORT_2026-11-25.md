@@ -32,9 +32,10 @@
 7. Added enquiry validation and required new enquiries to use `status='new'`.
 8. Removed an obsolete enquiry admin policy and a duplicate vacancy policy; optimized admin JWT policy evaluation.
 9. Added admin-only review read/update policies; public reviews remain pending until approved.
-10. Nine Supabase migrations are recorded and mirrored under `supabase/migrations/` on the repair branch.
+10. Ten Supabase migrations are recorded and mirrored under `supabase/migrations/` on the repair branch.
 11. Locked down unused legacy `marketplace_listings`: revoked all browser-role privileges and removed its public-read policy; zero rows were present and the table/column were retained.
 12. Locked down unused legacy `candidate_profiles`: revoked all browser-role privileges and its public insert policy; zero rows were present. The active Jobs page continues to use `job_applications`.
+13. Added server-side length and field-count validation to public machine, parts, diamond, job application, vacancy and review submissions; no existing rows were rewritten.
 
 ## Verification performed
 - Anonymous DELETE/TRUNCATE/UPDATE privileges are false; authenticated TRUNCATE is false.
@@ -44,6 +45,7 @@
 - Public approved-status queries were individually tested for machine sales, machine parts, diamond listings, job vacancies and reviews; they succeeded after the additional `status` column grant.
 - Storage object listing is now blocked for anonymous users; the authorised admin can list all existing objects (18 machine, 2 parts, 4 diamond). Existing object counts did not change.
 - Tested Storage RLS in a rolled-back transaction: a valid legacy-style image filename was accepted, while an arbitrary text filename was rejected.
+- Tested valid public submissions and invalid oversized/short-field submissions for machine listings, parts, diamond listings, job applications, vacancies and reviews; valid examples passed, invalid examples were blocked, and all test rows were rolled back.
 - Simulated authorized admin access: admin can read all 4 machine listings and the existing 1 job application.
 - Admin machine-listing update and job application status update tests ran inside transactions and were rolled back.
 - A temporary job vacancy was inserted as admin, approved, verified, then rolled back.
@@ -96,4 +98,4 @@ No records were removed. If previous enquiries/reviews were expected in these ze
 6. Confirm the admin dashboard loads all current records using the real signed-in browser session.
 
 ## Release status
-**Supabase RLS, column grants and Storage policy hardening applied and verified. Website repair branch not deployed.** Production `main` remains unchanged. No existing business records were deleted.
+**Supabase RLS, column grants, legacy-table lock-down, Storage policies and input validation applied and verified. Website repair branch not deployed.** Production `main` remains unchanged. No existing business records were deleted.
