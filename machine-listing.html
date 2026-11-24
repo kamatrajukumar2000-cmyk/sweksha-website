@@ -129,6 +129,24 @@ const KEY_PLACEHOLDER='sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf';
 const $=id=>document.getElementById(id);
 let client=null;
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+async function compressListingImage(file){
+ const image=await new Promise((resolve,reject)=>{
+  const url=URL.createObjectURL(file),img=new Image();
+  img.onload=()=>{URL.revokeObjectURL(url);resolve(img)};
+  img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Could not read the selected image.'))};
+  img.src=url;
+ });
+ const maxEdge=1920,scale=Math.min(1,maxEdge/Math.max(image.naturalWidth,image.naturalHeight));
+ const canvas=document.createElement('canvas');
+ canvas.width=Math.max(1,Math.round(image.naturalWidth*scale));
+ canvas.height=Math.max(1,Math.round(image.naturalHeight*scale));
+ const ctx=canvas.getContext('2d');
+ if(!ctx)throw new Error('Image compression is not supported in this browser.');
+ ctx.drawImage(image,0,0,canvas.width,canvas.height);
+ const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/webp',0.78));
+ if(!blob)throw new Error('Could not compress this image. Please try another photo.');
+ return new File([blob],file.name.replace(/\\.[^.]+$/,'')+'.webp',{type:'image/webp',lastModified:Date.now()});
+}
 function setMarketMode(mode){
  const buying=mode==='looking_to_buy';
  $('buyModeButton').className=buying?'btn primary':'btn';
@@ -211,9 +229,9 @@ $('machineForm').addEventListener('submit',async e=>{
    for(const file of files){
     if(!['image/jpeg','image/png','image/webp'].includes(file.type))throw new Error('Only JPG, PNG or WEBP photos are accepted.');
     if(file.size>5*1024*1024)throw new Error('Each photo must be 5 MB or smaller.');
-    const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';
-    const path=Date.now()+'-'+Math.random().toString(36).slice(2)+'-'+ext;
-    const {error:uploadError}=await client.storage.from('machine-listing-images').upload(path,file,{contentType:file.type,upsert:false});
+    const optimizedFile=await compressListingImage(file);
+    const path=Date.now()+'-'+Math.random().toString(36).slice(2)+'.webp';
+    const {error:uploadError}=await client.storage.from('machine-listing-images').upload(path,optimizedFile,{contentType:'image/webp',cacheControl:'31536000',upsert:false});
     if(uploadError)throw uploadError;
     const {data:urlData}=client.storage.from('machine-listing-images').getPublicUrl(path);
     record.photo_urls.push(urlData.publicUrl);
