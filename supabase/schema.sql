@@ -1,3 +1,9 @@
+-- LEGACY REFERENCE ONLY — do NOT run this file against the active sweksha-cvd-service project.
+-- It defines an older marketplace_listings/admin_users schema not used by the current website.
+-- The active site uses machine_sales_listings, machine_part_listings, diamond_trade_listings,
+-- job_applications, job_vacancies, enquiries and reviews with separate security setup scripts.
+-- This file is retained for historical reference; use the current setup/migration files instead.
+
 -- Sweksha marketplace, jobs and enquiry database foundation
 -- Run in the Supabase SQL Editor only after creating a Supabase project.
 -- This schema intentionally does NOT allow public/anonymous writes.
