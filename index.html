@@ -11,6 +11,7 @@
   <!-- End Google Tag Manager -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preload" as="image" href="/cvd-plant-banner.jpg.png" fetchpriority="high">
   <title>CVD Diamond Machine Service & Plant Setup India | Sweksha</title>
   <meta name="description" content="SWEKSHA provides CVD/MPCVD diamond machine repair, installation, commissioning and technical support across India, plus a diamond machinery marketplace.">
   <meta name="keywords" content="CVD diamond machine service, CVD diamond machine repair, CVD diamond machine troubleshooting, CVD vacuum pump maintenance, vacuum pump error, CVD machine MFC flow error, MFC flow error, CVD plasma ignition failure, plasma ignition failure, CVD microwave RF power fault, microwave RF power fault, CVD diamond plant setup service, CVD diamond machine maintenance India, CVD diamond machine technical support, CVD lab grown diamond machine troubleshooting, quartz window problem, plasma instability, CVD plant setup, lab grown diamond consulting, diamond machine marketplace, CVD MPCVD machine buy sell, HPHT press machine, diamond laser machine buy sell, Galaxy machine, 4P diamond machine, Sarin scanner, diamond polishing machine, diamond bruting machine, used diamond processing machines India, new and used industrial machines, SEKI CVD machine service, SEKI SDS 6380 service, SEKI SDS 6K service, i-Plus CVD machine service, Z-XIX CVD machine service, CVD machine brand-specific repair, MPCVD machine maintenance">
@@ -90,8 +91,10 @@
     .hero-arrow{width:38px;height:38px;border-radius:50%;font-size:22px;line-height:1}
     .hero-arrow:hover,.hero-arrow:focus-visible{border-color:var(--accent);color:var(--accent)}
     .hero-dots{display:flex;align-items:center;gap:8px}
-    .hero-dot{width:10px;height:10px;padding:0;border-radius:10px;transition:width .2s ease,background .2s ease}
-    .hero-dot[aria-current="true"]{width:26px;border-color:var(--accent);background:var(--accent)}
+    .hero-dot{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;border:0;background:transparent;display:grid;place-items:center;position:relative}
+    .hero-dot:before{content:"";display:block;width:10px;height:10px;border:1px solid rgba(255,255,255,.7);border-radius:10px;background:rgba(255,255,255,.08);transition:width .2s ease,background .2s ease}
+    .hero-dot[aria-current="true"]:before{width:26px;border-color:var(--accent);background:var(--accent)}
+    #services .section-head .eyebrow{color:#087f73}
     @media(prefers-reduced-motion:reduce){.hero-slide,.hero-dot{transition:none}}
     section{padding:80px 0}
     .section-head{max-width:720px;margin-bottom:38px}
@@ -1670,7 +1673,7 @@
     <div class="container small">&#169; <span id="year"></span> Sweksha CVD Diamond Machine Service & Consulting. All rights reserved. &#8226; Service outcomes can vary by machine, material and process conditions.<br><a href="ai-business-manager.html" style="display:inline-block;margin-top:10px;color:#23c7b7;text-decoration:underline;text-underline-offset:3px;font-weight:700">Owner Tools: AI Business Manager</a></div>
   </footer>
 
-  <a class="float-wa" onclick="trackEvent('whatsapp_click', {method: 'whatsapp'});" href="https://wa.me/917827474249?text=Hello%20Sweksha%20CVD%20Diamond%20Machine%20Service%20%26%20Consulting,%20I%20need%20lab%20grown%20diamond%20machine%20service%20consulting." target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
+  <a class="float-wa" onclick="trackEvent('whatsapp_click', {method: 'whatsapp'});" href="https://wa.me/917827474249?text=Hello%20Sweksha%20CVD%20Diamond%20Machine%20Service%20%26%20Consulting,%20I%20need%20lab%20grown%20diamond%20machine%20service%20consulting." target="_blank" rel="noopener" aria-label="WA - Open WhatsApp chat with SWEKSHA">WA</a>
 
   <script id="initialReviews" type="application/json">[]</script>
   <script>
@@ -1690,6 +1693,7 @@
           const isActive = slideIndex === activeSlide;
           slide.classList.toggle('is-active', isActive);
           slide.setAttribute('aria-hidden', String(!isActive));
+          slide.inert = !isActive;
           dots[slideIndex].setAttribute('aria-current', String(isActive));
         });
       }
@@ -1724,6 +1728,7 @@
         pause();
         resume();
       });
+      showSlide(0);
       resume();
     })();
 
@@ -2033,8 +2038,8 @@ function renderReviews(reviews){
     @media(prefers-reduced-motion:reduce){.about-photo-frame,.about-photo-stage img{transition:none}}
 
 </style>
-    <a id="sweksha-voice-call-link" href="tel:+917827474249" onclick="trackEvent('voice_call_click',{method:'phone'});" aria-label="Call Sweksha by phone">Voice Call</a>
-  <a id="sweksha-video-call-link" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20would%20like%20to%20start%20a%20video%20call." target="_blank" rel="noopener noreferrer" onclick="trackEvent('video_call_click',{method:'whatsapp'});" aria-label="Request a video call on WhatsApp">Video Call</a>
+    <a id="sweksha-voice-call-link" href="tel:+917827474249" onclick="trackEvent('voice_call_click',{method:'phone'});" aria-label="Voice Call">Voice Call</a>
+  <a id="sweksha-video-call-link" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20would%20like%20to%20start%20a%20video%20call." target="_blank" rel="noopener noreferrer" onclick="trackEvent('video_call_click',{method:'whatsapp'});" aria-label="Video Call">Video Call</a>
   <a id="sweksha-x-link" href="https://x.com/Rajukamat03zm" target="_blank" rel="noopener noreferrer" aria-label="Open Sweksha on X">X / Twitter</a>
   <a id="sweksha-instagram-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Open Sweksha on Instagram">Instagram</a>
   <button id="sweksha-assist-toggle" type="button" aria-expanded="false" aria-controls="sweksha-assist-panel">Service Help</button>
