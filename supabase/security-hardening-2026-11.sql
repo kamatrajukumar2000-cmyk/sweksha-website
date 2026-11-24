@@ -208,4 +208,7 @@ create policy "Deny browser access to unused candidate profiles"
 on public.candidate_profiles for all to anon,authenticated
 using (false) with check (false);
 
+-- The public vacancy workflow requires a concrete moderation state.
+alter table public.job_vacancies alter column status set not null;
+
 commit;
