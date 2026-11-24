@@ -22,12 +22,12 @@ const failures = [];
 
 for (const file of files) {
   const html = fs.readFileSync(file, 'utf8');
-  const tags = html.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script\\s*>/gi);
+  const tags = html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi);
   let index = 0;
   for (const match of tags) {
     const attrs = match[1];
     const source = match[2];
-    if (/\\bsrc\\s*=/i.test(attrs) || /\\btype\\s*=\\s*["']?application\\/(?:json|ld\\+json)/i.test(attrs)) continue;
+    if (/\bsrc\s*=/i.test(attrs) || /\btype\s*=\s*["']?application\/(?:json|ld\+json)/i.test(attrs)) continue;
     index += 1;
     try {
       new vm.Script(source, { filename: path.relative(root, file) + '#inline-script-' + index });
@@ -40,6 +40,6 @@ for (const file of files) {
 
 console.log('Checked ' + checked + ' inline JavaScript blocks across ' + files.length + ' HTML files.');
 if (failures.length) {
-  console.error(failures.join('\\n'));
+  console.error(failures.join('\n'));
   process.exitCode = 1;
 }
