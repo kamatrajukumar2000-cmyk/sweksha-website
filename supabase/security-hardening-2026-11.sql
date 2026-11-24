@@ -141,4 +141,36 @@ alter policy "Public can read approved reviews" on public.reviews to anon;
 revoke select on public.reviews from anon;
 grant select (id, created_at, name, rating, review, status) on public.reviews to anon;
 
+
+-- Public image buckets: accept current legacy timestamp filenames and UUID WebP filenames.
+-- Bucket-level 5 MiB and JPG/PNG/WebP limits remain in force.
+-- Public object URLs remain readable; object listing is admin-only.
+drop policy if exists "public can upload machine listing images" on storage.objects;
+drop policy if exists "public can upload machine part images" on storage.objects;
+drop policy if exists "public can upload diamond trade images" on storage.objects;
+drop policy if exists "public can view machine listing images" on storage.objects;
+drop policy if exists "public can view machine part images" on storage.objects;
+drop policy if exists "public can view diamond trade images" on storage.objects;
+
+create policy "public can upload machine-listing-images objects"
+on storage.objects for insert to anon, authenticated
+with check (bucket_id='machine-listing-images' and name ~* '^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp|[0-9]{13}-[a-z0-9]{8,16}([.](webp|jpg|jpeg|png)|-(webp|jpg|jpeg|png))));
+create policy "Sweksha admin can list machine listing images"
+on storage.objects for select to authenticated
+using (bucket_id='machine-listing-images' and lower(coalesce((select auth.jwt()) ->> 'email',''))='kamatrajukumar2000@gmail.com');
+
+create policy "public can upload machine-part-images objects"
+on storage.objects for insert to anon, authenticated
+with check (bucket_id='machine-part-images' and name ~* '^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp|[0-9]{13}-[a-z0-9]{8,16}([.](webp|jpg|jpeg|png)|-(webp|jpg|jpeg|png))));
+create policy "Sweksha admin can list machine part images"
+on storage.objects for select to authenticated
+using (bucket_id='machine-part-images' and lower(coalesce((select auth.jwt()) ->> 'email',''))='kamatrajukumar2000@gmail.com');
+
+create policy "public can upload diamond-trade-images objects"
+on storage.objects for insert to anon, authenticated
+with check (bucket_id='diamond-trade-images' and name ~* '^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp|[0-9]{13}-[a-z0-9]{8,16}([.](webp|jpg|jpeg|png)|-(webp|jpg|jpeg|png))));
+create policy "Sweksha admin can list diamond trade images"
+on storage.objects for select to authenticated
+using (bucket_id='diamond-trade-images' and lower(coalesce((select auth.jwt()) ->> 'email',''))='kamatrajukumar2000@gmail.com');
+
 commit;
