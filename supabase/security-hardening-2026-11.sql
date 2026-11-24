@@ -75,7 +75,7 @@ create policy "Sweksha restrict machine part reads"
 on public.machine_part_listings as restrictive
 for select to anon, authenticated
 using (
-  status = 'approved'
+  (auth.role() = 'anon' and status = 'approved')
   or (auth.role() = 'authenticated'
       and lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com')
 );
@@ -108,7 +108,7 @@ create policy "Sweksha restrict diamond listing reads"
 on public.diamond_trade_listings as restrictive
 for select to anon, authenticated
 using (
-  status = 'approved'
+  (auth.role() = 'anon' and status = 'approved')
   or (auth.role() = 'authenticated'
       and lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com')
 );
