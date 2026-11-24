@@ -174,7 +174,7 @@ function applyListingFilters() {
     const typeLabel = isBuyerRequest ? 'Looking to Buy' : 'For Sale';
     const message = encodeURIComponent('Hello Sweksha, I am enquiring about this approved ' + typeLabel.toLowerCase() + ' listing: ' + (row.product_type || 'Diamond') + '. Please share details.');
     return '<article class="listing-card">' +
-      (image ? '<img src="' + escapeHtml(image) + '" alt="' + title + '" loading="lazy">' : '') +
+      (image ? '<button class="diamond-image-trigger" type="button" data-diamond-full-image="' + escapeHtml(image) + '" data-image-alt="' + title + '" aria-label="Open full-size photo: ' + title + '"><img src="' + escapeHtml(image) + '" alt="' + title + '" loading="lazy"></button>' : '') +
       '<div class="listing-card-body"><span class="listing-type">' + typeLabel + '</span><h3>' + title + '</h3><p>' + description + '</p>' +
       '<p class="listing-price">' + price + '</p><p>Quantity: ' + quantity + '</p><p>Location: ' + locationText + '</p>' +
       '<a class="btn" href="https://wa.me/917827474249?text=' + message + '" target="_blank" rel="noopener noreferrer">Enquire on WhatsApp</a></div></article>';
@@ -211,6 +211,13 @@ tabs.forEach(t => t.addEventListener('click', () => showTab(t.dataset.tab)));
 ['filterSearch','filterCategory','filterType','filterLocation','sortListings'].forEach(id => $(id).addEventListener('input', applyListingFilters));
 ['filterCategory','filterType','filterLocation','sortListings'].forEach(id => $(id).addEventListener('change', applyListingFilters));
 $('refreshListings').addEventListener('click', loadApprovedListings);
+const diamondViewer=$('diamondImageLightbox'),diamondViewerImage=$('diamondLightboxImage');
+let lastDiamondImageTrigger=null;
+function closeDiamondImageViewer(){diamondViewer.classList.remove('is-open');diamondViewer.setAttribute('aria-hidden','true');diamondViewerImage.removeAttribute('src');if(lastDiamondImageTrigger)lastDiamondImageTrigger.focus();}
+$('approvedListings').addEventListener('click',e=>{const trigger=e.target.closest('.diamond-image-trigger[data-diamond-full-image]');if(!trigger)return;lastDiamondImageTrigger=trigger;diamondViewerImage.src=trigger.dataset.diamondFullImage;diamondViewerImage.alt=trigger.dataset.imageAlt||'Full-size approved diamond photo';diamondViewer.classList.add('is-open');diamondViewer.setAttribute('aria-hidden','false');diamondViewer.querySelector('.diamond-image-lightbox-close').focus();});
+diamondViewer.querySelector('.diamond-image-lightbox-close').addEventListener('click',closeDiamondImageViewer);
+diamondViewer.addEventListener('click',e=>{if(e.target===diamondViewer)closeDiamondImageViewer();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&diamondViewer.classList.contains('is-open'))closeDiamondImageViewer();});
 loadApprovedListings();
 $('sphoto').addEventListener('change', e => {
   const f = e.target.files && e.target.files[0], img = $('preview');
