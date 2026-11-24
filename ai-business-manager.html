@@ -55,6 +55,11 @@
 <div id="diamondAdminMessage" class="message" role="status">Loading diamond trading submissions…</div>
 <div class="tablewrap"><table style="min-width:980px"><thead><tr><th>Diamond / Product</th><th>Type &amp; Details</th><th>Contact</th><th>Location / Price / Qty</th><th>Photo / Date</th><th>Review action</th></tr></thead><tbody id="diamondAdminRows"><tr><td colspan="6" class="empty">Loading diamond listings…</td></tr></tbody></table></div>
 </div>
+<div class="panel" id="reviewsPanel">
+<div class="headrow"><div><h2 style="margin:0">Customer Reviews</h2><div class="muted small">Approve reviews before they appear publicly on the website.</div></div><div class="actions"><span id="adminReviewCount" class="muted small"></span><button id="reviewRefreshButton" class="btn light" type="button">↻ Refresh Reviews</button></div></div>
+<div id="adminReviewMessage" class="message" role="status">Loading customer reviews…</div>
+<div class="tablewrap"><table style="min-width:800px"><thead><tr><th>Customer</th><th>Rating</th><th>Review</th><th>Submitted</th><th>Moderation</th></tr></thead><tbody id="reviewRows"><tr><td colspan="5" class="empty">Loading reviews…</td></tr></tbody></table></div>
+</div>
 <div class="panel"><div class="headrow"><div><h2 style="margin:0">Enquiry Details</h2><div class="muted small">Select “View” on any enquiry to read the full message.</div></div></div><div id="detailBox" class="empty">No enquiry selected.</div></div>
 </section>
 <div class="footer">Sweksha CVD Diamond Machine Service &amp; Consulting · Keep your admin password and secret API keys private.</div>
@@ -66,7 +71,7 @@
 const SUPABASE_URL='https://xotqafgkubodqpirfpfb.supabase.co';
 const ADMIN_EMAIL='kamatrajukumar2000@gmail.com';
 const $=id=>document.getElementById(id);
-let client=null, enquiries=[], selectedId=null, machineListings=[], machinePartListings=[], diamondTradeListings=[];
+let client=null, enquiries=[], selectedId=null, machineListings=[], machinePartListings=[], diamondTradeListings=[], customerReviews=[];
 function say(id,text){$(id).textContent=text||''}
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function connect(key){
@@ -82,7 +87,7 @@ function connect(key){
 async function showDashboard(user){
  const email=String(user&&user.email||'').toLowerCase();
  if(email!==ADMIN_EMAIL){await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','Access denied. This page is restricted to the authorized Sweksha admin email.');return}
- $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');$('signedInEmail').textContent='Signed in: '+email;$('topRight').textContent='Authenticated admin session';await loadEnquiries();await loadMachineListings();await loadPartsListings();await loadDiamondTradeListings();await loadPartsListings();await loadDiamondTradeListings();
+ $('loginPanel').classList.add('hidden');$('dashboard').classList.remove('hidden');$('signedInEmail').textContent='Signed in: '+email;$('topRight').textContent='Authenticated admin session';await loadEnquiries();await loadMachineListings();await loadPartsListings();await loadDiamondTradeListings();await loadCustomerReviews();
 }
 async function loadMachineListings(){
  if(!client){say('machineListingMessage','Supabase is not connected.');return}
@@ -191,6 +196,47 @@ function renderDiamondTradeListings(){
   return '<tr><td><div class="name">'+esc(r.product_type||'Diamond enquiry')+'</div><div class="sub">ID: '+esc(r.id)+'</div></td><td><strong>'+esc(kind)+'</strong><div class="sub">'+esc(r.description||'No specifications provided')+'</div></td><td><div class="name">'+esc(r.contact_name||'—')+'</div>'+contact+'</td><td>'+esc(r.location||'—')+'<div class="sub">'+esc(r.expected_price||'Price not specified')+' · Qty '+esc(r.quantity||'—')+'</div></td><td>'+photo+'<div class="sub">'+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</div></td><td>'+action+'</td></tr>';
  }).join('');
 }
+async function loadCustomerReviews(){
+ if(!client){say('adminReviewMessage','Supabase is not connected.');return}
+ say('adminReviewMessage','Loading customer reviews…');$('reviewRefreshButton').disabled=true;
+ try{
+  const {data,error}=await client.from('reviews').select('*').order('created_at',{ascending:false}).limit(500);
+  if(error)throw error;
+  customerReviews=Array.isArray(data)?data:[];
+  renderCustomerReviews();
+  const pending=customerReviews.filter(r=>(r.status||'pending')==='pending').length;
+  $('adminReviewCount').textContent=customerReviews.length+' total · '+pending+' pending';
+  say('adminReviewMessage',customerReviews.length?'Loaded '+customerReviews.length+' review(s).':'No customer reviews submitted yet.');
+ }catch(e){
+  customerReviews=[];renderCustomerReviews();$('adminReviewCount').textContent='';
+  say('adminReviewMessage','Could not load reviews: '+(e.message||'Check the reviews table and admin read policy.'));
+ }finally{$('reviewRefreshButton').disabled=false}
+}
+function renderCustomerReviews(){
+ if(!customerReviews.length){$('reviewRows').innerHTML='<tr><td colspan="5" class="empty">No customer reviews yet.</td></tr>';return}
+ $('reviewRows').innerHTML=customerReviews.map(r=>{
+  const status=String(r.status||'pending');
+  let actions='';
+  if(status==='pending')actions='<div class="actions"><button class="btn teal" type="button" data-review-status="approved" data-review-id="'+esc(r.id)+'">Approve</button><button class="btn red" type="button" data-review-status="rejected" data-review-id="'+esc(r.id)+'">Reject</button></div>';
+  else if(status==='approved')actions='<div class="actions"><span class="pill resolved">approved</span><button class="btn red" type="button" data-review-status="rejected" data-review-id="'+esc(r.id)+'">Hide</button></div>';
+  else actions='<div class="actions"><span class="pill spam">'+esc(status)+'</span><button class="btn light" type="button" data-review-status="approved" data-review-id="'+esc(r.id)+'">Approve</button></div>';
+  return '<tr><td><div class="name">'+esc(r.name||'—')+'</div><div class="sub">ID: '+esc(r.id)+'</div></td><td>'+esc(r.rating||'—')+'/5</td><td>'+esc(r.review||'')+'</td><td>'+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</td><td>'+actions+'</td></tr>';
+ }).join('');
+}
+async function updateCustomerReviewStatus(id,status){
+ if(!['approved','rejected'].includes(status))return;
+ const row=customerReviews.find(r=>String(r.id)===String(id));if(!row)return;
+ if(!confirm((status==='approved'?'Publish':'Hide')+' this customer review?'))return;
+ say('adminReviewMessage','Updating review moderation…');
+ try{
+  const {data,error}=await client.from('reviews').update({status}).eq('id',id).select().single();
+  if(error)throw error;
+  Object.assign(row,data||{status});renderCustomerReviews();
+  const pending=customerReviews.filter(r=>(r.status||'pending')==='pending').length;
+  $('adminReviewCount').textContent=customerReviews.length+' total · '+pending+' pending';
+  say('adminReviewMessage','Review status updated: '+status+'.');
+ }catch(e){say('adminReviewMessage','Could not update review: '+(e.message||'Check the admin review policy.'))}
+}
 async function updateDiamondTradeListing(id,status){
  if(!['approved','rejected','sold','archived'].includes(status))return;
  const row=diamondTradeListings.find(r=>String(r.id)===String(id));if(!row)return;
@@ -279,10 +325,12 @@ $('resetButton').addEventListener('click',async()=>{
  say('loginMessage',error?error.message:'If this email is registered, a password reset email will be sent.');
 });
 $('logoutButton').addEventListener('click',async()=>{if(client)await client.auth.signOut();$('dashboard').classList.add('hidden');$('loginPanel').classList.remove('hidden');say('loginMessage','You have signed out.');$('topRight').textContent='Admin access'});
-$('refreshButton').addEventListener('click',async()=>{await loadEnquiries();await loadMachineListings()});
+$('refreshButton').addEventListener('click',async()=>{await loadEnquiries();await loadMachineListings();await loadPartsListings();await loadDiamondTradeListings();await loadCustomerReviews()});
 $('machineRefreshButton').addEventListener('click',loadMachineListings);
 $('partsAdminRefresh').addEventListener('click',loadPartsListings);
 $('diamondAdminRefresh').addEventListener('click',loadDiamondTradeListings);
+$('reviewRefreshButton').addEventListener('click',loadCustomerReviews);
+$('reviewRows').addEventListener('click',e=>{const b=e.target.closest('[data-review-status]');if(b)updateCustomerReviewStatus(b.dataset.reviewId,b.dataset.reviewStatus)});
 $('diamondAdminRows').addEventListener('click',e=>{const b=e.target.closest('[data-diamond-status]');if(b)updateDiamondTradeListing(b.dataset.diamondId,b.dataset.diamondStatus)});
 $('partsAdminRows').addEventListener('click',e=>{const b=e.target.closest('[data-part-status]');if(b)updatePartListing(b.dataset.partId,b.dataset.partStatus)});
 $('machineListingRows').addEventListener('click',e=>{const a=e.target.closest('[data-machine-approve]'),r=e.target.closest('[data-machine-reject]');if(a)updateMachineListing(a.dataset.machineApprove,'approved');if(r)updateMachineListing(r.dataset.machineReject,'rejected')});
