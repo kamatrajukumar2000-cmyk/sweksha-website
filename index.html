@@ -1451,7 +1451,7 @@
         <div class="section-head">
           <span class="eyebrow">Customer Feedback</span>
           <h2>Reviews & Suggestions</h2>
-          <p>Share feedback about your service experience. Feedback is sent directly to our WhatsApp for review; it is not published automatically.</p>
+          <p>Share feedback about your service experience. Reviews are saved for SWEKSHA admin moderation and appear publicly only after approval.</p>
         </div>
 
         <div class="review-summary" hidden>
@@ -1473,7 +1473,7 @@
 
         <div class="review-form-wrap">
           <h3>Share Your Experience</h3>
-          <p class="notice" style="margin:6px 0 20px">Your feedback will open in WhatsApp so you can send it to us. It will not be published on this website automatically. Please do not include private or confidential information.</p>
+          <p class="notice" style="margin:6px 0 20px">Your feedback is submitted for admin review. WhatsApp also opens so you can send us a copy. Reviews are never published until approved. Please do not include private or confidential information.</p>
           <form id="reviewForm">
             <div class="review-form-grid">
               <div>
@@ -1504,7 +1504,7 @@
                 <textarea id="reviewText" maxlength="1200" required placeholder="What was your experience? What should we improve?"></textarea>
               </div>
               <div class="full">
-                <button class="btn btn-primary" type="submit">Send Feedback on WhatsApp</button>
+                <button class="btn btn-primary" type="submit">Submit Feedback & Open WhatsApp</button>
                 <div id="reviewStatus" class="review-status" role="status" aria-live="polite"></div>
               </div>
             </div>
@@ -1989,7 +1989,7 @@ I will attach relevant photos/videos in WhatsApp if available. Please contact me
         const response = await fetch('https://xotqafgkubodqpirfpfb.supabase.co/rest/v1/reviews', {
           method: 'POST',
           headers: publicApiHeaders(key, {'Content-Type':'application/json','Prefer':'return=minimal'}),
-          body: JSON.stringify({name, rating, review, status:'pending'})
+          body: JSON.stringify({name, rating, review: (title ? title + ' — ' : '') + review + (company ? ' (Company: ' + company + ')' : ''), status:'pending'})
         });
         if(!response.ok) throw new Error('Database did not accept the review');
         setReviewStatus('Feedback saved for admin approval. WhatsApp opened; please send the message there too.', 'success');
