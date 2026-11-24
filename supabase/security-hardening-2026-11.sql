@@ -21,12 +21,27 @@ alter table public.machine_sales_listings enable row level security;
 alter table public.machine_part_listings enable row level security;
 alter table public.diamond_trade_listings enable row level security;
 
+-- Do not expose seller/buyer phone numbers, email addresses, or admin notes
+-- through the public PostgREST role. Admin sessions retain their existing full
+-- table grants and are still constrained by the admin-only RLS branch.
+revoke select on public.machine_sales_listings from anon;
+grant select (id, machine_category, transaction_type, condition, brand_model_year, application_details, expected_price, location, photo_urls, created_at)
+  on public.machine_sales_listings to anon;
+
+revoke select on public.machine_part_listings from anon;
+grant select (id, transaction_type, part_name, category, condition, expected_price, quantity, location, photo_url, details, created_at)
+  on public.machine_part_listings to anon;
+
+revoke select on public.diamond_trade_listings from anon;
+grant select (id, transaction_type, product_type, description, expected_price, quantity, location, photo_url, created_at)
+  on public.diamond_trade_listings to anon;
+
 drop policy if exists "Sweksha restrict machine listing reads" on public.machine_sales_listings;
 create policy "Sweksha restrict machine listing reads"
 on public.machine_sales_listings as restrictive
 for select to anon, authenticated
 using (
-  status = 'approved'
+  (auth.role() = 'anon' and status = 'approved')
   or (auth.role() = 'authenticated'
       and lower(coalesce(auth.jwt() ->> 'email', '')) = 'kamatrajukumar2000@gmail.com')
 );
