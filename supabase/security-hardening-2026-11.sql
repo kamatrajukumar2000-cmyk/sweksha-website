@@ -24,22 +24,22 @@ alter default privileges in schema public
 -- Public website reads only the fields required to render approved records.
 revoke select on public.machine_sales_listings from anon;
 grant select (id, machine_category, transaction_type, condition, brand_model_year,
-              application_details, expected_price, location, photo_urls, seller_name, created_at)
+              application_details, expected_price, location, photo_urls, seller_name, created_at, status)
 on public.machine_sales_listings to anon;
 
 revoke select on public.machine_part_listings from anon;
 grant select (id, transaction_type, part_name, category, condition, expected_price,
-              quantity, location, photo_url, details, created_at)
+              quantity, location, photo_url, details, created_at, status)
 on public.machine_part_listings to anon;
 
 revoke select on public.diamond_trade_listings from anon;
 grant select (id, transaction_type, product_type, description, expected_price,
-              quantity, location, photo_url, created_at)
+              quantity, location, photo_url, created_at, status)
 on public.diamond_trade_listings to anon;
 
 revoke select on public.job_vacancies from anon;
 grant select (id, company_name, job_title, description, location, employment_type,
-              salary_range, created_at)
+              salary_range, created_at, status)
 on public.job_vacancies to anon;
 
 revoke select on public.candidate_profiles from anon;
@@ -139,6 +139,6 @@ begin
 end $$;
 alter policy "Public can read approved reviews" on public.reviews to anon;
 revoke select on public.reviews from anon;
-grant select (id, created_at, name, rating, review) on public.reviews to anon;
+grant select (id, created_at, name, rating, review, status) on public.reviews to anon;
 
 commit;
