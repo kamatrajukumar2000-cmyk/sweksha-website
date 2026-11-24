@@ -86,3 +86,6 @@ using (
 );
 
 -- No public UPDATE or DELETE policy is granted on listing records.
+
+-- Required for public approved-status filters; no private contact columns are exposed.
+grant select (status) on public.machine_sales_listings to anon;
