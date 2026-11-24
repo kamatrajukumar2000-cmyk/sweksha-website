@@ -23,50 +23,13 @@ create table if not exists public.machine_part_listings (
 
 alter table public.machine_part_listings enable row level security;
 drop policy if exists "public can submit pending machine part listings" on public.machine_part_listings;
-drop policy if exists "public can view approved machine part listings" on public.machine_part_listings;
-drop policy if exists "Sweksha admin read machine part listings" on public.machine_part_listings;
-drop policy if exists "Sweksha admin update machine part listings" on public.machine_part_listings;
-
-create policy "public can submit pending machine part listings"
-on public.machine_part_listings for insert to anon, authenticated
-with check (status = 'pending' and admin_notes is null);
-
-create policy "public can view approved machine part listings"
-on public.machine_part_listings for select to anon
-using (status = 'approved');
-
-create policy "Sweksha admin read machine part listings"
-on public.machine_part_listings for select to authenticated
-using (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com');
-
-create policy "Sweksha admin update machine part listings"
-on public.machine_part_listings for update to authenticated
-using (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com')
-with check (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com');
-
-revoke select on public.machine_part_listings from anon;
-grant insert on public.machine_part_listings to anon;
-grant select (id, transaction_type, part_name, category, condition, expected_price, quantity, location, photo_url, details, created_at) on public.machine_part_listings to anon;
-grant select, update on public.machine_part_listings to authenticated;
-
-insert into storage.buckets (id,name,public,file_size_limit,allowed_mime_types)
-values ('machine-part-images','machine-part-images',true,5242880,array['image/jpeg','image/png','image/webp'])
-on conflict (id) do update set public=true,file_size_limit=5242880,allowed_mime_types=array['image/webp'];
-
-drop policy if exists "public can upload machine part images" on storage.objects;
 drop policy if exists "public can view machine part images" on storage.objects;
-drop policy if exists "Sweksha admin can delete machine part images" on storage.objects;
-
-create policy "public can upload machine part images"
-on storage.objects for insert to anon, authenticated
-with check (
+create policy "Sweksha admin can list machine part images"
+on storage.objects for select to authenticated
+using (
   bucket_id = 'machine-part-images'
-  and name ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp$'
+  and lower(coalesce((select auth.jwt()) ->> 'email','')) = 'kamatrajukumar2000@gmail.com'
 );
-
-create policy "public can view machine part images"
-on storage.objects for select to anon, authenticated
-using (bucket_id='machine-part-images');
 
 create policy "Sweksha admin can delete machine part images"
 on storage.objects for delete to authenticated
