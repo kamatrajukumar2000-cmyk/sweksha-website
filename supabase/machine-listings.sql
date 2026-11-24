@@ -68,7 +68,28 @@ create policy "public can upload machine-listing-images objects"
 on storage.objects for insert to anon, authenticated
 with check (
   bucket_id = 'machine-listing-images'
-  and name ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp$'
+  and name ~* '^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp|[0-9]{13}-[a-z0-9]{8,16}([.](webp|jpg|jpeg|png)|-(webp|jpg|jpeg|png)))
+);
+
+create policy "Sweksha admin can list machine listing images"
+on storage.objects for select to authenticated
+using (
+  bucket_id = 'machine-listing-images'
+  and lower(coalesce((select auth.jwt()) ->> 'email','')) = 'kamatrajukumar2000@gmail.com'
+);
+
+create policy "Sweksha admin can delete machine listing images"
+on storage.objects for delete to authenticated
+using (
+  bucket_id = 'machine-listing-images'
+  and lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com'
+);
+
+-- No public UPDATE or DELETE policy is granted on listing records.
+
+-- Required for public approved-status filters; no private contact columns are exposed.
+grant select (status) on public.machine_sales_listings to anon;
+
 );
 
 create policy "Sweksha admin can list machine listing images"
