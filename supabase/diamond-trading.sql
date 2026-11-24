@@ -27,7 +27,16 @@ drop policy if exists "Sweksha admin update diamond listings" on public.diamond_
 
 create policy "public can submit pending diamond listings"
 on public.diamond_trade_listings for insert to anon,authenticated
-with check (status='pending' and admin_notes is null);
+with check (
+  status='pending' and admin_notes is null
+  and length(trim(coalesce(product_type,''))) between 1 and 160
+  and length(trim(coalesce(description,''))) <= 3000
+  and length(trim(coalesce(expected_price,''))) <= 120
+  and length(trim(coalesce(quantity,''))) <= 120
+  and length(trim(coalesce(location,''))) <= 200
+  and length(trim(coalesce(contact_name,''))) between 1 and 120
+  and length(trim(coalesce(contact_phone,''))) between 5 and 40
+);
 create policy "public can view approved diamond listings"
 on public.diamond_trade_listings for select to anon using (status='approved');
 create policy "Sweksha admin read diamond listings"
