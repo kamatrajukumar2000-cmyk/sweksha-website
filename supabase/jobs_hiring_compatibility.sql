@@ -74,6 +74,7 @@ end $$;
 -- approved workflow for new/updated rows without rewriting legacy records.
 alter table public.job_applications alter column status set default 'pending';
 alter table public.job_vacancies alter column status set default 'pending';
+alter table public.job_vacancies alter column status set not null;
 alter table public.job_applications add constraint job_applications_status_check
   check (status in ('pending','reviewed','shortlisted','closed','rejected')) not valid;
 alter table public.job_vacancies add constraint job_vacancies_status_check
