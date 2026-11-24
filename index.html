@@ -760,7 +760,6 @@
             <div class="about-photo-stage">
               <img src="29fc3747-cc7a-41b9-b700-16bdd8c942b6%20-%20Copy.jpg" alt="Raju Kamat, SWEKSHA FOUNDATION CLUB">
             </div>
-            <p>Raju Kamat · SWEKSHA FOUNDATION CLUB</p>
           </dialog>
           <span class="eyebrow">About Us</span>
           <h2>Sweksha CVD Diamond Machine Service & Consulting</h2>
@@ -1985,45 +1984,17 @@ function renderReviews(reviews){
     .about-photo-frame{position:relative;display:block;transform-style:preserve-3d;transform:rotateX(var(--about-rotate-x,0deg)) rotateY(var(--about-rotate-y,0deg));transition:transform .18s ease,filter .25s ease;will-change:transform}
     .about-photo-trigger:hover .about-photo-frame{filter:drop-shadow(0 22px 24px rgba(5,20,35,.24))}
     .about-photo-image{display:block;width:100%;height:auto;max-height:560px;object-fit:contain;object-position:center;border-radius:16px;box-shadow:0 18px 38px rgba(7,25,42,.2);backface-visibility:hidden}
-    .about-photo-hint{position:absolute;right:12px;bottom:12px;padding:9px 13px;border:1px solid rgba(255,255,255,.45);border-radius:999px;background:rgba(5,18,32,.78);color:#fff;font-size:12px;font-weight:700;letter-spacing:.02em;box-shadow:0 5px 16px rgba(0,0,0,.2);transform:translateZ(24px)}
     .about-photo-dialog{position:fixed;inset:0;width:100vw;height:100vh;max-width:none;max-height:none;margin:0;padding:48px 24px 28px;border:0;background:radial-gradient(ellipse at center,#1d3448 0%,#07111f 72%);color:#fff;overflow:auto}
     .about-photo-dialog[open]{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
     .about-photo-dialog::backdrop{background:rgba(0,0,0,.88)}
     .about-photo-stage{width:min(92vw,1100px);height:min(78vh,820px);display:grid;place-items:center;perspective:1800px}
     .about-photo-stage img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:18px;box-shadow:0 35px 90px rgba(0,0,0,.55);transform:rotateX(-2deg) rotateY(2deg);transition:transform .35s ease}
     .about-photo-stage:hover img{transform:rotateX(0deg) rotateY(0deg) scale(1.015)}
-    .about-photo-dialog p{margin:0;color:#e4edf5;font-size:14px;letter-spacing:.04em;text-align:center}
     .about-photo-close{position:fixed;top:16px;right:20px;width:46px;height:46px;border:1px solid rgba(255,255,255,.35);border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:30px;line-height:1;cursor:pointer}
     .about-photo-close:hover{background:rgba(255,255,255,.24)}
     @media(max-width:600px){.about-photo-dialog{padding:58px 12px 20px}.about-photo-stage{width:96vw;height:76vh}.about-photo-close{top:10px;right:10px}}
     @media(prefers-reduced-motion:reduce){.about-photo-frame,.about-photo-stage img{transition:none}}
 
-    /* Readable About Us copy layered directly over the 3D profile photo */
-    .about-photo-figure{margin:0 0 24px;width:100%;max-width:620px;perspective:1400px}
-    .about-photo-trigger{display:block;width:100%;padding:0;border:0;background:transparent;cursor:zoom-in;text-align:left}
-    .about-photo-frame{position:relative;display:block;isolation:isolate;overflow:hidden;border-radius:20px;transform-style:preserve-3d;transform:rotateX(var(--about-rotate-x,0deg)) rotateY(var(--about-rotate-y,0deg));transition:transform .18s ease,filter .25s ease;box-shadow:0 22px 48px rgba(5,20,35,.25);background:#07111f}
-    .about-photo-trigger:hover .about-photo-frame{filter:drop-shadow(0 24px 30px rgba(5,20,35,.28))}
-    .about-photo-image{display:block;width:100%;height:clamp(620px,68vw,820px);max-height:820px;object-fit:cover;object-position:center 28%;border-radius:20px}
-    .about-photo-content{position:absolute;inset:auto 0 0;display:flex;flex-direction:column;gap:12px;padding:clamp(20px,3vw,34px);color:#fff;background:linear-gradient(180deg,rgba(4,13,25,0) 0%,rgba(4,13,25,.88) 17%,rgba(4,13,25,.97) 100%);transform:translateZ(22px)}
-    .about-photo-eyebrow{display:inline-block;color:#f3c969;text-transform:uppercase;letter-spacing:.16em;font-size:12px;font-weight:800}
-    .about-photo-heading{display:block;max-width:560px;font-size:clamp(22px,3vw,34px);line-height:1.12;color:#fff}
-    .about-photo-copy{display:block;color:#edf3f8;font-size:clamp(13px,1.4vw,15px);line-height:1.55}
-    .about-photo-service{padding:13px 15px;border:1px solid rgba(255,255,255,.25);border-left:3px solid #e8bd57;border-radius:12px;background:rgba(255,255,255,.1);color:#fff;font-size:14px;line-height:1.5;backdrop-filter:blur(8px)}
-    .about-photo-hint{position:absolute;top:14px;right:14px;padding:9px 13px;border:1px solid rgba(255,255,255,.45);border-radius:999px;background:rgba(5,18,32,.78);color:#fff;font-size:12px;font-weight:700;box-shadow:0 5px 16px rgba(0,0,0,.2);transform:translateZ(30px)}
-    .about-photo-dialog{position:fixed;inset:0;width:100vw;height:100vh;max-width:none;max-height:none;margin:0;padding:58px 20px 24px;border:0;background:radial-gradient(ellipse at center,#1d3448 0%,#07111f 72%);color:#fff;overflow:auto}
-    .about-photo-dialog[open]{display:flex;align-items:center;justify-content:center}
-    .about-photo-dialog::backdrop{background:rgba(0,0,0,.9)}
-    .about-photo-stage{position:relative;width:min(94vw,1150px);height:min(88vh,900px);display:grid;place-items:center;perspective:1800px}
-    .about-photo-stage>img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 28%;border-radius:18px;box-shadow:0 35px 90px rgba(0,0,0,.55);transform:rotateX(-1deg) rotateY(1deg);transition:transform .35s ease}
-    .about-photo-stage:hover>img{transform:rotateX(0) rotateY(0) scale(1.008)}
-    .about-photo-full-content{position:absolute;inset:auto 0 0;max-height:78%;overflow:auto;padding:clamp(18px,3vw,34px);background:linear-gradient(180deg,rgba(4,13,25,.1),rgba(4,13,25,.94) 18%,rgba(4,13,25,.98));border-radius:0 0 18px 18px;color:#fff}
-    .about-photo-full-content h2{margin:8px 0 12px;font-size:clamp(22px,3vw,34px);line-height:1.15;color:#fff}
-    .about-photo-full-content p{margin:9px 0;color:#edf3f8;line-height:1.55;font-size:clamp(13px,1.5vw,16px)}
-    .about-photo-full-content .about-photo-service{margin-top:12px}
-    .about-photo-close{position:fixed;z-index:5;top:14px;right:18px;width:46px;height:46px;border:1px solid rgba(255,255,255,.4);border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:30px;line-height:1;cursor:pointer}
-    .about-photo-close:hover{background:rgba(255,255,255,.26)}
-    @media(max-width:700px){.about-photo-image{height:760px;object-position:center 20%}.about-photo-content{gap:9px;padding:18px}.about-photo-copy{font-size:13px}.about-photo-service{font-size:12px;padding:10px 12px}.about-photo-dialog{padding:58px 8px 12px}.about-photo-stage{width:98vw;height:88vh}.about-photo-full-content{max-height:82%;padding:16px}.about-photo-full-content p{font-size:13px}}
-    @media(prefers-reduced-motion:reduce){.about-photo-frame,.about-photo-stage>img{transition:none}}
 </style>
     <a id="sweksha-voice-call-link" href="tel:+917827474249" onclick="trackEvent('voice_call_click',{method:'phone'});" aria-label="Call Sweksha by phone">Voice Call</a>
   <a id="sweksha-video-call-link" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20would%20like%20to%20start%20a%20video%20call." target="_blank" rel="noopener noreferrer" onclick="trackEvent('video_call_click',{method:'whatsapp'});" aria-label="Request a video call on WhatsApp">Video Call</a>
