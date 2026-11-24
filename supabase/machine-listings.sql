@@ -1,8 +1,5 @@
--- Sweksha all-diamond-machine marketplace
--- Run once in Supabase SQL Editor. Supports CVD/MPCVD and all diamond-processing machines.
--- Public sellers can INSERT pending listings; visitors can SELECT approved listings only.
--- Only the authorized Sweksha admin email can review and update listings.
-
+-- SWEKSHA all-diamond-machine marketplace.
+-- Safe to run after reviewing the current project. Existing rows are retained.
 create extension if not exists pgcrypto;
 
 create table if not exists public.machine_sales_listings (
@@ -25,7 +22,6 @@ create table if not exists public.machine_sales_listings (
   updated_at timestamptz not null default now()
 );
 
--- Upgrade older marketplace table versions without deleting existing records.
 alter table public.machine_sales_listings add column if not exists seller_email text;
 alter table public.machine_sales_listings add column if not exists photo_urls text[] not null default '{}';
 alter table public.machine_sales_listings add column if not exists application_details text;
@@ -33,80 +29,69 @@ alter table public.machine_sales_listings add column if not exists additional_de
 alter table public.machine_sales_listings add column if not exists admin_notes text;
 alter table public.machine_sales_listings add column if not exists updated_at timestamptz not null default now();
 
--- Remove old narrow category checks (e.g. only diamond_laser / galaxy / other).
 do $$
 declare c record;
 begin
   for c in
-    select conname
-    from pg_constraint
-    where conrelid = 'public.machine_sales_listings'::regclass
-      and contype = 'c'
-      and pg_get_constraintdef(oid) ilike '%machine_category%'
+    select conname from pg_constraint
+    where conrelid='public.machine_sales_listings'::regclass
+      and contype='c' and pg_get_constraintdef(oid) ilike '%machine_category%'
   loop
-    execute format('alter table public.machine_sales_listings drop constraint %I', c.conname);
+    execute format('alter table public.machine_sales_listings drop constraint %I',c.conname);
   end loop;
 end $$;
 
--- Keep transaction/status values constrained to supported workflow values.
 alter table public.machine_sales_listings drop constraint if exists machine_sales_listings_transaction_type_check;
 alter table public.machine_sales_listings add constraint machine_sales_listings_transaction_type_check
   check (transaction_type in ('for_sale','looking_to_buy','dealer_partnership')) not valid;
-
 alter table public.machine_sales_listings drop constraint if exists machine_sales_listings_status_check;
 alter table public.machine_sales_listings add constraint machine_sales_listings_status_check
   check (status in ('pending','approved','rejected','sold','archived')) not valid;
-
 create index if not exists machine_sales_listings_status_created_idx
-  on public.machine_sales_listings(status, created_at desc);
+  on public.machine_sales_listings(status,created_at desc);
 
 alter table public.machine_sales_listings enable row level security;
-
 drop policy if exists "public can submit pending machine listings" on public.machine_sales_listings;
+drop policy if exists "public can view approved machine listings" on public.machine_sales_listings;
+drop policy if exists "Sweksha admin read machine listings" on public.machine_sales_listings;
+drop policy if exists "Sweksha admin update machine listings" on public.machine_sales_listings;
+
+create policy "public can submit pending machine listings"
+on public.machine_sales_listings for insert to anon,authenticated
+with check (status='pending' and admin_notes is null);
+create policy "public can view approved machine listings"
+on public.machine_sales_listings for select to anon using (status='approved');
+create policy "Sweksha admin read machine listings"
+on public.machine_sales_listings for select to authenticated
+using (status='approved' or lower(coalesce((select auth.jwt())->>'email',''))='kamatrajukumar2000@gmail.com');
+create policy "Sweksha admin update machine listings"
+on public.machine_sales_listings for update to authenticated
+using (lower(coalesce((select auth.jwt())->>'email',''))='kamatrajukumar2000@gmail.com')
+with check (lower(coalesce((select auth.jwt())->>'email',''))='kamatrajukumar2000@gmail.com');
+
+revoke select on public.machine_sales_listings from anon;
+grant insert on public.machine_sales_listings to anon,authenticated;
+grant select (id,machine_category,transaction_type,condition,brand_model_year,application_details,expected_price,location,photo_urls,seller_name,created_at,status)
+on public.machine_sales_listings to anon;
+grant select,update on public.machine_sales_listings to authenticated;
+
+insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types)
+values('machine-listing-images','machine-listing-images',true,5242880,array['image/jpeg','image/png','image/webp'])
+on conflict(id) do update set public=true,file_size_limit=5242880,allowed_mime_types=array['image/jpeg','image/png','image/webp'];
+
+drop policy if exists "public can upload machine listing images" on storage.objects;
 drop policy if exists "public can view machine listing images" on storage.objects;
+drop policy if exists "Sweksha admin can delete machine listing images" on storage.objects;
+drop policy if exists "public can upload machine-listing-images objects" on storage.objects;
+drop policy if exists "Sweksha admin can list machine listing images" on storage.objects;
+drop policy if exists "Sweksha admin can delete machine listing images" on storage.objects;
+
 create policy "public can upload machine-listing-images objects"
-on storage.objects for insert to anon, authenticated
-with check (
-  bucket_id = 'machine-listing-images'
-  and name ~* '^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp|[0-9]{13}-[a-z0-9]{8,16}([.](webp|jpg|jpeg|png)|-(webp|jpg|jpeg|png)))
-);
-
+on storage.objects for insert to anon,authenticated
+with check (bucket_id='machine-listing-images' and name ~* '^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}[.]webp|[0-9]{13}-[a-z0-9]{8,16}([.](webp|jpg|jpeg|png)|-(webp|jpg|jpeg|png)))$');
 create policy "Sweksha admin can list machine listing images"
 on storage.objects for select to authenticated
-using (
-  bucket_id = 'machine-listing-images'
-  and lower(coalesce((select auth.jwt()) ->> 'email','')) = 'kamatrajukumar2000@gmail.com'
-);
-
+using (bucket_id='machine-listing-images' and lower(coalesce((select auth.jwt())->>'email',''))='kamatrajukumar2000@gmail.com');
 create policy "Sweksha admin can delete machine listing images"
 on storage.objects for delete to authenticated
-using (
-  bucket_id = 'machine-listing-images'
-  and lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com'
-);
-
--- No public UPDATE or DELETE policy is granted on listing records.
-
--- Required for public approved-status filters; no private contact columns are exposed.
-grant select (status) on public.machine_sales_listings to anon;
-
-);
-
-create policy "Sweksha admin can list machine listing images"
-on storage.objects for select to authenticated
-using (
-  bucket_id = 'machine-listing-images'
-  and lower(coalesce((select auth.jwt()) ->> 'email','')) = 'kamatrajukumar2000@gmail.com'
-);
-
-create policy "Sweksha admin can delete machine listing images"
-on storage.objects for delete to authenticated
-using (
-  bucket_id = 'machine-listing-images'
-  and lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gmail.com'
-);
-
--- No public UPDATE or DELETE policy is granted on listing records.
-
--- Required for public approved-status filters; no private contact columns are exposed.
-grant select (status) on public.machine_sales_listings to anon;
+using (bucket_id='machine-listing-images' and lower(coalesce((select auth.jwt())->>'email',''))='kamatrajukumar2000@gmail.com');
