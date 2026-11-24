@@ -80,7 +80,7 @@ with check (lower(coalesce(auth.jwt() ->> 'email','')) = 'kamatrajukumar2000@gma
 grant insert on public.job_applications to anon, authenticated;
 revoke select on public.job_vacancies from anon;
 grant insert on public.job_vacancies to anon;
-grant select (id, company_name, job_title, description, location, employment_type, salary_range, created_at) on public.job_vacancies to anon;
+grant select (id, company_name, job_title, responsibilities_skills, work_location, employment_type, pay_range, created_at) on public.job_vacancies to anon;
 grant insert, select on public.job_vacancies to authenticated;
 grant select, update on public.job_applications to authenticated;
 grant select, update on public.job_vacancies to authenticated;
