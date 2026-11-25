@@ -59,12 +59,12 @@ document.getElementById("eyebrow").textContent=(roles[person]||roles.raju).toUpp
 document.getElementById("title").textContent=data[0];
 document.getElementById("lead").textContent=data[1]+" · Detailed capability, workflow and enquiry guidance";
 document.getElementById("overview").textContent=data[2];
-document.getElementById("scope").innerHTML=data[3].split("|").map(x=>"<li>"+x+"</li>").join("");
-document.getElementById("steps").innerHTML=data[4].split("|").map(x=>"<div class='step'>"+x+"</div>").join("");
-document.getElementById("note").textContent=data[5];
-document.getElementById("nodesTop").innerHTML=data[6].map(x=>"<span class='node'>"+x+"</span>").join("");
-document.getElementById("nodesBottom").innerHTML=data[7].map(x=>"<span class='node'>"+x+"</span>").join("");
-document.getElementById("coreLabel").textContent=data[8];
+document.getElementById("scope").innerHTML=data.slice(3,7).map(x=>"<li>"+x+"</li>").join("");
+document.getElementById("steps").innerHTML=data.slice(7,11).map(x=>"<div class='step'>"+x+"</div>").join("");
+document.getElementById("note").textContent=data[11];
+document.getElementById("nodesTop").innerHTML=data[12].map(x=>"<span class='node'>"+x+"</span>").join("");
+document.getElementById("nodesBottom").innerHTML=data[13].map(x=>"<span class='node'>"+x+"</span>").join("");
+document.getElementById("coreLabel").textContent=data[14];
 document.getElementById("backLink").href=person==="raju"?"team-mr-raju-kamat.html":person==="punit"?"team-ca-punit-jha.html":"team-dr-sivang-patal.html";
 if(matchMedia("(pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion: reduce)").matches){addEventListener("pointermove",e=>{document.documentElement.style.setProperty("--mx",e.clientX+"px");document.documentElement.style.setProperty("--my",e.clientY+"px")},{passive:true});}
 </script></body></html>
