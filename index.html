@@ -368,6 +368,39 @@
 
 /* Desktop header alignment: keep all three text lines on the same left edge */
 @media(min-width:1101px){.header-intro{align-items:flex-start!important;text-align:left!important}.header-info{align-items:flex-start!important;text-align:left!important;width:100%!important}.header-service{display:block!important;text-align:left!important;margin-right:auto!important}.header-support-info{display:flex!important;justify-content:flex-start!important;align-items:center!important;width:100%!important;flex:0 0 100%!important;text-align:left!important;margin-left:0!important;margin-right:auto!important}.header-support-info .header-support{text-align:left!important}.brand{display:block!important;align-self:flex-start!important;text-align:left!important;margin-left:0!important;margin-right:auto!important}}
+
+    /* ===== SWEKSHA CORE TEAM: premium interactive 3D cards ===== */
+    .core-team-section{position:relative;overflow:hidden;background:radial-gradient(ellipse at 12% 8%,rgba(35,199,183,.12),transparent 36%),linear-gradient(145deg,#07111f,#10263a 58%,#07111f);color:#fff}
+    .core-team-section .section-head h2{color:#fff}
+    .core-team-section .section-head p{color:#b9cbd9}
+    .core-team-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;perspective:1400px}
+    .core-team-card{--rx:0deg;--ry:0deg;position:relative;display:flex;flex-direction:column;min-width:0;padding:24px;border:1px solid rgba(139,231,220,.22);border-radius:22px;background:linear-gradient(155deg,rgba(255,255,255,.12),rgba(255,255,255,.035) 55%,rgba(35,199,183,.07));box-shadow:0 22px 55px rgba(0,0,0,.25),inset 0 1px rgba(255,255,255,.12);transform:perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(0);transform-style:preserve-3d;transition:transform .32s cubic-bezier(.2,.75,.25,1),box-shadow .32s,border-color .32s;backdrop-filter:blur(12px);isolation:isolate}
+    .core-team-card:before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,transparent 18%,rgba(255,255,255,.11) 42%,transparent 64%);opacity:0;transform:translateX(-35%);transition:opacity .35s,transform .55s;pointer-events:none;z-index:-1}
+    .core-team-card:hover,.core-team-card:focus-visible{--rx:0deg;--ry:0deg;transform:perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-9px) scale(1.012);border-color:rgba(139,231,220,.65);box-shadow:0 32px 75px rgba(0,0,0,.38),0 0 28px rgba(35,199,183,.12)}
+    .core-team-card:hover:before,.core-team-card:focus-visible:before{opacity:1;transform:translateX(25%)}
+    .core-team-top{display:flex;justify-content:space-between;align-items:center}
+    .core-team-tag{font-size:10px;letter-spacing:1.5px;font-weight:900;color:#9cebe2;border:1px solid rgba(139,231,220,.35);padding:7px 10px;border-radius:999px}
+    .core-team-orbit{color:#d9bd79;font-size:24px;text-shadow:0 0 18px rgba(217,189,121,.65)}
+    .core-team-avatar{width:88px;height:88px;margin:24px 0 18px;border-radius:26px;display:grid;place-items:center;font-size:27px;font-weight:900;letter-spacing:1px;color:#07111f;box-shadow:0 12px 28px rgba(0,0,0,.25),inset 0 1px rgba(255,255,255,.7);transform:translateZ(28px);border:1px solid rgba(255,255,255,.55)}
+    .core-team-avatar-founder{background:linear-gradient(135deg,#8be7dc,#23c7b7 55%,#b58b42)}
+    .core-team-avatar-finance{background:linear-gradient(135deg,#f1dfaa,#c6a45c 58%,#8b6a32)}
+    .core-team-avatar-engineering{background:linear-gradient(135deg,#b9d7f0,#6b9cba 58%,#39747d)}
+    .core-team-content{transform:translateZ(18px)}
+    .core-team-kicker{font-size:10px;letter-spacing:1.7px;color:#8be7dc;font-weight:900;margin-bottom:8px}
+    .core-team-content h3{font-size:23px;line-height:1.2;color:#fff;margin-bottom:8px}
+    .core-team-role{font-weight:800;color:#d9bd79;font-size:14px;min-height:44px}
+    .core-team-summary{color:#c3d2df;font-size:14px;line-height:1.55;margin:12px 0 14px}
+    .core-team-content ul{list-style:none;display:grid;gap:8px;margin:0 0 20px;padding:0}
+    .core-team-content li{font-size:13px;color:#dce8f0;padding-left:19px;position:relative}
+    .core-team-content li:before{content:"✦";position:absolute;left:0;color:#23c7b7;font-size:11px}
+    .core-team-action{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding:12px 14px;border-radius:11px;background:linear-gradient(100deg,#23c7b7,#8be7dc);color:#07111f;font-weight:900;font-size:13px;transition:filter .2s,transform .2s}
+    .core-team-action:hover{filter:brightness(1.08);transform:translateY(-2px)}
+    .core-team-action-muted{background:rgba(255,255,255,.08);color:#c3d2df;border:1px solid rgba(255,255,255,.16)}
+    .core-team-note{font-size:11px;color:#9eb2c3;line-height:1.45;margin-top:12px}
+    @media(max-width:900px){.core-team-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:620px){.core-team-grid{grid-template-columns:1fr}.core-team-card{padding:22px}.core-team-content h3{font-size:21px}}
+    @media(prefers-reduced-motion:reduce){.core-team-card,.core-team-card:before,.core-team-action{transition:none!important;transform:none!important}}
+
 </style>
 
   <script type="application/ld+json">
@@ -513,6 +546,7 @@
             <summary aria-label="Open About Us, Login and Request Support menu">Request Support</summary>
             <div class="nav-action-dropdown">
               <a href="#about">About Us</a>
+          <a href="#core-team">Core Team</a>
               <a href="ai-business-manager.html">Login / Dashboard</a>
               <a href="#request">Request Support</a>
             </div>
@@ -802,6 +836,55 @@
           </div>
           <a class="btn btn-primary about-profile-cta" href="#request">Discuss Your CVD Machine Requirement</a>
         </article>
+      </div>
+    </section>
+
+    <section id="core-team" class="core-team-section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">People Behind SWEKSHA</span>
+          <h2>Core Leadership &amp; Professional Team</h2>
+          <p>Business leadership, CVD process knowledge and specialist professional support — working together under one platform.</p>
+        </div>
+        <div class="core-team-grid">
+          <article class="core-team-card" tabindex="0">
+            <div class="core-team-top"><span class="core-team-orbit" aria-hidden="true">✧</span><span class="core-team-tag">FOUNDER</span></div>
+            <div class="core-team-avatar core-team-avatar-founder" aria-hidden="true">RK</div>
+            <div class="core-team-content">
+              <p class="core-team-kicker">01 / LEADERSHIP</p>
+              <h3>Raju Kumar</h3>
+              <p class="core-team-role">Founder &amp; Managing Director</p>
+              <p class="core-team-summary">CVD growth process development, production-focused consulting and overall business management.</p>
+              <ul><li>Business strategy &amp; operations</li><li>CVD growth and process development</li><li>Vacuum, gas and process optimization</li></ul>
+              <a class="core-team-action" href="#request">Enquire with SWEKSHA <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+          <article class="core-team-card" tabindex="0">
+            <div class="core-team-top"><span class="core-team-orbit" aria-hidden="true">✧</span><span class="core-team-tag">CORE TEAM</span></div>
+            <div class="core-team-avatar core-team-avatar-finance" aria-hidden="true">PJ</div>
+            <div class="core-team-content">
+              <p class="core-team-kicker">02 / FINANCE &amp; COMPLIANCE</p>
+              <h3>Punit Kumar Jha</h3>
+              <p class="core-team-role">Chartered Accountant</p>
+              <p class="core-team-summary">Over four years of experience in audit, taxation and financial reporting across multiple industries.</p>
+              <ul><li>Statutory &amp; internal audit</li><li>Taxation and financial reporting</li><li>Risk assessment and internal controls</li></ul>
+              <a class="core-team-action" href="#request">Enquire with SWEKSHA <span aria-hidden="true">↗</span></a>
+              <p class="core-team-note">Professional services are subject to applicable CA/ICAI requirements and agreed engagement.</p>
+            </div>
+          </article>
+          <article class="core-team-card core-team-card-pending" tabindex="0">
+            <div class="core-team-top"><span class="core-team-orbit" aria-hidden="true">✧</span><span class="core-team-tag">CORE TEAM</span></div>
+            <div class="core-team-avatar core-team-avatar-engineering" aria-hidden="true">SP</div>
+            <div class="core-team-content">
+              <p class="core-team-kicker">03 / TECHNICAL SUPPORT</p>
+              <h3>Dr. Sivan Patel</h3>
+              <p class="core-team-role">Technical Support &amp; Engineering</p>
+              <p class="core-team-summary">Core team profile in progress. Professional biography and technical specializations will be added after details are provided.</p>
+              <ul><li>Technical support profile</li><li>Engineering responsibilities to be confirmed</li><li>Experience and qualifications to be updated</li></ul>
+              <span class="core-team-action core-team-action-muted">Profile details coming soon</span>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
