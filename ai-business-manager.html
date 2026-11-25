@@ -14,6 +14,7 @@
 @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.toolbar{grid-template-columns:1fr 1fr}.toolbar input{grid-column:1/-1}.headrow h1{font-size:23px}.top{padding:15px}.detail{grid-template-columns:1fr}.detail .full{grid-column:auto}}
 @media(max-width:420px){.toolbar{grid-template-columns:1fr}.toolbar input{grid-column:auto}.stats{gap:9px}.stat{padding:13px}.stat strong{font-size:25px}}
 </style>
+  <link rel="stylesheet" href="sweksha-aura.css?v=1">
 </head>
 <body>
 <header class="top"><div class="brand">Sweksha <span>Foundation Club</span><small>Private business workspace</small></div><div id="topRight" class="muted small">Admin access</div></header>
@@ -294,5 +295,6 @@ $('enquiryRows').addEventListener('change',e=>{const s=e.target.closest('[data-s
 try{const saved=localStorage.getItem('sweksha_supabase_public_key');if(saved){$('publicKey').value=saved;connect(saved)}}catch(e){}
 })();
 </script>
+  <script src="sweksha-aura.js?v=1" defer></script>
 </body>
 </html>

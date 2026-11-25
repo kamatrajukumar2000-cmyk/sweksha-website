@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded',function(){
  document.addEventListener('keydown',function(event){if(event.key==='Escape'&&modal.classList.contains('is-open'))close();});
 });
 </script>
+  <link rel="stylesheet" href="sweksha-aura.css?v=1">
 </head>
 <body>
 <header><div class="wrap nav"><a class="brand" href="./index.html">SWEKSHA <span>Machine Marketplace</span></a><nav class="navlinks"><a href="./index.html">Home</a><a href="./marketplace.html">Machine Parts</a><a href="#seller-form" data-market-mode="looking_to_buy">Buy Machine</a><a href="#seller-form" data-market-mode="for_sale">Sell Machine</a><a href="#buy">Browse Listings</a></nav></div></header>
@@ -313,4 +314,5 @@ if(connect())loadListings();
  });
 })();
 </script>
+  <script src="sweksha-aura.js?v=1" defer></script>
 </body></html>

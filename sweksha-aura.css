@@ -1,0 +1,11 @@
+/* SWEKSHA Aura Field — site-wide pointer-reactive lighting */
+:root{--sx-x:50vw;--sx-y:35vh;--sx-hue:184;--sx-aura-opacity:.34}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+body{position:relative;isolation:isolate}
+body::before{content:"";position:fixed;inset:0;z-index:9000;pointer-events:none;background:radial-gradient(420px circle at var(--sx-x) var(--sx-y),hsla(var(--sx-hue),92%,62%,.16),hsla(calc(var(--sx-hue) + 48),90%,58%,.075) 34%,transparent 72%);opacity:var(--sx-aura-opacity);transition:opacity .28s ease;mix-blend-mode:screen}
+body::after{content:"";position:fixed;left:var(--sx-x);top:var(--sx-y);width:210px;height:210px;transform:translate(-50%,-50%);border-radius:50%;z-index:9001;pointer-events:none;background:radial-gradient(circle,hsla(var(--sx-hue),100%,72%,.14),hsla(var(--sx-hue),100%,65%,.045) 42%,transparent 72%);filter:blur(2px);mix-blend-mode:screen}
+.sx-aura-target{transition:filter .24s ease,box-shadow .24s ease,border-color .24s ease}
+.sx-aura-target.sx-aura-active{filter:brightness(1.045);box-shadow:0 0 0 1px hsla(var(--sx-hue),90%,65%,.22),0 10px 34px hsla(var(--sx-hue),85%,50%,.13)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid hsl(var(--sx-hue),90%,65%);outline-offset:3px}
+}
+@media (prefers-reduced-motion:reduce){body::before,body::after{display:none!important}.sx-aura-target{transition:none!important}}
