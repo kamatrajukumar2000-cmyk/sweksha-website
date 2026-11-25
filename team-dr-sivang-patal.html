@@ -28,4 +28,34 @@
 <article class="panel"><h2>CVD technical support</h2><p>On the technical side, the role includes customer-facing support for CVD/MPCVD machine requirements. This can involve receiving the issue description, collecting machine details and coordinating the right technical review or service response.</p><ul><li>Machine installation, setup and commissioning coordination</li><li>Technical support and initial troubleshooting discussions</li><li>Maintenance requirements and service follow-through</li><li>Coordination with SWEKSHA technicians for specialist issues</li></ul></article>
 <article class="panel wide"><h2>From enquiry to service coordination</h2><ul><li><b>Listen to the requirement:</b> capture the customer's objective, urgency and relevant background.</li><li><b>Collect useful details:</b> for machine work, gather machine type/model, symptoms, readings, photos or videos where available.</li><li><b>Coordinate the right response:</b> connect the requirement with the relevant SWEKSHA technical resource or business contact.</li><li><b>Clarify scope:</b> align on expected work, availability, site conditions and commercial terms before proceeding.</li><li><b>Follow through:</b> maintain communication so the customer knows the next step and the status of the enquiry.</li></ul></article>
 <article class="panel wide"><h2>Working with the SWEKSHA team</h2><p>The role works alongside SWEKSHA's leadership and technical team. Diamond enquiries are handled through buyer–seller coordination, while machine requirements are directed to the appropriate technical capability across installation, commissioning, maintenance and troubleshooting. This joined-up approach helps customers reach the right point of contact without confusing commercial and technical responsibilities.</p><h2>Connect with SWEKSHA</h2><p>For diamond buying or selling enquiries, or for CVD/MPCVD machine installation and technical support, contact SWEKSHA and describe your requirement. The team will review the details and confirm the appropriate next step.</p><a class="cta" href="index.html#request">Enquire with SWEKSHA ↗</a><a class="cta" href="https://wa.me/917827474249" target="_blank" rel="noopener">WhatsApp SWEKSHA ↗</a></article>
-</section></main><footer class="wrap footer">SWEKSHA FOUNDATION CLUB · Diamond Trading &amp; CVD Technical Operations</footer></body></html>
+</section></main><footer class="wrap footer">SWEKSHA FOUNDATION CLUB · Diamond Trading &amp; CVD Technical Operations</footer>
+<style>
+:root{--mx:50%;--my:30%}
+body{position:relative}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(520px circle at var(--mx) var(--my),rgba(85,214,198,.16),transparent 68%);transition:background .12s ease}
+body>*{position:relative;z-index:1}
+.expertise-card{cursor:pointer}
+.expertise-card summary{cursor:pointer}
+</style>
+<script>
+(function(){
+ const person="sivang";
+ const cards=[...document.querySelectorAll(".expertise-card")];
+ cards.forEach((card,index)=>{
+   const summary=card.querySelector("summary");
+   if(!summary)return;
+   summary.setAttribute("aria-label","Open detailed "+(summary.querySelector("strong")?.textContent||"expertise")+" page");
+   summary.addEventListener("click",function(event){
+     event.preventDefault();
+     location.href="team-expertise.html?person="+person+"&topic="+index;
+   });
+ });
+ if(matchMedia("(pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
+   addEventListener("pointermove",function(event){
+     document.documentElement.style.setProperty("--mx",event.clientX+"px");
+     document.documentElement.style.setProperty("--my",event.clientY+"px");
+   },{passive:true});
+ }
+})();
+</script>
+</body></html>

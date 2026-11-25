@@ -28,4 +28,34 @@
 <article class="panel"><h2>Growth process & production</h2><p>Growth performance is influenced by multiple interacting variables. Mr Raju's process-development focus includes reviewing the machine condition and process information together, understanding reported growth-rate or quality concerns, and helping teams identify which variables need controlled investigation.</p><p>Recommendations are based on the specific process, equipment configuration and data shared by the customer. No universal recipe or guaranteed production outcome is promised.</p></article>
 <article class="panel wide"><h2>How SWEKSHA approaches a customer requirement</h2><ul><li><b>Understand:</b> capture machine type, model, symptoms, recent changes, operating conditions and production objective.</li><li><b>Review:</b> assess the available photos, videos, readings, alarms and service history before defining next checks.</li><li><b>Plan:</b> discuss the likely service scope, required resources, site readiness, availability and commercial terms.</li><li><b>Execute:</b> coordinate online guidance or on-site technical work, subject to confirmed scope and availability.</li><li><b>Follow through:</b> review the outcome with the customer and identify sensible preventive actions.</li></ul><p>This structured approach is intended to reduce guesswork, improve communication and keep technical decisions connected to the customer's real operating needs.</p></article>
 <article class="panel wide"><h2>Building a dependable service team</h2><p>Mr Raju's leadership responsibility includes coordinating technicians across electrical and PLC/HMI systems, magnetron and power supplies, vacuum and gas lines, MFCs and pressure controllers, mechanical and cooling systems, installation and commissioning, and CVD growth-process support. Work is assigned according to the requirement and the team's available capability.</p><p>SWEKSHA's service model is designed for both remote support and travel-based site work across India, Monday to Saturday, subject to scheduling and agreement. Testing equipment and the exact resources required are confirmed before each engagement.</p><h2>Connect with SWEKSHA</h2><p>For CVD/MPCVD machine service, installation, troubleshooting or process-related discussions, share your machine details and requirement with the SWEKSHA team.</p><a class="cta" href="index.html#request">Request Technical Support ↗</a><a class="cta" href="https://wa.me/917827474249" target="_blank" rel="noopener">WhatsApp SWEKSHA ↗</a></article>
-</section></main><footer class="wrap footer">SWEKSHA FOUNDATION CLUB · CVD &amp; MPCVD Technical Services · India</footer></body></html>
+</section></main><footer class="wrap footer">SWEKSHA FOUNDATION CLUB · CVD &amp; MPCVD Technical Services · India</footer>
+<style>
+:root{--mx:50%;--my:30%}
+body{position:relative}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(520px circle at var(--mx) var(--my),rgba(85,214,198,.16),transparent 68%);transition:background .12s ease}
+body>*{position:relative;z-index:1}
+.expertise-card{cursor:pointer}
+.expertise-card summary{cursor:pointer}
+</style>
+<script>
+(function(){
+ const person="raju";
+ const cards=[...document.querySelectorAll(".expertise-card")];
+ cards.forEach((card,index)=>{
+   const summary=card.querySelector("summary");
+   if(!summary)return;
+   summary.setAttribute("aria-label","Open detailed "+(summary.querySelector("strong")?.textContent||"expertise")+" page");
+   summary.addEventListener("click",function(event){
+     event.preventDefault();
+     location.href="team-expertise.html?person="+person+"&topic="+index;
+   });
+ });
+ if(matchMedia("(pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
+   addEventListener("pointermove",function(event){
+     document.documentElement.style.setProperty("--mx",event.clientX+"px");
+     document.documentElement.style.setProperty("--my",event.clientY+"px");
+   },{passive:true});
+ }
+})();
+</script>
+</body></html>

@@ -28,4 +28,34 @@
 <article class="panel"><h2>Financial reporting</h2><p>Reliable reporting helps business owners understand performance, obligations and financial position. Punit's experience includes financial reporting and Ind AS compliance-related work, with attention to consistency, documentation and the quality of underlying information.</p><ul><li>Financial statement review and reporting discipline</li><li>Accounting-policy and compliance considerations</li><li>Reconciliation and documentation practices</li><li>Clear communication of financial observations</li></ul></article>
 <article class="panel wide"><h2>Business risk & internal controls</h2><p>As SWEKSHA develops service operations and business-to-business marketplace activity, sound internal processes become increasingly important. Finance and control perspectives can help the business review how enquiries, quotations, service expenses, vendor payments, customer receipts and marketplace transactions are documented and monitored.</p><ul><li>Map key business processes and identify risk points.</li><li>Recommend practical checks, approvals and record-keeping routines.</li><li>Review supporting documents and transaction trails.</li><li>Highlight control weaknesses or unusual items for management attention.</li><li>Support clear reporting so decisions are based on reliable information.</li></ul></article>
 <article class="panel wide"><h2>Role within SWEKSHA</h2><p>Within the core team, CA Punit Jha contributes a finance, taxation, compliance and business-operations perspective. This complements SWEKSHA's technical service work by helping build responsible processes, financial visibility and a more structured operating foundation as the organisation grows.</p><p>His background across multiple industries also brings an understanding that controls and reporting need to fit the scale, risk profile and practical realities of each business.</p><div class="notice"><b>Professional boundary:</b> Any regulated assignment, certification, filing, representation or formal professional service is subject to applicable law, ICAI requirements, independence rules, the relevant engagement terms and confirmation of scope. This profile is an introduction, not a promise of a specific professional service.</div><h2>Discuss a business requirement</h2><p>For finance, audit, taxation or compliance-related enquiries connected with SWEKSHA, contact the team so the requirement and appropriate engagement can be clarified.</p><a class="cta" href="index.html#request">Contact SWEKSHA ↗</a></article>
-</section></main><footer class="wrap footer">SWEKSHA FOUNDATION CLUB · Professional Finance &amp; Operations Support</footer></body></html>
+</section></main><footer class="wrap footer">SWEKSHA FOUNDATION CLUB · Professional Finance &amp; Operations Support</footer>
+<style>
+:root{--mx:50%;--my:30%}
+body{position:relative}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(520px circle at var(--mx) var(--my),rgba(85,214,198,.16),transparent 68%);transition:background .12s ease}
+body>*{position:relative;z-index:1}
+.expertise-card{cursor:pointer}
+.expertise-card summary{cursor:pointer}
+</style>
+<script>
+(function(){
+ const person="punit";
+ const cards=[...document.querySelectorAll(".expertise-card")];
+ cards.forEach((card,index)=>{
+   const summary=card.querySelector("summary");
+   if(!summary)return;
+   summary.setAttribute("aria-label","Open detailed "+(summary.querySelector("strong")?.textContent||"expertise")+" page");
+   summary.addEventListener("click",function(event){
+     event.preventDefault();
+     location.href="team-expertise.html?person="+person+"&topic="+index;
+   });
+ });
+ if(matchMedia("(pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
+   addEventListener("pointermove",function(event){
+     document.documentElement.style.setProperty("--mx",event.clientX+"px");
+     document.documentElement.style.setProperty("--my",event.clientY+"px");
+   },{passive:true});
+ }
+})();
+</script>
+</body></html>
