@@ -2251,5 +2251,29 @@ function renderReviews(reviews){
 })();
 </script>
 
+
+<script id="sweksha-core-team-3d-interaction">
+(function(){
+  const cards = document.querySelectorAll('.core-team-card');
+  const finePointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!finePointer || reduced) return;
+  cards.forEach(function(card){
+    card.addEventListener('pointermove', function(event){
+      const rect = card.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const x = (event.clientX - rect.left) / rect.width;
+      const y = (event.clientY - rect.top) / rect.height;
+      card.style.setProperty('--rx', ((.5 - y) * 5).toFixed(2) + 'deg');
+      card.style.setProperty('--ry', ((x - .5) * 6).toFixed(2) + 'deg');
+    }, {passive:true});
+    card.addEventListener('pointerleave', function(){
+      card.style.setProperty('--rx', '0deg');
+      card.style.setProperty('--ry', '0deg');
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
