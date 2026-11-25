@@ -63,7 +63,7 @@ label{display:block;font-weight:700;margin:13px 0 5px}input,select,textarea{widt
 
 /* Full-size approved machine photo viewer */
 .listing-image-button{display:block;width:100%;padding:0;border:0;background:var(--soft);cursor:zoom-in}
-.listing-image-button img{display:block;width:100%;height:190px;object-fit:cover}
+.listing-image-button img{display:block;width:100%;height:190px;aspect-ratio:4/3;object-fit:cover}
 .listing-image-button:focus-visible{outline:3px solid var(--teal);outline-offset:-3px}
 .image-lightbox{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(3,10,20,.92)}
 .image-lightbox.is-open{display:flex}
@@ -221,7 +221,7 @@ async function loadListings(){
   if(!data||!data.length){$('listingGrid').innerHTML='<div class="empty">No approved machines listed yet. Submit a machine or contact Sweksha with your buying requirement.</div>'; $('listingStatus').textContent='Marketplace connected. No approved machine listings yet.';return}
   $('listingStatus').textContent='Showing '+data.length+' approved machine listing(s). Please confirm availability with Sweksha.';
   $('listingGrid').innerHTML=data.map(r=>{
-   const photo=Array.isArray(r.photo_urls)&&r.photo_urls[0]?'<button class="listing-image-button" type="button" data-full-image="'+esc(r.photo_urls[0])+'" data-image-alt="'+esc(r.brand_model_year||'Approved machine photo')+'" aria-label="View full-size photo of '+esc(r.brand_model_year||'approved machine')+'"><img src="'+esc(r.photo_urls[0])+'" alt="'+esc(r.brand_model_year)+'" loading="lazy"></button>':'<div style="height:190px;background:#f4f8fb;display:grid;place-items:center;color:#657184">Machine photo not provided</div>';
+   const photo=Array.isArray(r.photo_urls)&&r.photo_urls[0]?'<button class="listing-image-button" type="button" data-full-image="'+esc(r.photo_urls[0])+'" data-image-alt="'+esc(r.brand_model_year||'Approved machine photo')+'" aria-label="View full-size photo of '+esc(r.brand_model_year||'approved machine')+'"><img src="'+esc(r.photo_urls[0])+'" alt="'+esc(r.brand_model_year)+'" width="640" height="480" loading="lazy" decoding="async"></button>':'<div style="height:190px;background:#f4f8fb;display:grid;place-items:center;color:#657184">Machine photo not provided</div>';
    const req=r.transaction_type==='looking_to_buy'?'Buyer requirement':r.transaction_type==='dealer_partnership'?'Dealer partnership':'For sale';
    const msg='Hello Sweksha, I am interested in this machine listing: '+(r.brand_model_year||'Machine')+' | '+(labels[r.machine_category]||r.machine_category)+' | '+(r.location||'');
    return '<article class="listing">'+photo+'<div class="listing-body"><span class="pill">'+esc(labels[r.machine_category]||r.machine_category)+'</span><span class="pill">'+esc(req)+'</span><h3>'+esc(r.brand_model_year)+'</h3><p class="muted">'+esc(r.condition||'Condition not specified')+' · '+esc(r.location||'Location not specified')+'</p><p>'+(r.application_details?esc(r.application_details.slice(0,180)):'Specifications available on request')+'</p><p class="price"><strong>'+esc(r.expected_price||'Price on Request')+'</strong></p><a class="btn primary" target="_blank" rel="noopener" href="https://wa.me/917827474249?text='+encodeURIComponent(msg)+'">Enquire on WhatsApp</a></div></article>';
