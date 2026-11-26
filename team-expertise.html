@@ -118,6 +118,7 @@ let categoryOptions=handoff?.categories||consultationMap[person]?.flat()||[data[
 const categorySelect=document.getElementById("serviceCategory");
 categoryOptions=[...new Set(categoryOptions.filter(Boolean))];
 categoryOptions.forEach((value,i)=>{const option=document.createElement("option");option.value=value;option.textContent=value;categorySelect.appendChild(option);});
+if(handoff?.title)categorySelect.value=handoff.title;else if(data?.[0])categorySelect.value=data[0];
 if(handoff){
  document.title=handoff.title+" | "+(names[person]||"SWEKSHA")+" · SWEKSHA";
  document.getElementById("title").textContent=handoff.title;
