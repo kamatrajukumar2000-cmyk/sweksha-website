@@ -12,6 +12,7 @@
 - Original sitemap contained 26 URLs.
 - Repository contains 42 HTML files. Ten additional public, indexable pages were missing from the sitemap: International Sourcing, Diamond Laser Machine Information, Diamond Polishing Machine Information, Team Expertise, and six public team/legal profile pages.
 - Added those ten existing pages to `sitemap.xml`.
+- Added page-specific canonical URLs and explicit `index, follow` directives to all ten newly listed pages.
 - Validation after the change: 36 sitemap URLs, no duplicate URLs, no URL pointing to a missing repository file.
 - Deliberately excluded admin pages, Google verification file, image viewer and machine image-preview page from sitemap.
 
@@ -54,7 +55,7 @@
 - DNS lookup from the audit runtime failed, and web search did not return an indexed result for the domain. This does not prove the domain is down; direct HTTP, DNS, TLS, Google Search Console and mobile-browser checks remain unverified.
 
 ## Next repair order
-1. Finish a route-by-route internal link and page metadata audit; confirm no broken internal links and each public page has a unique title/description/canonical.
+1. Finish a route-by-route internal link audit and improve the short team-profile meta descriptions; confirm no broken internal links and every public page has a unique title/description/canonical.
 2. Repair the homepage review flow to use the primary database schema and approved-only read path; test with a harmless test submission and remove only the test record after verification if permitted.
 3. Test service enquiry, job application, vacancy, machine listing, parts and diamond-trading forms end-to-end; compare each frontend payload to the live schema and RLS.
 4. Enable leaked-password protection and re-run Supabase security/performance advisors.
