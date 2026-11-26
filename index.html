@@ -526,6 +526,31 @@
     img, picture, .cvd-rough-sprite { -webkit-user-drag:none; -webkit-touch-callout:none; user-select:none; -webkit-user-select:none; }
     .sweksha-image-watermark{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.16;background-repeat:repeat;background-size:310px 190px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='390' height='230' viewBox='0 0 390 230'%3E%3Cg transform='rotate(-27 195 115)' fill='%23ffffff' fill-opacity='.98' stroke='%23091b2b' stroke-opacity='.8' stroke-width='1.2' paint-order='stroke' font-family='Arial,sans-serif' font-size='17' font-weight='700' text-anchor='middle'%3E%3Ctext x='195' y='115'%3ESWEKSHA CVD %E2%80%A2 swekshacvd.com%3C/text%3E%3C/g%3E%3C/svg%3E");}
     @media print{.sweksha-image-watermark{display:block!important}img{visibility:hidden!important}}
+
+    /* ===== CORE DEPARTMENT: LEGAL 3D VISUAL ===== */
+    .core-legal-department{margin-top:54px;padding:34px;border:1px solid rgba(139,231,220,.22);border-radius:28px;background:radial-gradient(ellipse at 50% 0%,rgba(35,199,183,.13),transparent 42%),linear-gradient(145deg,#091525,#101f38 58%,#091525);box-shadow:0 28px 70px #0005;overflow:hidden}
+    .core-legal-heading{text-align:center;max-width:850px;margin:0 auto 20px}.core-legal-heading h2{font-size:clamp(27px,3.6vw,42px);color:#fff;margin:10px 0}.core-legal-heading p{color:#bfd0df}
+    .core-legal-stage{position:relative;min-height:310px;max-width:850px;margin:10px auto 34px;display:grid;place-items:center;perspective:1000px;isolation:isolate}
+    .core-legal-orbit{position:absolute;width:min(68vw,570px);height:150px;border:1px solid #8be7dc77;border-radius:50%;transform:rotateX(67deg) rotateZ(-18deg);box-shadow:0 0 22px #23c7b733;animation:coreLegalOrbit 18s linear infinite}
+    .core-legal-orbit.orbit-b{width:min(75vw,640px);height:190px;border-color:#d9bd7966;transform:rotateX(67deg) rotateZ(38deg);animation-duration:25s}
+    .core-legal-emblem{z-index:2;width:170px;height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;clip-path:polygon(50% 0,94% 18%,88% 72%,50% 100%,12% 72%,6% 18%);background:linear-gradient(145deg,#e7f5f4,#7bcac3 40%,#225b68 75%,#101d35);color:#071525;filter:drop-shadow(0 25px 28px #0009);transform:translateZ(35px);animation:coreLegalFloat 4s ease-in-out infinite}
+    .core-legal-emblem span{font-size:66px;text-shadow:0 5px 8px #fff9}.core-legal-emblem small{font-size:8px;font-weight:1000;letter-spacing:1px}
+    .core-legal-float{position:absolute;z-index:3;padding:10px 14px;border:1px solid #8be7dc66;border-radius:11px;background:#101e35eF;color:#e5fbf7;font-size:10px;font-weight:900;letter-spacing:1px;box-shadow:0 15px 35px #0008;animation:coreLegalFloat 5s ease-in-out infinite}
+    .core-legal-float.float-a{top:26px;left:5%}.core-legal-float.float-b{top:45px;right:4%;animation-delay:-1s}.core-legal-float.float-c{bottom:38px;left:8%;animation-delay:-2s}.core-legal-float.float-d{bottom:20px;right:7%;animation-delay:-3s}
+    .core-legal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .core-legal-card{padding:21px;border:1px solid #8be7dc38;border-radius:17px;background:linear-gradient(145deg,#ffffff13,#ffffff05);box-shadow:0 16px 35px #0003;transition:transform .3s,border-color .3s,box-shadow .3s;transform-style:preserve-3d}
+    .core-legal-card:hover{transform:translateY(-7px) rotateX(2deg);border-color:#8be7dc99;box-shadow:0 23px 45px #0006}
+    .core-legal-card>span{font-size:10px;letter-spacing:1.3px;color:#9cebe2;font-weight:900}.core-legal-card h3{font-size:18px;color:#fff;margin:9px 0}.core-legal-card p{font-size:13px;color:#c1d1df;line-height:1.65}
+    .core-legal-consultancy{display:grid;grid-template-columns:1fr 1fr;gap:25px;margin-top:20px;padding:25px;border:1px solid #d9bd7955;border-radius:19px;background:linear-gradient(110deg,#28304c,#17233b 65%,#3a2b43)}
+    .core-legal-consultancy h3{font-size:23px;color:#fff;margin:8px 0}.core-legal-consultancy p,.core-legal-consultancy li{font-size:13px;color:#d0d9e5;line-height:1.7}.core-legal-consultancy ul{padding-left:19px;display:grid;gap:5px}
+    .core-legal-workflow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}.core-legal-workflow>div{padding:17px;border-top:2px solid #23c7b7;border-radius:0 0 12px 12px;background:#ffffff0b;display:grid;gap:7px}.core-legal-workflow b{font-size:11px;color:#d9bd79}.core-legal-workflow span{font-size:12px;color:#c1d1df;line-height:1.55}
+    .core-legal-vacancy{display:flex;align-items:center;gap:18px;margin-top:20px;padding:20px;border:1px solid #b7a5e477;border-radius:17px;background:linear-gradient(110deg,#282542,#171d37)}.core-legal-x{width:68px;height:68px;flex:none;border-radius:20px;display:grid;place-items:center;background:linear-gradient(135deg,#e8e4f7,#9b91c9 58%,#4c477e);color:#17152d;font-size:29px;font-weight:1000;box-shadow:0 12px 28px #0005}.core-legal-vacancy h3{color:#fff;margin:5px 0}.core-legal-vacancy p{color:#c4c9dc;font-size:13px}
+    .core-legal-boundary{margin:16px 0;color:#aebed0;font-size:11px;line-height:1.7}
+    .core-legal-contact{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:21px;border-radius:16px;background:linear-gradient(100deg,#23c7b7,#8be7dc);color:#07111f}.core-legal-contact h3{font-size:20px}.core-legal-contact p{font-size:12px;max-width:650px}.core-legal-contact a{flex:none;padding:12px 16px;border-radius:10px;background:#071525;color:#fff;font-weight:900;font-size:12px}
+    @keyframes coreLegalOrbit{to{transform:rotateX(67deg) rotateZ(342deg)}}@keyframes coreLegalFloat{0%,100%{translate:0 0}50%{translate:0 -9px}}
+    @media(max-width:850px){.core-legal-grid{grid-template-columns:1fr 1fr}.core-legal-workflow{grid-template-columns:1fr 1fr}.core-legal-consultancy{grid-template-columns:1fr}}
+    @media(max-width:620px){.core-legal-department{padding:20px 15px;margin-top:35px}.core-legal-stage{min-height:260px}.core-legal-emblem{width:135px;height:155px}.core-legal-float{font-size:8px;padding:8px}.core-legal-float.float-a{left:0}.core-legal-float.float-b{right:0}.core-legal-float.float-c{left:0}.core-legal-float.float-d{right:0}.core-legal-grid,.core-legal-workflow{grid-template-columns:1fr}.core-legal-contact{align-items:flex-start;flex-direction:column}.core-legal-vacancy{align-items:flex-start}}
+    @media(prefers-reduced-motion:reduce){.core-legal-orbit,.core-legal-emblem,.core-legal-float{animation:none!important}.core-legal-card{transition:none!important}}
   </style>
   <script id="sweksha-image-protection-script">
   (function(){
@@ -565,7 +590,7 @@
           <a href="marketplace.html">Parts Marketplace</a>
           <a href="diamond-trading.html">Diamond Trading</a>
           <a href="international-sourcing.html">Global Import &amp; Export</a>
-          <a href="legal-compliance.html">Legal &amp; Compliance</a>
+          <a href="#legal-compliance-department">Legal &amp; Compliance</a>
           <a href="jobs.html">Jobs</a>
           <a href="#defects">Technical Guides</a>
           <a href="cvd-machine-visual-learning.html">Visual Learning</a>
@@ -941,8 +966,8 @@
               <p class="core-team-role">Advocate / Head of Legal Affairs, Compliance &amp; Consultancy — Position Open</p>
               <p class="core-team-summary">Supporting SWEKSHA internally and coordinating consultancy services for external businesses on contracts, business documentation, import-export compliance, regulatory checklists and dispute-document preparation, with formal legal advice and representation referred to qualified advocates.</p>
               <ul><li>Review of business agreements, purchase orders and service contracts</li><li>Legal notices, dispute documentation and resolution coordination</li><li>Import-export, customs and trade-compliance issue coordination</li><li>Company, employment, vendor and customer documentation</li><li>Intellectual property, confidentiality and data-protection awareness</li><li>Identification and referral of matters requiring specialist counsel</li><li>External legal and compliance consultancy coordination for businesses</li></ul>
-              <a class="core-team-action" href="legal-compliance.html#enquiry">Legal Department Information <span aria-hidden="true">↗</span></a>
-              <a class="core-team-profile-button" href="legal-compliance.html">View Department Profile <span aria-hidden="true">→</span></a>
+              <a class="core-team-action" href="#legal-compliance-department">Explore Legal Department <span aria-hidden="true">↘</span></a>
+              <a class="core-team-profile-button" href="#legal-compliance-department-enquiry">Contact Legal &amp; Compliance Team <span aria-hidden="true">→</span></a>
               <p class="core-team-note">Position currently vacant. No advocate is represented as appointed. Legal advice and representation will be provided only by an appropriately qualified and engaged legal professional.</p>
             </div>
           </article>
@@ -976,6 +1001,49 @@
             </div>
           </article>
         </div>
+
+        <section id="legal-compliance-department" class="core-legal-department">
+          <div class="core-legal-heading">
+            <span class="eyebrow">CORE DEPARTMENT 04 · LEGAL GOVERNANCE</span>
+            <h2>Legal Affairs, Compliance &amp; Consultancy</h2>
+            <p>A dedicated SWEKSHA core function supporting our own departments and providing scoped documentation and compliance-coordination consultancy to other businesses.</p>
+          </div>
+          <div class="core-legal-stage" aria-label="Three-dimensional legal governance visual">
+            <div class="core-legal-orbit orbit-a"></div><div class="core-legal-orbit orbit-b"></div>
+            <div class="core-legal-emblem"><span>⚖</span><small>LAW · TRUST · COMPLIANCE</small></div>
+            <div class="core-legal-float float-a">CONTRACTS &amp; AGREEMENTS</div>
+            <div class="core-legal-float float-b">TRADE COMPLIANCE</div>
+            <div class="core-legal-float float-c">RISK &amp; GOVERNANCE</div>
+            <div class="core-legal-float float-d">DOCUMENT CONTROL</div>
+          </div>
+          <div class="core-legal-grid">
+            <article class="core-legal-card"><span>01 / BUSINESS &amp; CONTRACTS</span><h3>Contracts &amp; Commercial Coordination</h3><p>Supplier, customer, purchase, sale, service, warranty, delivery and confidentiality documentation; coordinate specialist legal review where needed.</p></article>
+            <article class="core-legal-card"><span>02 / LEGAL MATTERS</span><h3>Dispute &amp; Notice Documentation</h3><p>Organise event timelines, invoices, correspondence and supporting records; coordinate review with the client's appointed advocate.</p></article>
+            <article class="core-legal-card"><span>03 / GLOBAL TRADE</span><h3>Import, Export &amp; Customs Compliance</h3><p>Transaction checklists, shipping-document readiness, trade terms and coordination with customs, tax and regulatory specialists.</p></article>
+            <article class="core-legal-card"><span>04 / CORPORATE</span><h3>Business &amp; Employment Records</h3><p>Company records, authorisations, vendor onboarding, employment and consultant documentation, policies and record retention.</p></article>
+            <article class="core-legal-card"><span>05 / PROTECTION</span><h3>IP, Confidentiality &amp; Data Awareness</h3><p>Coordinate trademark, copyright, brand, domain, software licence and confidential technical-information matters with relevant specialists.</p></article>
+            <article class="core-legal-card"><span>06 / PREVENTION</span><h3>Risk &amp; Compliance Calendar</h3><p>Maintain obligation registers, renewal reminders, action trackers and escalation of tax, labour, safety and sector-specific questions.</p></article>
+          </div>
+          <div class="core-legal-consultancy">
+            <div><span class="core-team-kicker">SERVICES FOR EXTERNAL CLIENTS</span><h3>Business Legal &amp; Compliance Consultancy Coordination</h3><p>Available for manufacturers, industrial units, importers, exporters, traders, start-ups and SMEs — including businesses in CVD/MPCVD equipment, medical equipment and textile machinery.</p></div>
+            <ul><li>Business legal-readiness and document-gap checklists</li><li>Contract and commercial-term coordination</li><li>Import-export transaction and compliance checklists</li><li>Regulatory renewal calendars and document tracking</li><li>Dispute-document preparation for advocate review</li><li>Industry-specific equipment purchase, service and warranty documentation</li></ul>
+          </div>
+          <div class="core-legal-workflow">
+            <div><b>01 · DISCOVER</b><span>Understand the business, transaction, jurisdiction and requirement.</span></div>
+            <div><b>02 · DEFINE SCOPE</b><span>Agree deliverables, exclusions, timeline and professional referrals.</span></div>
+            <div><b>03 · COORDINATE</b><span>Prepare records, checklists and specialist-review questions.</span></div>
+            <div><b>04 · TRACK</b><span>Record agreed actions, owners, deadlines and follow-up.</span></div>
+          </div>
+          <div class="core-legal-vacancy">
+            <div class="core-legal-x">X</div>
+            <div><span class="core-team-kicker">CORE TEAM · POSITION OPEN</span><h3>Head of Legal Affairs, Compliance &amp; Consultancy</h3><p>Position currently vacant. The appointed advocate / qualified professional's name and verified profile will be added after formal appointment.</p></div>
+          </div>
+          <p class="core-legal-boundary">Professional boundary: SWEKSHA may provide administrative, documentation and compliance-coordination consultancy within an agreed scope. Formal legal opinions, reserved legal drafting, litigation strategy and court representation must be handled by an appropriately qualified advocate or other professional authorised under applicable law, under a separate engagement. No advocate is currently represented as appointed, and no guaranteed legal, regulatory, customs or court outcome is promised.</p>
+          <div id="legal-compliance-department-enquiry" class="core-legal-contact">
+            <div><h3>Legal &amp; Compliance Department Enquiry</h3><p>Send a brief, non-confidential summary to SWEKSHA. Do not share OTPs, passwords or sensitive documents in the first message.</p></div>
+            <a href="https://wa.me/917827474249?text=Hello%20SWEKSHA%2C%20I%20would%20like%20to%20enquire%20about%20Legal%20Affairs%2C%20Compliance%20%26%20Business%20Consultancy." target="_blank" rel="noopener noreferrer">Send Enquiry via WhatsApp ↗</a>
+          </div>
+        </section>
       </div>
     </section>
 
