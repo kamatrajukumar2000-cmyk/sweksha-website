@@ -85,9 +85,14 @@ async function update(id){
  const table=kind==='reviews'?'reviews':'enquiries';
  const patch={status:select.value};
  if(kind==='enquiries')patch.updated_at=new Date().toISOString();
- const {error}=await db.from(table).update(patch).eq('id',id);
- if(error){message('Update failed: '+error.message);return}
- message('Status updated successfully.');await load();
+ try {
+  const {data,error}=await db.from(table).update(patch).eq('id',id).select('id').maybeSingle();
+  if(error){message('Update failed: '+error.message);return}
+  if(!data){message('No record was updated. Please refresh and check your access.');return}
+  message('Status updated successfully.');await load();
+ } catch(e) {
+  message('Update failed: '+(e.message||'Please try again.'));
+ }
 }
 $('signin').addEventListener('click',signIn);
 $('password').addEventListener('keydown',e=>{if(e.key==='Enter')signIn()});
