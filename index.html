@@ -1712,16 +1712,12 @@
 
         <div class="review-form-wrap">
           <h3>Share Your Experience</h3>
-          <p class="notice" style="margin:6px 0 20px">Your feedback will open in WhatsApp so you can send it to us. It will not be published on this website automatically. Please do not include private or confidential information.</p>
+          <p class="notice" style="margin:6px 0 20px">Your review is sent securely for moderation. Only approved reviews appear publicly. Please do not include private or confidential information.</p>
           <form id="reviewForm">
             <div class="review-form-grid">
               <div>
                 <label for="reviewName">Your Name *</label>
                 <input id="reviewName" maxlength="80" required placeholder="Your name">
-              </div>
-              <div>
-                <label for="reviewCompany">Company / Business</label>
-                <input id="reviewCompany" maxlength="120" placeholder="Optional">
               </div>
               <div>
                 <label for="reviewRating">Rating *</label>
@@ -1734,16 +1730,12 @@
                   <option value="1">&#9733;&#9734;&#9734;&#9734;&#9734; &#8212; Poor</option>
                 </select>
               </div>
-              <div>
-                <label for="reviewTitle">Review Title</label>
-                <input id="reviewTitle" maxlength="120" placeholder="Short summary">
-              </div>
               <div class="full">
                 <label for="reviewText">Your Feedback *</label>
                 <textarea id="reviewText" maxlength="1200" required placeholder="What was your experience? What should we improve?"></textarea>
               </div>
               <div class="full">
-                <button class="btn btn-primary" type="submit">Send Feedback on WhatsApp</button>
+                <button class="btn btn-primary" type="submit">Submit Review</button>
                 <div id="reviewStatus" class="review-status" role="status" aria-live="polite"></div>
               </div>
             </div>
@@ -1772,11 +1764,11 @@
             <h3>Share Machine Details</h3>
             <p class="notice">Share your machine type or model, symptoms, recent changes and relevant photos or videos to help us understand the issue. You can attach photos/videos after WhatsApp opens.</p>
             <label for="name">Your Name *</label>
-            <input id="name" required placeholder="Enter your name">
+            <input id="name" required minlength="2" maxlength="120" placeholder="Enter your name">
             <label for="company">Company / Business</label>
-            <input id="company" placeholder="Company name">
+            <input id="company" maxlength="120" placeholder="Company name">
             <label for="machine">Machine Type / Model *</label>
-            <input id="machine" required placeholder="Example: CVD machine model">
+            <input id="machine" required maxlength="150" placeholder="Example: CVD machine model">
             <label for="service">Service Required *</label>
             <select id="service" required>
               <option value="">Select service</option>
@@ -1788,11 +1780,11 @@
               <option>Other</option>
             </select>
             <label for="problem">Symptoms / Problem / Requirement *</label>
-            <textarea id="problem" required placeholder="What is happening? Include error messages, pressure/power readings or when the issue started..."></textarea>
+            <textarea id="problem" required minlength="5" maxlength="2500" placeholder="What is happening? Include error messages, pressure/power readings or when the issue started..."></textarea>
             <label for="recentChanges">Recent Changes (optional)</label>
-            <textarea id="recentChanges" placeholder="Any recent maintenance, parts replacement, settings or process changes?"></textarea>
+            <textarea id="recentChanges" maxlength="1000" placeholder="Any recent maintenance, parts replacement, settings or process changes?"></textarea>
             <label for="serviceContact">Your Contact Number *</label>
-            <input id="serviceContact" required type="tel" placeholder="Your phone / WhatsApp number">
+            <input id="serviceContact" required maxlength="40" type="tel" placeholder="Your phone / WhatsApp number">
             <button class="btn btn-primary" type="submit">Send Request on WhatsApp</button>
             <div class="notice">After WhatsApp opens, attach relevant photos/videos if available. Please do not send passwords, confidential credentials or sensitive personal information.</div>
             <p id="serviceRequestStatus" class="notice" role="status" aria-live="polite">Your request will open in WhatsApp. Please send the prepared message there to complete your enquiry.</p>
@@ -2093,8 +2085,8 @@ I will attach relevant photos/videos in WhatsApp if available. Please contact me
 
     // ===== Customer Reviews =====
     const reviewStars = n => '\u2605'.repeat(Number(n)) + '\u2606'.repeat(5 - Number(n));
-    const reviewStorageKey = 'sweksha-reviews';
-    const initialReviews = JSON.parse(document.getElementById('initialReviews').textContent);
+    const reviewApiUrl = 'https://xotqafgkubodqpirfpfb.supabase.co/rest/v1/reviews';
+    const reviewPublicKey = 'sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf';
 
     function setReviewStatus(message, type=''){
       const el = document.getElementById('reviewStatus');
@@ -2107,29 +2099,23 @@ function renderReviews(reviews){
   const count = document.getElementById('reviewCount');
   const avg = document.getElementById('reviewAverage');
   const avgStars = document.getElementById('reviewAverageStars');
-
   count.textContent = reviews.length;
-  document.querySelector(".review-summary").hidden = reviews.length === 0;
+  document.querySelector('.review-summary').hidden = reviews.length === 0;
   list.hidden = reviews.length === 0;
-
   if (!reviews.length){
     avg.textContent = '\u2014';
     avgStars.textContent = '\u2605'.repeat(5);
     list.innerHTML = '<div class="review-empty">No published reviews yet. Be the first to share your experience.</div>';
     return;
   }
-
   const average = reviews.reduce((sum, r) => sum + Number(r.rating), 0) / reviews.length;
   avg.textContent = average.toFixed(1);
   avgStars.textContent = reviewStars(Math.round(average));
-
   list.innerHTML = `<div class="review-track" id="reviewTrack" aria-live="off">${reviews.map((r, index) => `
     <article class="review-card" role="group" aria-roledescription="slide" aria-label="Review ${index + 1} of ${reviews.length}">
       <div class="review-stars">${reviewStars(r.rating)}</div>
-      ${r.title ? `<h3>${escapeHtml(r.title)}</h3>` : ''}
-      <p>${escapeHtml(r.review_text)}</p>
+      <p>${escapeHtml(r.review)}</p>
       <div class="review-name">${escapeHtml(r.name)}</div>
-      ${r.company ? `<div class="review-company">${escapeHtml(r.company)}</div>` : ''}
     </article>
   `).join('')}</div>`;
   startReviewSlider();
@@ -2187,40 +2173,48 @@ function renderReviews(reviews){
       }[c]));
     }
 
-    function getReviews(){
-      const savedReviews = localStorage.getItem(reviewStorageKey);
-      if(savedReviews === null) return initialReviews;
-      const reviews = JSON.parse(savedReviews);
-      return Array.isArray(reviews) ? reviews : initialReviews;
-    }
-
-    function loadReviews(){
-      try{
-        renderReviews(getReviews().filter(review => review.approved === true));
-      }catch(err){
-        renderReviews(initialReviews.filter(review => review.approved === true));
-        setReviewStatus('This browser could not access saved reviews.');
+    async function loadReviews(){
+      try {
+        const response = await fetch(reviewApiUrl + '?select=name,rating,review,created_at&status=eq.approved&order=created_at.desc', {
+          headers: {'apikey': reviewPublicKey}
+        });
+        if (!response.ok) throw new Error('Could not load approved reviews');
+        const reviews = await response.json();
+        renderReviews(Array.isArray(reviews) ? reviews : []);
+      } catch (err) {
+        renderReviews([]);
+        setReviewStatus('Published reviews could not be loaded right now. Please try again later.');
       }
     }
 
-    document.getElementById('reviewForm').addEventListener('submit', function(e){
+    document.getElementById('reviewForm').addEventListener('submit', async function(e){
       e.preventDefault();
+      const form = this;
+      const submitButton = form.querySelector('button[type="submit"]');
       const name = document.getElementById('reviewName').value.trim();
-      const company = document.getElementById('reviewCompany').value.trim();
       const rating = Number(document.getElementById('reviewRating').value);
-      const title = document.getElementById('reviewTitle').value.trim();
-      const review_text = document.getElementById('reviewText').value.trim();
-      if(!name || !rating || !review_text) return;
-      const msg = 'Hello Sweksha CVD Diamond Machine Service & Consulting,\n\nI would like to share feedback about your service.\n\nName: ' + name +
-        '\nCompany: ' + (company || 'Not provided') +
-        '\nRating: ' + rating + '/5' +
-        '\nTitle: ' + (title || 'Not provided') +
-        '\nFeedback: ' + review_text +
-        '\n\nPlease review my feedback. I understand it will not be published on the website automatically.';
-      const waUrl = 'https://wa.me/917827474249?text=' + encodeURIComponent(msg);
-      window.open(waUrl, '_blank', 'noopener');
-      setReviewStatus('WhatsApp opened with your feedback. Please send the message there.', 'success');
-      trackEvent('review_feedback_whatsapp', {rating});
+      const review = document.getElementById('reviewText').value.trim();
+      if(name.length < 1 || name.length > 120 || !Number.isInteger(rating) || rating < 1 || rating > 5 || review.length < 1 || review.length > 1600){
+        setReviewStatus('Please check your name, rating and feedback length.');
+        return;
+      }
+      submitButton.disabled = true;
+      setReviewStatus('Submitting your review securely...');
+      try {
+        const response = await fetch(reviewApiUrl, {
+          method: 'POST',
+          headers: {'apikey': reviewPublicKey, 'Content-Type': 'application/json', 'Prefer': 'return=minimal'},
+          body: JSON.stringify({name, rating, review, status: 'pending'})
+        });
+        if (!response.ok) throw new Error('Review submission failed');
+        form.reset();
+        setReviewStatus('Thank you. Your review has been submitted and will appear after approval.', 'success');
+        trackEvent('review_submitted', {rating});
+      } catch (err) {
+        setReviewStatus('We could not submit your review right now. Please try again or contact us on WhatsApp.');
+      } finally {
+        submitButton.disabled = false;
+      }
     });
 
     loadReviews();
