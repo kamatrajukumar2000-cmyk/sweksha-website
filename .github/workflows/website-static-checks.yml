@@ -87,7 +87,7 @@ jobs:
           PY
 
       - name: Package isolated website preview
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' || startsWith(github.ref, 'refs/heads/audit/')
         uses: actions/upload-artifact@v4
         with:
           name: sweksha-website-pr-preview
