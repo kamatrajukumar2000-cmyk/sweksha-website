@@ -82,14 +82,29 @@
 - Replaced them with real line breaks.
 - Validation: all 12 inline JavaScript blocks parsed successfully and all 3 JSON-LD blocks parsed successfully.
 
+## Phase 3 — Admin and security work
+### Customer operations dashboard
+- Added `admin-dashboard.html`, marked `noindex, nofollow` and excluded from the public sitemap.
+- Added Supabase Auth sign-in using the project's publishable key; no service-role/secret key is embedded.
+- Restricts the dashboard UI to the configured administrator email and relies on existing database RLS admin read/update policies for actual access control.
+- Added review moderation (pending / approved / rejected) and service-enquiry tracking (new / contacted / in_progress / resolved / spam).
+- Added navigation to the existing Jobs & Hiring Admin and Marketplace Admin pages.
+- Confirmed the selected fields exist in the live `reviews` and `enquiries` schemas and inspected their admin RLS policies.
+- JavaScript syntax check passed. Full sign-in and real record update still require a browser session.
+
+### Security and performance advisor
+- Re-ran Supabase Security, Performance and Health advisors.
+- Health advisor: no findings.
+- Security advisor: one warning remains — leaked-password protection is disabled. Current available project tools do not expose this Auth setting, so it must be enabled in Supabase Dashboard > Authentication > Password Security (Pro plan or above).
+- Performance advisor: one informational finding remains — `enquiries_status_created_at_idx` is currently unused. It is intentionally retained pending workload review; no destructive index/schema changes were made.
+
 ## Next repair order
-1. Finish a route-by-route internal link audit and improve the short team-profile meta descriptions; confirm no broken internal links and every public page has a unique title/description/canonical.
-2. Repair the homepage review flow to use the primary database schema and approved-only read path; test with a harmless test submission and remove only the test record after verification if permitted.
-3. Test service enquiry, job application, vacancy, machine listing, parts and diamond-trading forms end-to-end; compare each frontend payload to the live schema and RLS.
-4. Enable leaked-password protection and re-run Supabase security/performance advisors.
-5. Review the legacy `iPhone 13` column and unused index before any destructive cleanup.
-6. Verify DNS, HTTPS, robots, sitemap fetch, Google Search Console indexing, PageSpeed/Lighthouse, mobile layouts, accessibility and analytics events.
-7. Review all changes and deployment checks before merging into protected `main`.
+1. Complete real-browser login, review moderation, enquiry status update, jobs admin and marketplace admin workflow tests using a controlled test account; do not create fake customer data in production.
+2. Enable leaked-password protection in Supabase Authentication > Password Security (requires eligible plan) and re-run Security Advisor.
+3. Finish route-by-route internal-link audit and improve remaining short team-profile meta descriptions; verify unique title/description/canonical tags.
+4. Review the legacy `iPhone 13` column and unused index before any destructive cleanup.
+5. Verify DNS, HTTPS, robots, sitemap fetch, Google Search Console indexing, PageSpeed/Lighthouse, mobile layouts, accessibility and analytics events.
+6. Review all changes and deployment checks before merging into protected `main`.
 
 ## Verification status
 - Sitemap repair: verified against the GitHub repository tree.
