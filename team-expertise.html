@@ -18,12 +18,39 @@ a{color:inherit}.wrap{width:min(1080px,92%);margin:auto}.top{padding:22px 0;disp
 @keyframes orbit{to{transform:rotate(360deg)}}@keyframes pulse{0%,100%{opacity:.65;transform:translateY(0)}50%{opacity:1;transform:translateY(-5px)}}
 @media(max-width:760px){.layout{grid-template-columns:1fr}.hero{padding-top:28px}.top{align-items:flex-start;flex-direction:column}.visual{min-height:260px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+
+.enquiry-panel{margin:8px 0 46px;padding:clamp(20px,4vw,34px);border:1px solid #55d6c677;border-radius:24px;background:linear-gradient(145deg,#102d40ee,#091827f5);box-shadow:0 24px 65px #0007;transform-style:preserve-3d;perspective:1000px}
+.enquiry-panel h2{font-size:clamp(24px,3vw,32px)}.enquiry-intro{color:#c4d5e1;max-width:760px}
+.enquiry-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}
+.enquiry-form label{display:grid;gap:6px;color:#d9e7ef;font-size:13px;font-weight:800}
+.enquiry-form input,.enquiry-form select,.enquiry-form textarea{width:100%;border:1px solid #6b8799;border-radius:11px;padding:12px 13px;background:#071523;color:#f5f8fb;font:inherit;min-width:0}
+.enquiry-form textarea{min-height:125px;resize:vertical}.enquiry-form .full{grid-column:1/-1}
+.enquiry-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.enquiry-status{min-height:24px;color:#d9bd79;font-weight:700}.wa-next{display:none}.wa-next.show{display:inline-flex}
+.detail-cta{display:inline-flex;margin-top:12px;padding:12px 16px;border-radius:12px;background:linear-gradient(100deg,#55d6c6,#a0eee3);color:#071321;text-decoration:none;font-weight:900}
+.panel,.enquiry-panel,.visual{transform-style:preserve-3d;transition:transform .2s ease,box-shadow .25s ease}
+@media(max-width:650px){.enquiry-form{grid-template-columns:1fr}.enquiry-form .full{grid-column:auto}}
+@media(prefers-reduced-motion:reduce){.panel,.enquiry-panel,.visual{transition:none!important}}
 </style>  <link rel="stylesheet" href="sweksha-aura.css?v=1">
 </head><body>
 <header class="wrap top"><div class="brand">SWEKSHA · EXPERTISE LIBRARY</div><a class="back" id="backLink" href="index.html#core-team">← Back to profile</a></header>
 <main class="wrap"><section class="hero"><div class="eyebrow" id="eyebrow">CORE TEAM / EXPERTISE</div><h1 id="title">Expertise details</h1><p class="lead" id="lead">A detailed view of the selected SWEKSHA expertise area.</p></section>
-<section class="layout"><article class="panel"><div class="subhead">DETAILED OVERVIEW</div><h2 id="overviewTitle">What this area covers</h2><p id="overview"></p><h2>Scope and responsibilities</h2><ul id="scope"></ul><h2>How we approach a requirement</h2><div class="steps" id="steps"></div><h2>Consultancy / Service Request Categories</h2><p>Choose the subject that best matches the support required. The online enquiry and Supabase record system will be connected in a later phase.</p><ul id="consultationTypes"></ul><div class="note" id="note"></div></article>
-<aside class="panel"><div class="subhead">ANIMATED CONCEPT VISUAL</div><div class="visual" aria-label="Animated conceptual illustration"><div class="nodes" id="nodesTop"></div><div class="core" id="coreLabel">SWEKSHA<br>EXPERTISE</div><div class="nodes" id="nodesBottom"></div></div><h2>Consultancy Request Preparation</h2><p>Before requesting support, note your organisation, location, project objective, expected deliverables, timeline and any relevant technical details. The structured enquiry form and Supabase connection will be added after the profile content is approved.</p><div class="note">No WhatsApp enquiry button is used on this expertise page in this phase.</div></aside></section></main>
+<section class="layout"><article class="panel"><div class="subhead">DETAILED OVERVIEW</div><h2 id="overviewTitle">What this area covers</h2><p id="overview"></p><h2>Scope and responsibilities</h2><ul id="scope"></ul><h2>How we approach a requirement</h2><div class="steps" id="steps"></div><h2>Consultancy / Service Request Categories</h2><p>Choose the subject that best matches the support required. Your enquiry will be saved securely in the SWEKSHA enquiry database before you continue to WhatsApp.</p><ul id="consultationTypes"></ul><div class="note" id="note"></div></article>
+<aside class="panel"><div class="subhead">ANIMATED CONCEPT VISUAL</div><div class="visual" aria-label="Animated conceptual illustration"><div class="nodes" id="nodesTop"></div><div class="core" id="coreLabel">SWEKSHA<br>EXPERTISE</div><div class="nodes" id="nodesBottom"></div></div><h2>Interactive 3D Department View</h2><p>Move your mouse across the page to reveal the pointer-following light, depth and animated department visual. On touch devices the motion is kept gentle.</p><div class="note">The visual is a live CSS 3D animation, not a pre-recorded video.</div></aside></section><section class="wrap enquiry-panel" id="consultancy-enquiry">
+ <div class="eyebrow">SWEKSHA · DIRECT CONSULTANCY ENQUIRY</div>
+ <h2>Request This Consultancy Service</h2>
+ <p class="enquiry-intro">Tell us what you need. Your request will be recorded in SWEKSHA's Supabase enquiry database. After successful saving, continue to WhatsApp with the same enquiry details.</p>
+ <form class="enquiry-form" id="consultancyForm">
+  <label>Full Name *<input name="name" required minlength="2" maxlength="120" autocomplete="name" placeholder="Your full name"></label>
+  <label>WhatsApp Number *<input name="whatsapp" required maxlength="40" autocomplete="tel" placeholder="+91..."></label>
+  <label>Company / Organisation<input name="company" maxlength="180" autocomplete="organization" placeholder="Company name"></label>
+  <label>Country<input name="country" maxlength="100" autocomplete="country-name" placeholder="India"></label>
+  <label>Email Address<input name="email" type="email" maxlength="254" autocomplete="email" placeholder="name@company.com"></label>
+  <label>Consultancy Service *<select name="service_category" id="serviceCategory" required></select></label>
+  <label class="full">Your Requirement *<textarea name="message" required minlength="5" maxlength="4000" placeholder="Describe the service, product, issue, project, quantity, location or support you need..."></textarea></label>
+  <div class="full enquiry-actions"><button class="cta" id="saveEnquiry" type="submit">Save Enquiry &amp; Continue to WhatsApp ↗</button><a class="cta wa-next" id="whatsappNext" href="#" target="_blank" rel="noopener">Open WhatsApp Enquiry ↗</a></div>
+  <div class="full enquiry-status" id="enquiryStatus" role="status" aria-live="polite"></div>
+ </form>
+</section></main>
 <footer class="wrap footer">SWEKSHA FOUNDATION CLUB · CVD &amp; MPCVD Technical Services · Diamond Business Coordination</footer>
 <script>
 const library = {
@@ -59,10 +86,15 @@ sivang:[
 ]};
 const params = new URLSearchParams(location.search);
 const person = params.get("person") || "raju";
-const index = Math.max(0,Math.min(4,Number(params.get("topic")||0)));
-const names={raju:"Mr. Raju Kamat",punit:"CA Punit Jha",sivang:"Dr. Sivang Patal"};
-const roles={raju:"Founder & Managing Director · CVD Machine Technology",punit:"Chartered Accountant · Finance & Business Governance",sivang:"Diamond Sales & CVD Technical Operations"};
-const data=(library[person]||library.raju)[index];
+const rawIndex = Math.max(0,Number(params.get("topic")||0));
+const handoffPeople=["bhavesh","ragni","legal"];
+const index=handoffPeople.includes(person)?rawIndex:Math.min(4,rawIndex);
+let handoff=null;
+try{const saved=JSON.parse(sessionStorage.getItem("sweksha_detail_payload")||"null");if(saved&&saved.person===person&&Number(saved.topic)===rawIndex){handoff=saved;sessionStorage.removeItem("sweksha_detail_payload");}}catch(e){}
+
+const names={raju:"Mr. Raju Kamat",punit:"CA Punit Jha",sivang:"Dr. Sivang Patal",bhavesh:"Mr. Bhavesh Bhai",ragni:"Ragni Kamat",legal:"Mr. X"};
+const roles={raju:"Founder & Managing Director · CVD Machine Technology",punit:"Chartered Accountant · Finance & Business Governance",sivang:"Diamond Sales & CVD Technical Operations",bhavesh:"Head of International Sourcing, Import & Export",ragni:"Head of Digital Technology, IT & Innovation",legal:"Head of Legal Affairs, Compliance & Consultancy"};
+const data=handoffPeople.includes(person)?library.raju[0]:(library[person]||library.raju)[index];
 document.title=data[0]+" | "+(names[person]||names.raju)+" · SWEKSHA";
 document.getElementById("eyebrow").textContent=(roles[person]||roles.raju).toUpperCase();
 document.getElementById("title").textContent=data[0];
@@ -75,7 +107,51 @@ document.getElementById("consultationTypes").innerHTML=(consultationMap[person]|
 document.getElementById("nodesTop").innerHTML=data[12].map(x=>"<span class='node'>"+x+"</span>").join("");
 document.getElementById("nodesBottom").innerHTML=data[13].map(x=>"<span class='node'>"+x+"</span>").join("");
 document.getElementById("coreLabel").textContent=data[14];
-document.getElementById("backLink").href=person==="raju"?"team-mr-raju-kamat.html":person==="punit"?"team-ca-punit-jha.html":"team-dr-sivang-patal.html";
+const backLinks={raju:"team-mr-raju-kamat.html",punit:"team-ca-punit-jha.html",sivang:"team-dr-sivang-patal.html",bhavesh:"team-bhavesh-bhai.html",ragni:"team-ragni-kamat.html",legal:"team-legal-affairs.html"};
+document.getElementById("backLink").href=backLinks[person]||"index.html#core-team";
 if(matchMedia("(pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion: reduce)").matches){addEventListener("pointermove",e=>{document.documentElement.style.setProperty("--mx",e.clientX+"px");document.documentElement.style.setProperty("--my",e.clientY+"px")},{passive:true});}
+
+const departmentNames={raju:"CVD Machine Service & Technical Consulting",punit:"Finance, Audit, Tax & Business Governance",sivang:"Diamond Sales & CVD Technical Operations",bhavesh:"International Sourcing, Import & Export",ragni:"Digital Technology, IT & Innovation",legal:"Legal Affairs, Compliance & Consultancy"};
+const departmentName=departmentNames[person]||"SWEKSHA Consultancy";
+let categoryOptions=handoff?.categories||consultationMap[person]?.flat()||[data[0]];
+const categorySelect=document.getElementById("serviceCategory");
+categoryOptions=[...new Set(categoryOptions.filter(Boolean))];
+categoryOptions.forEach((value,i)=>{const option=document.createElement("option");option.value=value;option.textContent=value;categorySelect.appendChild(option);});
+if(handoff){
+ document.title=handoff.title+" | "+(names[person]||"SWEKSHA")+" · SWEKSHA";
+ document.getElementById("title").textContent=handoff.title;
+ document.getElementById("lead").textContent=(roles[person]||"SWEKSHA Core Department")+" · Detailed capability, workflow and enquiry guidance";
+ document.getElementById("overview").textContent=(handoff.paragraphs||[])[0]||"Explore this SWEKSHA department service and share the exact requirement for review.";
+ document.getElementById("scope").innerHTML=(handoff.bullets||[]).map(x=>"<li>"+x+"</li>").join("");
+ const steps=["Share your requirement, expected outcome and relevant background.","SWEKSHA reviews the information and identifies the right department resource.","The team confirms scope, documents, availability and any specialist coordination required.","After agreement, the work is scheduled and the next steps are tracked."];
+ document.getElementById("steps").innerHTML=steps.map(x=>"<div class='step'>"+x+"</div>").join("");
+ document.getElementById("note").textContent="This page describes the selected card. Final scope, availability, fees and deliverables are confirmed after reviewing the actual requirement.";
+ document.getElementById("consultationTypes").innerHTML=categoryOptions.map(x=>"<li>"+x+"</li>").join("");
+ document.getElementById("nodesTop").innerHTML=categoryOptions.slice(0,3).map(x=>"<span class='node'>"+x+"</span>").join("");
+ document.getElementById("nodesBottom").innerHTML=categoryOptions.slice(3,6).map(x=>"<span class='node'>"+x+"</span>").join("");
+ document.getElementById("coreLabel").textContent=person==="bhavesh"?"GLOBAL SOURCING":person==="ragni"?"DIGITAL TECH": "LEGAL & COMPLIANCE";
+}
+document.getElementById("consultancyForm").addEventListener("submit",async function(event){
+ event.preventDefault();
+ const form=event.currentTarget,button=document.getElementById("saveEnquiry"),status=document.getElementById("enquiryStatus"),next=document.getElementById("whatsappNext");
+ const fd=new FormData(form),name=String(fd.get("name")||"").trim(),phone=String(fd.get("whatsapp")||"").trim(),company=String(fd.get("company")||"").trim(),country=String(fd.get("country")||"").trim(),email=String(fd.get("email")||"").trim(),category=String(fd.get("service_category")||"").trim(),message=String(fd.get("message")||"").trim();
+ const subject=(departmentName+" — "+category).slice(0,300);
+ const fullMessage=("Department: "+departmentName+"\nService: "+category+"\nCompany: "+company+"\nCountry: "+country+"\nCustomer requirement: "+message).slice(0,4900);
+ const record={name,email,whatsapp:phone,subject,message:fullMessage,status:"new",department:departmentName,service_category:category,company,country,source_page:location.pathname+"?person="+person+"&topic="+index,enquiry_type:"consultancy"};
+ button.disabled=true;button.textContent="Saving Enquiry…";status.textContent="Saving your details to the SWEKSHA database…";next.classList.remove("show");
+ try{
+  const response=await fetch("https://xotqafgkubodqpirfpfb.supabase.co/rest/v1/enquiries",{method:"POST",headers:{"apikey":"sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf","Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify(record)});
+  if(!response.ok){const err=await response.text();throw new Error("Database save failed ("+response.status+"): "+err.slice(0,260));}
+  const waText=["Hello SWEKSHA, I have submitted a consultancy enquiry.","Name: "+name,"Company: "+company,"Country: "+country,"WhatsApp: "+phone,"Department: "+departmentName,"Service: "+category,"Requirement: "+message].join("\n");
+  next.href="https://wa.me/917827474249?text="+encodeURIComponent(waText);
+  next.classList.add("show");status.textContent="Your enquiry has been saved successfully. Now open WhatsApp to send the same details to SWEKSHA.";
+  button.textContent="Enquiry Saved ✓";form.reset();categorySelect.value=categoryOptions.includes(category)?category:categoryOptions[0];
+ }catch(error){status.textContent="Your enquiry was not saved. Please try again. "+error.message;button.disabled=false;button.textContent="Save Enquiry & Continue to WhatsApp ↗";}
+});
+if(matchMedia("(pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
+ const visual=document.querySelector(".visual");
+ if(visual)addEventListener("pointermove",e=>{const r=visual.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;visual.style.transform="perspective(900px) rotateY("+(x*8)+"deg) rotateX("+(-y*6)+"deg)";},{passive:true});
+}
+
 </script>  <script src="sweksha-aura.js?v=2" defer></script>
 </body></html>
