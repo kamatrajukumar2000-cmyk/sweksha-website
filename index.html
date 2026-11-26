@@ -384,6 +384,11 @@
     .core-team-avatar{width:88px;height:88px;margin:24px 0 18px;border-radius:26px;display:grid;place-items:center;font-size:27px;font-weight:900;letter-spacing:1px;color:#07111f;box-shadow:0 12px 28px rgba(0,0,0,.25),inset 0 1px rgba(255,255,255,.7);transform:translateZ(28px);border:1px solid rgba(255,255,255,.55)}
     .core-team-avatar-founder{background:linear-gradient(135deg,#8be7dc,#23c7b7 55%,#b58b42)}
     .core-team-avatar-founder img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 42%;border-radius:inherit}
+    .core-team-avatar-founder{perspective:900px}
+    .core-team-photo-trigger{display:block;width:100%;height:100%;padding:0;border:0;border-radius:inherit;background:transparent;cursor:zoom-in;transform-style:preserve-3d;transition:transform .25s ease,filter .25s ease;box-shadow:0 8px 18px rgba(0,0,0,.2)}
+    .core-team-photo-trigger img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 42%;border-radius:inherit}
+    .core-team-photo-trigger:hover,.core-team-photo-trigger:focus-visible{transform:translateY(-5px) rotateX(7deg) rotateY(-8deg) scale(1.07);filter:drop-shadow(0 12px 12px rgba(35,199,183,.3));outline:2px solid rgba(139,231,220,.8);outline-offset:3px}
+    .core-team-photo-trigger:focus-visible{outline-offset:5px}
     .core-team-avatar-finance{background:linear-gradient(135deg,#f1dfaa,#c6a45c 58%,#8b6a32)}
     .core-team-avatar-engineering{background:linear-gradient(135deg,#b9d7f0,#6b9cba 58%,#39747d)}
     .core-team-content{transform:translateZ(18px)}
@@ -853,7 +858,7 @@
         <div class="core-team-grid">
           <article class="core-team-card" tabindex="0">
             <div class="core-team-top"><span class="core-team-orbit" aria-hidden="true">✧</span><span class="core-team-tag">FOUNDER</span></div>
-            <div class="core-team-avatar core-team-avatar-founder"><img src="assets/raju-kamat-office-card.jpg" alt="Raju Kamat seated in his office"></div>
+            <div class="core-team-avatar core-team-avatar-founder"><button class="core-team-photo-trigger" type="button" aria-label="Open full-screen photo of Raju Kamat" aria-haspopup="dialog"><img src="assets/raju-kamat-office-card.jpg" alt="Raju Kamat seated in his office"></button></div>
             <div class="core-team-content">
               <p class="core-team-kicker">01 / LEADERSHIP</p>
               <h3>Raju Kamat</h3>
@@ -2233,29 +2238,41 @@ function renderReviews(reviews){
 
 <script id="sweksha-about-photo-viewer">
 (function(){
-  const trigger=document.querySelector('.about-photo-trigger');
   const dialog=document.querySelector('.about-photo-dialog');
-  if(!trigger||!dialog)return;
+  if(!dialog)return;
+  const triggers=Array.from(document.querySelectorAll('.about-photo-trigger,.core-team-photo-trigger'));
+  if(!triggers.length)return;
   const close=dialog.querySelector('.about-photo-close');
-  const frame=trigger.querySelector('.about-photo-frame');
+  const stageImage=dialog.querySelector('.about-photo-stage img');
+  let lastTrigger=null;
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(!reduced && window.matchMedia('(hover:hover) and (pointer:fine)').matches){
-    trigger.addEventListener('pointermove',function(event){
-      const r=trigger.getBoundingClientRect();
-      const x=(event.clientX-r.left)/r.width;
-      const y=(event.clientY-r.top)/r.height;
-      frame.style.setProperty('--about-rotate-y',((x-.5)*10).toFixed(2)+'deg');
-      frame.style.setProperty('--about-rotate-x',((.5-y)*9).toFixed(2)+'deg');
+  triggers.forEach(function(trigger){
+    if(trigger.classList.contains('about-photo-trigger')){
+      const frame=trigger.querySelector('.about-photo-frame');
+      if(!reduced && window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+        trigger.addEventListener('pointermove',function(event){
+          const r=trigger.getBoundingClientRect();
+          const x=(event.clientX-r.left)/r.width;
+          const y=(event.clientY-r.top)/r.height;
+          frame.style.setProperty('--about-rotate-y',((x-.5)*10).toFixed(2)+'deg');
+          frame.style.setProperty('--about-rotate-x',((.5-y)*9).toFixed(2)+'deg');
+        });
+        trigger.addEventListener('pointerleave',function(){
+          frame.style.setProperty('--about-rotate-x','0deg');
+          frame.style.setProperty('--about-rotate-y','0deg');
+        });
+      }
+    }
+    trigger.addEventListener('click',function(){
+      lastTrigger=trigger;
+      const image=trigger.querySelector('img');
+      if(image && stageImage)stageImage.src=image.currentSrc||image.src;
+      if(typeof dialog.showModal==='function')dialog.showModal();
     });
-    trigger.addEventListener('pointerleave',function(){
-      frame.style.setProperty('--about-rotate-x','0deg');
-      frame.style.setProperty('--about-rotate-y','0deg');
-    });
-  }
-  trigger.addEventListener('click',function(){if(typeof dialog.showModal==='function')dialog.showModal();});
+  });
   close.addEventListener('click',function(){dialog.close();});
   dialog.addEventListener('click',function(event){if(event.target===dialog)dialog.close();});
-  dialog.addEventListener('close',function(){trigger.focus();});
+  dialog.addEventListener('close',function(){if(lastTrigger)lastTrigger.focus();});
   document.addEventListener('keydown',function(event){if(event.key==='Escape'&&dialog.open)dialog.close();});
 })();
 </script>
