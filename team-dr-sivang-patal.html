@@ -48,7 +48,7 @@ body>*{position:relative;z-index:1}
    summary.setAttribute("aria-label","Open detailed "+(summary.querySelector("strong")?.textContent||"expertise")+" page");
    summary.addEventListener("click",function(event){
      event.preventDefault();
-     location.href="team-expertise.html?person="+person+"&topic="+index;
+     location.href="team-expertise.html?person="+person+"&topic="+index+"&v=20261127";
    });
  });
  if(matchMedia("(pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
