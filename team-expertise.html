@@ -90,7 +90,7 @@ const rawIndex = Math.max(0,Number(params.get("topic")||0));
 const handoffPeople=["bhavesh","ragni","legal"];
 const index=handoffPeople.includes(person)?rawIndex:Math.min(4,rawIndex);
 let handoff=null;
-try{const saved=JSON.parse(sessionStorage.getItem("sweksha_detail_payload")||"null");if(saved&&saved.person===person&&Number(saved.topic)===rawIndex){handoff=saved;sessionStorage.removeItem("sweksha_detail_payload");}}catch(e){}
+try{const saved=JSON.parse(sessionStorage.getItem("sweksha_detail_payload")||"null");if(saved&&saved.person===person&&Number(saved.topic)===rawIndex){handoff=saved;}}catch(e){}
 
 const names={raju:"Mr. Raju Kamat",punit:"CA Punit Jha",sivang:"Dr. Sivang Patal",bhavesh:"Mr. Bhavesh Bhai",ragni:"Ragni Kamat",legal:"Mr. X"};
 const roles={raju:"Founder & Managing Director · CVD Machine Technology",punit:"Chartered Accountant · Finance & Business Governance",sivang:"Diamond Sales & CVD Technical Operations",bhavesh:"Head of International Sourcing, Import & Export",ragni:"Head of Digital Technology, IT & Innovation",legal:"Head of Legal Affairs, Compliance & Consultancy"};
