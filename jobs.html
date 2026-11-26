@@ -41,23 +41,23 @@
 <div class="tabs"><button class="tab active" data-tab="seeker">Find a Job</button><button class="tab" data-tab="employer">Post a Vacancy</button></div>
 <section class="panel active" id="seeker"><div class="grid">
 <div class="card"><h2>Job Seeker Profile</h2><p class="muted">Share your work experience and the role you are looking for.</p><form id="candidate">
-<label for="cname">Full name *</label><input id="cname" required>
-<label for="crole">Role / skills *</label><input id="crole" required placeholder="e.g. CVD technician, vacuum pump technician, operator">
-<label for="cexp">Experience and qualifications</label><textarea id="cexp" placeholder="Years of experience, training, equipment familiarity"></textarea>
-<label for="cloc">Preferred work location *</label><input id="cloc" required placeholder="City, state or country">
-<label for="ccontact">WhatsApp / phone *</label><input id="ccontact" type="tel" required>
+<label for="cname">Full name *</label><input id="cname" required minlength="2" maxlength="120">
+<label for="crole">Role / skills *</label><input id="crole" required minlength="2" maxlength="500" placeholder="e.g. CVD technician, vacuum pump technician, operator">
+<label for="cexp">Experience and qualifications</label><textarea id="cexp" maxlength="2000" placeholder="Years of experience, training, equipment familiarity"></textarea>
+<label for="cloc">Preferred work location *</label><input id="cloc" required minlength="2" maxlength="200" placeholder="City, state or country">
+<label for="ccontact">WhatsApp / phone *</label><input id="ccontact" type="tel" required minlength="5" maxlength="40">
 <button class="btn" type="submit">Send Job Seeker Enquiry</button><p id="cstatus" class="status" aria-live="polite"></p></form></div>
 <div class="card"><h2>Candidate guidance</h2><ol><li>Share accurate skills and experience.</li><li>Specify your preferred location and role.</li><li>Sweksha may contact you if a relevant vacancy is received.</li></ol><p class="muted">Submitting a profile does not guarantee employment or an interview.</p></div>
 </div></section>
 <section class="panel" id="employer"><div class="grid">
 <div class="card"><h2>Employer Vacancy Enquiry</h2><p class="muted">Tell us about the position you need to fill.</p><form id="vacancy">
-<label for="company">Company / employer *</label><input id="company" required>
-<label for="vrole">Job title *</label><input id="vrole" required placeholder="e.g. CVD Machine Technician">
-<label for="vdetails">Responsibilities and required skills *</label><textarea id="vdetails" required></textarea>
-<label for="vloc">Work location *</label><input id="vloc" required>
+<label for="company">Company / employer *</label><input id="company" required minlength="2" maxlength="160">
+<label for="vrole">Job title *</label><input id="vrole" required minlength="2" maxlength="160" placeholder="e.g. CVD Machine Technician">
+<label for="vdetails">Responsibilities and required skills *</label><textarea id="vdetails" required minlength="2" maxlength="3000"></textarea>
+<label for="vloc">Work location *</label><input id="vloc" required minlength="2" maxlength="200">
 <label for="vtype">Employment type</label><select id="vtype"><option>Full-time</option><option>Contract</option><option>Part-time</option><option>Apprenticeship</option></select>
-<label for="vpay">Salary / pay range (optional)</label><input id="vpay" placeholder="Include currency">
-<label for="vcontact">Contact person and WhatsApp / phone *</label><input id="vcontact" required>
+<label for="vpay">Salary / pay range (optional)</label><input id="vpay" maxlength="120" placeholder="Include currency">
+<label for="vcontact">Contact person and WhatsApp / phone *</label><input id="vcontact" required minlength="5" maxlength="160">
 <button class="btn" type="submit">Send Vacancy for Review</button><p id="vstatus" class="status" aria-live="polite"></p></form></div>
 <div class="card"><h2>Employer review</h2><ul><li>Provide a real company and clear job description.</li><li>Include location, work type and pay information when possible.</li><li>Do not request applicant fees or sensitive documents in the initial application.</li><li>Vacancies must be reviewed before being presented as verified.</li></ul></div>
 </div></section>

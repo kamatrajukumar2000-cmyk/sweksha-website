@@ -1,0 +1,99 @@
+name: Website static checks
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches:
+      - "audit/**"
+
+permissions:
+  contents: read
+
+jobs:
+  static-validation:
+    name: HTML and sitemap validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+
+      - name: Validate changed HTML and sitemap
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from html.parser import HTMLParser
+          from urllib.parse import urlparse
+          import subprocess
+          import xml.etree.ElementTree as ET
+
+          root = Path(".")
+          errors = []
+
+          class HTMLCheck(HTMLParser):
+              pass
+
+          changed = subprocess.run(
+              ["git", "diff", "--name-only", "origin/main...HEAD"],
+              check=True, text=True, capture_output=True
+          ).stdout.splitlines()
+          html_files = [Path(p) for p in changed if p.lower().endswith((".html", ".htm")) and Path(p).is_file()]
+
+          for page in html_files:
+              try:
+                  parser = HTMLCheck(convert_charrefs=True)
+                  parser.feed(page.read_text(encoding="utf-8"))
+                  parser.close()
+              except Exception as exc:
+                  errors.append(f"{page}: HTML parsing failed: {exc}")
+
+          sitemap = root / "sitemap.xml"
+          if not sitemap.exists():
+              errors.append("sitemap.xml is missing.")
+          else:
+              try:
+                  tree = ET.parse(sitemap)
+                  locs = [el.text.strip() for el in tree.findall(".//{*}loc") if el.text]
+                  if not locs:
+                      errors.append("sitemap.xml contains no loc URLs.")
+                  if len(locs) != len(set(locs)):
+                      errors.append("sitemap.xml contains duplicate URLs.")
+                  for url in locs:
+                      parsed = urlparse(url)
+                      if parsed.scheme not in ("http", "https") or not parsed.netloc:
+                          errors.append(f"Invalid sitemap URL: {url}")
+                          continue
+                      path = parsed.path.lstrip("/") or "index.html"
+                      candidate = root / path
+                      if not candidate.exists() and not (root / path / "index.html").exists():
+                          errors.append(f"Sitemap URL has no matching local file: {url}")
+              except Exception as exc:
+                  errors.append(f"sitemap.xml is invalid: {exc}")
+
+          if errors:
+              print("\n".join("ERROR: " + e for e in errors))
+              raise SystemExit(1)
+
+          print(f"HTML parsing passed for {len(html_files)} changed pages.")
+          print("sitemap.xml is valid, unique, and points to existing local files.")
+          PY
+
+      - name: Package isolated website preview
+        if: github.event_name == 'pull_request' || startsWith(github.ref, 'refs/heads/audit/')
+        uses: actions/upload-artifact@v6
+        with:
+          name: sweksha-website-pr-preview
+          path: |
+            ./
+            !.git/
+            !.github/
+          if-no-files-found: error
+          retention-days: 7
