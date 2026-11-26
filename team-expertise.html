@@ -105,8 +105,9 @@ document.getElementById("steps").innerHTML=data.slice(7,11).map(x=>"<div class='
 document.getElementById("note").textContent=data[11];
 const defaultConsultationTypes=handoff?.categories||consultationMap[person]?.[Math.min(index,4)]||consultationMap.raju[0];
 document.getElementById("consultationTypes").innerHTML=defaultConsultationTypes.map(x=>"<li>"+x+"</li>").join("");
-document.getElementById("nodesTop").innerHTML="<span class='node'>VISION</span><span class='node'>STRATEGY</span>";
-document.getElementById("nodesBottom").innerHTML="<span class='node'>INNOVATION</span><span class='node'>EXCELLENCE</span>";
+const conceptWords=(items)=>items.slice(0,2).map(word=>"<span class='node'>"+String(word).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[ch]))+"</span>").join("");
+document.getElementById("nodesTop").innerHTML=conceptWords(data[12]||["EXPERTISE","VISION"]);
+document.getElementById("nodesBottom").innerHTML=conceptWords(data[13]||["DELIVERY","IMPACT"]);
 document.getElementById("coreLabel").textContent=data[14];
 const backLinks={raju:"team-mr-raju-kamat.html",punit:"team-ca-punit-jha.html",sivang:"team-dr-sivang-patal.html",bhavesh:"team-bhavesh-bhai.html",ragni:"team-ragni-kamat.html",legal:"team-legal-affairs.html"};
 document.getElementById("backLink").href=backLinks[person]||"index.html#core-team";
