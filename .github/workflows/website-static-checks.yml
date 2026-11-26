@@ -54,16 +54,16 @@ jobs:
                   except Exception as exc:
                       errors.append(f"{page}: HTML parsing failed: {exc}")
 
-                  for i, match in enumerate(re.finditer(r"<script\\b([^>]*)>([\\s\\S]*?)</script\\s*>", source, re.I)):
+                  for i, match in enumerate(re.finditer(r"<script\b([^>]*)>([\s\S]*?)</script\s*>", source, re.I)):
                       attrs, body = match.group(1), match.group(2)
-                      typ = re.search(r"""type\\s*=\\s*["']([^"']+)["']""", attrs, re.I)
+                      typ = re.search(r"""type\s*=\s*["']([^"']+)["']""", attrs, re.I)
                       if typ and typ.group(1).lower() == "application/ld+json":
                           jsonld_count += 1
                           try:
                               json.loads(body.strip())
                           except Exception as exc:
                               errors.append(f"{page}: JSON-LD block {i+1} invalid: {exc}")
-                      elif not re.search(r"\\bsrc\\s*=", attrs, re.I) and body.strip():
+                      elif not re.search(r"\bsrc\s*=", attrs, re.I) and body.strip():
                           js_count += 1
                           js_file = Path(tmp) / f"script-{js_count}.js"
                           js_file.write_text(body, encoding="utf-8")
@@ -95,7 +95,7 @@ jobs:
                   errors.append(f"sitemap.xml is invalid: {exc}")
 
           if errors:
-              print("\\n".join("ERROR: " + e for e in errors))
+              print("\n".join("ERROR: " + e for e in errors))
               raise SystemExit(1)
 
           print(f"Validated {len(html_files)} HTML pages, {js_count} inline JavaScript blocks, {jsonld_count} JSON-LD blocks.")
