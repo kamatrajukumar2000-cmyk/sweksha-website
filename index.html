@@ -2044,13 +2044,13 @@ I will attach relevant photos/videos in WhatsApp if available. Please contact me
         name: name,
         email: null,
         whatsapp: contact,
-        subject: service + ' — ' + machine + (company ? ' — ' + company : ''),
-        message: 'Problem: ' + problem +
+        subject: (service + ' — ' + machine + (company ? ' — ' + company : '')).slice(0, 300),
+        message: ('Problem: ' + problem +
           '\nService required: ' + service +
           '\nMachine type / model: ' + machine +
           '\nCompany: ' + (company || 'Not provided') +
           '\nRecent changes: ' + (recentChanges || 'Not provided') +
-          '\nDefect reference: ' + (defectSearchValue || 'Not specified')
+          '\nDefect reference: ' + (defectSearchValue || 'Not specified')).slice(0, 5000)
       };
       fetch('https://xotqafgkubodqpirfpfb.supabase.co/rest/v1/enquiries', {
         method: 'POST',
