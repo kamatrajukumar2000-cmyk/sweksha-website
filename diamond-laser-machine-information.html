@@ -5,6 +5,13 @@
 <meta name="description" content="Explore the supplied CRENOX-branded enclosed diamond laser processing machine, visible assemblies, computer interface, typical processing capabilities, setup, maintenance, safety and specifications to verify.">
 <style>
 :root{--ink:#172536;--muted:#607084;--teal:#087f73;--line:#dce6ed;--bg:#f4f8fb}*{box-sizing:border-box}body{margin:0;font:16px/1.7 Arial,sans-serif;color:var(--ink);background:var(--bg)}header{background:#07111f;color:#fff;padding:24px 5%}header a{color:#8be7dc;text-decoration:none;font-weight:bold}.wrap{max-width:1050px;margin:28px auto;padding:0 18px}.hero,.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:18px;box-shadow:0 8px 28px #07111f0d}h1,h2,h3{line-height:1.25}h1{font-size:clamp(27px,4vw,42px);margin:0 0 10px}h2{color:var(--teal);margin-top:0}h3{margin:0 0 6px}.machine-photo{display:block;width:100%;max-height:650px;object-fit:contain;background:#f5f6f7;border-radius:12px}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.item{border:1px solid var(--line);border-radius:12px;padding:16px}ul,ol{padding-left:22px}a.button{display:inline-block;background:var(--teal);color:white;text-decoration:none;padding:12px 18px;border-radius:9px;font-weight:bold;margin:6px 8px 0 0}.notice{background:#f0faf8;border-left:4px solid var(--teal);padding:14px 16px;border-radius:8px}@media(max-width:650px){.grid{grid-template-columns:1fr}.hero,.panel{padding:18px}.wrap{margin:16px auto}}
+
+/* SWEKSHA subtle 3D page-panel motion — preserve each page's existing colours */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+ .hero,.panel,.item{--sweksha-tilt-x:0deg;--sweksha-tilt-y:0deg;transform:perspective(1200px) rotateX(var(--sweksha-tilt-x)) rotateY(var(--sweksha-tilt-y));transform-style:preserve-3d;transition:transform .24s ease,box-shadow .24s ease;will-change:transform}
+ .hero:hover,.panel:hover,.item:hover{box-shadow:0 18px 38px rgba(7,17,31,.13)}
+}
+@media(prefers-reduced-motion:reduce){.hero,.panel,.item{transition:none!important;transform:none!important}}
 </style></head><body>
 <header><a href="./index.html#machine-market">← Back to Sweksha Machine Sale &amp; Buy</a></header>
 <main class="wrap">
@@ -52,4 +59,14 @@
 <div class="item"><b>Extraction / air requirement</b><p class="muted">To be confirmed</p></div><div class="item"><b>Supported operations / workpiece limits</b><p class="muted">To be confirmed by supplier and sample test</p></div>
 </div></section>
 <section class="panel"><h2>9. New / Used Machine Enquiry</h2><p>For a machine quotation or technical evaluation, share the nameplate photograph, model and serial number, laser source details, software screen, operating video, machine condition, included accessories and a sample of the required diamond-processing operation. Sweksha can help coordinate machine enquiries and technical checks; availability and specifications are confirmed individually.</p><a class="button" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20want%20details%20about%20the%20Diamond%20Laser%20Machine.%20Please%20help%20verify%20the%20model%20and%20technical%20specifications.">Enquire on WhatsApp</a><a class="button" href="./index.html#machine-market">Back to Machine Sale &amp; Buy</a></section>
-</main></body></html>
+</main>
+<script id="sweksha-information-page-3d">
+(function(){
+ if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ const targets='.hero,.panel,.item';
+ const strength=3.5;
+ document.addEventListener('pointermove',function(e){const el=e.target.closest(targets);if(!el)return;const r=el.getBoundingClientRect();if(!r.width||!r.height)return;const x=(e.clientX-r.left)/r.width;const y=(e.clientY-r.top)/r.height;el.style.setProperty('--sweksha-tilt-x',((.5-y)*strength).toFixed(2)+'deg');el.style.setProperty('--sweksha-tilt-y',((x-.5)*strength).toFixed(2)+'deg');},{passive:true});
+ document.addEventListener('pointerout',function(e){const el=e.target.closest(targets);if(!el||el.contains(e.relatedTarget))return;el.style.setProperty('--sweksha-tilt-x','0deg');el.style.setProperty('--sweksha-tilt-y','0deg');});
+})();
+</script>
+</body></html>
