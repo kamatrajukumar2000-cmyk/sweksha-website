@@ -6,11 +6,18 @@
 <meta name="description" content="Explore the construction, polishing stations, spindle and drive concepts, workholding, controls, cooling, operation, maintenance and safety considerations of a diamond polishing machine.">
 <style>
 :root{--ink:#172536;--muted:#607084;--teal:#087f73;--line:#dce6ed;--bg:#f4f8fb}*{box-sizing:border-box}body{margin:0;font:16px/1.7 Arial,sans-serif;color:var(--ink);background:var(--bg)}header{background:#07111f;color:white;padding:24px 5%}header a{color:#8be7dc;text-decoration:none;font-weight:bold}.wrap{max-width:1000px;margin:28px auto;padding:0 18px}.hero,.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:18px;box-shadow:0 8px 28px #07111f0d}h1,h2,h3{line-height:1.25}h1{font-size:clamp(27px,4vw,42px);margin:0 0 10px}h2{color:var(--teal);margin-top:0}h3{margin-bottom:6px}.machine-photo{display:block;width:100%;max-height:560px;object-fit:contain;background:#f5f6f7;border-radius:12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.item{border:1px solid var(--line);border-radius:12px;padding:16px}.muted{color:var(--muted)}ul{padding-left:22px}a.button{display:inline-block;background:var(--teal);color:white;text-decoration:none;padding:12px 18px;border-radius:9px;font-weight:bold;margin:6px 8px 0 0}@media(max-width:650px){.grid{grid-template-columns:1fr}.hero,.panel{padding:18px}.wrap{margin:16px auto}}
+
+/* SWEKSHA subtle 3D page-panel motion — preserve each page's existing colours */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+ .hero,.panel,.item{--sweksha-tilt-x:0deg;--sweksha-tilt-y:0deg;transform:perspective(1200px) rotateX(var(--sweksha-tilt-x)) rotateY(var(--sweksha-tilt-y));transform-style:preserve-3d;transition:transform .24s ease,box-shadow .24s ease;will-change:transform}
+ .hero:hover,.panel:hover,.item:hover{box-shadow:0 18px 38px rgba(7,17,31,.13)}
+}
+@media(prefers-reduced-motion:reduce){.hero,.panel,.item{transition:none!important;transform:none!important}}
 </style></head>
 <body><header><a href="./index.html">← Back to Sweksha Machine Sale &amp; Buy</a></header>
 <main class="wrap">
 <section class="hero"><h1>Diamond Polishing Machine / Bench</h1><p class="muted">Machine overview, key assemblies, operating workflow and maintenance guide</p>
-<a href="./29fc3747-cc7a-41b9-b700-16bdd8c942b6%20-%20Copy.jpg" target="_blank" rel="noopener" aria-label="Open original machine photo full screen"><img class="machine-photo" src="./29fc3747-cc7a-41b9-b700-16bdd8c942b6%20-%20Copy.jpg" alt="Diamond polishing machine with dual polishing stations and enclosed control cabinet"></a>
+<a href="./images/diamond-polishing-machine.jpg" target="_blank" rel="noopener" aria-label="Open original machine photo full screen"><img class="machine-photo" src="./images/diamond-polishing-machine.jpg" alt="Diamond polishing machine with dual polishing stations and enclosed control cabinet"></a>
 <p class="muted">Select the photograph to open the full-size image. The photograph shows the supplied machine; exact model, rated power, spindle speed and manufacturer specifications must be confirmed from its nameplate and documentation.</p></section>
 <section class="panel"><h2>1. Machine Overview &amp; Applications</h2><p>A diamond polishing machine or bench is used in diamond-processing workflows to hold, orient and polish a diamond against a suitable polishing surface. The exact process depends on the machine design, tooling, stone geometry and operator setup.</p><ul><li>Diamond facet polishing and finishing operations</li><li>Repeatable positioning and controlled operator access</li><li>Workshop or production-bench use, subject to the machine's rated configuration</li></ul></section>
 <section class="panel"><h2>2. Main Assemblies &amp; Visible Layout</h2><div class="grid">
@@ -33,4 +40,14 @@
 <section class="panel"><h2>7. Safety</h2><ul><li>Only trained operators should use the machine.</li><li>Use appropriate eye protection and any PPE specified by the manufacturer.</li><li>Keep hands, loose clothing and hair away from rotating parts.</li><li>Never bypass guards, interlocks or emergency-stop systems.</li><li>Isolate electrical power before cleaning, adjustment or maintenance.</li><li>Use only rated discs, holders and accessories within their specified speed limits.</li></ul></section>
 <section class="panel"><h2>8. Technical Specifications – Model Confirmation Required</h2><p>The supplied photograph does not establish the exact make, model, motor power, spindle RPM, disc size, electrical rating, station independence or control features. These values are intentionally not guessed. Confirm them from the machine nameplate, manual or a supplier inspection before purchase or commissioning.</p><div class="grid"><div class="item"><b>Make / Model</b><p class="muted">To be confirmed</p></div><div class="item"><b>Motor / Spindle Rating</b><p class="muted">To be confirmed</p></div><div class="item"><b>Speed Range</b><p class="muted">To be confirmed</p></div><div class="item"><b>Disc / Scaife Size</b><p class="muted">To be confirmed</p></div><div class="item"><b>Power Supply</b><p class="muted">To be confirmed</p></div><div class="item"><b>Cooling / Lubrication</b><p class="muted">To be confirmed</p></div></div></section>
 <section class="panel"><h2>9. Machine Enquiry</h2><p>For a new or used machine enquiry, share the make, model, nameplate photograph, operating video, machine condition and required application. Availability and specifications are confirmed individually.</p><a class="button" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20want%20details%20about%20the%20Diamond%20Polishing%20Machine%2FBench.">Enquire on WhatsApp</a><a class="button" href="./index.html#machine-market">Back to Machine Sale &amp; Buy</a></section>
-</main></body></html>
+</main>
+<script id="sweksha-information-page-3d">
+(function(){
+ if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ const targets='.hero,.panel,.item';
+ const strength=3.5;
+ document.addEventListener('pointermove',function(e){const el=e.target.closest(targets);if(!el)return;const r=el.getBoundingClientRect();if(!r.width||!r.height)return;const x=(e.clientX-r.left)/r.width;const y=(e.clientY-r.top)/r.height;el.style.setProperty('--sweksha-tilt-x',((.5-y)*strength).toFixed(2)+'deg');el.style.setProperty('--sweksha-tilt-y',((x-.5)*strength).toFixed(2)+'deg');},{passive:true});
+ document.addEventListener('pointerout',function(e){const el=e.target.closest(targets);if(!el||el.contains(e.relatedTarget))return;el.style.setProperty('--sweksha-tilt-x','0deg');el.style.setProperty('--sweksha-tilt-y','0deg');});
+})();
+</script>
+</body></html>
