@@ -114,7 +114,7 @@ if(matchMedia("(pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion: r
 
 const departmentNames={raju:"CVD Machine Service & Technical Consulting",punit:"Finance, Audit, Tax & Business Governance",sivang:"Diamond Sales & CVD Technical Operations",bhavesh:"International Sourcing, Import & Export",ragni:"Digital Technology, IT & Innovation",legal:"Legal Affairs, Compliance & Consultancy"};
 const departmentName=departmentNames[person]||"SWEKSHA Consultancy";
-let categoryOptions=handoff?.categories||consultationMap[person]?.flat()||[data[0]];
+let categoryOptions=handoff?.categories||[data[0],...(consultationMap[person]?.flat()||[])];
 const categorySelect=document.getElementById("serviceCategory");
 categoryOptions=[...new Set(categoryOptions.filter(Boolean))];
 categoryOptions.forEach((value,i)=>{const option=document.createElement("option");option.value=value;option.textContent=value;categorySelect.appendChild(option);});
