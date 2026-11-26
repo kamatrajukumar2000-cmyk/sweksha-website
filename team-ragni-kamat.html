@@ -61,4 +61,32 @@ a{color:inherit}.back,.cta{display:inline-flex;padding:11px 17px;border-radius:1
 </section>
 <div class="footer">Ragni Kamat · Head of Digital Technology, IT &amp; Innovation · SWEKSHA FOUNDATION CLUB<br>Photo placeholder shown until the approved profile photograph is supplied.</div>
 </main>
-</body></html>
+<script id="sweksha-card-route">
+(function(){
+ const person="ragni";
+ const cards=[...document.querySelectorAll(".expertise-card")];
+ const categories=cards.map(card=>card.querySelector("summary strong")?.textContent?.trim()||"Consultancy");
+ cards.forEach((card,index)=>{
+  const summary=card.querySelector("summary");
+  if(!summary)return;
+  summary.setAttribute("role","link");
+  summary.setAttribute("aria-label","Open full 3D consultancy details for "+categories[index]);
+  summary.addEventListener("click",function(event){
+   event.preventDefault();
+   const detail=card.querySelector(".expertise-detail");
+   const paragraphs=[...(detail?.querySelectorAll("p")||[])].map(x=>x.textContent.trim()).filter(Boolean);
+   const bullets=[...(detail?.querySelectorAll("li")||[])].map(x=>x.textContent.trim()).filter(Boolean);
+   const payload={person,topic:index,title:categories[index],paragraphs,bullets,categories};
+   try{sessionStorage.setItem("sweksha_detail_payload",JSON.stringify(payload));}catch(e){}
+   location.href="team-expertise.html?person="+encodeURIComponent(person)+"&topic="+index;
+  });
+ });
+ if(matchMedia("(pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
+  addEventListener("pointermove",function(event){
+   document.documentElement.style.setProperty("--mx",event.clientX+"px");
+   document.documentElement.style.setProperty("--my",event.clientY+"px");
+  },{passive:true});
+ }
+})();
+</script>
+<script src="sweksha-aura.js?v=2" defer></script></body></html>
