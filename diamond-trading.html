@@ -278,6 +278,7 @@ sellerForm.addEventListener('submit', async e => {
   let photoUrl = '';
   let uploadError = null;
   let dbError = null;
+  try {
   if (db) {
     const optimizedFile = await compressListingImage(file);
     const filePath = Date.now() + '-' + Math.random().toString(36).slice(2) + '.webp';
@@ -305,6 +306,9 @@ sellerForm.addEventListener('submit', async e => {
     }
   } else {
     uploadError = new Error('Database connection is unavailable');
+  }
+  } catch (error) {
+    uploadError = error;
   }
   const message = 'Hello Sweksha, I want to submit a diamond SELL listing for review.\\nProduct: '+$('stype').value+'\\nDescription: '+$('sdesc').value+'\\nPrice: '+$('sprice').value+'\\nQuantity: '+$('sqty').value+'\\nLocation: '+$('sloc').value+'\\nSeller/company: '+$('sname').value+'\\nContact: '+$('scontact').value+'\\nPhoto: '+(photoUrl||'I will attach the photo in WhatsApp.');
   const waUrl = 'https://wa.me/917827474249?text='+encodeURIComponent(message);
