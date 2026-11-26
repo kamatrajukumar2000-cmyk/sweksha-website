@@ -701,9 +701,12 @@
    <a href="./cvd-machine-information.html" aria-label="Open detailed CVD MPCVD machine information"><img src="https://sekidiamond.com/wp-content/uploads/SDS-6K-900sq.jpg" alt="CVD MPCVD diamond-growing machine" loading="lazy"></a>
    <div class="cvd-learning-card-body"><h3>02 · CVD / MPCVD Growing Machine</h3><p>Explore the machine chamber, microwave power system, vacuum pumps, gas delivery, MFCs, pressure control, cooling, automation and diamond-growth process.</p><div class="cvd-learning-actions"><a href="./cvd-machine-information.html">Open Machine Technical Guide →</a></div></div>
   </article>
-  <article class="cvd-learning-card">
-   <a href="https://shopcdnpro.grainajz.com/category/43456/877/eddcee5092f28894b870c65ee0818b7c/1CVD%20Rough%20Diamond%20%281%29.jpg" target="_blank" rel="noopener" aria-label="Open illustrative CVD rough diamond photograph full size"><img src="https://shopcdnpro.grainajz.com/category/43456/877/eddcee5092f28894b870c65ee0818b7c/1CVD%20Rough%20Diamond%20%281%29.jpg" alt="Illustrative as-grown CVD rough diamond crystal" loading="lazy"></a>
-   <div class="cvd-learning-card-body"><h3>03 · CVD Rough Diamond</h3><p>Layer-by-layer growth, post-growth inspection, defects, characterization and downstream preparation.</p><div class="cvd-learning-actions"><a href="./cvd-rough-diamond-information.html">Open Scientific Information →</a><a href="https://shopcdnpro.grainajz.com/category/43456/877/eddcee5092f28894b870c65ee0818b7c/1CVD%20Rough%20Diamond%20%281%29.jpg" target="_blank" rel="noopener">View Full Image ↗</a></div></div>
+  <article class="cvd-learning-card cvd-rough-feature" id="cvd-rough-diamond-card">
+   <button class="cvd-rough-open" type="button" aria-label="Open CVD rough diamond photo gallery">
+    <img src="https://shopcdnpro.grainajz.com/category/43456/877/eddcee5092f28894b870c65ee0818b7c/1CVD%20Rough%20Diamond%20%281%29.jpg" alt="CVD rough diamond crystal sample" loading="lazy">
+    <span class="cvd-rough-view-label">Explore 3D Gallery ↗</span>
+   </button>
+   <div class="cvd-learning-card-body"><h3>03 · CVD Rough Diamond</h3><p>Explore as-grown CVD rough diamond samples, growth surfaces, crystal structure, inspection and downstream preparation.</p><div class="cvd-learning-actions"><a href="./cvd-rough-diamond-information.html">Open Scientific Information →</a><button class="cvd-rough-text-open" type="button">View Photo Gallery ↗</button></div></div>
   </article>
  </div>
 </div>
@@ -2319,5 +2322,61 @@ function renderReviews(reviews){
   <script src="sweksha-aura.js?v=1" defer></script>
 
 
+
+<style id="cvd-rough-gallery-styles">
+.cvd-rough-feature .cvd-rough-open{position:relative;display:block;width:100%;padding:0;border:0;cursor:zoom-in;overflow:hidden;background:radial-gradient(circle at 50% 35%,#164b79,#06152d 72%);perspective:900px}
+.cvd-rough-feature .cvd-rough-open img{height:250px;object-fit:contain;padding:18px;filter:drop-shadow(0 18px 16px #0009);transform:rotateX(4deg) rotateY(-5deg);transition:transform .55s ease,filter .55s ease}
+.cvd-rough-feature:hover .cvd-rough-open img{transform:rotateX(0) rotateY(0) scale(1.055);filter:drop-shadow(0 22px 22px #000b)}
+.cvd-rough-view-label{position:absolute;right:12px;bottom:12px;padding:8px 12px;border:1px solid #6bdcff88;border-radius:30px;background:#061a32df;color:#fff;font-size:12px;font-weight:800}
+.cvd-rough-text-open{border:0;background:none;padding:0;color:#087f73;text-decoration:underline;font:inherit;font-size:13px;font-weight:800;cursor:pointer}
+#cvd-rough-gallery-dialog{width:min(960px,94vw);max-width:none;max-height:92vh;padding:0;border:1px solid #4bb8f0;border-radius:22px;background:linear-gradient(145deg,#06152c,#0b3154 65%,#07172e);color:#fff;box-shadow:0 30px 100px #000b}
+#cvd-rough-gallery-dialog::backdrop{background:#020817df;backdrop-filter:blur(8px)}
+.cvd-rough-gallery-inner{padding:20px}
+.cvd-rough-gallery-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.cvd-rough-gallery-head h3{margin:0;font-size:clamp(21px,4vw,30px)}
+.cvd-rough-gallery-head button,.cvd-rough-nav,.cvd-rough-play{border:1px solid #68cfff88;border-radius:999px;background:#0b2b4c;color:white;padding:9px 15px;cursor:pointer}
+.cvd-rough-stage{height:min(55vh,520px);display:grid;place-items:center;margin:16px 0;border-radius:16px;background:radial-gradient(ellipse at 50% 42%,#14558a,#06152b 70%);overflow:hidden;perspective:1000px}
+.cvd-rough-stage img{max-width:94%;max-height:92%;object-fit:contain;filter:drop-shadow(0 24px 24px #000b);animation:cvdRoughFloat 5s ease-in-out infinite;transition:transform .45s ease}
+@keyframes cvdRoughFloat{0%,100%{transform:translateY(0) rotateY(-5deg) rotateX(3deg)}50%{transform:translateY(-10px) rotateY(5deg) rotateX(-2deg)}}
+.cvd-rough-controls{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.cvd-rough-count{min-width:54px;text-align:center;font-weight:800;color:#bceaff}
+.cvd-rough-thumbs{display:flex;justify-content:center;gap:10px;margin-top:16px}
+.cvd-rough-thumb{width:82px;height:62px;padding:4px;border:1px solid #7894b4;border-radius:10px;background:#102c4a;cursor:pointer;opacity:.7}
+.cvd-rough-thumb[aria-current=true]{border:2px solid #00baff;opacity:1;box-shadow:0 0 16px #00baff77}
+.cvd-rough-thumb img{width:100%;height:100%;object-fit:contain}
+@media(max-width:520px){.cvd-rough-gallery-inner{padding:13px}.cvd-rough-stage{height:42vh}.cvd-rough-thumb{width:65px;height:52px}}
+@media(prefers-reduced-motion:reduce){.cvd-rough-stage img{animation:none}}
+</style>
+<dialog id="cvd-rough-gallery-dialog" aria-label="CVD Rough Diamond photo gallery"><div class="cvd-rough-gallery-inner">
+ <div class="cvd-rough-gallery-head"><h3>◆ CVD Rough Diamond</h3><button type="button" data-cvd-close aria-label="Close gallery">✕</button></div>
+ <div class="cvd-rough-stage"><img id="cvd-rough-stage-image" src="https://shopcdnpro.grainajz.com/category/43456/877/eddcee5092f28894b870c65ee0818b7c/1CVD%20Rough%20Diamond%20%281%29.jpg" alt="CVD rough diamond sample"></div>
+ <div class="cvd-rough-controls"><button class="cvd-rough-nav" type="button" data-cvd-prev>← Previous</button><span class="cvd-rough-count" id="cvd-rough-count">1 / 4</span><button class="cvd-rough-nav" type="button" data-cvd-next>Next →</button><button class="cvd-rough-play" type="button" data-cvd-play>▶ Auto Play</button></div>
+ <div class="cvd-rough-thumbs" aria-label="Gallery images">
+  <button class="cvd-rough-thumb" type="button" data-cvd-index="0" aria-current="true"><img src="https://shopcdnpro.grainajz.com/category/43456/877/eddcee5092f28894b870c65ee0818b7c/1CVD%20Rough%20Diamond%20%281%29.jpg" alt="View 1"></button>
+  <button class="cvd-rough-thumb" type="button" data-cvd-index="1" aria-current="false"><img src="https://shopcdnpro.grainajz.com/category/43456/877/eddcee5092f28894b870c65ee0818b7c/1CVD%20Rough%20Diamond%20%281%29.jpg" alt="View 2"></button>
+  <button class="cvd-rough-thumb" type="button" data-cvd-index="2" aria-current="false"><img src="https://shopcdnpro.grainajz.com/category/43456/877/eddcee5092f28894b870c65ee0818b7c/1CVD%20Rough%20Diamond%20%281%29.jpg" alt="View 3"></button>
+  <button class="cvd-rough-thumb" type="button" data-cvd-index="3" aria-current="false"><img src="https://shopcdnpro.grainajz.com/category/43456/877/eddcee5092f28894b870c65ee0818b7c/1CVD%20Rough%20Diamond%20%281%29.jpg" alt="View 4"></button>
+ </div>
+</div></dialog>
+<script id="cvd-rough-gallery-interaction">
+(function(){
+ const dialog=document.getElementById('cvd-rough-gallery-dialog'); if(!dialog)return;
+ const source='https://shopcdnpro.grainajz.com/category/43456/877/eddcee5092f28894b870c65ee0818b7c/1CVD%20Rough%20Diamond%20%281%29.jpg';
+ const views=[{scale:1,rotate:'0deg'},{scale:1.22,rotate:'-2deg'},{scale:1.08,rotate:'2deg'},{scale:1.28,rotate:'-4deg'}];
+ const image=document.getElementById('cvd-rough-stage-image'),count=document.getElementById('cvd-rough-count'),thumbs=[...dialog.querySelectorAll('.cvd-rough-thumb')];
+ let index=0,timer=null;
+ function show(n){index=(n+4)%4;image.style.transform='scale('+views[index].scale+') rotate('+views[index].rotate+')';count.textContent=(index+1)+' / 4';thumbs.forEach((b,i)=>b.setAttribute('aria-current',String(i===index)));}
+ function stop(){if(timer){clearInterval(timer);timer=null;}const b=dialog.querySelector('[data-cvd-play]');if(b)b.textContent='▶ Auto Play';}
+ function open(){stop();show(0);if(dialog.showModal)dialog.showModal();}
+ document.querySelectorAll('#cvd-rough-diamond-card .cvd-rough-open,#cvd-rough-diamond-card .cvd-rough-text-open').forEach(b=>b.addEventListener('click',open));
+ dialog.querySelector('[data-cvd-close]').addEventListener('click',()=>{stop();dialog.close();});
+ dialog.querySelector('[data-cvd-prev]').addEventListener('click',()=>show(index-1));
+ dialog.querySelector('[data-cvd-next]').addEventListener('click',()=>show(index+1));
+ thumbs.forEach(b=>b.addEventListener('click',()=>show(Number(b.dataset.cvdIndex))));
+ dialog.querySelector('[data-cvd-play]').addEventListener('click',function(){if(timer){stop();return;}this.textContent='Ⅱ Pause';timer=setInterval(()=>show(index+1),2300);});
+ dialog.addEventListener('click',e=>{if(e.target===dialog){stop();dialog.close();}});
+ dialog.addEventListener('close',stop);
+})();
+</script>
 </body>
 </html>
