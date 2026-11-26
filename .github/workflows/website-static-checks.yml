@@ -1,0 +1,103 @@
+name: Website static checks
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches:
+      - "audit/**"
+
+permissions:
+  contents: read
+
+jobs:
+  static-validation:
+    name: HTML, JavaScript, JSON-LD and sitemap
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate website files
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from html.parser import HTMLParser
+          from urllib.parse import urlparse
+          import json, re, subprocess, tempfile, xml.etree.ElementTree as ET
+
+          root = Path(".")
+          errors = []
+
+          class HTMLCheck(HTMLParser):
+              pass
+
+          html_files = sorted(p for p in root.rglob("*.html") if ".git" not in p.parts)
+          if not html_files:
+              errors.append("No HTML pages found.")
+
+          with tempfile.TemporaryDirectory() as tmp:
+              js_count = 0
+              jsonld_count = 0
+              for page in html_files:
+                  source = page.read_text(encoding="utf-8")
+                  try:
+                      parser = HTMLCheck(convert_charrefs=True)
+                      parser.feed(source)
+                      parser.close()
+                  except Exception as exc:
+                      errors.append(f"{page}: HTML parsing failed: {exc}")
+
+                  for i, match in enumerate(re.finditer(r"<script\\b([^>]*)>([\\s\\S]*?)</script\\s*>", source, re.I)):
+                      attrs, body = match.group(1), match.group(2)
+                      typ = re.search(r"""type\\s*=\\s*["']([^"']+)["']""", attrs, re.I)
+                      if typ and typ.group(1).lower() == "application/ld+json":
+                          jsonld_count += 1
+                          try:
+                              json.loads(body.strip())
+                          except Exception as exc:
+                              errors.append(f"{page}: JSON-LD block {i+1} invalid: {exc}")
+                      elif not re.search(r"\\bsrc\\s*=", attrs, re.I) and body.strip():
+                          js_count += 1
+                          js_file = Path(tmp) / f"script-{js_count}.js"
+                          js_file.write_text(body, encoding="utf-8")
+                          result = subprocess.run(["node", "--check", str(js_file)], text=True, capture_output=True)
+                          if result.returncode:
+                              errors.append(f"{page}: inline JavaScript block {i+1} invalid: {result.stderr.strip()}")
+
+          sitemap = root / "sitemap.xml"
+          if not sitemap.exists():
+              errors.append("sitemap.xml is missing.")
+          else:
+              try:
+                  tree = ET.parse(sitemap)
+                  locs = [el.text.strip() for el in tree.findall(".//{*}loc") if el.text]
+                  if not locs:
+                      errors.append("sitemap.xml contains no loc URLs.")
+                  if len(locs) != len(set(locs)):
+                      errors.append("sitemap.xml contains duplicate URLs.")
+                  for url in locs:
+                      parsed = urlparse(url)
+                      if parsed.scheme not in ("http", "https") or not parsed.netloc:
+                          errors.append(f"Invalid sitemap URL: {url}")
+                          continue
+                      path = parsed.path.lstrip("/") or "index.html"
+                      candidate = root / path
+                      if not candidate.exists() and not (root / path / "index.html").exists():
+                          errors.append(f"Sitemap URL has no matching local file: {url}")
+              except Exception as exc:
+                  errors.append(f"sitemap.xml is invalid: {exc}")
+
+          if errors:
+              print("\\n".join("ERROR: " + e for e in errors))
+              raise SystemExit(1)
+
+          print(f"Validated {len(html_files)} HTML pages, {js_count} inline JavaScript blocks, {jsonld_count} JSON-LD blocks.")
+          print("sitemap.xml is valid, unique, and points to existing local files.")
+          PY
