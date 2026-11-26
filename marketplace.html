@@ -82,12 +82,12 @@
     <div class="layout">
       <div class="card"><h2>Request a Machine Part</h2><p class="muted">Tell us what you need. We will use your request to follow up with you.</p>
         <form id="requestForm">
-          <label for="needPart">Part name / model *</label><input id="needPart" required placeholder="e.g. Vacuum pump, MFC, magnetron">
+          <label for="needPart">Part name / model *</label><input id="needPart" required maxlength="160" placeholder="e.g. Vacuum pump, MFC, magnetron">
           <label for="needCondition">Preferred condition</label><select id="needCondition"><option>New or used</option><option>New only</option><option>Used only</option></select>
-          <label for="needQty">Quantity *</label><input id="needQty" required type="number" min="1" value="1">
-          <label for="needDetails">Specifications or additional details</label><textarea id="needDetails" placeholder="Machine model, part number, required delivery location..."></textarea>
-          <label for="buyerName">Your name *</label><input id="buyerName" required>
-          <label for="buyerContact">WhatsApp / phone number *</label><input id="buyerContact" required type="tel">
+          <label for="needQty">Quantity *</label><input id="needQty" required type="number" min="1" max="100000" value="1">
+          <label for="needDetails">Specifications or additional details</label><textarea id="needDetails" maxlength="3000" placeholder="Machine model, part number, required delivery location..."></textarea>
+          <label for="buyerName">Your name *</label><input id="buyerName" required maxlength="120">
+          <label for="buyerContact">WhatsApp / phone number *</label><input id="buyerContact" required type="tel" minlength="5" maxlength="40">
           <button class="btn" type="submit" style="margin-top:16px">Send Part Request</button><p class="status" id="requestStatus" aria-live="polite"></p>
         </form>
       </div>
@@ -98,16 +98,16 @@
     <div class="layout">
       <div class="card"><h2>List a Part for Sale</h2><p class="muted">Prepare your listing details and send them to Sweksha for review.</p>
         <form id="sellForm">
-          <label for="partName">Product name *</label><input id="partName" required placeholder="e.g. Edwards vacuum pump">
+          <label for="partName">Product name *</label><input id="partName" required maxlength="160" placeholder="e.g. Edwards vacuum pump">
           <label for="partType">Category *</label><select id="partType" required><option value="">Choose a category</option><option>Vacuum Pump</option><option>Microwave / RF Power</option><option>Magnetron</option><option>Mass Flow Controller (MFC)</option><option>Chamber / Stage</option><option>Power Supply</option><option>Gas / Water / Vacuum Fittings</option><option>Other CVD Machine Part</option></select>
           <label for="partCondition">Condition *</label><select id="partCondition" required><option value="">Choose condition</option><option>New</option><option>Used - Working</option><option>Used - Needs Repair</option><option>For Parts / As-Is</option></select>
-          <label for="partPrice">Asking price and currency *</label><input id="partPrice" required placeholder="e.g. INR 25,000 or Price on Request">
-          <label for="partQty">Quantity available *</label><input id="partQty" required type="number" min="1" value="1">
-          <label for="partLocation">City / Country *</label><input id="partLocation" required placeholder="e.g. Surat, India">
-          <label for="partPhoto">Product photo *</label><input id="partPhoto" type="file" accept="image/*" required><img class="preview" id="photoPreview" alt="Selected product photo preview">
-          <label for="partDetails">Description / part number / machine compatibility</label><textarea id="partDetails" placeholder="Describe condition, model, serial or part number, and known issues."></textarea>
-          <label for="sellerName">Seller name / company *</label><input id="sellerName" required>
-          <label for="sellerContact">WhatsApp / phone number *</label><input id="sellerContact" required type="tel">
+          <label for="partPrice">Asking price and currency *</label><input id="partPrice" required maxlength="120" placeholder="e.g. INR 25,000 or Price on Request">
+          <label for="partQty">Quantity available *</label><input id="partQty" required type="number" min="1" max="100000" value="1">
+          <label for="partLocation">City / Country *</label><input id="partLocation" required maxlength="200" placeholder="e.g. Surat, India">
+          <label for="partPhoto">Product photo *</label><input id="partPhoto" type="file" accept="image/jpeg,image/png,image/webp" required><img class="preview" id="photoPreview" alt="Selected product photo preview">
+          <label for="partDetails">Description / part number / machine compatibility</label><textarea id="partDetails" maxlength="3000" placeholder="Describe condition, model, serial or part number, and known issues."></textarea>
+          <label for="sellerName">Seller name / company *</label><input id="sellerName" required maxlength="120">
+          <label for="sellerContact">WhatsApp / phone number *</label><input id="sellerContact" required type="tel" minlength="5" maxlength="40">
           <button class="btn" type="submit" style="margin-top:16px">Prepare Listing for Review</button><p class="status" id="sellStatus" aria-live="polite"></p>
         </form>
       </div>
