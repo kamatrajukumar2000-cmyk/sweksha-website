@@ -5,6 +5,7 @@ on:
     branches: [main]
   push:
     branches:
+      - main
       - "audit/**"
 
 permissions:
@@ -25,13 +26,14 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Validate changed HTML and sitemap
+      - name: Validate HTML and sitemap
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
           from html.parser import HTMLParser
           from urllib.parse import urlparse
+          import os
           import subprocess
           import xml.etree.ElementTree as ET
 
@@ -41,11 +43,24 @@ jobs:
           class HTMLCheck(HTMLParser):
               pass
 
-          changed = subprocess.run(
-              ["git", "diff", "--name-only", "origin/main...HEAD"],
-              check=True, text=True, capture_output=True
-          ).stdout.splitlines()
-          html_files = [Path(p) for p in changed if p.lower().endswith((".html", ".htm")) and Path(p).is_file()]
+          # On production pushes, validate every HTML page. On pull requests and
+          # isolated audit branches, validate only the changed HTML files.
+          if (os.environ.get("GITHUB_EVENT_NAME") == "push"
+                  and os.environ.get("GITHUB_REF") == "refs/heads/main"):
+              html_files = sorted(
+                  p for p in root.rglob("*")
+                  if p.is_file() and p.suffix.lower() in (".html", ".htm")
+                  and ".git" not in p.parts
+              )
+          else:
+              changed = subprocess.run(
+                  ["git", "diff", "--name-only", "origin/main...HEAD"],
+                  check=True, text=True, capture_output=True
+              ).stdout.splitlines()
+              html_files = [
+                  Path(p) for p in changed
+                  if p.lower().endswith((".html", ".htm")) and Path(p).is_file()
+              ]
 
           for page in html_files:
               try:
@@ -79,10 +94,10 @@ jobs:
                   errors.append(f"sitemap.xml is invalid: {exc}")
 
           if errors:
-              print("\n".join("ERROR: " + e for e in errors))
+              print("\\n".join("ERROR: " + e for e in errors))
               raise SystemExit(1)
 
-          print(f"HTML parsing passed for {len(html_files)} changed pages.")
+          print(f"HTML parsing passed for {len(html_files)} page(s).")
           print("sitemap.xml is valid, unique, and points to existing local files.")
           PY
 
