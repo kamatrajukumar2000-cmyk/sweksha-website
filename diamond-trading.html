@@ -56,11 +56,11 @@ footer{background:var(--navy);color:#c7d4e1;padding:28px 0;margin-top:45px}
 <section class="panel active" id="buyer"><div class="grid">
 <div class="card"><h2>Buy / Request Diamonds</h2><p class="muted">Tell Sweksha what you are looking for: Natural or Lab-Grown Diamonds, seeds, or rough diamonds.</p><form id="buyerForm">
 <label for="kind">Product type *</label><select id="kind" required><option value="">Select product</option><option>Natural Polished Diamond</option><option>Lab-Grown Diamond (CVD)</option><option>Diamond Seed</option><option>Rough Diamond</option><option>Other Diamond Material</option></select>
-<label for="spec">Size, weight, grade or specifications</label><textarea id="spec" placeholder="Share the specifications you need, if known."></textarea>
-<label for="qty">Quantity *</label><input id="qty" required placeholder="e.g. 10 pieces / 2 carats">
-<label for="budget">Budget / currency (optional)</label><input id="budget" placeholder="e.g. INR or USD">
-<label for="bname">Name / Company *</label><input id="bname" required>
-<label for="bcontact">WhatsApp / Phone *</label><input id="bcontact" required type="tel">
+<label for="spec">Size, weight, grade or specifications</label><textarea id="spec" maxlength="3000" placeholder="Share the specifications you need, if known."></textarea>
+<label for="qty">Quantity *</label><input id="qty" required maxlength="120" placeholder="e.g. 10 pieces / 2 carats">
+<label for="budget">Budget / currency (optional)</label><input id="budget" maxlength="120" placeholder="e.g. INR or USD">
+<label for="bname">Name / Company *</label><input id="bname" required maxlength="120">
+<label for="bcontact">WhatsApp / Phone *</label><input id="bcontact" required type="tel" minlength="5" maxlength="40">
 <button class="btn" type="submit">Send Buyer Enquiry</button><p class="status" id="buyerStatus" aria-live="polite"></p>
 </form></div>
 <div class="card"><h2>How it works</h2><ol><li>Submit the product type and specifications.</li><li>Sweksha reviews the enquiry.</li><li>Buyer and seller discuss quality documentation, price, delivery and terms.</li></ol><p class="muted">No online payment or transaction guarantee is provided by this preview page.</p></div>
@@ -68,13 +68,13 @@ footer{background:var(--navy);color:#c7d4e1;padding:28px 0;margin-top:45px}
 <section class="panel" id="seller"><div class="grid">
 <div class="card"><h2>Sell / List Diamonds</h2><p class="muted">Submit your Natural or Lab-Grown Diamond product details for review.</p><form id="sellerForm">
 <label for="stype">Product type *</label><select id="stype" required><option value="">Select product</option><option>Natural Polished Diamond</option><option>Lab-Grown Diamond (CVD)</option><option>Diamond Seed</option><option>Rough Diamond</option></select>
-<label for="sdesc">Product description and specifications *</label><textarea id="sdesc" required placeholder="Size, weight, grade, origin documentation or other relevant details."></textarea>
-<label for="sprice">Price / currency *</label><input id="sprice" required placeholder="e.g. INR 15,000 or Price on Request">
-<label for="sqty">Quantity available *</label><input id="sqty" required>
-<label for="sloc">City / Country *</label><input id="sloc" required>
-<label for="sphoto">Product photo *</label><input id="sphoto" type="file" accept="image/*" required><img id="preview" class="preview" alt="Selected product photo preview">
-<label for="sname">Seller / Company *</label><input id="sname" required>
-<label for="scontact">WhatsApp / Phone *</label><input id="scontact" required type="tel">
+<label for="sdesc">Product description and specifications *</label><textarea id="sdesc" required maxlength="3000" placeholder="Size, weight, grade, origin documentation or other relevant details."></textarea>
+<label for="sprice">Price / currency *</label><input id="sprice" required maxlength="120" placeholder="e.g. INR 15,000 or Price on Request">
+<label for="sqty">Quantity available *</label><input id="sqty" required maxlength="120">
+<label for="sloc">City / Country *</label><input id="sloc" required maxlength="200">
+<label for="sphoto">Product photo *</label><input id="sphoto" type="file" accept="image/jpeg,image/png,image/webp" required><img id="preview" class="preview" alt="Selected product photo preview">
+<label for="sname">Seller / Company *</label><input id="sname" required maxlength="120">
+<label for="scontact">WhatsApp / Phone *</label><input id="scontact" required type="tel" minlength="5" maxlength="40">
 <button class="btn" type="submit">Send Listing for Review</button><p class="status" id="sellerStatus" aria-live="polite"></p>
 </form></div>
 <div class="card"><h2>Seller review checklist</h2><ul><li>Use clear photos that you own or are authorized to share.</li><li>Provide accurate product details and available documentation.</li><li>Do not claim certification or origin unless supported by documents.</li><li>Wait for Sweksha's review before treating the listing as published.</li></ul><p class="muted">The photo preview stays in your browser. Attach the image manually to WhatsApp after it opens.</p></div>
