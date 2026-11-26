@@ -111,3 +111,12 @@
 - Existing latest Pages build: successful.
 - Supabase schema and policies: inspected read-only for primary project.
 - Live forms, admin login, storage uploads, DNS/TLS, Google indexing, browser/mobile visual tests: not yet certified.
+
+
+## Post-merge production follow-up
+- Pull request #46 was merged into `main` at merge commit `a3c55202d3befeb1c45a3f045f4d11f7f44d2e4d`.
+- GitHub Pages deployment run #503 for the merged audit changes completed successfully.
+- Follow-up deployment workflow correction: `actions/deploy-pages` was upgraded from v4 to v5, which uses Node.js 24. This addresses the deploy action's Node.js 20 deprecation warning. The Pages artifact action remains `actions/upload-pages-artifact@v4`; its bundled upload-artifact dependency may still emit a Node.js 20 compatibility warning until that upstream composite action updates its dependency.
+- The previous statement that production main was unchanged/no deployment was accurate only at the time of the isolated audit; it is superseded by the merge and successful deployment above.
+- Real-browser tests remain outstanding: admin sign-in, review approval/rejection, enquiry status updates, jobs/marketplace admin workflows, public submissions, image uploads, mobile layout, DNS/TLS, Search Console and PageSpeed.
+- No production customer rows or uploads were created as part of this follow-up. No Supabase schema, RLS policy, credentials or auth settings were changed.
