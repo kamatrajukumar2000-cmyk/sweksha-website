@@ -58,5 +58,5 @@ $('logout').addEventListener('click',async()=>{await db.auth.signOut();$('app').
 document.querySelectorAll('[data-kind]').forEach(b=>b.addEventListener('click',()=>{kind=b.dataset.kind;document.querySelectorAll('[data-kind]').forEach(x=>x.classList.toggle('active',x===b));load()}));
 $('records').addEventListener('click',e=>{const b=e.target.closest('[data-save]');if(b)update(b.dataset.save)});
 })();
-</script>  <script src="sweksha-aura.js?v=1" defer></script>
+</script>  <script src="sweksha-aura.js?v=2" defer></script>
 </body></html>
