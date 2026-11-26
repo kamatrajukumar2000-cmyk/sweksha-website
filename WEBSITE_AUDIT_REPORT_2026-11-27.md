@@ -68,6 +68,15 @@
 - Capped the generated subject at 300 characters and message at 5,000 characters to match the database policy exactly.
 - Kept the existing WhatsApp handoff and Supabase insert behavior; no enquiry records were created during this code change.
 
+### Other public form and storage checks
+- Compared Job Seeker and Vacancy payloads with live `job_applications` and `job_vacancies` schemas and RLS limits; added matching browser-side length constraints.
+- Compared Machine Parts BUY/SELL forms with `machine_part_listings` constraints; added quantity, contact, description, name, price, location and photo MIME restrictions matching the database policy.
+- Compared Machine BUY/SELL form with `machine_sales_listings` constraints; existing input and photo caps already fit the policy.
+- Compared Diamond BUY/SELL forms with `diamond_trade_listings` constraints; added matching text/contact/photo input limits.
+- Confirmed three public image buckets exist (machine parts, machine listings, diamond trade), each with a 5 MB limit and JPG/PNG/WEBP MIME allow-list. Their public upload policies restrict bucket and generated filename pattern; admin delete/list policies are scoped to the configured admin email.
+- Fixed the Diamond SELL image-processing error path so an image compression/upload exception no longer leaves the submit button stuck or silently prevents the WhatsApp fallback.
+- No test listings, applications, enquiries or uploaded files were created.
+
 ### Homepage JavaScript integrity
 - Found two literal escaped newline sequences inside the image-protection script that caused JavaScript syntax failure.
 - Replaced them with real line breaks.
