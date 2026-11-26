@@ -54,6 +54,24 @@
 - GitHub Pages build/deployment run #501 completed successfully on 26 November 2026.
 - DNS lookup from the audit runtime failed, and web search did not return an indexed result for the domain. This does not prove the domain is down; direct HTTP, DNS, TLS, Google Search Console and mobile-browser checks remain unverified.
 
+## Phase 2 repairs completed on isolated branch
+### Homepage reviews
+- Confirmed primary project `reviews` schema: `id` (identity), `created_at`, `name`, `rating`, `review`, `status`.
+- Confirmed RLS permits anonymous inserts only as `pending`, and anonymous reads only for `approved` reviews.
+- Replaced the WhatsApp-only review form and browser Local Storage display with Supabase REST submission and approved-only database reads.
+- Simplified the review form to fields that match the actual database schema; submissions are not displayed until an administrator approves them.
+- The public API key used in the page is a publishable key, not a service-role secret.
+- End-to-end browser/API insert and approval testing is still required before production release.
+
+### Service enquiry validation
+- Added browser-side length limits aligned with the live `enquiries` insert policy: name 2–120, company 120, machine 150, problem 5–2,500, recent changes 1,000, contact 40 characters.
+- Kept the existing WhatsApp handoff and Supabase insert behavior; no enquiry records were created during this code change.
+
+### Homepage JavaScript integrity
+- Found two literal escaped newline sequences inside the image-protection script that caused JavaScript syntax failure.
+- Replaced them with real line breaks.
+- Validation: all 12 inline JavaScript blocks parsed successfully and all 3 JSON-LD blocks parsed successfully.
+
 ## Next repair order
 1. Finish a route-by-route internal link audit and improve the short team-profile meta descriptions; confirm no broken internal links and every public page has a unique title/description/canonical.
 2. Repair the homepage review flow to use the primary database schema and approved-only read path; test with a harmless test submission and remove only the test record after verification if permitted.
