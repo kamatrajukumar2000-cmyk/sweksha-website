@@ -270,7 +270,11 @@
     .machine-market-card p{color:var(--muted);font-size:15px}
     .machine-market-tags{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0 20px}
     .machine-market-tags span{font-size:12px;font-weight:700;border:1px solid #cceee8;background:#f0fcfa;color:#12675e;border-radius:999px;padding:5px 10px}
-    .machine-market-card .btn{margin-top:auto;align-self:flex-start}
+    .machine-market-card .btn{margin-top:10px;align-self:stretch;text-align:center;justify-content:center}
+    .machine-market-card{min-height:540px;height:100%;box-sizing:border-box}
+    .machine-market-card img{width:100%;height:210px;object-fit:contain;background:#f4f8fb;border-radius:10px;margin:12px 0}
+    .machine-market-card .marketplace-card-link{margin-top:auto!important;background:#eefaf8;color:#087f73;border:1px solid #a9ded6}
+    .machine-market-card .marketplace-card-link:hover{background:#dff6f1}
     .machine-market-note{margin-top:22px;padding:17px 19px;background:#fff;border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:10px;color:var(--muted);font-size:14px}
     @media(max-width:700px){.machine-market-grid{grid-template-columns:1fr}.machine-market-card{padding:22px}}
 
@@ -735,6 +739,7 @@
             <p>Enquire about diamond laser cutting, sawing and related processing machines. Share whether you need a new machine or are looking for a used machine.</p>
             <div class="machine-market-tags"><span>New Machines</span><span>Used Machines</span><span>Parts &amp; Support</span></div>
             <a class="btn btn-primary" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20am%20interested%20in%20buying%20or%20selling%20a%20Diamond%20Laser%20Machine.%20Please%20contact%20me." target="_blank" rel="noopener noreferrer" onclick="trackEvent('machine_market_enquiry',{category:'diamond_laser'});">Laser Machine Enquiry</a>
+          <a class="btn btn-outline marketplace-card-link" href="machine-listing.html#buy" aria-label="View this machine category in the Sweksha Marketplace">View in Marketplace →</a>
           </article>
           <article class="machine-market-card">
             <div class="machine-market-icon" aria-hidden="true">◆</div>
@@ -742,6 +747,7 @@
             <p>Ask about new or used Galaxy machines. The exact brand, model, application, condition and availability will be confirmed with the supplier before publication or quotation.</p>
             <div class="machine-market-tags"><span>New Machines</span><span>Used Machines</span><span>Supplier Confirmation</span></div>
             <a class="btn btn-primary" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20am%20interested%20in%20buying%20or%20selling%20a%20Galaxy%20Machine.%20Please%20confirm%20the%20available%20models." target="_blank" rel="noopener noreferrer" onclick="trackEvent('machine_market_enquiry',{category:'galaxy_machine'});">Galaxy Machine Enquiry</a>
+          <a class="btn btn-outline marketplace-card-link" href="machine-listing.html#buy" aria-label="View this machine category in the Sweksha Marketplace">View in Marketplace →</a>
           </article>
           <article class="machine-market-card">
             <div class="machine-market-icon" aria-hidden="true">◆</div>
@@ -749,6 +755,7 @@
             <p>Enquire about 4P diamond-processing machines for your workshop or production needs. Share the model, required application, and whether you are buying or selling.</p>
             <div class="machine-market-tags"><span>Buy &amp; Sell</span><span>New / Used Enquiries</span><span>Model Confirmation</span></div>
             <a class="btn btn-primary" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20am%20interested%20in%20buying%20or%20selling%20a%204P%20Diamond%20Processing%20Machine.%20Please%20contact%20me." target="_blank" rel="noopener noreferrer" onclick="trackEvent('machine_market_enquiry',{category:'4p_machine'});">4P Machine Enquiry</a>
+          <a class="btn btn-outline marketplace-card-link" href="machine-listing.html#buy" aria-label="View this machine category in the Sweksha Marketplace">View in Marketplace →</a>
           </article>
           <article class="machine-market-card">
             <div class="machine-market-icon" aria-hidden="true">◇</div>
@@ -756,6 +763,7 @@
             <p>Ask about Sarin diamond machines and related equipment. Share the model and intended use so supplier, condition and availability can be checked.</p>
             <div class="machine-market-tags"><span>Buy &amp; Sell</span><span>New / Used Enquiries</span><span>Supplier Confirmation</span></div>
             <a class="btn btn-primary" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20am%20interested%20in%20buying%20or%20selling%20a%20Sarin%20Diamond%20Machine.%20Please%20contact%20me." target="_blank" rel="noopener noreferrer" onclick="trackEvent('machine_market_enquiry',{category:'sarin_machine'});">Sarin Machine Enquiry</a>
+          <a class="btn btn-outline marketplace-card-link" href="machine-listing.html#buy" aria-label="View this machine category in the Sweksha Marketplace">View in Marketplace →</a>
           </article>
           <article class="machine-market-card">
             <div class="machine-market-icon" aria-hidden="true">◉</div>
@@ -764,6 +772,7 @@
             <p>Enquire about new or used CVD and MPCVD diamond-growing systems. Exact model, power, chamber configuration and supplier availability must be confirmed.</p>
             <div class="machine-market-tags"><span>New / Used Enquiries</span><span>Model Verification</span></div>
             <a class="btn btn-primary" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20want%20to%20buy%20or%20sell%20a%20CVD%2FMPCVD%20diamond-growing%20machine." target="_blank" rel="noopener noreferrer" onclick="trackEvent('machine_market_enquiry',{category:'cvd_mpcvd_growing'});">CVD Machine Enquiry</a>
+          <a class="btn btn-outline marketplace-card-link" href="machine-listing.html#buy" aria-label="View this machine category in the Sweksha Marketplace">View in Marketplace →</a>
           </article>
           <article class="machine-market-card">
             <div class="machine-market-icon" aria-hidden="true">◇</div>
@@ -774,6 +783,7 @@
             <div class="machine-market-tags"><span>Diamond Polishing</span><span>Dual Work Stations</span><span>Machine Features</span><span>New / Used Enquiries</span></div>
             <a class="btn btn-primary" href="./diamond-polishing-machine-information.html">View Complete Information →</a>
             <a class="btn btn-primary" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20am%20interested%20in%20the%20Diamond%20Polishing%20Machine%2FBench.%20Please%20share%20details." target="_blank" rel="noopener noreferrer" onclick="trackEvent('machine_market_enquiry',{category:'diamond_polishing'});">Polishing Machine Enquiry</a>
+          <a class="btn btn-outline marketplace-card-link" href="machine-listing.html#buy" aria-label="View this machine category in the Sweksha Marketplace">View in Marketplace →</a>
           </article>
           <article class="machine-market-card">
             <div class="machine-market-icon" aria-hidden="true">⚙</div>
@@ -781,6 +791,7 @@
             <p>Enquire about diamond bruting equipment used for shaping round diamond girdles. Model, process and availability are confirmed with the supplier.</p>
             <div class="machine-market-tags"><span>Buy &amp; Sell</span><span>Supplier Confirmation</span></div>
             <a class="btn btn-primary" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20please%20share%20buying%20or%20selling%20enquiry%20details%20for%20a%20diamond%20bruting%20machine." target="_blank" rel="noopener noreferrer" onclick="trackEvent('machine_market_enquiry',{category:'diamond_bruting'});">Bruting Machine Enquiry</a>
+          <a class="btn btn-outline marketplace-card-link" href="machine-listing.html#buy" aria-label="View this machine category in the Sweksha Marketplace">View in Marketplace →</a>
           </article>
           <article class="machine-market-card">
             <div class="machine-market-icon" aria-hidden="true">▦</div>
@@ -789,6 +800,7 @@
             <p>Enquire about HPHT diamond-growth presses and related equipment. Technical configuration, condition and supplier details require confirmation before any offer.</p>
             <div class="machine-market-tags"><span>New / Used Enquiries</span><span>Technical Verification</span></div>
             <a class="btn btn-primary" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20want%20to%20enquire%20about%20buying%20or%20selling%20an%20HPHT%20diamond%20press%20machine." target="_blank" rel="noopener noreferrer" onclick="trackEvent('machine_market_enquiry',{category:'hpht_press'});">HPHT Machine Enquiry</a>
+          <a class="btn btn-outline marketplace-card-link" href="machine-listing.html#buy" aria-label="View this machine category in the Sweksha Marketplace">View in Marketplace →</a>
           </article>
           <article class="machine-market-card">
             <div class="machine-market-icon" aria-hidden="true">✓</div>
@@ -796,6 +808,7 @@
             <p>Enquire about diamond testers and identification equipment. Testing capabilities and limitations vary by model; ask for the exact specifications.</p>
             <div class="machine-market-tags"><span>Equipment Enquiries</span><span>Model Verification</span></div>
             <a class="btn btn-primary" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20want%20to%20enquire%20about%20diamond%20testing%20or%20identification%20equipment." target="_blank" rel="noopener noreferrer" onclick="trackEvent('machine_market_enquiry',{category:'diamond_testing'});">Testing Equipment Enquiry</a>
+          <a class="btn btn-outline marketplace-card-link" href="machine-listing.html#buy" aria-label="View this machine category in the Sweksha Marketplace">View in Marketplace →</a>
           </article>
           <article class="machine-market-card">
             <div class="machine-market-icon" aria-hidden="true">⚙</div>
@@ -803,6 +816,7 @@
             <p>Ask about parts such as vacuum pumps, MFCs, magnetrons, microwave/RF generators, power supplies, chambers and related accessories. Compatibility and stock must be checked.</p>
             <div class="machine-market-tags"><span>Parts Enquiries</span><span>Compatibility Check</span></div>
             <a class="btn btn-primary" href="https://wa.me/917827474249?text=Hello%20Sweksha%2C%20I%20need%20CVD%20diamond%20machine%20parts%20or%20accessories.%20Please%20ask%20me%20for%20the%20model%20and%20part%20details." target="_blank" rel="noopener noreferrer" onclick="trackEvent('machine_market_enquiry',{category:'cvd_parts_accessories'});">Machine Parts Enquiry</a>
+          <a class="btn btn-outline marketplace-card-link" href="machine-listing.html#buy" aria-label="View this machine category in the Sweksha Marketplace">View in Marketplace →</a>
           </article>
         </div>
         <div class="machine-market-note"><strong>For machine owners and suppliers:</strong> Submit machine details through the website form or WhatsApp. Every submission stays pending until Sweksha Admin checks the machine details and approves publication.</div>
