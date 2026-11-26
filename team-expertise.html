@@ -129,8 +129,9 @@ if(handoff){
  document.getElementById("steps").innerHTML=steps.map(x=>"<div class='step'>"+x+"</div>").join("");
  document.getElementById("note").textContent="This page describes the selected card. Final scope, availability, fees and deliverables are confirmed after reviewing the actual requirement.";
  document.getElementById("consultationTypes").innerHTML=categoryOptions.map(x=>"<li>"+x+"</li>").join("");
- document.getElementById("nodesTop").innerHTML="<span class='node'>VISION</span><span class='node'>STRATEGY</span>";
- document.getElementById("nodesBottom").innerHTML="<span class='node'>INNOVATION</span><span class='node'>EXCELLENCE</span>";
+ const conceptWords=(items)=>items.slice(0,2).map(word=>"<span class='node'>"+String(word).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[ch]))+"</span>").join("");
+ document.getElementById("nodesTop").innerHTML=conceptWords(data[12]||["EXPERTISE","VISION"]);
+ document.getElementById("nodesBottom").innerHTML=conceptWords(data[13]||["DELIVERY","IMPACT"]);
  document.getElementById("coreLabel").textContent=person==="bhavesh"?"GLOBAL SOURCING":person==="ragni"?"DIGITAL TECH": "LEGAL & COMPLIANCE";
 }
 document.getElementById("consultancyForm").addEventListener("submit",async function(event){
