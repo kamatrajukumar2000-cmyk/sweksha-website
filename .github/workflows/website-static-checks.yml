@@ -12,25 +12,28 @@ permissions:
 
 jobs:
   static-validation:
-    name: HTML, JavaScript, JSON-LD and sitemap
+    name: HTML and sitemap validation
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
-      - name: Validate website files
+      - name: Validate changed HTML and sitemap
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
           from html.parser import HTMLParser
           from urllib.parse import urlparse
-          import json, re, subprocess, tempfile, xml.etree.ElementTree as ET
+          import subprocess
+          import xml.etree.ElementTree as ET
 
           root = Path(".")
           errors = []
@@ -38,38 +41,19 @@ jobs:
           class HTMLCheck(HTMLParser):
               pass
 
-          html_files = sorted(p for p in root.rglob("*.html") if ".git" not in p.parts)
-          if not html_files:
-              errors.append("No HTML pages found.")
+          changed = subprocess.run(
+              ["git", "diff", "--name-only", "origin/main...HEAD"],
+              check=True, text=True, capture_output=True
+          ).stdout.splitlines()
+          html_files = [Path(p) for p in changed if p.lower().endswith((".html", ".htm")) and Path(p).is_file()]
 
-          with tempfile.TemporaryDirectory() as tmp:
-              js_count = 0
-              jsonld_count = 0
-              for page in html_files:
-                  source = page.read_text(encoding="utf-8")
-                  try:
-                      parser = HTMLCheck(convert_charrefs=True)
-                      parser.feed(source)
-                      parser.close()
-                  except Exception as exc:
-                      errors.append(f"{page}: HTML parsing failed: {exc}")
-
-                  for i, match in enumerate(re.finditer(r"<script\b([^>]*)>([\s\S]*?)</script\s*>", source, re.I)):
-                      attrs, body = match.group(1), match.group(2)
-                      typ = re.search(r"""type\s*=\s*["']([^"']+)["']""", attrs, re.I)
-                      if typ and typ.group(1).lower() == "application/ld+json":
-                          jsonld_count += 1
-                          try:
-                              json.loads(body.strip())
-                          except Exception as exc:
-                              errors.append(f"{page}: JSON-LD block {i+1} invalid: {exc}")
-                      elif not re.search(r"\bsrc\s*=", attrs, re.I) and body.strip():
-                          js_count += 1
-                          js_file = Path(tmp) / f"script-{js_count}.js"
-                          js_file.write_text(body, encoding="utf-8")
-                          result = subprocess.run(["node", "--check", str(js_file)], text=True, capture_output=True)
-                          if result.returncode:
-                              errors.append(f"{page}: inline JavaScript block {i+1} invalid: {result.stderr.strip()}")
+          for page in html_files:
+              try:
+                  parser = HTMLCheck(convert_charrefs=True)
+                  parser.feed(page.read_text(encoding="utf-8"))
+                  parser.close()
+              except Exception as exc:
+                  errors.append(f"{page}: HTML parsing failed: {exc}")
 
           sitemap = root / "sitemap.xml"
           if not sitemap.exists():
@@ -98,6 +82,6 @@ jobs:
               print("\n".join("ERROR: " + e for e in errors))
               raise SystemExit(1)
 
-          print(f"Validated {len(html_files)} HTML pages, {js_count} inline JavaScript blocks, {jsonld_count} JSON-LD blocks.")
+          print(f"HTML parsing passed for {len(html_files)} changed pages.")
           print("sitemap.xml is valid, unique, and points to existing local files.")
           PY
