@@ -129,8 +129,8 @@ if(handoff){
  document.getElementById("steps").innerHTML=steps.map(x=>"<div class='step'>"+x+"</div>").join("");
  document.getElementById("note").textContent="This page describes the selected card. Final scope, availability, fees and deliverables are confirmed after reviewing the actual requirement.";
  document.getElementById("consultationTypes").innerHTML=categoryOptions.map(x=>"<li>"+x+"</li>").join("");
- document.getElementById("nodesTop").innerHTML=categoryOptions.slice(0,3).map(x=>"<span class='node'>"+x+"</span>").join("");
- document.getElementById("nodesBottom").innerHTML=categoryOptions.slice(3,6).map(x=>"<span class='node'>"+x+"</span>").join("");
+ document.getElementById("nodesTop").innerHTML="<span class='node'>PLAN</span><span class='node'>MAKE</span>";
+ document.getElementById("nodesBottom").innerHTML="<span class='node'>TEST</span><span class='node'>GROW</span>";
  document.getElementById("coreLabel").textContent=person==="bhavesh"?"GLOBAL SOURCING":person==="ragni"?"DIGITAL TECH": "LEGAL & COMPLIANCE";
 }
 document.getElementById("consultancyForm").addEventListener("submit",async function(event){
