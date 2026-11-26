@@ -65,6 +65,7 @@
 
 ### Service enquiry validation
 - Added browser-side length limits aligned with the live `enquiries` insert policy: name 2–120, company 120, machine 150, problem 5–2,500, recent changes 1,000, contact 40 characters.
+- Capped the generated subject at 300 characters and message at 5,000 characters to match the database policy exactly.
 - Kept the existing WhatsApp handoff and Supabase insert behavior; no enquiry records were created during this code change.
 
 ### Homepage JavaScript integrity
