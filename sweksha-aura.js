@@ -1,3 +1,20 @@
+/* SWEKSHA image viewer: full-size photos open in a new tab with a return button. */
+(()=>{"use strict";
+const isImageURL=(value)=>{try{const u=new URL(value,location.href);return /\\.(?:avif|bmp|gif|jpe?g|png|svg|webp)$/i.test(u.pathname)&&!u.pathname.endsWith("/")}catch(_){return false}};
+const viewerURL=(src)=>{const u=new URL("image-viewer.html",location.href);u.searchParams.set("src",src);u.searchParams.set("return",location.href);return u.href};
+document.addEventListener("DOMContentLoaded",()=>{
+ document.querySelectorAll("a[href]").forEach(a=>{
+  if(isImageURL(a.href)){a.href=viewerURL(a.href);a.target="_blank";a.rel="noopener noreferrer"}
+ });
+ document.querySelectorAll("img").forEach(img=>{
+  if(img.closest("a")||!isImageURL(img.currentSrc||img.src))return;
+  img.style.cursor="zoom-in";
+  img.setAttribute("title","Click to view full image");
+  img.addEventListener("click",()=>window.open(viewerURL(img.currentSrc||img.src),"_blank","noopener"));
+ });
+});
+})();
+
 /* SWEKSHA Aura Field — lightweight, accessible pointer interaction */
 (()=>{"use strict";
 const root=document.documentElement;
