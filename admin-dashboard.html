@@ -40,7 +40,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (()=>{'use strict';
-const URL='https://xotqafgkubodqpirfpfb.supabase.co';
+const SUPABASE_URL='https://xotqafgkubodqpirfpfb.supabase.co';
 const ADMIN='kamatrajukumar2000@gmail.com';
 const $=id=>document.getElementById(id);
 let db=null,kind='reviews',rows=[],statusFilter='all';
@@ -51,7 +51,7 @@ async function signIn(){
  if(!key||!email||!password){$('loginMsg').textContent='Enter the publishable key, admin email and password.';return}
  if(!/^sb_publishable_[A-Za-z0-9_-]+$/.test(key)&&!/^eyJ[A-Za-z0-9._-]+$/.test(key)){$('loginMsg').textContent='Use a valid Supabase publishable key or legacy anon JWT.';return}
  if(!window.supabase){$('loginMsg').textContent='Supabase library did not load. Refresh and try again.';return}
- db=window.supabase.createClient(URL,key);
+ db=window.supabase.createClient(SUPABASE_URL,key);
  $('signin').disabled=true;$('loginMsg').textContent='Signing in…';
  try{
   const {data,error}=await db.auth.signInWithPassword({email,password});
