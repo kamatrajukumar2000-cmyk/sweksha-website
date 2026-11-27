@@ -36,7 +36,8 @@
 
 ## CI result
 - Pull request #51 is open as a draft; production deployment was not triggered.
-- GitHub Actions run 45929581273 completed successfully: HTML and sitemap validation passed, and the preview artifact packaged successfully.
+- Initial GitHub Actions run 45929581273 completed successfully: HTML and sitemap validation passed, and the preview artifact packaged successfully.
+- Added a new CI step to syntax-check inline JavaScript in every changed HTML page with Node.js; this latest workflow run is pending.
 
 ## Important limitations
 - This log records only actions actually completed and verified.
