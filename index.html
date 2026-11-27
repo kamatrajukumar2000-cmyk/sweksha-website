@@ -883,18 +883,10 @@
       <div class="container about">
         <div class="about-photo-column">
           <figure class="about-photo-figure">
-            <button class="about-photo-trigger" type="button" aria-label="Open full-screen 3D view of Raju Kamat's SWEKSHA profile photo" aria-haspopup="dialog">
-              <span class="about-photo-frame">
-                <img class="about-photo-image" src="29fc3747-cc7a-41b9-b700-16bdd8c942b6%20-%20Copy.jpg" alt="Raju Kamat, SWEKSHA FOUNDATION CLUB" loading="lazy">
-              </span>
-            </button>
+            <span class="about-photo-frame">
+              <img class="about-photo-image" src="29fc3747-cc7a-41b9-b700-16bdd8c942b6%20-%20Copy.jpg" alt="Raju Kamat, SWEKSHA FOUNDATION CLUB" loading="lazy">
+            </span>
           </figure>
-          <dialog class="about-photo-dialog" aria-label="SWEKSHA profile photo full-screen view">
-            <button class="about-photo-close" type="button" aria-label="Close full-screen photo">×</button>
-            <div class="about-photo-stage">
-              <img src="29fc3747-cc7a-41b9-b700-16bdd8c942b6%20-%20Copy.jpg" alt="Raju Kamat, SWEKSHA FOUNDATION CLUB">
-            </div>
-          </dialog>
         </div>
         <article class="about-box about-profile-card">
           <span class="eyebrow">About Us</span>
@@ -2255,17 +2247,17 @@ function renderReviews(reviews){
     #sweksha-assist-form button{border:0;border-radius:8px;background:#23c7b7;color:#07111f;font-weight:800;padding:10px 12px;cursor:pointer}
     @media(max-width:480px){#sweksha-assist-toggle{right:14px;bottom:84px}#sweksha-assist-panel{right:12px;bottom:145px}}
   
-    /* About section profile image: isolated 3D presentation and full-screen viewer */
+    /* About section profile image: static, non-clickable presentation */
     .about-photo-column{display:flex;align-items:stretch;min-width:0}
     .about-photo-figure{margin:0;max-width:none;width:100%;height:100%;display:flex;perspective:1200px}
-    .about-photo-trigger{display:flex;flex:1;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:zoom-in;text-align:left;perspective:1200px}
+    .about-photo-frame{display:block;flex:1;width:100%;height:100%;perspective:1200px}
     .about-photo-frame{position:relative;display:block;width:100%;height:100%;transform-style:preserve-3d;transform:rotateX(var(--about-rotate-x,0deg)) rotateY(var(--about-rotate-y,0deg));transition:transform .18s ease,filter .25s ease;will-change:transform}
-    .about-photo-trigger:hover .about-photo-frame{filter:drop-shadow(0 22px 24px rgba(5,20,35,.24))}
+    .about-photo-figure:hover .about-photo-frame{filter:drop-shadow(0 22px 24px rgba(5,20,35,.24))}
     .about-photo-image{display:block;width:100%;height:100%;min-height:100%;max-height:none;object-fit:contain;object-position:center;border-radius:16px;box-shadow:0 18px 38px rgba(7,25,42,.2);backface-visibility:hidden}
     .about-profile-card{display:flex;flex-direction:column}
     .about-profile-promise{margin-top:auto}
     .about-profile-cta{align-self:flex-start;margin-top:18px}
-    @media(max-width:760px){.about-photo-column,.about-photo-figure,.about-photo-trigger{height:auto}.about-photo-figure{max-width:520px;margin:0 auto}.about-photo-trigger{display:block}.about-photo-frame{height:auto}.about-photo-image{height:auto;min-height:0;max-height:560px}}
+    @media(max-width:760px){.about-photo-column,.about-photo-figure{height:auto}.about-photo-figure{max-width:520px;margin:0 auto}.about-photo-frame{height:auto}.about-photo-image{height:auto;min-height:0;max-height:560px}}
     @media(max-width:560px){.about-photo-column{min-height:0}.about-photo-image{min-height:0}}
     .about-photo-dialog{position:fixed;inset:0;width:100vw;height:100vh;max-width:none;max-height:none;margin:0;padding:48px 24px 28px;border:0;background:radial-gradient(ellipse at center,#1d3448 0%,#07111f 72%);color:#fff;overflow:auto}
     .about-photo-dialog[open]{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
@@ -2385,46 +2377,7 @@ function renderReviews(reviews){
 })();
 </script>
 
-<script id="sweksha-about-photo-viewer">
-(function(){
-  const dialog=document.querySelector('.about-photo-dialog');
-  if(!dialog)return;
-  const triggers=Array.from(document.querySelectorAll('.about-photo-trigger'));
-  if(!triggers.length)return;
-  const close=dialog.querySelector('.about-photo-close');
-  const stageImage=dialog.querySelector('.about-photo-stage img');
-  let lastTrigger=null;
-  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  triggers.forEach(function(trigger){
-    if(trigger.classList.contains('about-photo-trigger')){
-      const frame=trigger.querySelector('.about-photo-frame');
-      if(!reduced && window.matchMedia('(hover:hover) and (pointer:fine)').matches){
-        trigger.addEventListener('pointermove',function(event){
-          const r=trigger.getBoundingClientRect();
-          const x=(event.clientX-r.left)/r.width;
-          const y=(event.clientY-r.top)/r.height;
-          frame.style.setProperty('--about-rotate-y',((x-.5)*10).toFixed(2)+'deg');
-          frame.style.setProperty('--about-rotate-x',((.5-y)*9).toFixed(2)+'deg');
-        });
-        trigger.addEventListener('pointerleave',function(){
-          frame.style.setProperty('--about-rotate-x','0deg');
-          frame.style.setProperty('--about-rotate-y','0deg');
-        });
-      }
-    }
-    trigger.addEventListener('click',function(){
-      lastTrigger=trigger;
-      const image=trigger.querySelector('img');
-      if(image && stageImage)stageImage.src=image.currentSrc||image.src;
-      if(typeof dialog.showModal==='function')dialog.showModal();
-    });
-  });
-  close.addEventListener('click',function(){dialog.close();});
-  dialog.addEventListener('click',function(event){if(event.target===dialog)dialog.close();});
-  dialog.addEventListener('close',function(){if(lastTrigger)lastTrigger.focus();});
-  document.addEventListener('keydown',function(event){if(event.key==='Escape'&&dialog.open)dialog.close();});
-})();
-</script>
+
 
 
 <script id="sweksha-core-team-3d-interaction">
