@@ -32,6 +32,9 @@
 7. Run live external HTTP/TLS/DNS checks and browser-based functional testing.
 8. Confirm backup/restore and incident recovery.
 9. Review client-side admin pages for hard-coded allowlisted email checks, localStorage configuration, third-party CDN integrity, XSS-safe rendering, and ensure database RLS remains the true authorization boundary.
+10. Enable Supabase leaked-password protection for the service project and plan MFA enrollment before enforcing aal2 in RLS.
+11. Add server-side rate limiting / abuse controls for anonymous form submissions and image uploads; client-side throttling is not a security boundary.
+12. Review Supabase Auth account recovery, session lifetime, email verification and admin MFA; verify backups and restore.
 10. Complete a broader stored-XSS pass on all user-controlled URLs and fields. The AI business manager now rejects non-HTTPS photo URLs before using them in admin-page links and image sources.
 
 ## CI result
