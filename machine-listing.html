@@ -167,7 +167,7 @@ const KEY_PLACEHOLDER='sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf';
 const $=id=>document.getElementById(id);
 let client=null;
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function safeStorageImageUrl(value){try{const u=new URL(String(value||''));return u.origin===SUPABASE_URL&&u.pathname.startsWith('/storage/v1/object/public/')?u.href:''}catch(e){return ''}}
+function safeStorageImageUrl(value){try{const u=new URL(String(value||''));const allowedBuckets=['diamond-trade-images','machine-listing-images','machine-part-images'];const match=u.pathname.match(/^\/storage\/v1\/object\/public\/([a-z0-9-]+)\/([A-Za-z0-9._/-]+)$/);if(u.origin!==SUPABASE_URL||!match||!allowedBuckets.includes(match[1])||match[2].split('/').some(part=>!part||part==='.'||part==='..'))return '';return /\.(webp|jpe?g|png)$/i.test(match[2])?u.href:''}catch(e){return ''}}
 async function compressListingImage(file){
  const image=await new Promise((resolve,reject)=>{
   const url=URL.createObjectURL(file),img=new Image();
