@@ -20,17 +20,22 @@
 - Finding: two permissive SELECT policies overlapped for anon users and approved reviews.
 - Change: replaced the pair with one SELECT policy for anon and authenticated roles using `approved = true`.
 - Intended access is preserved: public users can read approved reviews only; unapproved reviews remain excluded.
-- Follow-up: re-run the performance advisor and test public review display and authenticated admin workflow.
+- Verification: Supabase Performance Advisor returned no findings after the repair. The resulting policies are one approved-only SELECT policy for anon/authenticated plus one pending-only INSERT policy.
 
 ## Outstanding items — not yet changed
 1. Supabase project `xotqafgkubodqpirfpfb`: leaked-password protection is disabled. Enable it in Supabase Dashboard > Authentication > Settings > Password Security, then verify.
 2. Confirm MFA / admin authentication and authorization for every admin page and every write operation.
-3. Inspect all exposed tables, RPCs, edge functions, storage buckets and RLS policies.
+3. Continue exposed-table and storage review. The service project currently has RLS enabled on all inspected public tables and no Edge Functions. Public SELECT grants inspected for marketplace tables do not expose admin_notes or seller phone/email columns; verify the public page still renders using its explicit safe field list.
 4. Run a repository-wide secret scan and dependency review, including git history.
 5. Review GitHub branch protection, deployment environment approvals, workflow action pinning and Pages settings.
 6. Test forms, uploads, reviews, listings and job applications for spam/rate limits and validation.
 7. Run live external HTTP/TLS/DNS checks and browser-based functional testing.
 8. Confirm backup/restore and incident recovery.
+9. Review client-side admin pages for hard-coded allowlisted email checks, localStorage configuration, third-party CDN integrity, XSS-safe rendering, and ensure database RLS remains the true authorization boundary.
+
+## CI result
+- Pull request #51 is open as a draft; production deployment was not triggered.
+- GitHub Actions run 45929581273 completed successfully: HTML and sitemap validation passed, and the preview artifact packaged successfully.
 
 ## Important limitations
 - This log records only actions actually completed and verified.
