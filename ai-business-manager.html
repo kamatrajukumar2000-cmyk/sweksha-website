@@ -70,7 +70,7 @@ const $=id=>document.getElementById(id);
 let client=null, enquiries=[], selectedId=null, machineListings=[], machinePartListings=[], diamondTradeListings=[];
 function say(id,text){$(id).textContent=text||''}
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function safeHttpsUrl(value){try{const u=new URL(String(value||''));return u.protocol==='https:'?u.href:''}catch(e){return ''}}
+function safeStorageImageUrl(value){try{const u=new URL(String(value||''));return u.origin===SUPABASE_URL&&u.pathname.startsWith('/storage/v1/object/public/')?u.href:''}catch(e){return ''}}
 function connect(key){
  if(!window.supabase||!window.supabase.createClient){say('loginMessage','Supabase library could not load. Check internet and refresh.');return false}
  try{
@@ -146,7 +146,7 @@ function renderPartsListings(){
  $('partsAdminRows').innerHTML=machinePartListings.map(r=>{
   const phone=String(r.contact_phone||'').replace(/[^0-9]/g,'');
   const contact=phone?'<a href="https://wa.me/'+esc(phone)+'" target="_blank" rel="noopener">'+esc(r.contact_phone)+'</a>':'—';
-  const safePhoto=safeHttpsUrl(r.photo_url);
+  const safePhoto=safeStorageImageUrl(r.photo_url);
   const photo=safePhoto?'<a href="'+esc(safePhoto)+'" target="_blank" rel="noopener noreferrer"><img src="'+esc(safePhoto)+'" alt="Part photo" style="width:72px;height:58px;object-fit:cover;border-radius:7px"></a>':'—';
   const status=String(r.status||'pending');
   let actions='';
@@ -186,7 +186,7 @@ function renderDiamondTradeListings(){
   const status=String(r.status||'pending');
   const phone=String(r.contact_phone||'').replace(/[^0-9]/g,'');
   const contact=phone?'<a href="https://wa.me/'+esc(phone)+'" target="_blank" rel="noopener">'+esc(r.contact_phone)+'</a>':'—';
-  const safePhoto=safeHttpsUrl(r.photo_url);
+  const safePhoto=safeStorageImageUrl(r.photo_url);
   const photo=safePhoto?'<a href="'+esc(safePhoto)+'" target="_blank" rel="noopener noreferrer"><img src="'+esc(safePhoto)+'" alt="Diamond product photo" style="width:76px;height:62px;object-fit:cover;border-radius:7px;border:1px solid #d8e1eb"></a>':'—';
   let action='';
   if(status==='pending')action='<div class="actions"><button class="btn teal" type="button" data-diamond-status="approved" data-diamond-id="'+esc(r.id)+'">Approve</button><button class="btn red" type="button" data-diamond-status="rejected" data-diamond-id="'+esc(r.id)+'">Reject</button></div>';
