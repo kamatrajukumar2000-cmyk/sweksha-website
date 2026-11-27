@@ -86,6 +86,74 @@ jobs:
           print("sitemap.xml is valid, unique, and points to existing local files.")
           PY
 
+      - name: Validate inline JavaScript syntax
+        shell: bash
+        run: |
+          python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          import subprocess
+          import tempfile
+
+          changed = subprocess.run(
+              ["git", "diff", "--name-only", "origin/main...HEAD"],
+              check=True, text=True, capture_output=True
+          ).stdout.splitlines()
+          pages = [Path(p) for p in changed if p.lower().endswith((".html", ".htm")) and Path(p).is_file()]
+          errors = []
+
+          class InlineScripts(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.current = None
+                  self.scripts = []
+
+              def handle_starttag(self, tag, attrs):
+                  if tag.lower() != "script":
+                      return
+                  attrs = dict(attrs)
+                  script_type = (attrs.get("type") or "").split(";")[0].strip().lower()
+                  if "src" not in attrs and script_type not in ("application/ld+json", "application/json", "importmap"):
+                      self.current = {"module": script_type == "module", "parts": []}
+
+              def handle_data(self, data):
+                  if self.current is not None:
+                      self.current["parts"].append(data)
+
+              def handle_endtag(self, tag):
+                  if tag.lower() == "script" and self.current is not None:
+                      self.scripts.append(self.current)
+                      self.current = None
+
+          checked = 0
+          for page in pages:
+              parser = InlineScripts()
+              parser.feed(page.read_text(encoding="utf-8"))
+              for index, script in enumerate(parser.scripts, start=1):
+                  source = "".join(script["parts"])
+                  if not source.strip():
+                      continue
+                  suffix = ".mjs" if script["module"] else ".js"
+                  temp_path = None
+                  try:
+                      with tempfile.NamedTemporaryFile("w", suffix=suffix, encoding="utf-8", delete=False) as temp:
+                          temp.write(source)
+                          temp_path = temp.name
+                      result = subprocess.run(["node", "--check", temp_path], text=True, capture_output=True)
+                      if result.returncode:
+                          errors.append(f"{page} inline script #{index}: {result.stderr.strip()}")
+                      checked += 1
+                  finally:
+                      if temp_path:
+                          Path(temp_path).unlink(missing_ok=True)
+
+          if errors:
+              print("\\n".join("ERROR: " + error for error in errors))
+              raise SystemExit(1)
+
+          print(f"JavaScript syntax passed for {checked} inline scripts across {len(pages)} changed pages.")
+          PY
+
       - name: Package isolated website preview
         if: github.event_name == 'pull_request' || startsWith(github.ref, 'refs/heads/audit/')
         uses: actions/upload-artifact@v6
