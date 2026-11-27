@@ -70,7 +70,7 @@ const $=id=>document.getElementById(id);
 let client=null, enquiries=[], selectedId=null, machineListings=[], machinePartListings=[], diamondTradeListings=[];
 function say(id,text){$(id).textContent=text||''}
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function safeStorageImageUrl(value){try{const u=new URL(String(value||''));return u.origin===SUPABASE_URL&&u.pathname.startsWith('/storage/v1/object/public/')?u.href:''}catch(e){return ''}}
+function safeStorageImageUrl(value){try{const u=new URL(String(value||''));const allowedBuckets=['diamond-trade-images','machine-listing-images','machine-part-images'];const match=u.pathname.match(/^\/storage\/v1\/object\/public\/([a-z0-9-]+)\/([A-Za-z0-9._/-]+)$/);if(u.origin!==SUPABASE_URL||!match||!allowedBuckets.includes(match[1])||match[2].split('/').some(part=>!part||part==='.'||part==='..'))return '';return /\.(webp|jpe?g|png)$/i.test(match[2])?u.href:''}catch(e){return ''}}
 function connect(key){
  if(!window.supabase||!window.supabase.createClient){say('loginMessage','Supabase library could not load. Check internet and refresh.');return false}
  try{
