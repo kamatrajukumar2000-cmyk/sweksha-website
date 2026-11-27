@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded",()=>{
   if(isImageURL(a.href)){a.href=viewerURL(a.href);a.target="_blank";a.rel="noopener noreferrer"}
  });
  document.querySelectorAll("img").forEach(img=>{
-  if(img.closest("a")||!isImageURL(img.currentSrc||img.src))return;
+  // Leadership/team portraits are display-only thumbnails, never open a full-size viewer.
+  if(img.closest("a, .core-team-avatar, .portrait, .about-photo-figure")||!isImageURL(img.currentSrc||img.src))return;
   img.style.cursor="zoom-in";
   img.setAttribute("title","Click to view full image");
   img.addEventListener("click",()=>window.open(viewerURL(img.currentSrc||img.src),"_blank","noopener"));
