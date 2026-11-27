@@ -33,8 +33,13 @@ jobs:
       - name: Upload website artifact
         uses: actions/upload-pages-artifact@5f327015a708106f6f1b7c9a633901af30fe80cb # Node 24-compatible upstream revision
         with:
+          # A distinct name per run attempt prevents duplicate artifacts on GitHub Actions re-runs.
+          name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
           path: .
 
       - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v5
+        with:
+          # Deploy only the artifact uploaded by this exact attempt.
+          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
