@@ -32,6 +32,7 @@
 7. Run live external HTTP/TLS/DNS checks and browser-based functional testing.
 8. Confirm backup/restore and incident recovery.
 9. Review client-side admin pages for hard-coded allowlisted email checks, localStorage configuration, third-party CDN integrity, XSS-safe rendering, and ensure database RLS remains the true authorization boundary.
+10. Complete a broader stored-XSS pass on all user-controlled URLs and fields. The AI business manager now rejects non-HTTPS photo URLs before using them in admin-page links and image sources.
 
 ## CI result
 - Pull request #51 is open as a draft; production deployment was not triggered.
