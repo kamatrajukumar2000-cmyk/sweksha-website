@@ -21,6 +21,7 @@ let db=null,kind='diamonds',data=[];
 try{$('url').value=localStorage.getItem('sweksha_marketplace_url')||'';$('key').value=localStorage.getItem('sweksha_marketplace_key')||''}catch(e){}
 const tables={diamonds:'diamond_trade_listings',machines:'machine_sales_listings',parts:'machine_part_listings'};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function safeStorageImageUrl(value){try{const u=new URL(String(value||''));const expected=new URL($('url').value.trim()).origin;return u.origin===expected&&u.pathname.startsWith('/storage/v1/object/public/')?u.href:''}catch(e){return ''}}
 function msg(s){$('msg').textContent=s}
 async function signIn(){
  const url=$('url').value.trim().replace(/\/$/,'');const key=$('key').value.trim();
@@ -46,7 +47,7 @@ function details(r){
 }
 function render(){
  if(!data.length){$('records').innerHTML='<p class="muted">No submissions yet.</p>';return}
- $('records').innerHTML=data.map(r=>'<article class="entry"><div class="row">'+(r.photo_url?'<img src="'+esc(r.photo_url)+'" alt="Listing photo">':Array.isArray(r.photo_urls)&&r.photo_urls[0]?'<img src="'+esc(r.photo_urls[0])+'" alt="Machine photo">':'')+'<div><b>'+esc(r.status).toUpperCase()+'</b><p class="muted">Submitted: '+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</p></div></div>'+details(r)+'<div class="row"><select data-id="'+esc(r.id)+'" aria-label="Listing status">'+['pending','approved','rejected','sold','archived'].map(s=>'<option '+(r.status===s?'selected':'')+'>'+s+'</option>').join('')+'</select><button data-save="'+esc(r.id)+'">Save status</button></div></article>').join('');
+ $('records').innerHTML=data.map(r=>'<article class="entry"><div class="row">'+(safeStorageImageUrl(r.photo_url)?'<img src="'+esc(safeStorageImageUrl(r.photo_url))+'" alt="Listing photo">':Array.isArray(r.photo_urls)&&safeStorageImageUrl(r.photo_urls[0])?'<img src="'+esc(safeStorageImageUrl(r.photo_urls[0]))+'" alt="Machine photo">':'')+'<div><b>'+esc(r.status).toUpperCase()+'</b><p class="muted">Submitted: '+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</p></div></div>'+details(r)+'<div class="row"><select data-id="'+esc(r.id)+'" aria-label="Listing status">'+['pending','approved','rejected','sold','archived'].map(s=>'<option '+(r.status===s?'selected':'')+'>'+s+'</option>').join('')+'</select><button data-save="'+esc(r.id)+'">Save status</button></div></article>').join('');
 }
 async function update(id){
  const sel=$('records').querySelector('select[data-id="'+CSS.escape(id)+'"]');if(!sel)return;
