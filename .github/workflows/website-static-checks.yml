@@ -148,7 +148,7 @@ jobs:
                           Path(temp_path).unlink(missing_ok=True)
 
           if errors:
-              print("\\n".join("ERROR: " + error for error in errors))
+              print("\n".join("ERROR: " + error for error in errors))
               raise SystemExit(1)
 
           print(f"JavaScript syntax passed for {checked} inline scripts across {len(pages)} changed pages.")
