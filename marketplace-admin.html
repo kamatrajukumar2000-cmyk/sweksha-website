@@ -16,17 +16,17 @@
 <div class="card"><div class="tabs"><button class="active" data-kind="diamonds">Diamond Trading</button><button data-kind="machines">Machine Buy/Sell</button><button data-kind="parts">Machine Parts</button></div><p id="msg" class="muted" role="status">Choose a category.</p><div id="records"></div></div></section></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 (()=>{'use strict';
-const ADMIN='kamatrajukumar2000@gmail.com', $=id=>document.getElementById(id);
+const ADMIN='kamatrajukumar2000@gmail.com', SUPABASE_URL='https://xotqafgkubodqpirfpfb.supabase.co', $=id=>document.getElementById(id);
 let db=null,kind='diamonds',data=[];
-try{$('url').value=localStorage.getItem('sweksha_marketplace_url')||'';$('key').value=localStorage.getItem('sweksha_marketplace_key')||''}catch(e){}
+$('url').value=SUPABASE_URL;$('url').readOnly=true;try{$('key').value=localStorage.getItem('sweksha_marketplace_key')||''}catch(e){}
 const tables={diamonds:'diamond_trade_listings',machines:'machine_sales_listings',parts:'machine_part_listings'};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function safeStorageImageUrl(value){try{const u=new URL(String(value||''));const expected=new URL($('url').value.trim()).origin;return u.origin===expected&&u.pathname.startsWith('/storage/v1/object/public/')?u.href:''}catch(e){return ''}}
+function safeStorageImageUrl(value){try{const u=new URL(String(value||''));const allowedBuckets=['diamond-trade-images','machine-listing-images','machine-part-images'];const match=u.pathname.match(/^\/storage\/v1\/object\/public\/([a-z0-9-]+)\/([A-Za-z0-9._/-]+)$/);if(u.origin!==SUPABASE_URL||!match||!allowedBuckets.includes(match[1])||match[2].split('/').some(part=>!part||part==='.'||part==='..'))return '';return /\.(webp|jpe?g|png)$/i.test(match[2])?u.href:''}catch(e){return ''}}
 function msg(s){$('msg').textContent=s}
 async function signIn(){
- const url=$('url').value.trim().replace(/\/$/,'');const key=$('key').value.trim();
- if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url)||!key){$('loginMsg').textContent='Enter the correct Project URL and publishable/anon key.';return}
- try{localStorage.setItem('sweksha_marketplace_url',url);localStorage.setItem('sweksha_marketplace_key',key)}catch(e){}
+ const url=SUPABASE_URL;const key=$('key').value.trim();
+ if(!/^sb_publishable_[A-Za-z0-9_-]+$/.test(key)&&!/^eyJ[A-Za-z0-9._-]+$/.test(key)){$('loginMsg').textContent='Enter a valid Supabase publishable key or legacy anon JWT.';return}
+ try{localStorage.setItem('sweksha_marketplace_key',key)}catch(e){}
  if(!window.supabase){$('loginMsg').textContent='Supabase library failed to load. Refresh and try again.';return}
  db=window.supabase.createClient(url,key);$('loginMsg').textContent='Signing in…';
  const {data:d,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});
