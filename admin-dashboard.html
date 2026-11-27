@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="sweksha-aura.css?v=1">
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f3f6fa;color:#172536;font:15px/1.55 Arial,sans-serif}.wrap{max-width:1120px;margin:auto;padding:22px 16px}header{background:#07111f;color:#fff;padding:18px}.card{background:#fff;border:1px solid #dce5ed;border-radius:13px;padding:18px;margin:14px 0}.hidden{display:none}input,select,button{font:inherit;padding:10px;border:1px solid #cbd6e0;border-radius:8px}input{display:block;width:100%;margin:6px 0 12px}button{cursor:pointer;background:#07111f;color:#fff;border:0}.muted{color:#657184;font-size:13px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.tabs{display:flex;gap:8px;flex-wrap:wrap}.tabs button{background:#e7edf4;color:#172536}.tabs button.active{background:#07111f;color:#fff}.entry{border-top:1px solid #e3e9ef;padding:16px 0}.entry p{white-space:pre-wrap;overflow-wrap:anywhere}.entry select{margin:6px 6px 0 0}.status{font-weight:700}.links a{display:inline-block;margin:4px 12px 4px 0;color:#1257a6}@media(max-width:650px){.row>*{max-width:100%}}
+*{box-sizing:border-box}body{margin:0;background:#f3f6fa;color:#172536;font:15px/1.55 Arial,sans-serif}.wrap{max-width:1120px;margin:auto;padding:22px 16px}header{background:#07111f;color:#fff;padding:18px}.card{background:#fff;border:1px solid #dce5ed;border-radius:13px;padding:18px;margin:14px 0}.hidden{display:none}input,select,button{font:inherit;padding:10px;border:1px solid #cbd6e0;border-radius:8px}input{display:block;width:100%;margin:6px 0 12px}button{cursor:pointer;background:#07111f;color:#fff;border:0}.muted{color:#657184;font-size:13px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.tabs{display:flex;gap:8px;flex-wrap:wrap}.tabs button{background:#e7edf4;color:#172536}.tabs button.active{background:#07111f;color:#fff}.entry{border-top:1px solid #e3e9ef;padding:16px 0}.entry p{white-space:pre-wrap;overflow-wrap:anywhere}.entry select{margin:6px 6px 0 0}.status{font-weight:700}.links a{display:inline-block;margin:4px 12px 4px 0;color:#1257a6}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:14px 0}.stat{background:#f3f6fa;border:1px solid #dce5ed;border-radius:10px;padding:12px}.stat strong{display:block;font-size:23px}.toolbar{display:grid;grid-template-columns:minmax(180px,1fr) auto;gap:10px;align-items:center;margin:14px 0}.toolbar input{margin:0}.record-actions{display:flex;gap:8px;flex-wrap:wrap}.record-actions a{display:inline-block;padding:8px 11px;border-radius:7px;background:#eaf1f8;color:#123d68;text-decoration:none;font-size:14px}.entry select{min-width:145px}.entry .meta{color:#657184;font-size:13px;overflow-wrap:anywhere}.entry h3{margin:8px 0}.entry p{margin:6px 0}.status-new{color:#a15b00}.status-resolved{color:#167345}.status-spam{color:#9b2635}@media(max-width:650px){.row>*{max-width:100%}}
 </style>
 </head>
 <body>
@@ -31,6 +31,7 @@
 <div class="card links"><strong>Other admin areas</strong><br><a href="jobs-admin.html">Jobs & Hiring Admin</a><a href="marketplace-admin.html">Marketplace Admin</a></div>
 <div class="card">
 <div class="tabs"><button class="active" data-kind="reviews" type="button">Customer Reviews</button><button data-kind="enquiries" type="button">Service Enquiries</button></div>
+<div id="enquiryTools" class="hidden"><div class="stats" id="stats"></div><div class="toolbar"><input id="searchRecords" type="search" placeholder="Search name, phone, email, company or service…"><button id="exportCsv" type="button">Export CSV</button></div><div class="tabs" id="statusFilters"><button class="active" data-filter="all" type="button">All</button><button data-filter="new" type="button">New</button><button data-filter="contacted" type="button">Contacted</button><button data-filter="in_progress" type="button">In progress</button><button data-filter="resolved" type="button">Resolved</button><button data-filter="spam" type="button">Spam</button></div></div>
 <p id="msg" class="muted" role="status" aria-live="polite">Choose a section.</p>
 <div id="records"></div>
 </div>
@@ -42,7 +43,7 @@
 const URL='https://xotqafgkubodqpirfpfb.supabase.co';
 const ADMIN='kamatrajukumar2000@gmail.com';
 const $=id=>document.getElementById(id);
-let db=null,kind='reviews',rows=[];
+let db=null,kind='reviews',rows=[],statusFilter='all';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function message(v){$('msg').textContent=v}
 async function signIn(){
@@ -67,18 +68,37 @@ async function load(){
  const fields=kind==='reviews'?'id,name,rating,review,status,created_at':'id,name,email,whatsapp,subject,message,department,service_category,company,country,source_page,enquiry_type,status,created_at';
  const {data,error}=await db.from(table).select(fields).order('created_at',{ascending:false}).limit(300);
  if(error){rows=[];$('records').innerHTML='';message('Could not load records: '+error.message);return}
- rows=data||[];message(rows.length+' record(s)');render();
+ rows=data||[];message(rows.length+' record(s) loaded');$('enquiryTools').classList.toggle('hidden',kind!=='enquiries');if(kind==='enquiries')renderStats();render();
 }
 function render(){
- if(!rows.length){$('records').innerHTML='<p class="muted">No records found.</p>';return}
- $('records').innerHTML=rows.map(r=>{
+ const term=kind==='enquiries'?$('searchRecords').value.trim().toLowerCase():'';
+ const visible=rows.filter(r=>{
+  if(kind==='enquiries'&&statusFilter!=='all'&&(r.status||'new')!==statusFilter)return false;
+  if(!term)return true;
+  return [r.name,r.email,r.whatsapp,r.subject,r.message,r.department,r.service_category,r.company,r.country,r.source_page,r.enquiry_type].some(v=>String(v||'').toLowerCase().includes(term));
+ });
+ if(!visible.length){$('records').innerHTML='<p class="muted">No matching records found.</p>';return}
+ $('records').innerHTML=visible.map(r=>{
   const isReview=kind==='reviews';
+  const phone=String(r.whatsapp||'').replace(/[^+\\d]/g,'');
   const detail=isReview
-   ?'<p><strong>'+esc(r.name||'Customer')+'</strong> · '+esc(r.rating)+'/5 ★</p><p>'+esc(r.review)+'</p>'
-   :'<p><strong>'+esc(r.name)+'</strong> · '+esc(r.company||'Individual')+'</p><p>'+esc(r.subject||r.service_category||r.enquiry_type||'Service enquiry')+'</p><p>'+esc(r.message)+'</p><p>Email: '+esc(r.email||'—')+' · WhatsApp: '+esc(r.whatsapp||'—')+'</p><p>Department: '+esc(r.department||'—')+' · Country: '+esc(r.country||'—')+' · Source: '+esc(r.source_page||'—')+'</p>';
+   ?'<h3>'+esc(r.name||'Customer')+' · '+esc(r.rating)+'/5 ★</h3><p>'+esc(r.review)+'</p>'
+   :'<h3>'+esc(r.name||'Customer')+' <span class="muted">· '+esc(r.company||'Individual')+'</span></h3><p><strong>'+esc(r.subject||r.service_category||r.enquiry_type||'Service enquiry')+'</strong></p><p>'+esc(r.message)+'</p><p class="meta">Email: '+esc(r.email||'—')+' · WhatsApp: '+esc(r.whatsapp||'—')+'</p><p class="meta">Department: '+esc(r.department||'—')+' · Country: '+esc(r.country||'—')+' · Source: '+esc(r.source_page||'—')+'</p><div class="record-actions">'+(phone?'<a href="https://wa.me/'+phone.replace(/^\\+/,'')+'" target="_blank" rel="noopener">WhatsApp</a><a href="tel:'+phone+'">Call</a>':'')+(r.email?'<a href="mailto:'+encodeURIComponent(r.email)+'">Email</a>':'')+'</div>';
   const options=isReview?['pending','approved','rejected']:['new','contacted','in_progress','resolved','spam'];
-  return '<article class="entry"><div class="row"><span class="status">'+esc(r.status).toUpperCase()+'</span><span class="muted">'+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</span></div>'+detail+'<div class="row"><label for="status-'+esc(r.id)+'">Status</label><select id="status-'+esc(r.id)+'" data-id="'+esc(r.id)+'">'+options.map(v=>'<option value="'+v+'" '+(r.status===v?'selected':'')+'>'+v+'</option>').join('')+'</select><button type="button" data-save="'+esc(r.id)+'">Save status</button></div></article>';
+  return '<article class="entry"><div class="row"><span class="status status-'+esc(r.status||'new')+'">'+esc(r.status||'new').replace('_',' ').toUpperCase()+'</span><span class="muted">'+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</span></div>'+detail+'<div class="row"><label for="status-'+esc(r.id)+'">Status</label><select id="status-'+esc(r.id)+'" data-id="'+esc(r.id)+'">'+options.map(v=>'<option value="'+v+'" '+((r.status|| (isReview?'pending':'new'))===v?'selected':'')+'>'+v.replace('_',' ')+'</option>').join('')+'</select><button type="button" data-save="'+esc(r.id)+'">Save status</button></div></article>';
  }).join('');
+}
+function renderStats(){
+ const counts={all:rows.length,new:0,contacted:0,in_progress:0,resolved:0,spam:0};
+ rows.forEach(r=>{const s=r.status||'new';if(Object.prototype.hasOwnProperty.call(counts,s))counts[s]++});
+ $('stats').innerHTML=[['Total',counts.all],['New',counts.new],['Contacted',counts.contacted],['In progress',counts.in_progress],['Resolved',counts.resolved],['Spam',counts.spam]].map(([label,n])=>'<div class="stat"><span class="muted">'+label+'</span><strong>'+n+'</strong></div>').join('');
+}
+function exportCsv(){
+ const headers=['id','created_at','status','name','company','email','whatsapp','subject','message','department','service_category','country','source_page','enquiry_type'];
+ const quote=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+ const csv=[headers.join(','),...rows.map(r=>headers.map(h=>quote(r[h])).join(','))].join('\\r\\n');
+ const blob=new Blob(['\\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+ const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='sweksha-enquiries-'+new Date().toISOString().slice(0,10)+'.csv';a.click();URL.revokeObjectURL(url);
 }
 async function update(id){
  const select=$('records').querySelector('select[data-id="'+CSS.escape(id)+'"]');if(!select)return;
@@ -100,6 +120,9 @@ $('refresh').addEventListener('click',load);
 $('logout').addEventListener('click',async()=>{if(db)await db.auth.signOut();db=null;$('app').classList.add('hidden');$('login').classList.remove('hidden');$('password').value=''});
 document.querySelectorAll('[data-kind]').forEach(b=>b.addEventListener('click',()=>{kind=b.dataset.kind;document.querySelectorAll('[data-kind]').forEach(x=>x.classList.toggle('active',x===b));load()}));
 $('records').addEventListener('click',e=>{const b=e.target.closest('[data-save]');if(b)update(b.dataset.save)});
+$('searchRecords').addEventListener('input',render);
+$('exportCsv').addEventListener('click',exportCsv);
+$('statusFilters').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(!b)return;statusFilter=b.dataset.filter;$('statusFilters').querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));render()});
 })();
 </script>
 <script src="sweksha-aura.js?v=2" defer></script>
