@@ -551,6 +551,17 @@
     @media(max-width:850px){.core-legal-grid{grid-template-columns:1fr 1fr}.core-legal-workflow{grid-template-columns:1fr 1fr}.core-legal-consultancy{grid-template-columns:1fr}}
     @media(max-width:620px){.core-legal-department{padding:20px 15px;margin-top:35px}.core-legal-stage{min-height:260px}.core-legal-emblem{width:135px;height:155px}.core-legal-float{font-size:8px;padding:8px}.core-legal-float.float-a{left:0}.core-legal-float.float-b{right:0}.core-legal-float.float-c{left:0}.core-legal-float.float-d{right:0}.core-legal-grid,.core-legal-workflow{grid-template-columns:1fr}.core-legal-contact{align-items:flex-start;flex-direction:column}.core-legal-vacancy{align-items:flex-start}}
     @media(prefers-reduced-motion:reduce){.core-legal-orbit,.core-legal-emblem,.core-legal-float{animation:none!important}.core-legal-card{transition:none!important}}
+
+    /* Quick links sit in the upper header strip, aligned to the right. */
+    .header-intro{flex-direction:row;align-items:center;justify-content:space-between;gap:18px}
+    .header-info{min-width:0;flex:1}
+    .header-quick-actions{display:flex;align-items:center;justify-content:flex-end;gap:clamp(10px,1.5vw,20px);margin-left:auto;white-space:nowrap}
+    .header-quick-actions>a{color:#d8e2ec;font-size:13px;font-weight:700;padding:7px 0;border:0;border-top:0}
+    .header-quick-actions>a:hover{color:var(--accent)}
+    .header-quick-actions .nav-action-menu>summary{border:0;border-top:0;box-shadow:none}
+    @media(min-width:1101px){.header-intro{flex-direction:row;align-items:center;justify-content:space-between}.header-info{width:auto;flex:1}.header-quick-actions{flex:0 0 auto}}
+    @media(max-width:1100px){.header-intro{flex-wrap:wrap}.header-quick-actions{width:100%;justify-content:flex-end;flex-wrap:wrap}}
+    @media(max-width:760px){.header-quick-actions{justify-content:flex-start;gap:14px}.header-quick-actions>a,.header-quick-actions .nav-action-menu>summary{font-size:12px;padding:6px 0}.header-quick-actions .nav-action-menu>summary{background:transparent;color:var(--accent2)}}
   </style>
   <script id="sweksha-image-protection-script">
   (function(){
@@ -582,6 +593,20 @@
           </div>
         </div>
         <a class="brand" href="#home" aria-label="SWEKSHA FOUNDATION CLUB">SWEKSHA FOUNDATION CLUB</a>
+        <div class="header-quick-actions" aria-label="Quick access">
+          <a href="#request">Service Request Support</a>
+          <a href="cvd-machine-visual-learning.html">Visual Learning</a>
+          <details class="nav-action-menu">
+            <summary aria-label="Open About Us, Login and Request Support menu">Request Support</summary>
+            <div class="nav-action-dropdown">
+              <a href="#about">About Us</a>
+              <a href="#core-team">Core Team</a>
+              <a href="ai-business-manager.html">Login / Dashboard</a>
+              <a href="#request">Request Support</a>
+              <a href="#contact">Contact</a>
+            </div>
+          </details>
+        </div>
       </div>
       <nav>
         <button class="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primary-navigation" onclick="const nav=document.getElementById('primary-navigation'); const open=nav.classList.toggle('open'); this.setAttribute('aria-expanded',String(open)); this.setAttribute('aria-label',open?'Close menu':'Open menu');">&#9776;</button>
@@ -595,18 +620,7 @@
           <a href="#legal-compliance-department">Legal &amp; Compliance</a>
           <a href="jobs.html">Jobs</a>
           <a href="#defects">Technical Guides</a>
-          <a href="#request">Service Request Support</a>
-          <a href="cvd-machine-visual-learning.html">Visual Learning</a>
-          <details class="nav-action-menu">
-            <summary aria-label="Open About Us, Login and Request Support menu">Request Support</summary>
-            <div class="nav-action-dropdown">
-              <a href="#about">About Us</a>
-          <a href="#core-team">Core Team</a>
-              <a href="ai-business-manager.html">Login / Dashboard</a>
-              <a href="#request">Request Support</a>
-              <a href="#contact">Contact</a>
-            </div>
-          </details>
+
         </div>
       </nav>
     </div>
