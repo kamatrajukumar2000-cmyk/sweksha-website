@@ -80,10 +80,10 @@ function render(){
  if(!visible.length){$('records').innerHTML='<p class="muted">No matching records found.</p>';return}
  $('records').innerHTML=visible.map(r=>{
   const isReview=kind==='reviews';
-  const phone=String(r.whatsapp||'').replace(/[^+\\d]/g,'');
+  const phone=String(r.whatsapp||'').replace(/[^+\d]/g,'');
   const detail=isReview
    ?'<h3>'+esc(r.name||'Customer')+' · '+esc(r.rating)+'/5 ★</h3><p>'+esc(r.review)+'</p>'
-   :'<h3>'+esc(r.name||'Customer')+' <span class="muted">· '+esc(r.company||'Individual')+'</span></h3><p><strong>'+esc(r.subject||r.service_category||r.enquiry_type||'Service enquiry')+'</strong></p><p>'+esc(r.message)+'</p><p class="meta">Email: '+esc(r.email||'—')+' · WhatsApp: '+esc(r.whatsapp||'—')+'</p><p class="meta">Department: '+esc(r.department||'—')+' · Country: '+esc(r.country||'—')+' · Source: '+esc(r.source_page||'—')+'</p><div class="record-actions">'+(phone?'<a href="https://wa.me/'+phone.replace(/^\\+/,'')+'" target="_blank" rel="noopener">WhatsApp</a><a href="tel:'+phone+'">Call</a>':'')+(r.email?'<a href="mailto:'+encodeURIComponent(r.email)+'">Email</a>':'')+'</div>';
+   :'<h3>'+esc(r.name||'Customer')+' <span class="muted">· '+esc(r.company||'Individual')+'</span></h3><p><strong>'+esc(r.subject||r.service_category||r.enquiry_type||'Service enquiry')+'</strong></p><p>'+esc(r.message)+'</p><p class="meta">Email: '+esc(r.email||'—')+' · WhatsApp: '+esc(r.whatsapp||'—')+'</p><p class="meta">Department: '+esc(r.department||'—')+' · Country: '+esc(r.country||'—')+' · Source: '+esc(r.source_page||'—')+'</p><div class="record-actions">'+(phone?'<a href="https://wa.me/'+phone.replace(/^\+/,'')+'" target="_blank" rel="noopener">WhatsApp</a><a href="tel:'+phone+'">Call</a>':'')+(r.email?'<a href="mailto:'+encodeURIComponent(r.email)+'">Email</a>':'')+'</div>';
   const options=isReview?['pending','approved','rejected']:['new','contacted','in_progress','resolved','spam'];
   return '<article class="entry"><div class="row"><span class="status status-'+esc(r.status||'new')+'">'+esc(r.status||'new').replace('_',' ').toUpperCase()+'</span><span class="muted">'+esc(r.created_at?new Date(r.created_at).toLocaleString():'—')+'</span></div>'+detail+'<div class="row"><label for="status-'+esc(r.id)+'">Status</label><select id="status-'+esc(r.id)+'" data-id="'+esc(r.id)+'">'+options.map(v=>'<option value="'+v+'" '+((r.status|| (isReview?'pending':'new'))===v?'selected':'')+'>'+v.replace('_',' ')+'</option>').join('')+'</select><button type="button" data-save="'+esc(r.id)+'">Save status</button></div></article>';
  }).join('');
@@ -96,8 +96,8 @@ function renderStats(){
 function exportCsv(){
  const headers=['id','created_at','status','name','company','email','whatsapp','subject','message','department','service_category','country','source_page','enquiry_type'];
  const quote=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
- const csv=[headers.join(','),...rows.map(r=>headers.map(h=>quote(r[h])).join(','))].join('\\r\\n');
- const blob=new Blob(['\\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+ const csv=[headers.join(','),...rows.map(r=>headers.map(h=>quote(r[h])).join(','))].join('\r\n');
+ const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='sweksha-enquiries-'+new Date().toISOString().slice(0,10)+'.csv';a.click();URL.revokeObjectURL(url);
 }
 async function update(id){
