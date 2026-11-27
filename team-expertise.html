@@ -25,6 +25,13 @@ a{color:inherit}.wrap{width:min(1080px,92%);margin:auto}.top{padding:22px 0;disp
 .enquiry-form label{display:grid;gap:6px;color:#d9e7ef;font-size:13px;font-weight:800}
 .enquiry-form input,.enquiry-form select,.enquiry-form textarea{width:100%;border:1px solid #6b8799;border-radius:11px;padding:12px 13px;background:#071523;color:#f5f8fb;font:inherit;min-width:0}
 .enquiry-form textarea{min-height:125px;resize:vertical}.enquiry-form .full{grid-column:1/-1}
+.service-picker{display:grid;gap:7px;min-width:0}.service-picker>label{display:block}
+.service-picker select{min-height:48px;appearance:auto}
+.service-picker-toggle{width:100%;min-height:48px;padding:12px 14px;border:1px solid #55d6c6;border-radius:11px;background:#123449;color:#f5f8fb;font:inherit;font-weight:800;text-align:left;cursor:pointer;touch-action:manipulation}
+.service-choices{display:grid;gap:8px;padding:10px;border:1px solid #55d6c677;border-radius:12px;background:#061523}
+.service-choice{width:100%;min-height:46px;padding:10px 12px;border:1px solid #6b8799;border-radius:9px;background:#10283a;color:#f5f8fb;font:inherit;text-align:left;white-space:normal;cursor:pointer;touch-action:manipulation}
+.service-choice[aria-pressed="true"]{border-color:#55d6c6;background:#164b54;color:#fff}
+.service-picker-toggle:focus-visible,.service-choice:focus-visible{outline:3px solid #d9bd79;outline-offset:2px}
 .enquiry-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.enquiry-status{min-height:24px;color:#d9bd79;font-weight:700}.wa-next{display:none}.wa-next.show{display:inline-flex}
 .detail-cta{display:inline-flex;margin-top:12px;padding:12px 16px;border-radius:12px;background:linear-gradient(100deg,#55d6c6,#a0eee3);color:#071321;text-decoration:none;font-weight:900}
 .panel,.enquiry-panel,.visual{transform-style:preserve-3d;transition:transform .2s ease,box-shadow .25s ease}
@@ -47,7 +54,12 @@ a{color:inherit}.wrap{width:min(1080px,92%);margin:auto}.top{padding:22px 0;disp
   <label>Company / Organisation<input name="company" maxlength="180" autocomplete="organization" placeholder="Company name"></label>
   <label>Country<input name="country" maxlength="100" autocomplete="country-name" placeholder="India"></label>
   <label>Email Address<input name="email" type="email" maxlength="254" autocomplete="email" placeholder="name@company.com"></label>
-  <label>Consultancy Service *<select name="service_category" id="serviceCategory" required></select></label>
+  <div class="service-picker">
+   <label for="serviceCategory">Consultancy Service *</label>
+   <select name="service_category" id="serviceCategory" required></select>
+   <button class="service-picker-toggle" id="servicePickerToggle" type="button" aria-expanded="false" aria-controls="serviceChoices">Choose Consultancy Service ▼</button>
+   <div class="service-choices" id="serviceChoices" hidden></div>
+  </div>
   <label class="full">Your Requirement *<textarea name="message" required minlength="5" maxlength="4000" placeholder="Describe the service, product, issue, project, quantity, location or support you need..."></textarea></label>
   <div class="full enquiry-actions"><button class="cta" id="saveEnquiry" type="submit">Save Enquiry &amp; Continue to WhatsApp ↗</button><a class="cta wa-next" id="whatsappNext" href="#" target="_blank" rel="noopener">Open WhatsApp Enquiry ↗</a></div>
   <div class="full enquiry-status" id="enquiryStatus" role="status" aria-live="polite"></div>
@@ -140,6 +152,40 @@ if(handoff){
  document.getElementById("nodesTop").innerHTML=conceptWords(data[12]||["EXPERTISE","VISION"]);
  document.getElementById("nodesBottom").innerHTML=conceptWords(data[13]||["DELIVERY","IMPACT"]);
  document.getElementById("coreLabel").textContent=person==="bhavesh"?"GLOBAL SOURCING":person==="ragni"?"DIGITAL TECH": "LEGAL & COMPLIANCE";
+}
+const servicePickerToggle=document.getElementById("servicePickerToggle");
+const serviceChoices=document.getElementById("serviceChoices");
+function renderServiceChoices(){
+ serviceChoices.replaceChildren();
+ [...categorySelect.options].forEach(option=>{
+  if(!option.value)return;
+  const choice=document.createElement("button");
+  choice.type="button";choice.className="service-choice";choice.textContent=option.textContent;
+  choice.setAttribute("aria-pressed",String(categorySelect.value===option.value));
+  choice.addEventListener("click",()=>{
+   categorySelect.value=option.value;
+   categorySelect.dispatchEvent(new Event("change",{bubbles:true}));
+   servicePickerToggle.textContent=option.textContent+" ✓";
+   servicePickerToggle.setAttribute("aria-expanded","false");
+   serviceChoices.hidden=true;
+   renderServiceChoices();
+  });
+  serviceChoices.appendChild(choice);
+ });
+}
+servicePickerToggle.addEventListener("click",()=>{
+ const opening=serviceChoices.hidden;
+ serviceChoices.hidden=!opening;
+ servicePickerToggle.setAttribute("aria-expanded",String(opening));
+ if(opening)renderServiceChoices();
+});
+categorySelect.addEventListener("change",()=>{
+ const selected=categorySelect.selectedOptions[0];
+ servicePickerToggle.textContent=(selected?.textContent||"Choose Consultancy Service")+" ▼";
+ renderServiceChoices();
+});
+if(categorySelect.options.length>1){
+ servicePickerToggle.textContent=categorySelect.selectedOptions[0]?.textContent+" ▼";
 }
 document.getElementById("consultancyForm").addEventListener("submit",async function(event){
  event.preventDefault();
