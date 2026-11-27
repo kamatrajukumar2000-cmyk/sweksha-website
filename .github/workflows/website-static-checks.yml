@@ -5,6 +5,7 @@ on:
     branches: [main]
   push:
     branches:
+      - main
       - "audit/**"
 
 permissions:
@@ -41,11 +42,15 @@ jobs:
           class HTMLCheck(HTMLParser):
               pass
 
-          changed = subprocess.run(
-              ["git", "diff", "--name-only", "origin/main...HEAD"],
-              check=True, text=True, capture_output=True
-          ).stdout.splitlines()
-          html_files = [Path(p) for p in changed if p.lower().endswith((".html", ".htm")) and Path(p).is_file()]
+          import os
+          if os.environ.get("GITHUB_EVENT_NAME") == "push" and os.environ.get("GITHUB_REF") == "refs/heads/main":
+              html_files = sorted(p for p in root.rglob("*") if p.is_file() and p.suffix.lower() in (".html", ".htm") and ".git" not in p.parts)
+          else:
+              changed = subprocess.run(
+                  ["git", "diff", "--name-only", "origin/main...HEAD"],
+                  check=True, text=True, capture_output=True
+              ).stdout.splitlines()
+              html_files = [Path(p) for p in changed if p.lower().endswith((".html", ".htm")) and Path(p).is_file()]
 
           for page in html_files:
               try:
