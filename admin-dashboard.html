@@ -96,7 +96,12 @@ function renderStats(){
 function exportCsv(){
  const headers=['id','created_at','status','name','company','email','whatsapp','subject','message','department','service_category','country','source_page','enquiry_type'];
  const quote=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
- const csv=[headers.join(','),...rows.map(r=>headers.map(h=>quote(r[h])).join(','))].join('\r\n');
+ // Prevent spreadsheet formula injection from customer-submitted values.
+ const safeCell=v=>{
+  const value=String(v??'');
+  return quote(/^[\u0000-\u0020]*[=+\-@]/.test(value)?"'"+value:value);
+ };
+ const csv=[headers.join(','),...rows.map(r=>headers.map(h=>safeCell(r[h])).join(','))].join('\r\n');
  const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='sweksha-enquiries-'+new Date().toISOString().slice(0,10)+'.csv';a.click();URL.revokeObjectURL(url);
 }
