@@ -29,6 +29,7 @@ a{color:inherit}.wrap{width:min(1080px,92%);margin:auto}.top{padding:22px 0;disp
 .service-picker select{min-height:48px;appearance:auto}
 .service-picker-toggle{width:100%;min-height:48px;padding:12px 14px;border:1px solid #55d6c6;border-radius:11px;background:#123449;color:#f5f8fb;font:inherit;font-weight:800;text-align:left;cursor:pointer;touch-action:manipulation}
 .service-choices{display:grid;gap:8px;padding:10px;border:1px solid #55d6c677;border-radius:12px;background:#061523}
+.service-choices[hidden]{display:none!important}
 .service-choice{width:100%;min-height:46px;padding:10px 12px;border:1px solid #6b8799;border-radius:9px;background:#10283a;color:#f5f8fb;font:inherit;text-align:left;white-space:normal;cursor:pointer;touch-action:manipulation}
 .service-choice[aria-pressed="true"]{border-color:#55d6c6;background:#164b54;color:#fff}
 .service-picker-toggle:focus-visible,.service-choice:focus-visible{outline:3px solid #d9bd79;outline-offset:2px}
@@ -92,12 +93,15 @@ sivang:[
 };
 const consultationMap = {
 raju:[
-["CVD/MPCVD machine installation, commissioning and plant setup","Machine troubleshooting: vacuum, gas, MFC, pressure, microwave/RF, magnetron, power supply, cooling, PLC/HMI and sensors","Growth-process review, plasma stability and production issue documentation","Preventive maintenance, service planning and machine revival","India-wide remote support or on-site technical service coordination"],
+["CVD/MPCVD machine installation, commissioning and plant setup","Machine troubleshooting: vacuum, gas, MFC, pressure, microwave/RF, magnetron, power supply, cooling, PLC/HMI and sensors","Growth-process review, plasma stability and production issue documentation","Preventive maintenance, service planning and machine revival","India-wide remote support or on-site technical service coordination"]
+],
 punit:[
-["Statutory and internal audit engagement discussion, subject to independence and professional eligibility","Accounting, financial statements, reconciliations and management reporting","Tax compliance review and filing coordination, subject to applicable law and engagement","Internal controls, process audit, risk review and governance systems","Business finance consultancy, budgeting, cash-flow and transaction documentation"],
+["Statutory and internal audit engagement discussion, subject to independence and professional eligibility","Accounting, financial statements, reconciliations and management reporting","Tax compliance review and filing coordination, subject to applicable law and engagement","Internal controls, process audit, risk review and governance systems","Business finance consultancy, budgeting, cash-flow and transaction documentation"]
+],
 sivang:[
 ["Diamond buying/selling enquiry and product specification coordination","Buyer–seller matching, commercial discussion and transaction follow-up","CVD/MPCVD machine support intake and technical team coordination","Machine installation, commissioning and service scheduling","Diamond business development and customer relationship support"]
-]};
+]
+};
 const params = new URLSearchParams(location.search);
 const person = params.get("person") || "raju";
 const rawIndex = Math.max(0,Number(params.get("topic")||0));
