@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /teacher/admin/
 
 Sitemap: https://swekshacvd.com/sitemap.xml
