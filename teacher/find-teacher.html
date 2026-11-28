@@ -13,7 +13,7 @@ async function send(e){
  try{
   const response=await fetch(SWEKSHA_SUPABASE_URL,{method:'POST',headers:{apikey:SWEKSHA_PUBLIC_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(record)});
   if(!response.ok){const detail=await response.text();throw new Error('Database returned HTTP '+response.status+(detail?': '+detail.slice(0,250):''));}
-  if(typeof gtag==='function')gtag('event','teacher_request_saved');
+  if(typeof gtag==='function'){gtag('event','teacher_request_saved');gtag('event','generate_lead',{form_type:'teacher_request',page_location:location.href});}
   status.textContent='Your teacher request has been saved. ';
   const a=document.createElement('a');a.href='https://wa.me/917827474249?text='+encodeURIComponent(whatsappText);a.target='_blank';a.rel='noopener noreferrer';a.textContent='Continue to WhatsApp ↗';status.appendChild(a);
   button.textContent='Request Saved ✓';
