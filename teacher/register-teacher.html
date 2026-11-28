@@ -6,9 +6,9 @@ async function send(e){
  const form=e.target, button=form.querySelector('button[type="submit"]'), status=document.getElementById('formStatus');
  const g=id=>document.getElementById(id).value.trim();
  const name=g('name'), mobile=g('mobile'), qual=g('qual'), exp=g('exp'), classes=g('classes'), subjects=g('subjects'), mode=g('mode'), locationValue=g('location'), available=g('available'), about=g('about');
- const message=['Teacher registration','Name: '+name,'Mobile: '+mobile,'Qualification: '+qual,'Experience: '+exp,'Classes: '+classes,'Subjects: '+subjects,'Teaching mode: '+mode,'Location: '+locationValue,'Availability: '+available,'About: '+about].join('\\n').slice(0,5000);
+ const message=['Teacher registration','Name: '+name,'Mobile: '+mobile,'Qualification: '+qual,'Experience: '+exp,'Classes: '+classes,'Subjects: '+subjects,'Teaching mode: '+mode,'Location: '+locationValue,'Availability: '+available,'About: '+about].join('\n').slice(0,5000);
  const record={name,email:null,whatsapp:mobile,subject:('Teacher Registration — '+classes+' — '+subjects).slice(0,300),message,status:'new',department:'Teacher & Student Consulting',service_category:'Teacher Registration',source_page:location.pathname,enquiry_type:'teacher_registration'};
- const whatsappText='Hello Sweksha Teacher Connect, I submitted my teacher registration.\\n'+message;
+ const whatsappText='Hello Sweksha Teacher Connect, I submitted my teacher registration.\n'+message;
  button.disabled=true; button.textContent='Saving Registration…'; status.textContent='Saving your details securely…';
  try{
   const response=await fetch(SWEKSHA_SUPABASE_URL,{method:'POST',headers:{apikey:SWEKSHA_PUBLIC_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(record)});
