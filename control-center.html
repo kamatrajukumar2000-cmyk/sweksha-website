@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="same-origin">
+<title>Sweksha | Secure Business Control Center</title>
+<link rel="stylesheet" href="sweksha-aura.css?v=1">
+<style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f3f6fa;color:#172536;font:15px/1.55 Arial,sans-serif}.top{background:#07111f;color:#fff;padding:18px 22px}.wrap{max-width:1180px;margin:auto;padding:24px 16px}.card{background:#fff;border:1px solid #dce5ed;border-radius:14px;padding:20px;margin:14px 0;box-shadow:0 5px 20px #17253608}.hidden{display:none!important}label{display:block;font-weight:600;margin:12px 0 5px}input,button{font:inherit;padding:11px 13px;border:1px solid #cbd6e0;border-radius:9px}input{display:block;width:100%;max-width:480px}button{cursor:pointer;background:#07111f;color:#fff;border:0}button:disabled{opacity:.6;cursor:wait}.muted{color:#657184;font-size:13px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.tile{display:block;color:inherit;text-decoration:none;border:1px solid #dce5ed;border-radius:12px;padding:17px;background:#fff;transition:transform .15s,border-color .15s}.tile:hover{transform:translateY(-2px);border-color:#8ca9c6}.tile h3{margin:0 0 6px;font-size:17px}.tile p{margin:0;color:#657184;font-size:13px}.metric{font-size:28px;font-weight:700;display:block;margin-top:5px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.pill{display:inline-block;padding:4px 9px;border-radius:20px;background:#edf3f8;font-size:12px}.danger{color:#9b3030}.section-title{margin:24px 0 10px}.statusline{min-height:22px}.small{font-size:12px;color:#657184}@media(max-width:600px){.top{padding:15px}.wrap{padding:14px 12px}.card{padding:16px}}
+</style>
+</head>
+<body>
+<header class="top"><strong>SWEKSHA FOUNDATION CLUB</strong><div class="small" style="color:#c6d2df">SECURE BUSINESS CONTROL CENTER</div></header>
+<main class="wrap">
+<section id="login" class="card">
+<h1>Administrator sign in</h1>
+<p class="muted">Private access for the authorised Super Admin. Use your existing SWEKSHA admin account.</p>
+<form id="loginForm">
+<label for="email">Admin email</label><input id="email" type="email" autocomplete="username" required value="kamatrajukumar2000@gmail.com">
+<label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required>
+<p><button id="signIn" type="submit">Sign in securely</button></p>
+<p id="loginMessage" class="statusline muted" role="status" aria-live="polite"></p>
+</form>
+</section>
+<section id="workspace" class="hidden">
+<div class="card row"><div><h1 style="margin:0">Business overview</h1><p id="signedInAs" class="muted" style="margin:4px 0 0"></p></div><div><span class="pill">Private admin area</span> <button id="signOut" type="button">Sign out</button></div></div>
+<div class="card"><div class="row"><div><h2 style="margin:0">Your business at a glance</h2><p class="muted">Live database counts. Open a department to review and manage its records.</p></div><button id="refresh" type="button">Refresh data</button></div><div id="metrics" class="grid" aria-live="polite"><p class="muted">Loading totals…</p></div><p id="dataMessage" class="muted statusline" role="status"></p></div>
+<h2 class="section-title">Business departments</h2>
+<div class="grid">
+<a class="tile" href="admin-dashboard.html"><h3>CVD Service & Customer Enquiries</h3><p>Customer enquiries, contact details, follow-ups and reviews</p></a>
+<a class="tile" href="teacher/admin/"><h3>Teacher Connect</h3><p>Teacher registrations and parent/student requests</p></a>
+<a class="tile" href="jobs-admin.html"><h3>Jobs & Hiring</h3><p>Vacancies and job applications</p></a>
+<a class="tile" href="marketplace-admin.html"><h3>Marketplace</h3><p>Diamond trading, machine sales and machine parts</p></a>
+<a class="tile" href="https://analytics.google.com/analytics/web/" target="_blank" rel="noopener"><h3>Google Analytics</h3><p>Website visitors and events for your connected properties</p></a>
+<a class="tile" href="https://search.google.com/search-console" target="_blank" rel="noopener"><h3>Google Search Console</h3><p>Google search clicks, impressions, indexing and SEO</p></a>
+</div>
+<h2 class="section-title">Access & security</h2>
+<div class="card">
+<p><strong>Current access:</strong> Super Admin allowlist is restricted to your authorised email. Database Row Level Security remains the actual data-access control.</p>
+<p><strong>Employee accounts:</strong> Not enabled yet. We will add separate Manager, Staff and Viewer permissions only after the role rules are tested.</p>
+<p><strong>Two-step verification:</strong> Not yet enabled. We will configure and test MFA before calling the dashboard fully hardened.</p>
+<p class="small">Never share your password, verification code, publishable key or any secret key. This page does not request a service-role key.</p>
+</div>
+<footer class="small">Sweksha Secure Business Control Center · Private administration</footer>
+</section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(()=>{'use strict';
+const URL='https://xotqafgkubodqpirfpfb.supabase.co';
+const KEY='sb_publishable_BDsby1luWPSrviDTYNT83g_Y6eMqLpf';
+const ADMIN='kamatrajukumar2000@gmail.com';
+const $=id=>document.getElementById(id);
+let db=null;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function showLogin(){ $('workspace').classList.add('hidden');$('login').classList.remove('hidden'); }
+function showWorkspace(user){ $('login').classList.add('hidden');$('workspace').classList.remove('hidden');$('signedInAs').textContent='Signed in as '+user.email; }
+async function metric(label,table,filterColumn,filterValue){
+ let q=db.from(table).select('id',{count:'exact',head:true});
+ if(filterColumn)q=q.eq(filterColumn,filterValue);
+ const {count,error}=await q;
+ return {label,count,error};
+}
+async function loadMetrics(){
+ $('dataMessage').textContent='Refreshing secure database totals…';
+ const specs=[
+  ['CVD / General Enquiries','enquiries','enquiry_type',null],
+  ['Teacher Registrations','enquiries','enquiry_type','teacher_registration'],
+  ['Student Requests','enquiries','enquiry_type','teacher_request'],
+  ['Job Vacancies','job_vacancies',null,null],
+  ['Job Applications','job_applications',null,null],
+  ['Diamond Listings','diamond_trade_listings',null,null],
+  ['Machine Listings','machine_sales_listings',null,null],
+  ['Machine Parts Listings','machine_part_listings',null,null]
+ ];
+ const results=await Promise.all(specs.map(async s=>{
+  let q=db.from(s[1]).select('id',{count:'exact',head:true});
+  if(s[2]&&s[3])q=q.eq(s[2],s[3]);
+  else if(s[1]==='enquiries')q=q.not('enquiry_type','in','("teacher_registration","teacher_request")');
+  const {count,error}=await q;
+  return {label:s[0],count,error};
+ }));
+ $('metrics').innerHTML=results.map(r=>'<div class="tile"><span class="muted">'+esc(r.label)+'</span><strong class="metric">'+(r.error?'—':Number(r.count||0).toLocaleString('en-IN'))+'</strong>'+(r.error?'<span class="small danger">Not available: '+esc(r.error.message)+'</span>':'<span class="small">Database records</span>')+'</div>').join('');
+ const failed=results.filter(r=>r.error).length;
+ $('dataMessage').textContent=failed?failed+' section(s) could not be counted. Open that department to inspect access or table setup.':'All available department counts refreshed.';
+}
+async function enter(user){
+ if((user?.email||'').toLowerCase()!==ADMIN){await db.auth.signOut();showLogin();$('loginMessage').textContent='Access denied. This account is not the authorised Super Admin.';return;}
+ showWorkspace(user);await loadMetrics();
+}
+$('loginForm').addEventListener('submit',async e=>{
+ e.preventDefault();$('signIn').disabled=true;$('loginMessage').textContent='Signing in…';
+ try{
+  if(!window.supabase)throw new Error('Secure sign-in library did not load. Refresh and try again.');
+  db=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  const email=$('email').value.trim().toLowerCase();
+  if(email!==ADMIN)throw new Error('This email is not authorised for the Super Admin dashboard.');
+  const {data,error}=await db.auth.signInWithPassword({email,password:$('password').value});
+  if(error)throw error;
+  await enter(data.user);
+ }catch(err){$('loginMessage').textContent=err.message||'Sign-in failed.';}
+ finally{$('signIn').disabled=false;}
+});
+$('refresh').addEventListener('click',loadMetrics);
+$('signOut').addEventListener('click',async()=>{if(db)await db.auth.signOut();$('password').value='';showLogin();$('loginMessage').textContent='You have signed out.';});
+if(window.supabase){
+ db=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+ db.auth.getSession().then(({data})=>{if(data.session?.user?.email?.toLowerCase()===ADMIN)enter(data.session.user);});
+ db.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'||!session)showLogin();});
+}
+})();
+</script>
+</body></html>
