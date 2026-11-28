@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="same-origin">
+<title>Sweksha Admin | Teacher Connect</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="loginView" class="auth-shell">
+  <div class="auth-card">
+    <div class="brand-mark">S</div>
+    <p class="eyebrow">SWEKSHA FONDATION CLUB</p>
+    <h1>Admin Panel</h1>
+    <p class="muted">Teacher Connect · Secure administration</p>
+    <form id="loginForm">
+      <label for="email">Admin email</label><input id="email" type="email" autocomplete="username" required value="kamatrajukumar2000@gmail.com">
+      <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required>
+      <button class="primary full" type="submit">Sign in securely</button>
+    </form>
+    <button id="forgotBtn" class="link-button" type="button">Forgot password?</button>
+    <form id="resetForm" class="hidden">
+      <label for="newPassword">New password</label><input id="newPassword" type="password" minlength="10" autocomplete="new-password" required>
+      <button class="primary full" type="submit">Update password</button>
+    </form>
+    <p id="authMessage" class="message" role="status" aria-live="polite"></p>
+    <p class="security-note">Private admin access only. Public sign-up is disabled.</p>
+  </div>
+</div>
+<div id="appView" class="app hidden">
+  <aside class="sidebar">
+    <div class="side-brand"><div class="brand-mark small">S</div><div><strong>SWEKSHA</strong><small>ADMIN WORKSPACE</small></div></div>
+    <div class="nav-caption">MANAGEMENT</div>
+    <button class="side-link active" data-filter="all"><span>▦</span> Overview</button>
+    <button class="side-link" data-filter="teacher_registration"><span>♙</span> Teacher Registrations</button>
+    <button class="side-link" data-filter="teacher_request"><span>⌂</span> Student Requests</button>
+    <div class="nav-caption">COMING NEXT</div>
+    <div class="side-link disabled"><span>◇</span> CVD Service Enquiries</div>
+    <div class="side-link disabled"><span>⚙</span> Website Content</div>
+    <div class="side-bottom"><div class="online-dot"></div><span>Secure database connected</span></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><p class="eyebrow">SWEKSHA / TEACHER CONNECT</p><h1 id="pageTitle">Overview</h1></div><div class="top-actions"><span id="adminEmail" class="admin-email"></span><button id="refreshBtn" class="secondary">↻ Refresh</button><button id="logoutBtn" class="logout">Sign out</button></div></header>
+    <section class="welcome"><div><h2>Good day 👋</h2><p>Manage teacher registrations and parent/student tuition requests in one place.</p></div><span class="live-pill"><i></i> Live database</span></section>
+    <section class="stats">
+      <article class="stat-card"><span class="stat-label">Total Teacher Enquiries</span><strong id="totalCount">—</strong><small>Registrations + student requests</small></article>
+      <article class="stat-card"><span class="stat-label">New / Unread</span><strong id="newCount">—</strong><small>Need your attention</small></article>
+      <article class="stat-card"><span class="stat-label">Teacher Registrations</span><strong id="teacherCount">—</strong><small>Teachers who submitted details</small></article>
+      <article class="stat-card"><span class="stat-label">Student Requests</span><strong id="studentCount">—</strong><small>Parents looking for teachers</small></article>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><div><h2 id="listTitle">Recent Enquiries</h2><p>Open a record to review contact details, update its status and add private admin notes.</p></div><div class="filters"><input id="searchInput" type="search" placeholder="Search name, phone, subject…"><select id="statusFilter"><option value="all">All statuses</option><option value="new">New</option><option value="contacted">Contacted</option><option value="in_progress">In progress</option><option value="completed">Completed</option><option value="closed">Closed</option><option value="rejected">Rejected</option></select></div></div>
+      <div id="loading" class="empty">Loading enquiries…</div>
+      <div id="errorBox" class="error hidden"></div>
+      <div class="table-wrap"><table><thead><tr><th>CONTACT</th><th>ENQUIRY TYPE</th><th>DETAILS</th><th>RECEIVED</th><th>STATUS</th><th></th></tr></thead><tbody id="enquiryRows"></tbody></table></div>
+      <div id="noResults" class="empty hidden">No enquiries found for this filter.</div>
+      <div class="table-foot"><span id="resultCount">0 records</span><span>Showing latest 500 records</span></div>
+    </section>
+    <footer>© Sweksha Fondation Club · Teacher Connect Admin <span>Phase 1 · Enquiries</span></footer>
+  </main>
+</div>
+<div id="detailModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+ <div class="modal-card"><div class="modal-head"><div><p class="eyebrow">ENQUIRY DETAILS</p><h2 id="detailTitle">Enquiry</h2></div><button id="closeModal" class="close" aria-label="Close">×</button></div>
+ <div id="detailContent" class="detail-content"></div>
+ <div class="edit-fields"><label for="recordStatus">Update status</label><select id="recordStatus"><option value="new">New</option><option value="contacted">Contacted</option><option value="in_progress">In progress</option><option value="completed">Completed</option><option value="closed">Closed</option><option value="rejected">Rejected</option></select><label for="adminNotes">Private admin notes</label><textarea id="adminNotes" rows="4" placeholder="Call back, fee discussion, follow-up date…"></textarea><button id="saveRecord" class="primary full">Save changes</button><p id="saveMessage" class="message" role="status"></p></div>
+ </div>
+</div>
+<script type="module" src="admin.js"></script>
+</body></html>
