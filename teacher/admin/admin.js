@@ -148,11 +148,10 @@ $("closeModal").addEventListener("click",()=>$("detailModal").classList.add("hid
 $("detailModal").addEventListener("click",e=>{if(e.target===$("detailModal"))$("detailModal").classList.add("hidden");});
 $("saveRecord").addEventListener("click",saveRecord);
 
-supabase.auth.onAuthStateChange(async(event,session)=>{
+supabase.auth.onAuthStateChange((event,session)=>{
   if(event==="PASSWORD_RECOVERY"){$("resetForm").classList.remove("hidden");message("Choose a new password.",true);return;}
   if(session?.user && session.user.email?.toLowerCase()===ADMIN_EMAIL){
     showApp(session.user);
-    if(event==="SIGNED_IN"||event==="INITIAL_SESSION")await loadEnquiries();
   } else if(!session) showLogin();
 });
 const {data:{session}}=await supabase.auth.getSession();
