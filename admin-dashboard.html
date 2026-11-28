@@ -29,6 +29,12 @@
 <section id="app" class="hidden">
 <div class="card row"><div><h1>Customer Operations</h1><p id="who" class="muted"></p></div><button id="refresh" type="button">Refresh</button><button id="logout" type="button">Sign out</button></div>
 <div class="card links"><strong>Other admin areas</strong><br><a href="teacher/admin/">Teacher & Student Admin</a><a href="jobs-admin.html">Jobs & Hiring Admin</a><a href="marketplace-admin.html">Marketplace Admin</a></div>
+<div class="card" id="privateCoreProfiles">
+<h2>Confidential Core Profiles</h2>
+<p class="muted">Restricted database records. Only the authorised administrator can read these profiles.</p>
+<div id="coreProfilesMsg" class="muted" role="status" aria-live="polite">Loading confidential profiles…</div>
+<div id="coreProfilesList"></div>
+</div>
 <div class="card">
 <div class="tabs"><button class="active" data-kind="reviews" type="button">Customer Reviews</button><button data-kind="enquiries" type="button">Service Enquiries</button></div>
 <div id="enquiryTools" class="hidden"><div class="stats" id="stats"></div><div class="toolbar"><input id="searchRecords" type="search" placeholder="Search name, phone, email, company or service…"><button id="exportCsv" type="button">Export CSV</button></div><div class="tabs" id="statusFilters"><button class="active" data-filter="all" type="button">All</button><button data-filter="new" type="button">New</button><button data-filter="contacted" type="button">Contacted</button><button data-filter="in_progress" type="button">In progress</button><button data-filter="resolved" type="button">Resolved</button><button data-filter="spam" type="button">Spam</button></div></div>
@@ -59,8 +65,20 @@ async function signIn(){
   if((data.user?.email||'').toLowerCase()!==ADMIN){await db.auth.signOut();throw new Error('Access denied for this account.')}
   $('login').classList.add('hidden');$('app').classList.remove('hidden');$('who').textContent='Signed in as '+data.user.email;
   await load();
+  await loadCoreProfiles();
  }catch(e){$('loginMsg').textContent=e.message||'Sign-in failed.'}
  finally{$('signin').disabled=false}
+}
+async function loadCoreProfiles(){
+ const status=$('coreProfilesMsg'),list=$('coreProfilesList');
+ status.textContent='Loading confidential profiles…';list.innerHTML='';
+ try{
+  const {data,error}=await db.from('core_team_private_profiles').select('profile_id,full_name,role,profile_content,updated_at').order('full_name');
+  if(error)throw error;
+  if(!data||!data.length){status.textContent='No confidential profiles found.';return}
+  status.textContent=data.length+' confidential profile(s) loaded — administrator access only.';
+  list.innerHTML=data.map(p=>'<details class="entry"><summary><strong>'+esc(p.full_name)+'</strong><br><span class="muted">'+esc(p.role)+'</span></summary><p class="meta">Last updated: '+esc(p.updated_at?new Date(p.updated_at).toLocaleString():'—')+'</p><pre style="white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;background:#f6f8fb;border:1px solid #e3e9ef;border-radius:8px;padding:14px">'+esc(p.profile_content)+'</pre></details>').join('');
+ }catch(e){status.textContent='Private profile access blocked or unavailable: '+(e.message||'Please check admin permissions.')}
 }
 async function load(){
  message('Loading '+(kind==='reviews'?'customer reviews':'service enquiries')+'…');
@@ -121,7 +139,7 @@ async function update(id){
 }
 $('signin').addEventListener('click',signIn);
 $('password').addEventListener('keydown',e=>{if(e.key==='Enter')signIn()});
-$('refresh').addEventListener('click',load);
+$('refresh').addEventListener('click',()=>{load();loadCoreProfiles()});
 $('logout').addEventListener('click',async()=>{if(db)await db.auth.signOut();db=null;$('app').classList.add('hidden');$('login').classList.remove('hidden');$('password').value=''});
 document.querySelectorAll('[data-kind]').forEach(b=>b.addEventListener('click',()=>{kind=b.dataset.kind;document.querySelectorAll('[data-kind]').forEach(x=>x.classList.toggle('active',x===b));load()}));
 $('records').addEventListener('click',e=>{const b=e.target.closest('[data-save]');if(b)update(b.dataset.save)});
