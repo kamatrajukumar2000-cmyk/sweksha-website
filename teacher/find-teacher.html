@@ -6,9 +6,9 @@ async function send(e){
  const form=e.target, button=form.querySelector('button[type="submit"]'), status=document.getElementById('formStatus');
  const g=id=>document.getElementById(id).value.trim();
  const name=g('name'), mobile=g('mobile'), studentClass=g('class'), subject=g('subject'), mode=g('mode'), locationValue=g('location'), time=g('time'), details=g('details');
- const message=['Parent / Guardian teacher request','Parent: '+name,'Mobile: '+mobile,'Student class: '+studentClass,'Subject: '+subject,'Teaching mode: '+mode,'Location: '+locationValue,'Preferred timing: '+time,'Learning requirement: '+details].join('\\n').slice(0,5000);
+ const message=['Parent / Guardian teacher request','Parent: '+name,'Mobile: '+mobile,'Student class: '+studentClass,'Subject: '+subject,'Teaching mode: '+mode,'Location: '+locationValue,'Preferred timing: '+time,'Learning requirement: '+details].join('\n').slice(0,5000);
  const record={name,email:null,whatsapp:mobile,subject:('Teacher Request — '+studentClass+' — '+subject).slice(0,300),message,status:'new',department:'Teacher & Student Consulting',service_category:'Find a Teacher',source_page:location.pathname,enquiry_type:'teacher_request'};
- const whatsappText='Hello Sweksha Teacher Connect, I submitted a teacher request.\\n'+message;
+ const whatsappText='Hello Sweksha Teacher Connect, I submitted a teacher request.\n'+message;
  button.disabled=true; button.textContent='Saving Request…'; status.textContent='Saving your request securely…';
  try{
   const response=await fetch(SWEKSHA_SUPABASE_URL,{method:'POST',headers:{apikey:SWEKSHA_PUBLIC_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(record)});
